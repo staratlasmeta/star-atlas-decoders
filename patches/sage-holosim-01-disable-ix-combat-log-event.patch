@@ -1,0 +1,146 @@
+diff --git a/src/instructions/combat_log_event.rs b/src/instructions/combat_log_event.rs
+index c7443cd..270f8b3 100644
+--- a/src/instructions/combat_log_event.rs
++++ b/src/instructions/combat_log_event.rs
+@@ -1,36 +1,36 @@
+-use super::super::types::*;
++// use super::super::types::*;
+ 
+-use carbon_core::{CarbonDeserialize, borsh};
++// use carbon_core::{CarbonDeserialize, borsh};
+ 
+-#[derive(
+-    CarbonDeserialize, Debug, serde::Serialize, serde::Deserialize, PartialEq, Eq, Clone, Hash,
+-)]
+-#[carbon(discriminator = "0xe445a52e51cb9a1de04240179e2dca75")]
+-pub struct CombatLogEvent {
+-    pub combat_type: u8,
+-    pub combat_id: [u8; 32],
+-    pub timestamp: i64,
+-    pub slot: u64,
+-    pub attacker: CombatParticipant,
+-    pub defender: CombatParticipant,
+-    pub target_starbase_key: Option<solana_pubkey::Pubkey>,
+-    pub target_starbase_faction: Option<u8>,
+-    pub starbase_pre_hp: Option<u32>,
+-    pub starbase_post_hp: Option<u32>,
+-    pub starbase_max_hp: Option<u32>,
+-    pub attack_damage_dealt: u32,
+-    pub defense_damage_dealt: u32,
+-    pub attacker_destroyed: bool,
+-    pub defender_destroyed: bool,
+-    pub starbase_destroyed: bool,
+-    pub starbase_captured: bool,
+-    pub attacker_xp_gained: u32,
+-    pub defender_xp_gained: u32,
+-    pub attacker_trophies_gained: u16,
+-    pub defender_trophies_gained: u16,
+-    pub game_version: [u8; 16],
+-    pub asteroid_key: Option<solana_pubkey::Pubkey>,
+-    pub was_retaliation: bool,
+-    pub battle_duration: u16,
+-    pub combat_random_seed: u64,
+-}
++// #[derive(
++//     CarbonDeserialize, Debug, serde::Serialize, serde::Deserialize, PartialEq, Eq, Clone, Hash,
++// )]
++// #[carbon(discriminator = "0xe445a52e51cb9a1de04240179e2dca75")]
++// pub struct CombatLogEvent {
++//     pub combat_type: u8,
++//     pub combat_id: [u8; 32],
++//     pub timestamp: i64,
++//     pub slot: u64,
++//     pub attacker: CombatParticipant,
++//     pub defender: CombatParticipant,
++//     pub target_starbase_key: Option<solana_pubkey::Pubkey>,
++//     pub target_starbase_faction: Option<u8>,
++//     pub starbase_pre_hp: Option<u32>,
++//     pub starbase_post_hp: Option<u32>,
++//     pub starbase_max_hp: Option<u32>,
++//     pub attack_damage_dealt: u32,
++//     pub defense_damage_dealt: u32,
++//     pub attacker_destroyed: bool,
++//     pub defender_destroyed: bool,
++//     pub starbase_destroyed: bool,
++//     pub starbase_captured: bool,
++//     pub attacker_xp_gained: u32,
++//     pub defender_xp_gained: u32,
++//     pub attacker_trophies_gained: u16,
++//     pub defender_trophies_gained: u16,
++//     pub game_version: [u8; 16],
++//     pub asteroid_key: Option<solana_pubkey::Pubkey>,
++//     pub was_retaliation: bool,
++//     pub battle_duration: u16,
++//     pub combat_random_seed: u64,
++// }
+diff --git a/src/instructions/combat_resolved_event.rs b/src/instructions/combat_resolved_event.rs
+index 8a9fd30..cf9d649 100644
+--- a/src/instructions/combat_resolved_event.rs
++++ b/src/instructions/combat_resolved_event.rs
+@@ -1,14 +1,14 @@
+-use carbon_core::{CarbonDeserialize, borsh};
++// use carbon_core::{CarbonDeserialize, borsh};
+ 
+-#[derive(
+-    CarbonDeserialize, Debug, serde::Serialize, serde::Deserialize, PartialEq, Eq, Clone, Hash,
+-)]
+-#[carbon(discriminator = "0xe445a52e51cb9a1d4f657fb77678d1e8")]
+-pub struct CombatResolvedEvent {
+-    pub combat_id: [u8; 32],
+-    pub winner: u8,
+-    pub attacker_survived: bool,
+-    pub defender_survived: bool,
+-    pub total_damage_dealt: u32,
+-    pub timestamp: i64,
+-}
++// #[derive(
++//     CarbonDeserialize, Debug, serde::Serialize, serde::Deserialize, PartialEq, Eq, Clone, Hash,
++// )]
++// #[carbon(discriminator = "0xe445a52e51cb9a1d4f657fb77678d1e8")]
++// pub struct CombatResolvedEvent {
++//     pub combat_id: [u8; 32],
++//     pub winner: u8,
++//     pub attacker_survived: bool,
++//     pub defender_survived: bool,
++//     pub total_damage_dealt: u32,
++//     pub timestamp: i64,
++// }
+diff --git a/src/instructions/mod.rs b/src/instructions/mod.rs
+index 9523f70..75ef621 100644
+--- a/src/instructions/mod.rs
++++ b/src/instructions/mod.rs
+@@ -20,7 +20,7 @@ pub mod close_player_crew_record;
+ pub mod close_starbase_cargo_token_account;
+ pub mod close_upgrade_process;
+ pub mod combat_initiated_event;
+-pub mod combat_log_event;
++// pub mod combat_log_event;
+ pub mod combat_loot_drop_event;
+ pub mod combat_participant_event;
+ pub mod combat_resolved_event;
+@@ -262,10 +262,10 @@ pub enum SageInstruction {
+     WithdrawCraftingIngredient(withdraw_crafting_ingredient::WithdrawCraftingIngredient),
+     BattleLogEvent(battle_log_event::BattleLogEvent),
+     CombatInitiatedEvent(combat_initiated_event::CombatInitiatedEvent),
+-    CombatLogEvent(combat_log_event::CombatLogEvent),
++    // CombatLogEvent(combat_log_event::CombatLogEvent),
+     CombatLootDropEvent(combat_loot_drop_event::CombatLootDropEvent),
+     CombatParticipantEvent(combat_participant_event::CombatParticipantEvent),
+-    CombatResolvedEvent(combat_resolved_event::CombatResolvedEvent),
++    // CombatResolvedEvent(combat_resolved_event::CombatResolvedEvent),
+     StarbaseCombatEvent(starbase_combat_event::StarbaseCombatEvent),
+ }
+ 
+@@ -395,10 +395,10 @@ impl<'a> carbon_core::instruction::InstructionDecoder<'a> for SageDecoder {
+             SageInstruction::WithdrawCraftingIngredient => withdraw_crafting_ingredient::WithdrawCraftingIngredient,
+             SageInstruction::BattleLogEvent => battle_log_event::BattleLogEvent,
+             SageInstruction::CombatInitiatedEvent => combat_initiated_event::CombatInitiatedEvent,
+-            SageInstruction::CombatLogEvent => combat_log_event::CombatLogEvent,
++            // SageInstruction::CombatLogEvent => combat_log_event::CombatLogEvent,
+             SageInstruction::CombatLootDropEvent => combat_loot_drop_event::CombatLootDropEvent,
+             SageInstruction::CombatParticipantEvent => combat_participant_event::CombatParticipantEvent,
+-            SageInstruction::CombatResolvedEvent => combat_resolved_event::CombatResolvedEvent,
++            // SageInstruction::CombatResolvedEvent => combat_resolved_event::CombatResolvedEvent,
+             SageInstruction::StarbaseCombatEvent => starbase_combat_event::StarbaseCombatEvent,
+         )
+     }

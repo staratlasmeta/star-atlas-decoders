@@ -1,0 +1,7 @@
+.claude
+.DS_Store
+.idea
+.vscode
+/dist
+/target
+CLAUDE.md
