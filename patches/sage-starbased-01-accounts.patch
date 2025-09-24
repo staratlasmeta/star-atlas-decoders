@@ -1,5 +1,5 @@
 diff --git a/src/accounts/fleet.rs b/src/accounts/fleet.rs
-index 3d08d01..58d91c7 100644
+index 3d08d01..72cc95b 100644
 --- a/src/accounts/fleet.rs
 +++ b/src/accounts/fleet.rs
 @@ -1,11 +1,8 @@
@@ -21,7 +21,7 @@ index 3d08d01..58d91c7 100644
      pub update_id: u64,
      pub bump: u8,
 +    pub fleet_state: FleetState,
- }
++}
 +
 +#[derive(Debug, PartialEq, serde::Serialize, serde::Deserialize, BorshDeserialize)]
 +pub enum FleetState {
@@ -83,8 +83,7 @@ index 3d08d01..58d91c7 100644
 +        }
 +        BorshDeserialize::deserialize(&mut rest).ok()
 +    }
-+}
-\ No newline at end of file
+ }
 diff --git a/src/accounts/mod.rs b/src/accounts/mod.rs
 index 5cf4d71..3ce38e6 100644
 --- a/src/accounts/mod.rs
@@ -135,7 +134,7 @@ index 5cf4d71..3ce38e6 100644
                  executable: account.executable,
                  rent_epoch: account.rent_epoch,
 diff --git a/src/accounts/starbase_player.rs b/src/accounts/starbase_player.rs
-index 319ba01..c01a66d 100644
+index 319ba01..0e1b241 100644
 --- a/src/accounts/starbase_player.rs
 +++ b/src/accounts/starbase_player.rs
 @@ -1,9 +1,8 @@
@@ -152,7 +151,7 @@ index 319ba01..c01a66d 100644
  pub struct StarbasePlayer {
      pub version: u8,
      pub player_profile: solana_pubkey::Pubkey,
-@@ -17,4 +16,69 @@ pub struct StarbasePlayer {
+@@ -17,4 +16,67 @@ pub struct StarbasePlayer {
      pub busy_crew: u64,
      pub update_id: u64,
      pub updated_ship_escrow_count: u32,
@@ -183,10 +182,8 @@ index 319ba01..c01a66d 100644
 +        let update_id = borsh::BorshDeserialize::deserialize_reader(reader)?;
 +        let updated_ship_escrow_count = borsh::BorshDeserialize::deserialize_reader(reader)?;
 +
-+        // Read the dynamic list of ship escrows
-+        let list_length: u32 = borsh::BorshDeserialize::deserialize_reader(reader)?;
-+        let mut ship_escrows = Vec::with_capacity(list_length as usize);
-+        for _ in 0..list_length {
++        let mut ship_escrows = Vec::with_capacity(updated_ship_escrow_count as usize);
++        for _ in 0..updated_ship_escrow_count {
 +            ship_escrows.push(borsh::BorshDeserialize::deserialize_reader(reader)?);
 +        }
 +

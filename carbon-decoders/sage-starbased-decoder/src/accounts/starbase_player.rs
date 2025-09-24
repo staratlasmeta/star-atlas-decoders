@@ -43,10 +43,8 @@ where
         let update_id = borsh::BorshDeserialize::deserialize_reader(reader)?;
         let updated_ship_escrow_count = borsh::BorshDeserialize::deserialize_reader(reader)?;
 
-        // Read the dynamic list of ship escrows
-        let list_length: u32 = borsh::BorshDeserialize::deserialize_reader(reader)?;
-        let mut ship_escrows = Vec::with_capacity(list_length as usize);
-        for _ in 0..list_length {
+        let mut ship_escrows = Vec::with_capacity(updated_ship_escrow_count as usize);
+        for _ in 0..updated_ship_escrow_count {
             ship_escrows.push(borsh::BorshDeserialize::deserialize_reader(reader)?);
         }
 
