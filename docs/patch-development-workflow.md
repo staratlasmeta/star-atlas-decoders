@@ -40,7 +40,7 @@ cargo check
 cd dist/sage-starbased
 git diff src/accounts/fleet.rs > ../../patches/sage-starbased-fleet.patch
 
-# Or use the just command:
+# Or use the just command (from project root):
 just create-patch-sage-starbased my-change
 ```
 
@@ -51,6 +51,23 @@ just create-patch-sage-starbased my-change
 > - `sage-starbased-03-custom-deserialize.patch` (applied third)
 >
 > Patches are applied alphabetically, so the numbering ensures correct order.
+
+> **⚠️ CRITICAL: Creating Sequential Patches**
+> When creating a new patch that builds on existing patches, you MUST commit the applied patches first:
+> ```bash
+> # After applying patches 01 and 02
+> cd dist/sage-starbased
+> git add -A
+> git commit -m "Apply existing patches"
+>
+> # NOW make your new changes
+> # Edit files...
+>
+> # Create patch 03 (will only include new changes)
+> cd ../..
+> just create-patch-sage-starbased 03-my-new-feature
+> ```
+> If you don't commit first, the new patch will include ALL changes from previous patches!
 
 ### 5. Publish to Workspace
 ```bash
@@ -83,6 +100,84 @@ Some accounts have dynamic lists that aren't in the IDL. Example: StarbasePlayer
 - Account has dynamic-length fields
 - Account has complex nested structures
 - Standard borsh deserialization doesn't handle the account layout
+
+## Creating Sequential Patches: Complete Example
+
+This example shows the full workflow for creating patch 03 that builds on patches 01 and 02:
+
+```bash
+# 1. Build clean decoder
+just build-sage-starbased
+
+# 2. Apply existing patches (01 and 02)
+just apply-patches-sage-starbased
+
+# 3. COMMIT the applied patches (critical step!)
+cd dist/sage-starbased
+git add -A
+git commit -m "Apply patches 01 and 02"
+
+# 4. Make your new changes for patch 03
+# Edit the files you need to change
+vim src/instructions/start_subwarp.rs
+vim src/instructions/stop_subwarp.rs
+# ... etc
+
+# 5. Test your changes
+cargo check
+
+# 6. Create patch 03 (will only contain new changes)
+cd ../..
+just create-patch-sage-starbased 03-instructions-movement
+
+# 7. Verify patch size is reasonable
+# Should only show your new changes, not patches 01+02
+cat patches/sage-starbased-03-instructions-movement.patch | wc -l
+
+# 8. Test the full pipeline
+just all-sage-starbased
+```
+
+## Comment Style Conventions
+
+When creating patches for instruction account expansions, follow these commenting conventions for consistency:
+
+**For composite account expansions:**
+```rust
+pub struct MyInstructionAccounts {
+    // GameAndGameStateAndFleetAndOwnerMut expansion
+    pub key: solana_pubkey::Pubkey,
+    pub owning_profile: solana_pubkey::Pubkey,
+    // ... other expanded accounts
+
+    // Direct accounts
+    pub fuel_tank: solana_pubkey::Pubkey,
+    pub cargo_type: solana_pubkey::Pubkey,
+    // ... other non-composite accounts
+}
+```
+
+**In the arrange_accounts implementation:**
+```rust
+fn arrange_accounts(...) -> Option<Self::ArrangedAccounts> {
+    let mut iter = accounts.iter();
+
+    // GameAndGameStateAndFleetAndOwnerMut expansion
+    let key = next_account(&mut iter)?;
+    let owning_profile = next_account(&mut iter)?;
+    // ... other expanded accounts
+
+    // Direct accounts
+    let fuel_tank = next_account(&mut iter)?;
+    // ... other accounts
+}
+```
+
+This commenting style:
+- Clearly indicates which accounts come from composite expansions
+- Shows where direct (non-composite) accounts begin
+- Makes patches easier to review and understand
+- Matches the style used in existing patches (e.g., mining instructions)
 
 ## Example: Fleet Account Patch
 
