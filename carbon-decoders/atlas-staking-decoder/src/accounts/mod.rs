@@ -6,6 +6,7 @@ pub mod registered_stake;
 pub mod staking_account;
 pub mod staking_vars;
 
+#[derive(Debug, serde::Serialize)]
 pub enum AtlasStakingAccount {
     RegisteredStake(registered_stake::RegisteredStake),
     StakingAccount(staking_account::StakingAccount),

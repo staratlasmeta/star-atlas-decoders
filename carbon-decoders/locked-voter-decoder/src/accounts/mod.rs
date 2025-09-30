@@ -6,6 +6,7 @@ pub mod escrow;
 pub mod locker;
 pub mod locker_whitelist_entry;
 
+#[derive(Debug, serde::Serialize)]
 pub enum LockedVoterAccount {
     Locker(locker::Locker),
     LockerWhitelistEntry(locker_whitelist_entry::LockerWhitelistEntry),
