@@ -12,7 +12,10 @@ pub struct ClaimCraftingNonConsumables {
 
 #[derive(Debug, PartialEq, Eq, Clone, Hash, serde::Serialize, serde::Deserialize)]
 pub struct ClaimCraftingNonConsumablesInstructionAccounts {
-    pub starbase_and_starbase_player: solana_pubkey::Pubkey,
+    // StarbaseMutAndStarbasePlayer expansion
+    pub starbase: solana_pubkey::Pubkey,
+    pub starbase_player: solana_pubkey::Pubkey,
+    // Direct accounts
     pub crafting_instance: solana_pubkey::Pubkey,
     pub crafting_process: solana_pubkey::Pubkey,
     pub crafting_facility: solana_pubkey::Pubkey,
@@ -20,7 +23,10 @@ pub struct ClaimCraftingNonConsumablesInstructionAccounts {
     pub cargo_pod_to: solana_pubkey::Pubkey,
     pub cargo_type: solana_pubkey::Pubkey,
     pub cargo_stats_definition: solana_pubkey::Pubkey,
-    pub game_accounts: solana_pubkey::Pubkey,
+    // GameAndGameState expansion
+    pub game_id: solana_pubkey::Pubkey,
+    pub game_state: solana_pubkey::Pubkey,
+    // Direct accounts
     pub token_from: solana_pubkey::Pubkey,
     pub token_to: solana_pubkey::Pubkey,
     pub token_mint: solana_pubkey::Pubkey,
@@ -36,7 +42,10 @@ impl carbon_core::deserialize::ArrangeAccounts for ClaimCraftingNonConsumables {
         accounts: &[solana_instruction::AccountMeta],
     ) -> Option<Self::ArrangedAccounts> {
         let mut iter = accounts.iter();
-        let starbase_and_starbase_player = next_account(&mut iter)?;
+        // StarbaseMutAndStarbasePlayer expansion
+        let starbase = next_account(&mut iter)?;
+        let starbase_player = next_account(&mut iter)?;
+        // Direct accounts
         let crafting_instance = next_account(&mut iter)?;
         let crafting_process = next_account(&mut iter)?;
         let crafting_facility = next_account(&mut iter)?;
@@ -44,7 +53,10 @@ impl carbon_core::deserialize::ArrangeAccounts for ClaimCraftingNonConsumables {
         let cargo_pod_to = next_account(&mut iter)?;
         let cargo_type = next_account(&mut iter)?;
         let cargo_stats_definition = next_account(&mut iter)?;
-        let game_accounts = next_account(&mut iter)?;
+        // GameAndGameState expansion
+        let game_id = next_account(&mut iter)?;
+        let game_state = next_account(&mut iter)?;
+        // Direct accounts
         let token_from = next_account(&mut iter)?;
         let token_to = next_account(&mut iter)?;
         let token_mint = next_account(&mut iter)?;
@@ -53,7 +65,8 @@ impl carbon_core::deserialize::ArrangeAccounts for ClaimCraftingNonConsumables {
         let token_program = next_account(&mut iter)?;
 
         Some(ClaimCraftingNonConsumablesInstructionAccounts {
-            starbase_and_starbase_player,
+            starbase,
+            starbase_player,
             crafting_instance,
             crafting_process,
             crafting_facility,
@@ -61,7 +74,8 @@ impl carbon_core::deserialize::ArrangeAccounts for ClaimCraftingNonConsumables {
             cargo_pod_to,
             cargo_type,
             cargo_stats_definition,
-            game_accounts,
+            game_id,
+            game_state,
             token_from,
             token_to,
             token_mint,
