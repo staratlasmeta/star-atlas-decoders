@@ -3,6 +3,8 @@
 # Program IDs
 SAGE_STARBASED_PROGRAM_ID := "SAGE2HAwep459SNq61LHvjxPk4pLPEJLoMETef7f7EE"
 SAGE_HOLOSIM_PROGRAM_ID := "SAgEeT8u14TE69JXtanGSgNkEdoPUcLabeyZD2uw8x9"
+ATLAS_STAKING_PROGRAM_ID := "ATLocKpzDbTokxgvnLew3d7drZkEzLzDpzwgrgWKDbmc"
+LOCKED_VOTER_PROGRAM_ID := "Lock7kBijGCQLEFAmXcengzXKA88iDNQPriQ7TbgeyG"
 
 # ============================================================================
 # OS DETECTION FOR CROSS-PLATFORM COMPATIBILITY
@@ -205,11 +207,85 @@ all-sage-holosim: build-sage-holosim (_apply-patches "sage-holosim") (_publish-d
     @echo "✅ sage-holosim built, patched, and published"
 
 # ============================================================================
+# ATLAS-STAKING DECODER COMMANDS
+# ============================================================================
+
+# Generate atlas-staking decoder from mainnet IDL
+generate-atlas-staking:
+    #!/bin/bash
+    echo "Fetching IDL from mainnet for {{ATLAS_STAKING_PROGRAM_ID}}..."
+    carbon-cli parse --idl {{ATLAS_STAKING_PROGRAM_ID}} -u mainnet-beta --output ./dist --as-crate --standard anchor
+    echo "✅ Decoder generated from mainnet IDL"
+    echo "Renaming to atlas-staking..."
+    mv ./dist/atlas-staking-decoder ./dist/atlas-staking
+    echo "✅ Renamed to atlas-staking"
+    just _fix-workspace-refs atlas-staking
+
+# Build atlas-staking decoder
+build-atlas-staking: (_clean "atlas-staking") generate-atlas-staking (_prepare-decoder "atlas-staking")
+    @echo "✅ atlas-staking decoder generated and prepared"
+    just _init-git atlas-staking
+
+# Clean atlas-staking decoder
+clean-atlas-staking: (_clean "atlas-staking")
+
+# Apply patches for atlas-staking
+apply-patches-atlas-staking: (_apply-patches "atlas-staking")
+
+# Create patch for atlas-staking
+# Usage: just create-patch-atlas-staking <patch-name>
+create-patch-atlas-staking patch_name: (_create-patch "atlas-staking" patch_name)
+
+# Publish atlas-staking decoder
+publish-atlas-staking: (_publish-decoder "atlas-staking")
+
+# Full pipeline for atlas-staking
+all-atlas-staking: build-atlas-staking (_apply-patches "atlas-staking") (_publish-decoder "atlas-staking")
+    @echo "✅ atlas-staking built, patched, and published"
+
+# ============================================================================
+# LOCKED-VOTER DECODER COMMANDS
+# ============================================================================
+
+# Generate locked-voter decoder from mainnet IDL
+generate-locked-voter:
+    #!/bin/bash
+    echo "Fetching IDL from mainnet for {{LOCKED_VOTER_PROGRAM_ID}}..."
+    carbon-cli parse --idl {{LOCKED_VOTER_PROGRAM_ID}} -u mainnet-beta --output ./dist --as-crate --standard anchor
+    echo "✅ Decoder generated from mainnet IDL"
+    echo "Renaming to locked-voter..."
+    mv ./dist/locked-voter-decoder ./dist/locked-voter
+    echo "✅ Renamed to locked-voter"
+    just _fix-workspace-refs locked-voter
+
+# Build locked-voter decoder
+build-locked-voter: (_clean "locked-voter") generate-locked-voter (_prepare-decoder "locked-voter")
+    @echo "✅ locked-voter decoder generated and prepared"
+    just _init-git locked-voter
+
+# Clean locked-voter decoder
+clean-locked-voter: (_clean "locked-voter")
+
+# Apply patches for locked-voter
+apply-patches-locked-voter: (_apply-patches "locked-voter")
+
+# Create patch for locked-voter
+# Usage: just create-patch-locked-voter <patch-name>
+create-patch-locked-voter patch_name: (_create-patch "locked-voter" patch_name)
+
+# Publish locked-voter decoder
+publish-locked-voter: (_publish-decoder "locked-voter")
+
+# Full pipeline for locked-voter
+all-locked-voter: build-locked-voter (_apply-patches "locked-voter") (_publish-decoder "locked-voter")
+    @echo "✅ locked-voter built, patched, and published"
+
+# ============================================================================
 # UTILITY COMMANDS
 # ============================================================================
 
 # Clean all generated decoders
-clean-all: clean-sage-starbased clean-sage-holosim
+clean-all: clean-sage-starbased clean-sage-holosim clean-atlas-staking clean-locked-voter
     @echo "✅ All decoders cleaned"
 
 # List available patches
