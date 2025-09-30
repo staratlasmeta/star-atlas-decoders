@@ -60,6 +60,20 @@ main() {
     fi
     print_info "✅ sage-holosim decoder complete"
 
+    print_info "Building atlas-staking decoder..."
+    if ! just all-atlas-staking; then
+        print_error "Failed to build atlas-staking decoder"
+        exit 1
+    fi
+    print_info "✅ atlas-staking decoder complete"
+
+    print_info "Building locked-voter decoder..."
+    if ! just all-locked-voter; then
+        print_error "Failed to build locked-voter decoder"
+        exit 1
+    fi
+    print_info "✅ locked-voter decoder complete"
+
     # Verify git is still clean
     print_info "Checking final git status..."
     if ! check_git_clean; then
