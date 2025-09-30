@@ -16,6 +16,16 @@ This project generates and maintains Rust decoders for Star Atlas programs on So
   - Uses local IDL file from `./idl/` directory
   - Custom deserialization for Fleet and StarbasePlayer accounts
 
+- **atlas-staking**: Atlas Staking program (`ATLocKpzDbTokxgvnLew3d7drZkEzLzDpzwgrgWKDbmc`)
+  - Fetches IDL directly from Solana mainnet
+  - ATLAS token staking with configurable rewards and cooldown periods
+  - No custom patches needed - straightforward account structures
+
+- **locked-voter**: Locked Voter program (`Lock7kBijGCQLEFAmXcengzXKA88iDNQPriQ7TbgeyG`)
+  - Fetches IDL directly from Solana mainnet
+  - POLIS governance and voting with escrow and whitelist controls
+  - No custom patches needed - straightforward account structures
+
 ## Prerequisites
 
 Run `./scripts/check-tools.sh` to verify all required tools are installed:
@@ -37,6 +47,8 @@ Run `./scripts/check-tools.sh` to verify all required tools are installed:
 # Or build individual decoders
 just all-sage-starbased
 just all-sage-holosim
+just all-atlas-staking
+just all-locked-voter
 ```
 
 ## Project Structure
@@ -45,7 +57,9 @@ just all-sage-holosim
 star-atlas-decoders/
 ├── carbon-decoders/         # Published decoder crates
 │   ├── sage-starbased-decoder/
-│   └── sage-holosim-decoder/
+│   ├── sage-holosim-decoder/
+│   ├── atlas-staking-decoder/
+│   └── locked-voter-decoder/
 ├── dist/                    # Temporary build directory (gitignored)
 ├── patches/                 # Custom patches for decoders
 │   ├── sage-starbased-01-accounts.patch
@@ -127,6 +141,8 @@ When multiple patches need specific ordering, use numbered prefixes:
 # Check specific decoder
 cargo check -p sage-starbased-decoder
 cargo check -p sage-holosim-decoder
+cargo check -p atlas-staking-decoder
+cargo check -p locked-voter-decoder
 
 # Run clippy
 cargo clippy --all-targets --all-features -- -D warnings
@@ -141,6 +157,8 @@ cargo test --all
 # Clean build artifacts
 just clean-sage-starbased
 just clean-sage-holosim
+just clean-atlas-staking
+just clean-locked-voter
 just clean-all
 
 # List available patches
