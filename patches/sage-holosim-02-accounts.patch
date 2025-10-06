@@ -1,0 +1,225 @@
+diff --git a/src/accounts/fleet.rs b/src/accounts/fleet.rs
+index deb7d5c..8ce1568 100644
+--- a/src/accounts/fleet.rs
++++ b/src/accounts/fleet.rs
+@@ -1,11 +1,8 @@
+ use super::super::types::*;
+ 
+-use carbon_core::{CarbonDeserialize, borsh};
++use carbon_core::borsh::{self, BorshDeserialize};
+ 
+-#[derive(
+-    CarbonDeserialize, Debug, serde::Deserialize, serde::Serialize, PartialEq, Eq, Clone, Hash,
+-)]
+-#[carbon(discriminator = "0x6dcffb306a0288a3")]
++#[derive(Debug, serde::Deserialize, serde::Serialize)]
+ pub struct Fleet {
+     pub version: u8,
+     pub game_id: solana_pubkey::Pubkey,
+@@ -31,4 +28,75 @@ pub struct Fleet {
+     pub last_combat_update: i64,
+     pub update_id: u64,
+     pub bump: u8,
++    pub fleet_state: FleetState,
++}
++
++#[derive(Debug, PartialEq, serde::Serialize, serde::Deserialize, BorshDeserialize)]
++pub enum FleetState {
++    StarbaseLoadingBay(StarbaseLoadingBay),
++    Idle(Idle),
++    MineAsteroid(MineAsteroid),
++    MoveWarp(MoveWarp),
++    MoveSubwarp(MoveSubwarp),
++    Respawn(Respawn),
++}
++
++impl borsh::de::BorshDeserialize for Fleet
++where
++    u8: borsh::BorshDeserialize,
++    solana_pubkey::Pubkey: borsh::BorshDeserialize,
++    OptionalNonSystemPubkey: borsh::BorshDeserialize,
++    [u8; 32]: borsh::BorshDeserialize,
++    ShipCounts: borsh::BorshDeserialize,
++    i64: borsh::BorshDeserialize,
++    ShipStats: borsh::BorshDeserialize,
++    u32: borsh::BorshDeserialize,
++    u64: borsh::BorshDeserialize,
++{
++    fn deserialize_reader<R: borsh::maybestd::io::Read>(
++        reader: &mut R,
++    ) -> Result<Self, borsh::maybestd::io::Error> {
++        Ok(Self {
++            version: borsh::BorshDeserialize::deserialize_reader(reader)?,
++            game_id: borsh::BorshDeserialize::deserialize_reader(reader)?,
++            owner_profile: borsh::BorshDeserialize::deserialize_reader(reader)?,
++            fleet_ships: borsh::BorshDeserialize::deserialize_reader(reader)?,
++            sub_profile: borsh::BorshDeserialize::deserialize_reader(reader)?,
++            sub_profile_invalidator: borsh::BorshDeserialize::deserialize_reader(reader)?,
++            faction: borsh::BorshDeserialize::deserialize_reader(reader)?,
++            fleet_label: borsh::BorshDeserialize::deserialize_reader(reader)?,
++            ship_counts: borsh::BorshDeserialize::deserialize_reader(reader)?,
++            warp_cooldown_expires_at: borsh::BorshDeserialize::deserialize_reader(reader)?,
++            scan_cooldown_expires_at: borsh::BorshDeserialize::deserialize_reader(reader)?,
++            stats: borsh::BorshDeserialize::deserialize_reader(reader)?,
++            cargo_hold: borsh::BorshDeserialize::deserialize_reader(reader)?,
++            fuel_tank: borsh::BorshDeserialize::deserialize_reader(reader)?,
++            ammo_bank: borsh::BorshDeserialize::deserialize_reader(reader)?,
++            ap: borsh::BorshDeserialize::deserialize_reader(reader)?,
++            sp: borsh::BorshDeserialize::deserialize_reader(reader)?,
++            hp: borsh::BorshDeserialize::deserialize_reader(reader)?,
++            pending_hp: borsh::BorshDeserialize::deserialize_reader(reader)?,
++            ap_reload_expires_at: borsh::BorshDeserialize::deserialize_reader(reader)?,
++            shield_break_delay_expires_at: borsh::BorshDeserialize::deserialize_reader(reader)?,
++            last_combat_update: borsh::BorshDeserialize::deserialize_reader(reader)?,
++            update_id: borsh::BorshDeserialize::deserialize_reader(reader)?,
++            bump: borsh::BorshDeserialize::deserialize_reader(reader)?,
++            fleet_state: borsh::BorshDeserialize::deserialize_reader(reader)?,
++        })
++    }
++}
++
++#[automatically_derived]
++impl carbon_core::deserialize::CarbonDeserialize for Fleet {
++    const DISCRIMINATOR: &'static [u8] = &[109u8, 207u8, 251u8, 48u8, 106u8, 2u8, 136u8, 163u8];
++    fn deserialize(data: &[u8]) -> Option<Self> {
++        if data.len() < Self::DISCRIMINATOR.len() {
++            return None;
++        }
++        let (disc, mut rest) = data.split_at(Self::DISCRIMINATOR.len());
++        if disc != Self::DISCRIMINATOR {
++            return None;
++        }
++        BorshDeserialize::deserialize(&mut rest).ok()
++    }
+ }
+diff --git a/src/accounts/mod.rs b/src/accounts/mod.rs
+index 9b22b86..a99bffd 100644
+--- a/src/accounts/mod.rs
++++ b/src/accounts/mod.rs
+@@ -28,10 +28,10 @@ pub enum SageAccount {
+     CombatConfig(combat_config::CombatConfig),
+     CraftingInstance(crafting_instance::CraftingInstance),
+     DisbandedFleet(disbanded_fleet::DisbandedFleet),
+-    Fleet(fleet::Fleet),
++    Fleet(Box<fleet::Fleet>),
+     FleetShips(fleet_ships::FleetShips),
+-    Game(game::Game),
+-    GameState(game_state::GameState),
++    Game(Box<game::Game>),
++    GameState(Box<game_state::GameState>),
+     Loot(loot::Loot),
+     MineItem(mine_item::MineItem),
+     Planet(planet::Planet),
+@@ -93,7 +93,7 @@ impl<'a> AccountDecoder<'a> for SageDecoder {
+         if let Some(decoded_account) = fleet::Fleet::deserialize(account.data.as_slice()) {
+             return Some(carbon_core::account::DecodedAccount {
+                 lamports: account.lamports,
+-                data: SageAccount::Fleet(decoded_account),
++                data: SageAccount::Fleet(Box::new(decoded_account)),
+                 owner: account.owner,
+                 executable: account.executable,
+                 rent_epoch: account.rent_epoch,
+@@ -114,7 +114,7 @@ impl<'a> AccountDecoder<'a> for SageDecoder {
+         if let Some(decoded_account) = game::Game::deserialize(account.data.as_slice()) {
+             return Some(carbon_core::account::DecodedAccount {
+                 lamports: account.lamports,
+-                data: SageAccount::Game(decoded_account),
++                data: SageAccount::Game(Box::new(decoded_account)),
+                 owner: account.owner,
+                 executable: account.executable,
+                 rent_epoch: account.rent_epoch,
+@@ -124,7 +124,7 @@ impl<'a> AccountDecoder<'a> for SageDecoder {
+         if let Some(decoded_account) = game_state::GameState::deserialize(account.data.as_slice()) {
+             return Some(carbon_core::account::DecodedAccount {
+                 lamports: account.lamports,
+-                data: SageAccount::GameState(decoded_account),
++                data: SageAccount::GameState(Box::new(decoded_account)),
+                 owner: account.owner,
+                 executable: account.executable,
+                 rent_epoch: account.rent_epoch,
+diff --git a/src/accounts/starbase_player.rs b/src/accounts/starbase_player.rs
+index 319ba01..0e1b241 100644
+--- a/src/accounts/starbase_player.rs
++++ b/src/accounts/starbase_player.rs
+@@ -1,9 +1,8 @@
+-use carbon_core::{CarbonDeserialize, borsh};
++use super::super::types::*;
+ 
+-#[derive(
+-    CarbonDeserialize, Debug, serde::Deserialize, serde::Serialize, PartialEq, Eq, Clone, Hash,
+-)]
+-#[carbon(discriminator = "0xc0ea905648130563")]
++use carbon_core::borsh::{self, BorshDeserialize};
++
++#[derive(Debug, serde::Deserialize, serde::Serialize)]
+ pub struct StarbasePlayer {
+     pub version: u8,
+     pub player_profile: solana_pubkey::Pubkey,
+@@ -17,4 +16,67 @@ pub struct StarbasePlayer {
+     pub busy_crew: u64,
+     pub update_id: u64,
+     pub updated_ship_escrow_count: u32,
++    pub ship_escrows: Vec<WrappedShipEscrow>,
++}
++
++impl borsh::de::BorshDeserialize for StarbasePlayer
++where
++    u8: borsh::BorshDeserialize,
++    solana_pubkey::Pubkey: borsh::BorshDeserialize,
++    u32: borsh::BorshDeserialize,
++    u64: borsh::BorshDeserialize,
++    WrappedShipEscrow: borsh::BorshDeserialize,
++{
++    fn deserialize_reader<R: borsh::maybestd::io::Read>(
++        reader: &mut R,
++    ) -> Result<Self, borsh::maybestd::io::Error> {
++        let version = borsh::BorshDeserialize::deserialize_reader(reader)?;
++        let player_profile = borsh::BorshDeserialize::deserialize_reader(reader)?;
++        let game_id = borsh::BorshDeserialize::deserialize_reader(reader)?;
++        let starbase = borsh::BorshDeserialize::deserialize_reader(reader)?;
++        let sage_player_profile = borsh::BorshDeserialize::deserialize_reader(reader)?;
++        let bump = borsh::BorshDeserialize::deserialize_reader(reader)?;
++        let ship_escrow_count = borsh::BorshDeserialize::deserialize_reader(reader)?;
++        let old_total_crew = borsh::BorshDeserialize::deserialize_reader(reader)?;
++        let new_total_crew = borsh::BorshDeserialize::deserialize_reader(reader)?;
++        let busy_crew = borsh::BorshDeserialize::deserialize_reader(reader)?;
++        let update_id = borsh::BorshDeserialize::deserialize_reader(reader)?;
++        let updated_ship_escrow_count = borsh::BorshDeserialize::deserialize_reader(reader)?;
++
++        let mut ship_escrows = Vec::with_capacity(updated_ship_escrow_count as usize);
++        for _ in 0..updated_ship_escrow_count {
++            ship_escrows.push(borsh::BorshDeserialize::deserialize_reader(reader)?);
++        }
++
++        Ok(Self {
++            version,
++            player_profile,
++            game_id,
++            starbase,
++            sage_player_profile,
++            bump,
++            ship_escrow_count,
++            old_total_crew,
++            new_total_crew,
++            busy_crew,
++            update_id,
++            updated_ship_escrow_count,
++            ship_escrows,
++        })
++    }
++}
++
++#[automatically_derived]
++impl carbon_core::deserialize::CarbonDeserialize for StarbasePlayer {
++    const DISCRIMINATOR: &'static [u8] = &[192u8, 234u8, 144u8, 86u8, 72u8, 19u8, 5u8, 99u8];
++    fn deserialize(data: &[u8]) -> Option<Self> {
++        if data.len() < Self::DISCRIMINATOR.len() {
++            return None;
++        }
++        let (disc, mut rest) = data.split_at(Self::DISCRIMINATOR.len());
++        if disc != Self::DISCRIMINATOR {
++            return None;
++        }
++        BorshDeserialize::deserialize(&mut rest).ok()
++    }
+ }
