@@ -38,6 +38,20 @@ _fix-workspace-refs decoder_name:
     just _sed 's/serde-big-array = { workspace = true }/serde-big-array = "0.5.1"/' ./dist/{{decoder_name}}/Cargo.toml
     @echo "✅ Workspace references fixed"
 
+# Restore workspace references after publishing to workspace
+_restore-workspace-refs decoder_name:
+    @echo "Restoring workspace references for {{decoder_name}}..."
+    just _sed 's/edition = "2024"/edition = { workspace = true }/' ./carbon-decoders/{{decoder_name}}-decoder/Cargo.toml
+    just _sed 's/carbon-core = "0.10.0"/carbon-core = { workspace = true }/' ./carbon-decoders/{{decoder_name}}-decoder/Cargo.toml
+    just _sed 's/carbon-proc-macros = "0.10.0"/carbon-proc-macros = { workspace = true }/' ./carbon-decoders/{{decoder_name}}-decoder/Cargo.toml
+    just _sed 's/carbon-macros = "0.10.0"/carbon-macros = { workspace = true }/' ./carbon-decoders/{{decoder_name}}-decoder/Cargo.toml
+    just _sed 's/solana-account = "2.2.1"/solana-account = { workspace = true }/' ./carbon-decoders/{{decoder_name}}-decoder/Cargo.toml
+    just _sed 's/solana-instruction = { version = "2.3.0", default-features = false }/solana-instruction = { workspace = true }/' ./carbon-decoders/{{decoder_name}}-decoder/Cargo.toml
+    just _sed 's/solana-pubkey = { version = "2.4.0", features = \["borsh", "serde", "bytemuck"\] }/solana-pubkey = { workspace = true }/' ./carbon-decoders/{{decoder_name}}-decoder/Cargo.toml
+    just _sed 's/serde = { version = "1.0", features = \["derive"\] }/serde = { workspace = true }/' ./carbon-decoders/{{decoder_name}}-decoder/Cargo.toml
+    just _sed 's/serde-big-array = "0.5.1"/serde-big-array = { workspace = true }/' ./carbon-decoders/{{decoder_name}}-decoder/Cargo.toml
+    @echo "✅ Workspace references restored"
+
 # Prepare generated code by fixing compilation issues
 _prepare-decoder decoder_name:
     #!/bin/bash
@@ -96,6 +110,7 @@ _publish-decoder decoder_name:
     rm -f ./dist/{{decoder_name}}/Cargo.lock
     mv ./dist/{{decoder_name}} ./carbon-decoders/{{decoder_name}}-decoder
     @echo "✅ Decoder published to ./carbon-decoders/{{decoder_name}}-decoder"
+    just _restore-workspace-refs {{decoder_name}}
     @echo "Verifying in workspace..."
     cargo check -p {{decoder_name}}-decoder
     @echo "✅ Decoder works in main workspace"

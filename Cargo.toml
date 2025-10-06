@@ -9,3 +9,13 @@ edition = "2024"
 publish = false
 license = "Apache-2.0"
 repository = "https://github.com/staratlasmeta/star-atlas-decoders"
+
+[workspace.dependencies]
+carbon-core = "0.10.0"
+carbon-proc-macros = "0.10.0"
+carbon-macros = "0.10.0"
+solana-account = "2.2.1"
+solana-instruction = { version = "2.3.0", default-features = false }
+solana-pubkey = { version = "2.4.0", features = ["borsh", "serde", "bytemuck"] }
+serde = { version = "1.0", features = ["derive"] }
+serde-big-array = "0.5.1"
