@@ -5,11 +5,11 @@ This document outlines the complete patching strategy for expanding composite ac
 
 ## Progress Summary
 - **Total instruction files**: 106
-- **Completed patches**: 8 (covering 51 files)
-- **Remaining patches**: 8 (covering 55 files)
+- **Completed patches**: 9 (covering 56 files)
+- **Remaining patches**: 7 (covering 50 files)
 - **Estimated total patches**: 16
 
-## Completed Patches (01-08)
+## Completed Patches (01-09)
 
 ### Patch 01: Accounts
 - **Files**: 1 (fleet.rs)
@@ -126,9 +126,24 @@ This document outlines the complete patching strategy for expanding composite ac
 - **Priority**: 🟡 Medium - Frequently used starbase operations
 - **Status**: ✅ Complete (527 lines)
 
+### Patch 09: Crew & Player Management
+- **Files**: 5
+  - add_crew_to_game.rs
+  - remove_crew_from_game.rs
+  - dev_add_crew_to_game.rs
+  - mint_crew_to_game.rs
+  - close_player_crew_record.rs
+- **Composite accounts**:
+  - `StarbaseAndStarbasePlayerMut` → starbase, starbase_player
+  - `GameAndProfileAndFaction` → key, profile, profile_faction
+  - `GameAndProfile` → key, profile, game_id (dev_add_crew_to_game only)
+- **Complexity**: Medium
+- **Priority**: 🟡 Medium - Crew management operations
+- **Status**: ✅ Complete (242 lines)
+
 ---
 
-## Remaining Patches (09-16)
+## Remaining Patches (10-16)
 
 ### Priority 1: Core Gameplay (High Priority)
 
@@ -147,20 +162,6 @@ This document outlines the complete patching strategy for expanding composite ac
 ---
 
 ### Priority 2: Frequently Used Operations (Medium Priority)
-
-#### Patch 09: Crew & Player Management
-- **Files**: ~5
-  - add_crew_to_game.rs
-  - remove_crew_from_game.rs
-  - dev_add_crew_to_game.rs
-  - mint_crew_to_game.rs
-  - close_player_crew_record.rs
-- **Composite accounts**:
-  - `StarbaseMutAndStarbasePlayer`
-  - `GameAndProfileAndFaction`
-- **Complexity**: Medium
-- **Priority**: 🟡 Medium
-- **Status**: 🔲 Pending
 
 #### Patch 10: Ship Escrow & Management
 - **Files**: ~6

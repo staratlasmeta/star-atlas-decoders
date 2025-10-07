@@ -1,0 +1,242 @@
+diff --git a/src/instructions/add_crew_to_game.rs b/src/instructions/add_crew_to_game.rs
+index b54b773..1fa3187 100644
+--- a/src/instructions/add_crew_to_game.rs
++++ b/src/instructions/add_crew_to_game.rs
+@@ -13,9 +13,14 @@ pub struct AddCrewToGame {
+ #[derive(Debug, PartialEq, Eq, Clone, Hash, serde::Serialize, serde::Deserialize)]
+ pub struct AddCrewToGameInstructionAccounts {
+     pub sage_player_profile: solana_pubkey::Pubkey,
+-    pub starbase_and_starbase_player: solana_pubkey::Pubkey,
++    // StarbaseAndStarbasePlayerMut expansion
++    pub starbase: solana_pubkey::Pubkey,
++    pub starbase_player: solana_pubkey::Pubkey,
+     pub sage_crew_config: solana_pubkey::Pubkey,
+-    pub game_and_profile_and_faction: solana_pubkey::Pubkey,
++    // GameAndProfileAndFaction expansion
++    pub key: solana_pubkey::Pubkey,
++    pub profile: solana_pubkey::Pubkey,
++    pub profile_faction: solana_pubkey::Pubkey,
+     pub crew_config: solana_pubkey::Pubkey,
+     pub crew_owner: solana_pubkey::Pubkey,
+     pub crew_delegate: solana_pubkey::Pubkey,
+@@ -33,9 +38,18 @@ impl carbon_core::deserialize::ArrangeAccounts for AddCrewToGame {
+     ) -> Option<Self::ArrangedAccounts> {
+         let mut iter = accounts.iter();
+         let sage_player_profile = next_account(&mut iter)?;
+-        let starbase_and_starbase_player = next_account(&mut iter)?;
++
++        // StarbaseAndStarbasePlayerMut expansion
++        let starbase = next_account(&mut iter)?;
++        let starbase_player = next_account(&mut iter)?;
++
+         let sage_crew_config = next_account(&mut iter)?;
+-        let game_and_profile_and_faction = next_account(&mut iter)?;
++
++        // GameAndProfileAndFaction expansion
++        let key = next_account(&mut iter)?;
++        let profile = next_account(&mut iter)?;
++        let profile_faction = next_account(&mut iter)?;
++
+         let crew_config = next_account(&mut iter)?;
+         let crew_owner = next_account(&mut iter)?;
+         let crew_delegate = next_account(&mut iter)?;
+@@ -46,9 +60,12 @@ impl carbon_core::deserialize::ArrangeAccounts for AddCrewToGame {
+ 
+         Some(AddCrewToGameInstructionAccounts {
+             sage_player_profile,
+-            starbase_and_starbase_player,
++            starbase,
++            starbase_player,
+             sage_crew_config,
+-            game_and_profile_and_faction,
++            key,
++            profile,
++            profile_faction,
+             crew_config,
+             crew_owner,
+             crew_delegate,
+diff --git a/src/instructions/close_player_crew_record.rs b/src/instructions/close_player_crew_record.rs
+index 11a018f..af526a7 100644
+--- a/src/instructions/close_player_crew_record.rs
++++ b/src/instructions/close_player_crew_record.rs
+@@ -13,9 +13,14 @@ pub struct ClosePlayerCrewRecord {
+ #[derive(Debug, PartialEq, Eq, Clone, Hash, serde::Serialize, serde::Deserialize)]
+ pub struct ClosePlayerCrewRecordInstructionAccounts {
+     pub funds_to: solana_pubkey::Pubkey,
+-    pub starbase_and_starbase_player: solana_pubkey::Pubkey,
++    // StarbaseAndStarbasePlayerMut expansion
++    pub starbase: solana_pubkey::Pubkey,
++    pub starbase_player: solana_pubkey::Pubkey,
+     pub crew_record: solana_pubkey::Pubkey,
+-    pub game_and_profile_and_faction: solana_pubkey::Pubkey,
++    // GameAndProfileAndFaction expansion
++    pub key: solana_pubkey::Pubkey,
++    pub profile: solana_pubkey::Pubkey,
++    pub profile_faction: solana_pubkey::Pubkey,
+     pub crew_config: solana_pubkey::Pubkey,
+ }
+ 
+@@ -27,16 +32,28 @@ impl carbon_core::deserialize::ArrangeAccounts for ClosePlayerCrewRecord {
+     ) -> Option<Self::ArrangedAccounts> {
+         let mut iter = accounts.iter();
+         let funds_to = next_account(&mut iter)?;
+-        let starbase_and_starbase_player = next_account(&mut iter)?;
++
++        // StarbaseAndStarbasePlayerMut expansion
++        let starbase = next_account(&mut iter)?;
++        let starbase_player = next_account(&mut iter)?;
++
+         let crew_record = next_account(&mut iter)?;
+-        let game_and_profile_and_faction = next_account(&mut iter)?;
++
++        // GameAndProfileAndFaction expansion
++        let key = next_account(&mut iter)?;
++        let profile = next_account(&mut iter)?;
++        let profile_faction = next_account(&mut iter)?;
++
+         let crew_config = next_account(&mut iter)?;
+ 
+         Some(ClosePlayerCrewRecordInstructionAccounts {
+             funds_to,
+-            starbase_and_starbase_player,
++            starbase,
++            starbase_player,
+             crew_record,
+-            game_and_profile_and_faction,
++            key,
++            profile,
++            profile_faction,
+             crew_config,
+         })
+     }
+diff --git a/src/instructions/dev_add_crew_to_game.rs b/src/instructions/dev_add_crew_to_game.rs
+index 1110ada..42e6984 100644
+--- a/src/instructions/dev_add_crew_to_game.rs
++++ b/src/instructions/dev_add_crew_to_game.rs
+@@ -12,7 +12,10 @@ pub struct DevAddCrewToGame {
+ 
+ #[derive(Debug, PartialEq, Eq, Clone, Hash, serde::Serialize, serde::Deserialize)]
+ pub struct DevAddCrewToGameInstructionAccounts {
+-    pub game_and_profile: solana_pubkey::Pubkey,
++    // GameAndProfile expansion
++    pub key: solana_pubkey::Pubkey,
++    pub profile: solana_pubkey::Pubkey,
++    pub game_id: solana_pubkey::Pubkey,
+     pub starbase_player: solana_pubkey::Pubkey,
+ }
+ 
+@@ -23,11 +26,18 @@ impl carbon_core::deserialize::ArrangeAccounts for DevAddCrewToGame {
+         accounts: &[solana_instruction::AccountMeta],
+     ) -> Option<Self::ArrangedAccounts> {
+         let mut iter = accounts.iter();
+-        let game_and_profile = next_account(&mut iter)?;
++
++        // GameAndProfile expansion
++        let key = next_account(&mut iter)?;
++        let profile = next_account(&mut iter)?;
++        let game_id = next_account(&mut iter)?;
++
+         let starbase_player = next_account(&mut iter)?;
+ 
+         Some(DevAddCrewToGameInstructionAccounts {
+-            game_and_profile,
++            key,
++            profile,
++            game_id,
+             starbase_player,
+         })
+     }
+diff --git a/src/instructions/mint_crew_to_game.rs b/src/instructions/mint_crew_to_game.rs
+index 3d44800..321efb4 100644
+--- a/src/instructions/mint_crew_to_game.rs
++++ b/src/instructions/mint_crew_to_game.rs
+@@ -9,7 +9,9 @@ pub struct MintCrewToGame {}
+ #[derive(Debug, PartialEq, Eq, Clone, Hash, serde::Serialize, serde::Deserialize)]
+ pub struct MintCrewToGameInstructionAccounts {
+     pub sage_player_profile: solana_pubkey::Pubkey,
+-    pub starbase_and_starbase_player: solana_pubkey::Pubkey,
++    // StarbaseAndStarbasePlayerMut expansion
++    pub starbase: solana_pubkey::Pubkey,
++    pub starbase_player: solana_pubkey::Pubkey,
+     pub sage_crew_config: solana_pubkey::Pubkey,
+     pub crew_config: solana_pubkey::Pubkey,
+     pub instructions_sysvar: solana_pubkey::Pubkey,
+@@ -23,14 +25,19 @@ impl carbon_core::deserialize::ArrangeAccounts for MintCrewToGame {
+     ) -> Option<Self::ArrangedAccounts> {
+         let mut iter = accounts.iter();
+         let sage_player_profile = next_account(&mut iter)?;
+-        let starbase_and_starbase_player = next_account(&mut iter)?;
++
++        // StarbaseAndStarbasePlayerMut expansion
++        let starbase = next_account(&mut iter)?;
++        let starbase_player = next_account(&mut iter)?;
++
+         let sage_crew_config = next_account(&mut iter)?;
+         let crew_config = next_account(&mut iter)?;
+         let instructions_sysvar = next_account(&mut iter)?;
+ 
+         Some(MintCrewToGameInstructionAccounts {
+             sage_player_profile,
+-            starbase_and_starbase_player,
++            starbase,
++            starbase_player,
+             sage_crew_config,
+             crew_config,
+             instructions_sysvar,
+diff --git a/src/instructions/remove_crew_from_game.rs b/src/instructions/remove_crew_from_game.rs
+index 1bafc4f..19df27e 100644
+--- a/src/instructions/remove_crew_from_game.rs
++++ b/src/instructions/remove_crew_from_game.rs
+@@ -13,9 +13,14 @@ pub struct RemoveCrewFromGame {
+ #[derive(Debug, PartialEq, Eq, Clone, Hash, serde::Serialize, serde::Deserialize)]
+ pub struct RemoveCrewFromGameInstructionAccounts {
+     pub sage_player_profile: solana_pubkey::Pubkey,
+-    pub starbase_and_starbase_player: solana_pubkey::Pubkey,
++    // StarbaseAndStarbasePlayerMut expansion
++    pub starbase: solana_pubkey::Pubkey,
++    pub starbase_player: solana_pubkey::Pubkey,
+     pub sage_crew_config: solana_pubkey::Pubkey,
+-    pub game_and_profile_and_faction: solana_pubkey::Pubkey,
++    // GameAndProfileAndFaction expansion
++    pub key: solana_pubkey::Pubkey,
++    pub profile: solana_pubkey::Pubkey,
++    pub profile_faction: solana_pubkey::Pubkey,
+     pub crew_config: solana_pubkey::Pubkey,
+     pub new_crew_owner: solana_pubkey::Pubkey,
+     pub crew_delegate: solana_pubkey::Pubkey,
+@@ -33,9 +38,18 @@ impl carbon_core::deserialize::ArrangeAccounts for RemoveCrewFromGame {
+     ) -> Option<Self::ArrangedAccounts> {
+         let mut iter = accounts.iter();
+         let sage_player_profile = next_account(&mut iter)?;
+-        let starbase_and_starbase_player = next_account(&mut iter)?;
++
++        // StarbaseAndStarbasePlayerMut expansion
++        let starbase = next_account(&mut iter)?;
++        let starbase_player = next_account(&mut iter)?;
++
+         let sage_crew_config = next_account(&mut iter)?;
+-        let game_and_profile_and_faction = next_account(&mut iter)?;
++
++        // GameAndProfileAndFaction expansion
++        let key = next_account(&mut iter)?;
++        let profile = next_account(&mut iter)?;
++        let profile_faction = next_account(&mut iter)?;
++
+         let crew_config = next_account(&mut iter)?;
+         let new_crew_owner = next_account(&mut iter)?;
+         let crew_delegate = next_account(&mut iter)?;
+@@ -46,9 +60,12 @@ impl carbon_core::deserialize::ArrangeAccounts for RemoveCrewFromGame {
+ 
+         Some(RemoveCrewFromGameInstructionAccounts {
+             sage_player_profile,
+-            starbase_and_starbase_player,
++            starbase,
++            starbase_player,
+             sage_crew_config,
+-            game_and_profile_and_faction,
++            key,
++            profile,
++            profile_faction,
+             crew_config,
+             new_crew_owner,
+             crew_delegate,

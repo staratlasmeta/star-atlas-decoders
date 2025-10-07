@@ -12,7 +12,10 @@ pub struct DevAddCrewToGame {
 
 #[derive(Debug, PartialEq, Eq, Clone, Hash, serde::Serialize, serde::Deserialize)]
 pub struct DevAddCrewToGameInstructionAccounts {
-    pub game_and_profile: solana_pubkey::Pubkey,
+    // GameAndProfile expansion
+    pub key: solana_pubkey::Pubkey,
+    pub profile: solana_pubkey::Pubkey,
+    pub game_id: solana_pubkey::Pubkey,
     pub starbase_player: solana_pubkey::Pubkey,
 }
 
@@ -23,11 +26,18 @@ impl carbon_core::deserialize::ArrangeAccounts for DevAddCrewToGame {
         accounts: &[solana_instruction::AccountMeta],
     ) -> Option<Self::ArrangedAccounts> {
         let mut iter = accounts.iter();
-        let game_and_profile = next_account(&mut iter)?;
+
+        // GameAndProfile expansion
+        let key = next_account(&mut iter)?;
+        let profile = next_account(&mut iter)?;
+        let game_id = next_account(&mut iter)?;
+
         let starbase_player = next_account(&mut iter)?;
 
         Some(DevAddCrewToGameInstructionAccounts {
-            game_and_profile,
+            key,
+            profile,
+            game_id,
             starbase_player,
         })
     }
