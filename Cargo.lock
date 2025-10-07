@@ -134,6 +134,19 @@ dependencies = [
 ]
 
 [[package]]
+name = "atlas-staking-decoder"
+version = "0.10.0"
+dependencies = [
+ "carbon-core",
+ "carbon-macros",
+ "carbon-proc-macros",
+ "serde",
+ "solana-account",
+ "solana-instruction",
+ "solana-pubkey",
+]
+
+[[package]]
 name = "autocfg"
 version = "1.5.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -879,6 +892,19 @@ checksum = "96936507f153605bddfcda068dd804796c84324ed2510809e5b2a624c81da765"
 dependencies = [
  "autocfg",
  "scopeguard",
+]
+
+[[package]]
+name = "locked-voter-decoder"
+version = "0.10.0"
+dependencies = [
+ "carbon-core",
+ "carbon-macros",
+ "carbon-proc-macros",
+ "serde",
+ "solana-account",
+ "solana-instruction",
+ "solana-pubkey",
 ]
 
 [[package]]

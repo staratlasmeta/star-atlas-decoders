@@ -1,0 +1,12 @@
+diff --git a/src/accounts/mod.rs b/src/accounts/mod.rs
+index f105871..87b3c52 100644
+--- a/src/accounts/mod.rs
++++ b/src/accounts/mod.rs
+@@ -6,6 +6,7 @@ pub mod escrow;
+ pub mod locker;
+ pub mod locker_whitelist_entry;
+ 
++#[derive(Debug, serde::Serialize)]
+ pub enum LockedVoterAccount {
+     Locker(locker::Locker),
+     LockerWhitelistEntry(locker_whitelist_entry::LockerWhitelistEntry),
