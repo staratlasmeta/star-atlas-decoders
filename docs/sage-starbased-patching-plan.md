@@ -120,7 +120,7 @@ This document outlines the complete patching strategy for expanding composite ac
 - **Composite accounts**:
   - `StarbaseAndStarbasePlayer` → starbase, starbase_player (7 files)
   - `GameAndGameStateAndProfile` → key, profile, profile_faction, game_id, game_state (6 files)
-  - `GameAndProfileAndFaction` → key, profile, profile_faction (dev_deposit_cargo_to_game only)
+  - `GameAndProfileAndFaction` → key, profile, profile_faction, game_id (dev_deposit_cargo_to_game only)
   - `GameAndGameState` → game_id, game_state (register/sync starbase player)
 - **Complexity**: Medium
 - **Priority**: 🟡 Medium - Frequently used starbase operations
@@ -135,7 +135,7 @@ This document outlines the complete patching strategy for expanding composite ac
   - close_player_crew_record.rs
 - **Composite accounts**:
   - `StarbaseAndStarbasePlayerMut` → starbase, starbase_player
-  - `GameAndProfileAndFaction` → key, profile, profile_faction
+  - `GameAndProfileAndFaction` → key, profile, profile_faction, game_id
   - `GameAndProfile` → key, profile, game_id (dev_add_crew_to_game only)
 - **Complexity**: Medium
 - **Priority**: 🟡 Medium - Crew management operations

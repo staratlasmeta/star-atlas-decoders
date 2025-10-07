@@ -1,8 +1,8 @@
 diff --git a/src/instructions/add_crew_to_game.rs b/src/instructions/add_crew_to_game.rs
-index b54b773..1fa3187 100644
+index b54b773..2da3243 100644
 --- a/src/instructions/add_crew_to_game.rs
 +++ b/src/instructions/add_crew_to_game.rs
-@@ -13,9 +13,14 @@ pub struct AddCrewToGame {
+@@ -13,9 +13,15 @@ pub struct AddCrewToGame {
  #[derive(Debug, PartialEq, Eq, Clone, Hash, serde::Serialize, serde::Deserialize)]
  pub struct AddCrewToGameInstructionAccounts {
      pub sage_player_profile: solana_pubkey::Pubkey,
@@ -16,10 +16,11 @@ index b54b773..1fa3187 100644
 +    pub key: solana_pubkey::Pubkey,
 +    pub profile: solana_pubkey::Pubkey,
 +    pub profile_faction: solana_pubkey::Pubkey,
++    pub game_id: solana_pubkey::Pubkey,
      pub crew_config: solana_pubkey::Pubkey,
      pub crew_owner: solana_pubkey::Pubkey,
      pub crew_delegate: solana_pubkey::Pubkey,
-@@ -33,9 +38,18 @@ impl carbon_core::deserialize::ArrangeAccounts for AddCrewToGame {
+@@ -33,9 +39,19 @@ impl carbon_core::deserialize::ArrangeAccounts for AddCrewToGame {
      ) -> Option<Self::ArrangedAccounts> {
          let mut iter = accounts.iter();
          let sage_player_profile = next_account(&mut iter)?;
@@ -36,11 +37,12 @@ index b54b773..1fa3187 100644
 +        let key = next_account(&mut iter)?;
 +        let profile = next_account(&mut iter)?;
 +        let profile_faction = next_account(&mut iter)?;
++        let game_id = next_account(&mut iter)?;
 +
          let crew_config = next_account(&mut iter)?;
          let crew_owner = next_account(&mut iter)?;
          let crew_delegate = next_account(&mut iter)?;
-@@ -46,9 +60,12 @@ impl carbon_core::deserialize::ArrangeAccounts for AddCrewToGame {
+@@ -46,9 +62,13 @@ impl carbon_core::deserialize::ArrangeAccounts for AddCrewToGame {
  
          Some(AddCrewToGameInstructionAccounts {
              sage_player_profile,
@@ -52,14 +54,15 @@ index b54b773..1fa3187 100644
 +            key,
 +            profile,
 +            profile_faction,
++            game_id,
              crew_config,
              crew_owner,
              crew_delegate,
 diff --git a/src/instructions/close_player_crew_record.rs b/src/instructions/close_player_crew_record.rs
-index 11a018f..af526a7 100644
+index 11a018f..750a8ba 100644
 --- a/src/instructions/close_player_crew_record.rs
 +++ b/src/instructions/close_player_crew_record.rs
-@@ -13,9 +13,14 @@ pub struct ClosePlayerCrewRecord {
+@@ -13,9 +13,15 @@ pub struct ClosePlayerCrewRecord {
  #[derive(Debug, PartialEq, Eq, Clone, Hash, serde::Serialize, serde::Deserialize)]
  pub struct ClosePlayerCrewRecordInstructionAccounts {
      pub funds_to: solana_pubkey::Pubkey,
@@ -73,10 +76,11 @@ index 11a018f..af526a7 100644
 +    pub key: solana_pubkey::Pubkey,
 +    pub profile: solana_pubkey::Pubkey,
 +    pub profile_faction: solana_pubkey::Pubkey,
++    pub game_id: solana_pubkey::Pubkey,
      pub crew_config: solana_pubkey::Pubkey,
  }
  
-@@ -27,16 +32,28 @@ impl carbon_core::deserialize::ArrangeAccounts for ClosePlayerCrewRecord {
+@@ -27,16 +33,30 @@ impl carbon_core::deserialize::ArrangeAccounts for ClosePlayerCrewRecord {
      ) -> Option<Self::ArrangedAccounts> {
          let mut iter = accounts.iter();
          let funds_to = next_account(&mut iter)?;
@@ -93,6 +97,7 @@ index 11a018f..af526a7 100644
 +        let key = next_account(&mut iter)?;
 +        let profile = next_account(&mut iter)?;
 +        let profile_faction = next_account(&mut iter)?;
++        let game_id = next_account(&mut iter)?;
 +
          let crew_config = next_account(&mut iter)?;
  
@@ -106,6 +111,7 @@ index 11a018f..af526a7 100644
 +            key,
 +            profile,
 +            profile_faction,
++            game_id,
              crew_config,
          })
      }
@@ -184,10 +190,10 @@ index 3d44800..321efb4 100644
              crew_config,
              instructions_sysvar,
 diff --git a/src/instructions/remove_crew_from_game.rs b/src/instructions/remove_crew_from_game.rs
-index 1bafc4f..19df27e 100644
+index 1bafc4f..d603b9b 100644
 --- a/src/instructions/remove_crew_from_game.rs
 +++ b/src/instructions/remove_crew_from_game.rs
-@@ -13,9 +13,14 @@ pub struct RemoveCrewFromGame {
+@@ -13,9 +13,15 @@ pub struct RemoveCrewFromGame {
  #[derive(Debug, PartialEq, Eq, Clone, Hash, serde::Serialize, serde::Deserialize)]
  pub struct RemoveCrewFromGameInstructionAccounts {
      pub sage_player_profile: solana_pubkey::Pubkey,
@@ -201,10 +207,11 @@ index 1bafc4f..19df27e 100644
 +    pub key: solana_pubkey::Pubkey,
 +    pub profile: solana_pubkey::Pubkey,
 +    pub profile_faction: solana_pubkey::Pubkey,
++    pub game_id: solana_pubkey::Pubkey,
      pub crew_config: solana_pubkey::Pubkey,
      pub new_crew_owner: solana_pubkey::Pubkey,
      pub crew_delegate: solana_pubkey::Pubkey,
-@@ -33,9 +38,18 @@ impl carbon_core::deserialize::ArrangeAccounts for RemoveCrewFromGame {
+@@ -33,9 +39,19 @@ impl carbon_core::deserialize::ArrangeAccounts for RemoveCrewFromGame {
      ) -> Option<Self::ArrangedAccounts> {
          let mut iter = accounts.iter();
          let sage_player_profile = next_account(&mut iter)?;
@@ -221,11 +228,12 @@ index 1bafc4f..19df27e 100644
 +        let key = next_account(&mut iter)?;
 +        let profile = next_account(&mut iter)?;
 +        let profile_faction = next_account(&mut iter)?;
++        let game_id = next_account(&mut iter)?;
 +
          let crew_config = next_account(&mut iter)?;
          let new_crew_owner = next_account(&mut iter)?;
          let crew_delegate = next_account(&mut iter)?;
-@@ -46,9 +60,12 @@ impl carbon_core::deserialize::ArrangeAccounts for RemoveCrewFromGame {
+@@ -46,9 +62,13 @@ impl carbon_core::deserialize::ArrangeAccounts for RemoveCrewFromGame {
  
          Some(RemoveCrewFromGameInstructionAccounts {
              sage_player_profile,
@@ -237,6 +245,7 @@ index 1bafc4f..19df27e 100644
 +            key,
 +            profile,
 +            profile_faction,
++            game_id,
              crew_config,
              new_crew_owner,
              crew_delegate,

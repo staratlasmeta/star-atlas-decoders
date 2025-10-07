@@ -21,6 +21,7 @@ pub struct AddCrewToGameInstructionAccounts {
     pub key: solana_pubkey::Pubkey,
     pub profile: solana_pubkey::Pubkey,
     pub profile_faction: solana_pubkey::Pubkey,
+    pub game_id: solana_pubkey::Pubkey,
     pub crew_config: solana_pubkey::Pubkey,
     pub crew_owner: solana_pubkey::Pubkey,
     pub crew_delegate: solana_pubkey::Pubkey,
@@ -49,6 +50,7 @@ impl carbon_core::deserialize::ArrangeAccounts for AddCrewToGame {
         let key = next_account(&mut iter)?;
         let profile = next_account(&mut iter)?;
         let profile_faction = next_account(&mut iter)?;
+        let game_id = next_account(&mut iter)?;
 
         let crew_config = next_account(&mut iter)?;
         let crew_owner = next_account(&mut iter)?;
@@ -66,6 +68,7 @@ impl carbon_core::deserialize::ArrangeAccounts for AddCrewToGame {
             key,
             profile,
             profile_faction,
+            game_id,
             crew_config,
             crew_owner,
             crew_delegate,
