@@ -12,15 +12,31 @@ pub struct CloseCraftingProcess {
 
 #[derive(Debug, PartialEq, Eq, Clone, Hash, serde::Serialize, serde::Deserialize)]
 pub struct CloseCraftingProcessInstructionAccounts {
+    // Direct accounts
     pub funds_to: solana_pubkey::Pubkey,
-    pub starbase_and_starbase_player: solana_pubkey::Pubkey,
+    // StarbaseMutAndStarbasePlayer expansion
+    pub starbase: solana_pubkey::Pubkey,
+    pub starbase_player: solana_pubkey::Pubkey,
+    // Direct accounts
     pub crafting_instance: solana_pubkey::Pubkey,
     pub crafting_process: solana_pubkey::Pubkey,
     pub crafting_recipe: solana_pubkey::Pubkey,
     pub crafting_facility: solana_pubkey::Pubkey,
-    pub game_accounts_and_profile: solana_pubkey::Pubkey,
-    pub crafting_xp_accounts: solana_pubkey::Pubkey,
-    pub council_rank_xp_accounts: solana_pubkey::Pubkey,
+    // GameAndGameStateAndProfile expansion
+    pub key: solana_pubkey::Pubkey,
+    pub profile: solana_pubkey::Pubkey,
+    pub profile_faction: solana_pubkey::Pubkey,
+    pub game_id: solana_pubkey::Pubkey,
+    pub game_state: solana_pubkey::Pubkey,
+    // PointsModificationAccounts expansion (crafting_xp_accounts)
+    pub crafting_user_points_account: solana_pubkey::Pubkey,
+    pub crafting_points_category: solana_pubkey::Pubkey,
+    pub crafting_points_modifier_account: solana_pubkey::Pubkey,
+    // PointsModificationAccounts expansion (council_rank_xp_accounts)
+    pub council_rank_user_points_account: solana_pubkey::Pubkey,
+    pub council_rank_points_category: solana_pubkey::Pubkey,
+    pub council_rank_points_modifier_account: solana_pubkey::Pubkey,
+    // Direct accounts
     pub progression_config: solana_pubkey::Pubkey,
     pub points_program: solana_pubkey::Pubkey,
     pub crafting_program: solana_pubkey::Pubkey,
@@ -33,29 +49,54 @@ impl carbon_core::deserialize::ArrangeAccounts for CloseCraftingProcess {
         accounts: &[solana_instruction::AccountMeta],
     ) -> Option<Self::ArrangedAccounts> {
         let mut iter = accounts.iter();
+        // Direct accounts
         let funds_to = next_account(&mut iter)?;
-        let starbase_and_starbase_player = next_account(&mut iter)?;
+        // StarbaseMutAndStarbasePlayer expansion
+        let starbase = next_account(&mut iter)?;
+        let starbase_player = next_account(&mut iter)?;
+        // Direct accounts
         let crafting_instance = next_account(&mut iter)?;
         let crafting_process = next_account(&mut iter)?;
         let crafting_recipe = next_account(&mut iter)?;
         let crafting_facility = next_account(&mut iter)?;
-        let game_accounts_and_profile = next_account(&mut iter)?;
-        let crafting_xp_accounts = next_account(&mut iter)?;
-        let council_rank_xp_accounts = next_account(&mut iter)?;
+        // GameAndGameStateAndProfile expansion
+        let key = next_account(&mut iter)?;
+        let profile = next_account(&mut iter)?;
+        let profile_faction = next_account(&mut iter)?;
+        let game_id = next_account(&mut iter)?;
+        let game_state = next_account(&mut iter)?;
+        // PointsModificationAccounts expansion (crafting_xp_accounts)
+        let crafting_user_points_account = next_account(&mut iter)?;
+        let crafting_points_category = next_account(&mut iter)?;
+        let crafting_points_modifier_account = next_account(&mut iter)?;
+        // PointsModificationAccounts expansion (council_rank_xp_accounts)
+        let council_rank_user_points_account = next_account(&mut iter)?;
+        let council_rank_points_category = next_account(&mut iter)?;
+        let council_rank_points_modifier_account = next_account(&mut iter)?;
+        // Direct accounts
         let progression_config = next_account(&mut iter)?;
         let points_program = next_account(&mut iter)?;
         let crafting_program = next_account(&mut iter)?;
 
         Some(CloseCraftingProcessInstructionAccounts {
             funds_to,
-            starbase_and_starbase_player,
+            starbase,
+            starbase_player,
             crafting_instance,
             crafting_process,
             crafting_recipe,
             crafting_facility,
-            game_accounts_and_profile,
-            crafting_xp_accounts,
-            council_rank_xp_accounts,
+            key,
+            profile,
+            profile_faction,
+            game_id,
+            game_state,
+            crafting_user_points_account,
+            crafting_points_category,
+            crafting_points_modifier_account,
+            council_rank_user_points_account,
+            council_rank_points_category,
+            council_rank_points_modifier_account,
             progression_config,
             points_program,
             crafting_program,
