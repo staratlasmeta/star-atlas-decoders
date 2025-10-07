@@ -5,12 +5,12 @@ This document outlines the complete patching strategy for expanding composite ac
 
 ## Progress Summary
 - **Total instruction files**: 124
-- **Completed patches**: 3 (covering 3 instruction files + 2 account files)
-- **Files needing composite expansions**: ~92 remaining
-- **Remaining patches**: ~14
+- **Completed patches**: 4 (covering 5 instruction files + 2 account files)
+- **Files needing composite expansions**: ~90 remaining
+- **Remaining patches**: ~13
 - **Estimated total patches**: ~17
 
-## Completed Patches (01-03)
+## Completed Patches (01-04)
 
 ### Patch 01: Disable Combat Log Events
 - **Files**: 2 (combat_log_event.rs, combat_resolved_event.rs) + mod.rs updates
@@ -37,22 +37,23 @@ This document outlines the complete patching strategy for expanding composite ac
 - **Priority**: 🔴 High - Core exploration mechanic
 - **Status**: ✅ Complete (150 lines)
 
----
-
-## Remaining Patches (04-17)
-
-### Priority 1: Core Gameplay - Mining, Movement (High Priority)
-
-#### Patch 04: Mining Operations
+### Patch 04: Mining Operations
 - **Files**: 2
   - start_mining_asteroid.rs
   - stop_mining_asteroid.rs
 - **Composite accounts**:
-  - `game_accounts_fleet_and_owner` → GameAndGameStateAndFleetAndOwnerMut (6 accounts)
+  - `game_accounts_fleet_and_owner` → GameAndGameStateAndFleetAndOwnerMut (6 accounts): key, owning_profile, owning_profile_faction, fleet, game_id, game_state
   - `starbase_and_starbase_player` → StarbaseMutAndStarbasePlayer (2 accounts): starbase, starbase_player
-- **Complexity**: Medium
+  - Multiple PointsModificationAccounts in stop_mining_asteroid.rs (3 instances): pilot_, mining_, council_rank_
+- **Complexity**: Medium (includes multiple XP account expansions with unique prefixes)
 - **Priority**: 🔴 High - Core resource gathering mechanic
-- **Status**: 🔲 Pending
+- **Status**: ✅ Complete (180 lines)
+
+---
+
+## Remaining Patches (05-17)
+
+### Priority 1: Core Gameplay - Movement (High Priority)
 
 #### Patch 05: Movement Instructions
 - **Files**: 5
@@ -360,8 +361,8 @@ This document outlines the complete patching strategy for expanding composite ac
 1. ~~**Patch 01** - Disable Combat Log Events~~ ✅ Complete
 2. ~~**Patch 02** - Accounts~~ ✅ Complete
 3. ~~**Patch 03** - Scanning & Discovery~~ ✅ Complete
-4. **Patch 04** - Mining Operations - **NEXT**
-5. **Patch 05** - Movement Instructions
+4. ~~**Patch 04** - Mining Operations~~ ✅ Complete
+5. **Patch 05** - Movement Instructions - **NEXT**
 6. **Patch 06** - Starbase Operations
 7. **Patch 07** - Crafting Instructions
 8. **Patch 08** - Fleet Management
