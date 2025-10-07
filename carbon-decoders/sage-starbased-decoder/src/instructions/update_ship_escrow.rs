@@ -14,8 +14,12 @@ pub struct UpdateShipEscrow {
 pub struct UpdateShipEscrowInstructionAccounts {
     pub old_ship: solana_pubkey::Pubkey,
     pub next: solana_pubkey::Pubkey,
-    pub starbase_and_starbase_player: solana_pubkey::Pubkey,
-    pub game_accounts: solana_pubkey::Pubkey,
+    // StarbaseAndStarbasePlayerMut expansion
+    pub starbase: solana_pubkey::Pubkey,
+    pub starbase_player: solana_pubkey::Pubkey,
+    // GameAndGameState expansion
+    pub game_id: solana_pubkey::Pubkey,
+    pub game_state: solana_pubkey::Pubkey,
 }
 
 impl carbon_core::deserialize::ArrangeAccounts for UpdateShipEscrow {
@@ -27,14 +31,22 @@ impl carbon_core::deserialize::ArrangeAccounts for UpdateShipEscrow {
         let mut iter = accounts.iter();
         let old_ship = next_account(&mut iter)?;
         let next = next_account(&mut iter)?;
-        let starbase_and_starbase_player = next_account(&mut iter)?;
-        let game_accounts = next_account(&mut iter)?;
+
+        // StarbaseAndStarbasePlayerMut expansion
+        let starbase = next_account(&mut iter)?;
+        let starbase_player = next_account(&mut iter)?;
+
+        // GameAndGameState expansion
+        let game_id = next_account(&mut iter)?;
+        let game_state = next_account(&mut iter)?;
 
         Some(UpdateShipEscrowInstructionAccounts {
             old_ship,
             next,
-            starbase_and_starbase_player,
-            game_accounts,
+            starbase,
+            starbase_player,
+            game_id,
+            game_state,
         })
     }
 }

@@ -5,11 +5,11 @@ This document outlines the complete patching strategy for expanding composite ac
 
 ## Progress Summary
 - **Total instruction files**: 106
-- **Completed patches**: 9 (covering 56 files)
-- **Remaining patches**: 7 (covering 50 files)
+- **Completed patches**: 10 (covering 62 files)
+- **Remaining patches**: 6 (covering 44 files)
 - **Estimated total patches**: 16
 
-## Completed Patches (01-09)
+## Completed Patches (01-10)
 
 ### Patch 01: Accounts
 - **Files**: 1 (fleet.rs)
@@ -141,9 +141,26 @@ This document outlines the complete patching strategy for expanding composite ac
 - **Priority**: 🟡 Medium - Crew management operations
 - **Status**: ✅ Complete (242 lines)
 
+### Patch 10: Ship Escrow & Management
+- **Files**: 6
+  - add_ship_escrow.rs
+  - remove_ship_escrow.rs
+  - update_ship_escrow.rs
+  - remove_invalid_ship_escrow.rs
+  - update_ship.rs
+  - invalidate_ship.rs
+- **Composite accounts**:
+  - `StarbaseAndStarbasePlayerMut` → starbase, starbase_player
+  - `GameAndGameStateAndProfile` → key, profile, profile_faction, game_id, game_state
+  - `GameAndGameState` → game_id, game_state (update_ship_escrow only)
+  - `ActiveOrInactiveGameAndProfile` → key, profile, game_id (update_ship & invalidate_ship)
+- **Complexity**: Medium
+- **Priority**: 🟡 Medium - Ship escrow management operations
+- **Status**: ✅ Complete (323 lines)
+
 ---
 
-## Remaining Patches (10-16)
+## Remaining Patches (11-16)
 
 ### Priority 1: Core Gameplay (High Priority)
 
@@ -162,21 +179,6 @@ This document outlines the complete patching strategy for expanding composite ac
 ---
 
 ### Priority 2: Frequently Used Operations (Medium Priority)
-
-#### Patch 10: Ship Escrow & Management
-- **Files**: ~6
-  - add_ship_escrow.rs
-  - remove_ship_escrow.rs
-  - update_ship_escrow.rs
-  - remove_invalid_ship_escrow.rs
-  - update_ship.rs
-  - invalidate_ship.rs
-- **Composite accounts**:
-  - `StarbaseMutAndStarbasePlayer`
-  - `GameAndGameStateAndProfile`
-- **Complexity**: Medium
-- **Priority**: 🟡 Medium
-- **Status**: 🔲 Pending
 
 #### Patch 12: Rental System
 - **Files**: ~3
