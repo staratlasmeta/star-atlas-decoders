@@ -12,7 +12,13 @@ pub struct CreateFleet {
 
 #[derive(Debug, PartialEq, Eq, Clone, Hash, serde::Serialize, serde::Deserialize)]
 pub struct CreateFleetInstructionAccounts {
-    pub game_accounts_and_profile: solana_pubkey::Pubkey,
+    // GameAndGameStateAndProfile expansion
+    pub key: solana_pubkey::Pubkey,
+    pub profile: solana_pubkey::Pubkey,
+    pub profile_faction: solana_pubkey::Pubkey,
+    pub game_id: solana_pubkey::Pubkey,
+    pub game_state: solana_pubkey::Pubkey,
+    // Direct accounts
     pub funder: solana_pubkey::Pubkey,
     pub fleet: solana_pubkey::Pubkey,
     pub fleet_ships: solana_pubkey::Pubkey,
@@ -20,7 +26,10 @@ pub struct CreateFleetInstructionAccounts {
     pub fuel_tank: solana_pubkey::Pubkey,
     pub ammo_bank: solana_pubkey::Pubkey,
     pub ship: solana_pubkey::Pubkey,
-    pub starbase_and_starbase_player: solana_pubkey::Pubkey,
+    // StarbaseAndStarbasePlayerMut expansion
+    pub starbase: solana_pubkey::Pubkey,
+    pub starbase_player: solana_pubkey::Pubkey,
+    // Direct accounts
     pub cargo_stats_definition: solana_pubkey::Pubkey,
     pub cargo_program: solana_pubkey::Pubkey,
     pub system_program: solana_pubkey::Pubkey,
@@ -33,7 +42,15 @@ impl carbon_core::deserialize::ArrangeAccounts for CreateFleet {
         accounts: &[solana_instruction::AccountMeta],
     ) -> Option<Self::ArrangedAccounts> {
         let mut iter = accounts.iter();
-        let game_accounts_and_profile = next_account(&mut iter)?;
+
+        // GameAndGameStateAndProfile expansion
+        let key = next_account(&mut iter)?;
+        let profile = next_account(&mut iter)?;
+        let profile_faction = next_account(&mut iter)?;
+        let game_id = next_account(&mut iter)?;
+        let game_state = next_account(&mut iter)?;
+
+        // Direct accounts
         let funder = next_account(&mut iter)?;
         let fleet = next_account(&mut iter)?;
         let fleet_ships = next_account(&mut iter)?;
@@ -41,13 +58,22 @@ impl carbon_core::deserialize::ArrangeAccounts for CreateFleet {
         let fuel_tank = next_account(&mut iter)?;
         let ammo_bank = next_account(&mut iter)?;
         let ship = next_account(&mut iter)?;
-        let starbase_and_starbase_player = next_account(&mut iter)?;
+
+        // StarbaseAndStarbasePlayerMut expansion
+        let starbase = next_account(&mut iter)?;
+        let starbase_player = next_account(&mut iter)?;
+
+        // Direct accounts
         let cargo_stats_definition = next_account(&mut iter)?;
         let cargo_program = next_account(&mut iter)?;
         let system_program = next_account(&mut iter)?;
 
         Some(CreateFleetInstructionAccounts {
-            game_accounts_and_profile,
+            key,
+            profile,
+            profile_faction,
+            game_id,
+            game_state,
             funder,
             fleet,
             fleet_ships,
@@ -55,7 +81,8 @@ impl carbon_core::deserialize::ArrangeAccounts for CreateFleet {
             fuel_tank,
             ammo_bank,
             ship,
-            starbase_and_starbase_player,
+            starbase,
+            starbase_player,
             cargo_stats_definition,
             cargo_program,
             system_program,

@@ -1,0 +1,777 @@
+diff --git a/src/instructions/close_upgrade_process.rs b/src/instructions/close_upgrade_process.rs
+index 5a0b712..922a6fe 100644
+--- a/src/instructions/close_upgrade_process.rs
++++ b/src/instructions/close_upgrade_process.rs
+@@ -13,12 +13,21 @@ pub struct CloseUpgradeProcess {
+ #[derive(Debug, PartialEq, Eq, Clone, Hash, serde::Serialize, serde::Deserialize)]
+ pub struct CloseUpgradeProcessInstructionAccounts {
+     pub funds_to: solana_pubkey::Pubkey,
+-    pub starbase_and_starbase_player: solana_pubkey::Pubkey,
++    // StarbaseMutAndStarbasePlayer expansion
++    pub starbase: solana_pubkey::Pubkey,
++    pub starbase_player: solana_pubkey::Pubkey,
++    // Direct accounts
+     pub resource_crafting_instance: solana_pubkey::Pubkey,
+     pub resource_crafting_process: solana_pubkey::Pubkey,
+     pub resource_recipe: solana_pubkey::Pubkey,
+     pub resource_crafting_facility: solana_pubkey::Pubkey,
+-    pub game_accounts_and_profile: solana_pubkey::Pubkey,
++    // GameAndGameStateAndProfile expansion
++    pub key: solana_pubkey::Pubkey,
++    pub profile: solana_pubkey::Pubkey,
++    pub profile_faction: solana_pubkey::Pubkey,
++    pub game_id: solana_pubkey::Pubkey,
++    pub game_state: solana_pubkey::Pubkey,
++    // Direct account
+     pub crafting_program: solana_pubkey::Pubkey,
+ }
+ 
+@@ -30,22 +39,40 @@ impl carbon_core::deserialize::ArrangeAccounts for CloseUpgradeProcess {
+     ) -> Option<Self::ArrangedAccounts> {
+         let mut iter = accounts.iter();
+         let funds_to = next_account(&mut iter)?;
+-        let starbase_and_starbase_player = next_account(&mut iter)?;
++
++        // StarbaseMutAndStarbasePlayer expansion
++        let starbase = next_account(&mut iter)?;
++        let starbase_player = next_account(&mut iter)?;
++
++        // Direct accounts
+         let resource_crafting_instance = next_account(&mut iter)?;
+         let resource_crafting_process = next_account(&mut iter)?;
+         let resource_recipe = next_account(&mut iter)?;
+         let resource_crafting_facility = next_account(&mut iter)?;
+-        let game_accounts_and_profile = next_account(&mut iter)?;
++
++        // GameAndGameStateAndProfile expansion
++        let key = next_account(&mut iter)?;
++        let profile = next_account(&mut iter)?;
++        let profile_faction = next_account(&mut iter)?;
++        let game_id = next_account(&mut iter)?;
++        let game_state = next_account(&mut iter)?;
++
++        // Direct account
+         let crafting_program = next_account(&mut iter)?;
+ 
+         Some(CloseUpgradeProcessInstructionAccounts {
+             funds_to,
+-            starbase_and_starbase_player,
++            starbase,
++            starbase_player,
+             resource_crafting_instance,
+             resource_crafting_process,
+             resource_recipe,
+             resource_crafting_facility,
+-            game_accounts_and_profile,
++            key,
++            profile,
++            profile_faction,
++            game_id,
++            game_state,
+             crafting_program,
+         })
+     }
+diff --git a/src/instructions/complete_starbase_upgrade.rs b/src/instructions/complete_starbase_upgrade.rs
+index 956b940..aa1970d 100644
+--- a/src/instructions/complete_starbase_upgrade.rs
++++ b/src/instructions/complete_starbase_upgrade.rs
+@@ -13,13 +13,22 @@ pub struct CompleteStarbaseUpgrade {
+ #[derive(Debug, PartialEq, Eq, Clone, Hash, serde::Serialize, serde::Deserialize)]
+ pub struct CompleteStarbaseUpgradeInstructionAccounts {
+     pub funder: solana_pubkey::Pubkey,
+-    pub starbase_and_starbase_player: solana_pubkey::Pubkey,
++    // StarbaseMutAndStarbasePlayer expansion
++    pub starbase: solana_pubkey::Pubkey,
++    pub starbase_player: solana_pubkey::Pubkey,
++    // Direct accounts
+     pub crafting_facility: solana_pubkey::Pubkey,
+     pub upgrade_facility: solana_pubkey::Pubkey,
+     pub upgrade_recipe: solana_pubkey::Pubkey,
+     pub new_recipe_category: solana_pubkey::Pubkey,
+     pub crafting_domain: solana_pubkey::Pubkey,
+-    pub game_accounts_and_profile: solana_pubkey::Pubkey,
++    // GameAndGameStateAndProfile expansion
++    pub key: solana_pubkey::Pubkey,
++    pub profile: solana_pubkey::Pubkey,
++    pub profile_faction: solana_pubkey::Pubkey,
++    pub game_id: solana_pubkey::Pubkey,
++    pub game_state: solana_pubkey::Pubkey,
++    // Direct accounts
+     pub crafting_program: solana_pubkey::Pubkey,
+     pub system_program: solana_pubkey::Pubkey,
+ }
+@@ -32,25 +41,43 @@ impl carbon_core::deserialize::ArrangeAccounts for CompleteStarbaseUpgrade {
+     ) -> Option<Self::ArrangedAccounts> {
+         let mut iter = accounts.iter();
+         let funder = next_account(&mut iter)?;
+-        let starbase_and_starbase_player = next_account(&mut iter)?;
++
++        // StarbaseMutAndStarbasePlayer expansion
++        let starbase = next_account(&mut iter)?;
++        let starbase_player = next_account(&mut iter)?;
++
++        // Direct accounts
+         let crafting_facility = next_account(&mut iter)?;
+         let upgrade_facility = next_account(&mut iter)?;
+         let upgrade_recipe = next_account(&mut iter)?;
+         let new_recipe_category = next_account(&mut iter)?;
+         let crafting_domain = next_account(&mut iter)?;
+-        let game_accounts_and_profile = next_account(&mut iter)?;
++
++        // GameAndGameStateAndProfile expansion
++        let key = next_account(&mut iter)?;
++        let profile = next_account(&mut iter)?;
++        let profile_faction = next_account(&mut iter)?;
++        let game_id = next_account(&mut iter)?;
++        let game_state = next_account(&mut iter)?;
++
++        // Direct accounts
+         let crafting_program = next_account(&mut iter)?;
+         let system_program = next_account(&mut iter)?;
+ 
+         Some(CompleteStarbaseUpgradeInstructionAccounts {
+             funder,
+-            starbase_and_starbase_player,
++            starbase,
++            starbase_player,
+             crafting_facility,
+             upgrade_facility,
+             upgrade_recipe,
+             new_recipe_category,
+             crafting_domain,
+-            game_accounts_and_profile,
++            key,
++            profile,
++            profile_faction,
++            game_id,
++            game_state,
+             crafting_program,
+             system_program,
+         })
+diff --git a/src/instructions/create_fleet.rs b/src/instructions/create_fleet.rs
+index 6f6c053..8ddc515 100644
+--- a/src/instructions/create_fleet.rs
++++ b/src/instructions/create_fleet.rs
+@@ -12,7 +12,13 @@ pub struct CreateFleet {
+ 
+ #[derive(Debug, PartialEq, Eq, Clone, Hash, serde::Serialize, serde::Deserialize)]
+ pub struct CreateFleetInstructionAccounts {
+-    pub game_accounts_and_profile: solana_pubkey::Pubkey,
++    // GameAndGameStateAndProfile expansion
++    pub key: solana_pubkey::Pubkey,
++    pub profile: solana_pubkey::Pubkey,
++    pub profile_faction: solana_pubkey::Pubkey,
++    pub game_id: solana_pubkey::Pubkey,
++    pub game_state: solana_pubkey::Pubkey,
++    // Direct accounts
+     pub funder: solana_pubkey::Pubkey,
+     pub fleet: solana_pubkey::Pubkey,
+     pub fleet_ships: solana_pubkey::Pubkey,
+@@ -20,7 +26,10 @@ pub struct CreateFleetInstructionAccounts {
+     pub fuel_tank: solana_pubkey::Pubkey,
+     pub ammo_bank: solana_pubkey::Pubkey,
+     pub ship: solana_pubkey::Pubkey,
+-    pub starbase_and_starbase_player: solana_pubkey::Pubkey,
++    // StarbaseAndStarbasePlayerMut expansion
++    pub starbase: solana_pubkey::Pubkey,
++    pub starbase_player: solana_pubkey::Pubkey,
++    // Direct accounts
+     pub cargo_stats_definition: solana_pubkey::Pubkey,
+     pub cargo_program: solana_pubkey::Pubkey,
+     pub system_program: solana_pubkey::Pubkey,
+@@ -33,7 +42,15 @@ impl carbon_core::deserialize::ArrangeAccounts for CreateFleet {
+         accounts: &[solana_instruction::AccountMeta],
+     ) -> Option<Self::ArrangedAccounts> {
+         let mut iter = accounts.iter();
+-        let game_accounts_and_profile = next_account(&mut iter)?;
++
++        // GameAndGameStateAndProfile expansion
++        let key = next_account(&mut iter)?;
++        let profile = next_account(&mut iter)?;
++        let profile_faction = next_account(&mut iter)?;
++        let game_id = next_account(&mut iter)?;
++        let game_state = next_account(&mut iter)?;
++
++        // Direct accounts
+         let funder = next_account(&mut iter)?;
+         let fleet = next_account(&mut iter)?;
+         let fleet_ships = next_account(&mut iter)?;
+@@ -41,13 +58,22 @@ impl carbon_core::deserialize::ArrangeAccounts for CreateFleet {
+         let fuel_tank = next_account(&mut iter)?;
+         let ammo_bank = next_account(&mut iter)?;
+         let ship = next_account(&mut iter)?;
+-        let starbase_and_starbase_player = next_account(&mut iter)?;
++
++        // StarbaseAndStarbasePlayerMut expansion
++        let starbase = next_account(&mut iter)?;
++        let starbase_player = next_account(&mut iter)?;
++
++        // Direct accounts
+         let cargo_stats_definition = next_account(&mut iter)?;
+         let cargo_program = next_account(&mut iter)?;
+         let system_program = next_account(&mut iter)?;
+ 
+         Some(CreateFleetInstructionAccounts {
+-            game_accounts_and_profile,
++            key,
++            profile,
++            profile_faction,
++            game_id,
++            game_state,
+             funder,
+             fleet,
+             fleet_ships,
+@@ -55,7 +81,8 @@ impl carbon_core::deserialize::ArrangeAccounts for CreateFleet {
+             fuel_tank,
+             ammo_bank,
+             ship,
+-            starbase_and_starbase_player,
++            starbase,
++            starbase_player,
+             cargo_stats_definition,
+             cargo_program,
+             system_program,
+diff --git a/src/instructions/create_starbase_upgrade_resource_process.rs b/src/instructions/create_starbase_upgrade_resource_process.rs
+index e0f3cb7..66ff5ce 100644
+--- a/src/instructions/create_starbase_upgrade_resource_process.rs
++++ b/src/instructions/create_starbase_upgrade_resource_process.rs
+@@ -13,13 +13,22 @@ pub struct CreateStarbaseUpgradeResourceProcess {
+ #[derive(Debug, PartialEq, Eq, Clone, Hash, serde::Serialize, serde::Deserialize)]
+ pub struct CreateStarbaseUpgradeResourceProcessInstructionAccounts {
+     pub funder: solana_pubkey::Pubkey,
+-    pub starbase_and_starbase_player: solana_pubkey::Pubkey,
++    // StarbaseMutAndStarbasePlayer expansion
++    pub starbase: solana_pubkey::Pubkey,
++    pub starbase_player: solana_pubkey::Pubkey,
++    // Direct accounts
+     pub crafting_instance: solana_pubkey::Pubkey,
+     pub upgrade_facility: solana_pubkey::Pubkey,
+     pub crafting_process: solana_pubkey::Pubkey,
+     pub crafting_recipe: solana_pubkey::Pubkey,
+     pub crafting_domain: solana_pubkey::Pubkey,
+-    pub game_accounts_and_profile: solana_pubkey::Pubkey,
++    // GameAndGameStateAndProfile expansion
++    pub key: solana_pubkey::Pubkey,
++    pub profile: solana_pubkey::Pubkey,
++    pub profile_faction: solana_pubkey::Pubkey,
++    pub game_id: solana_pubkey::Pubkey,
++    pub game_state: solana_pubkey::Pubkey,
++    // Direct accounts
+     pub crafting_program: solana_pubkey::Pubkey,
+     pub system_program: solana_pubkey::Pubkey,
+ }
+@@ -32,25 +41,43 @@ impl carbon_core::deserialize::ArrangeAccounts for CreateStarbaseUpgradeResource
+     ) -> Option<Self::ArrangedAccounts> {
+         let mut iter = accounts.iter();
+         let funder = next_account(&mut iter)?;
+-        let starbase_and_starbase_player = next_account(&mut iter)?;
++
++        // StarbaseMutAndStarbasePlayer expansion
++        let starbase = next_account(&mut iter)?;
++        let starbase_player = next_account(&mut iter)?;
++
++        // Direct accounts
+         let crafting_instance = next_account(&mut iter)?;
+         let upgrade_facility = next_account(&mut iter)?;
+         let crafting_process = next_account(&mut iter)?;
+         let crafting_recipe = next_account(&mut iter)?;
+         let crafting_domain = next_account(&mut iter)?;
+-        let game_accounts_and_profile = next_account(&mut iter)?;
++
++        // GameAndGameStateAndProfile expansion
++        let key = next_account(&mut iter)?;
++        let profile = next_account(&mut iter)?;
++        let profile_faction = next_account(&mut iter)?;
++        let game_id = next_account(&mut iter)?;
++        let game_state = next_account(&mut iter)?;
++
++        // Direct accounts
+         let crafting_program = next_account(&mut iter)?;
+         let system_program = next_account(&mut iter)?;
+ 
+         Some(CreateStarbaseUpgradeResourceProcessInstructionAccounts {
+             funder,
+-            starbase_and_starbase_player,
++            starbase,
++            starbase_player,
+             crafting_instance,
+             upgrade_facility,
+             crafting_process,
+             crafting_recipe,
+             crafting_domain,
+-            game_accounts_and_profile,
++            key,
++            profile,
++            profile_faction,
++            game_id,
++            game_state,
+             crafting_program,
+             system_program,
+         })
+diff --git a/src/instructions/deposit_starbase_upkeep_resource.rs b/src/instructions/deposit_starbase_upkeep_resource.rs
+index 1a3fe5d..ad9df09 100644
+--- a/src/instructions/deposit_starbase_upkeep_resource.rs
++++ b/src/instructions/deposit_starbase_upkeep_resource.rs
+@@ -13,15 +13,28 @@ pub struct DepositStarbaseUpkeepResource {
+ #[derive(Debug, PartialEq, Eq, Clone, Hash, serde::Serialize, serde::Deserialize)]
+ pub struct DepositStarbaseUpkeepResourceInstructionAccounts {
+     pub funds_to: solana_pubkey::Pubkey,
+-    pub starbase_and_starbase_player: solana_pubkey::Pubkey,
++    // StarbaseMutAndStarbasePlayer expansion
++    pub starbase: solana_pubkey::Pubkey,
++    pub starbase_player: solana_pubkey::Pubkey,
++    // Direct accounts
+     pub cargo_pod_from: solana_pubkey::Pubkey,
+     pub cargo_type: solana_pubkey::Pubkey,
+     pub cargo_stats_definition: solana_pubkey::Pubkey,
+     pub token_from: solana_pubkey::Pubkey,
+     pub token_mint: solana_pubkey::Pubkey,
+-    pub game_accounts_and_profile: solana_pubkey::Pubkey,
++    // GameAndGameStateAndProfile expansion
++    pub key: solana_pubkey::Pubkey,
++    pub profile: solana_pubkey::Pubkey,
++    pub profile_faction: solana_pubkey::Pubkey,
++    pub game_id: solana_pubkey::Pubkey,
++    pub game_state: solana_pubkey::Pubkey,
++    // Direct accounts
+     pub resource_recipe: solana_pubkey::Pubkey,
+-    pub loyalty_points_accounts: solana_pubkey::Pubkey,
++    // PointsModificationAccounts expansion
++    pub loyalty_user_points_account: solana_pubkey::Pubkey,
++    pub loyalty_points_category: solana_pubkey::Pubkey,
++    pub loyalty_points_modifier_account: solana_pubkey::Pubkey,
++    // Direct accounts
+     pub progression_config: solana_pubkey::Pubkey,
+     pub points_program: solana_pubkey::Pubkey,
+     pub cargo_program: solana_pubkey::Pubkey,
+@@ -36,15 +49,34 @@ impl carbon_core::deserialize::ArrangeAccounts for DepositStarbaseUpkeepResource
+     ) -> Option<Self::ArrangedAccounts> {
+         let mut iter = accounts.iter();
+         let funds_to = next_account(&mut iter)?;
+-        let starbase_and_starbase_player = next_account(&mut iter)?;
++
++        // StarbaseMutAndStarbasePlayer expansion
++        let starbase = next_account(&mut iter)?;
++        let starbase_player = next_account(&mut iter)?;
++
++        // Direct accounts
+         let cargo_pod_from = next_account(&mut iter)?;
+         let cargo_type = next_account(&mut iter)?;
+         let cargo_stats_definition = next_account(&mut iter)?;
+         let token_from = next_account(&mut iter)?;
+         let token_mint = next_account(&mut iter)?;
+-        let game_accounts_and_profile = next_account(&mut iter)?;
++
++        // GameAndGameStateAndProfile expansion
++        let key = next_account(&mut iter)?;
++        let profile = next_account(&mut iter)?;
++        let profile_faction = next_account(&mut iter)?;
++        let game_id = next_account(&mut iter)?;
++        let game_state = next_account(&mut iter)?;
++
++        // Direct account
+         let resource_recipe = next_account(&mut iter)?;
+-        let loyalty_points_accounts = next_account(&mut iter)?;
++
++        // PointsModificationAccounts expansion
++        let loyalty_user_points_account = next_account(&mut iter)?;
++        let loyalty_points_category = next_account(&mut iter)?;
++        let loyalty_points_modifier_account = next_account(&mut iter)?;
++
++        // Direct accounts
+         let progression_config = next_account(&mut iter)?;
+         let points_program = next_account(&mut iter)?;
+         let cargo_program = next_account(&mut iter)?;
+@@ -52,15 +84,22 @@ impl carbon_core::deserialize::ArrangeAccounts for DepositStarbaseUpkeepResource
+ 
+         Some(DepositStarbaseUpkeepResourceInstructionAccounts {
+             funds_to,
+-            starbase_and_starbase_player,
++            starbase,
++            starbase_player,
+             cargo_pod_from,
+             cargo_type,
+             cargo_stats_definition,
+             token_from,
+             token_mint,
+-            game_accounts_and_profile,
++            key,
++            profile,
++            profile_faction,
++            game_id,
++            game_state,
+             resource_recipe,
+-            loyalty_points_accounts,
++            loyalty_user_points_account,
++            loyalty_points_category,
++            loyalty_points_modifier_account,
+             progression_config,
+             points_program,
+             cargo_program,
+diff --git a/src/instructions/disband_fleet.rs b/src/instructions/disband_fleet.rs
+index 2b88f2e..c93d6a9 100644
+--- a/src/instructions/disband_fleet.rs
++++ b/src/instructions/disband_fleet.rs
+@@ -12,7 +12,13 @@ pub struct DisbandFleet {
+ 
+ #[derive(Debug, PartialEq, Eq, Clone, Hash, serde::Serialize, serde::Deserialize)]
+ pub struct DisbandFleetInstructionAccounts {
+-    pub game_accounts_and_profile: solana_pubkey::Pubkey,
++    // GameAndGameStateAndProfile expansion
++    pub key: solana_pubkey::Pubkey,
++    pub profile: solana_pubkey::Pubkey,
++    pub profile_faction: solana_pubkey::Pubkey,
++    pub game_id: solana_pubkey::Pubkey,
++    pub game_state: solana_pubkey::Pubkey,
++    // Direct accounts
+     pub funder: solana_pubkey::Pubkey,
+     pub disbanded_fleet: solana_pubkey::Pubkey,
+     pub fleet: solana_pubkey::Pubkey,
+@@ -20,7 +26,10 @@ pub struct DisbandFleetInstructionAccounts {
+     pub cargo_hold: solana_pubkey::Pubkey,
+     pub fuel_tank: solana_pubkey::Pubkey,
+     pub ammo_bank: solana_pubkey::Pubkey,
+-    pub starbase_and_starbase_player: solana_pubkey::Pubkey,
++    // StarbaseAndStarbasePlayerMut expansion
++    pub starbase: solana_pubkey::Pubkey,
++    pub starbase_player: solana_pubkey::Pubkey,
++    // Direct accounts
+     pub cargo_program: solana_pubkey::Pubkey,
+     pub system_program: solana_pubkey::Pubkey,
+ }
+@@ -32,7 +41,15 @@ impl carbon_core::deserialize::ArrangeAccounts for DisbandFleet {
+         accounts: &[solana_instruction::AccountMeta],
+     ) -> Option<Self::ArrangedAccounts> {
+         let mut iter = accounts.iter();
+-        let game_accounts_and_profile = next_account(&mut iter)?;
++
++        // GameAndGameStateAndProfile expansion
++        let key = next_account(&mut iter)?;
++        let profile = next_account(&mut iter)?;
++        let profile_faction = next_account(&mut iter)?;
++        let game_id = next_account(&mut iter)?;
++        let game_state = next_account(&mut iter)?;
++
++        // Direct accounts
+         let funder = next_account(&mut iter)?;
+         let disbanded_fleet = next_account(&mut iter)?;
+         let fleet = next_account(&mut iter)?;
+@@ -40,12 +57,21 @@ impl carbon_core::deserialize::ArrangeAccounts for DisbandFleet {
+         let cargo_hold = next_account(&mut iter)?;
+         let fuel_tank = next_account(&mut iter)?;
+         let ammo_bank = next_account(&mut iter)?;
+-        let starbase_and_starbase_player = next_account(&mut iter)?;
++
++        // StarbaseAndStarbasePlayerMut expansion
++        let starbase = next_account(&mut iter)?;
++        let starbase_player = next_account(&mut iter)?;
++
++        // Direct accounts
+         let cargo_program = next_account(&mut iter)?;
+         let system_program = next_account(&mut iter)?;
+ 
+         Some(DisbandFleetInstructionAccounts {
+-            game_accounts_and_profile,
++            key,
++            profile,
++            profile_faction,
++            game_id,
++            game_state,
+             funder,
+             disbanded_fleet,
+             fleet,
+@@ -53,7 +79,8 @@ impl carbon_core::deserialize::ArrangeAccounts for DisbandFleet {
+             cargo_hold,
+             fuel_tank,
+             ammo_bank,
+-            starbase_and_starbase_player,
++            starbase,
++            starbase_player,
+             cargo_program,
+             system_program,
+         })
+diff --git a/src/instructions/disbanded_fleet_to_escrow.rs b/src/instructions/disbanded_fleet_to_escrow.rs
+index d0622ec..c04f1bb 100644
+--- a/src/instructions/disbanded_fleet_to_escrow.rs
++++ b/src/instructions/disbanded_fleet_to_escrow.rs
+@@ -12,11 +12,20 @@ pub struct DisbandedFleetToEscrow {
+ 
+ #[derive(Debug, PartialEq, Eq, Clone, Hash, serde::Serialize, serde::Deserialize)]
+ pub struct DisbandedFleetToEscrowInstructionAccounts {
+-    pub game_accounts_and_profile: solana_pubkey::Pubkey,
++    // GameAndGameStateAndProfile expansion
++    pub key: solana_pubkey::Pubkey,
++    pub profile: solana_pubkey::Pubkey,
++    pub profile_faction: solana_pubkey::Pubkey,
++    pub game_id: solana_pubkey::Pubkey,
++    pub game_state: solana_pubkey::Pubkey,
++    // Direct accounts
+     pub funder: solana_pubkey::Pubkey,
+     pub disbanded_fleet: solana_pubkey::Pubkey,
+     pub fleet_ships: solana_pubkey::Pubkey,
+-    pub starbase_and_starbase_player: solana_pubkey::Pubkey,
++    // StarbaseAndStarbasePlayerMut expansion
++    pub starbase: solana_pubkey::Pubkey,
++    pub starbase_player: solana_pubkey::Pubkey,
++    // Direct accounts
+     pub ship: solana_pubkey::Pubkey,
+     pub system_program: solana_pubkey::Pubkey,
+ }
+@@ -28,20 +37,38 @@ impl carbon_core::deserialize::ArrangeAccounts for DisbandedFleetToEscrow {
+         accounts: &[solana_instruction::AccountMeta],
+     ) -> Option<Self::ArrangedAccounts> {
+         let mut iter = accounts.iter();
+-        let game_accounts_and_profile = next_account(&mut iter)?;
++
++        // GameAndGameStateAndProfile expansion
++        let key = next_account(&mut iter)?;
++        let profile = next_account(&mut iter)?;
++        let profile_faction = next_account(&mut iter)?;
++        let game_id = next_account(&mut iter)?;
++        let game_state = next_account(&mut iter)?;
++
++        // Direct accounts
+         let funder = next_account(&mut iter)?;
+         let disbanded_fleet = next_account(&mut iter)?;
+         let fleet_ships = next_account(&mut iter)?;
+-        let starbase_and_starbase_player = next_account(&mut iter)?;
++
++        // StarbaseAndStarbasePlayerMut expansion
++        let starbase = next_account(&mut iter)?;
++        let starbase_player = next_account(&mut iter)?;
++
++        // Direct accounts
+         let ship = next_account(&mut iter)?;
+         let system_program = next_account(&mut iter)?;
+ 
+         Some(DisbandedFleetToEscrowInstructionAccounts {
+-            game_accounts_and_profile,
++            key,
++            profile,
++            profile_faction,
++            game_id,
++            game_state,
+             funder,
+             disbanded_fleet,
+             fleet_ships,
+-            starbase_and_starbase_player,
++            starbase,
++            starbase_player,
+             ship,
+             system_program,
+         })
+diff --git a/src/instructions/start_starbase_upgrade.rs b/src/instructions/start_starbase_upgrade.rs
+index ca1a93a..d591bc0 100644
+--- a/src/instructions/start_starbase_upgrade.rs
++++ b/src/instructions/start_starbase_upgrade.rs
+@@ -13,10 +13,19 @@ pub struct StartStarbaseUpgrade {
+ #[derive(Debug, PartialEq, Eq, Clone, Hash, serde::Serialize, serde::Deserialize)]
+ pub struct StartStarbaseUpgradeInstructionAccounts {
+     pub funder: solana_pubkey::Pubkey,
+-    pub starbase_and_starbase_player: solana_pubkey::Pubkey,
++    // StarbaseMutAndStarbasePlayer expansion
++    pub starbase: solana_pubkey::Pubkey,
++    pub starbase_player: solana_pubkey::Pubkey,
++    // Direct accounts
+     pub upgrade_facility: solana_pubkey::Pubkey,
+     pub upgrade_recipe: solana_pubkey::Pubkey,
+-    pub game_accounts_and_profile: solana_pubkey::Pubkey,
++    // GameAndGameStateAndProfile expansion
++    pub key: solana_pubkey::Pubkey,
++    pub profile: solana_pubkey::Pubkey,
++    pub profile_faction: solana_pubkey::Pubkey,
++    pub game_id: solana_pubkey::Pubkey,
++    pub game_state: solana_pubkey::Pubkey,
++    // Direct account
+     pub system_program: solana_pubkey::Pubkey,
+ }
+ 
+@@ -28,18 +37,36 @@ impl carbon_core::deserialize::ArrangeAccounts for StartStarbaseUpgrade {
+     ) -> Option<Self::ArrangedAccounts> {
+         let mut iter = accounts.iter();
+         let funder = next_account(&mut iter)?;
+-        let starbase_and_starbase_player = next_account(&mut iter)?;
++
++        // StarbaseMutAndStarbasePlayer expansion
++        let starbase = next_account(&mut iter)?;
++        let starbase_player = next_account(&mut iter)?;
++
++        // Direct accounts
+         let upgrade_facility = next_account(&mut iter)?;
+         let upgrade_recipe = next_account(&mut iter)?;
+-        let game_accounts_and_profile = next_account(&mut iter)?;
++
++        // GameAndGameStateAndProfile expansion
++        let key = next_account(&mut iter)?;
++        let profile = next_account(&mut iter)?;
++        let profile_faction = next_account(&mut iter)?;
++        let game_id = next_account(&mut iter)?;
++        let game_state = next_account(&mut iter)?;
++
++        // Direct account
+         let system_program = next_account(&mut iter)?;
+ 
+         Some(StartStarbaseUpgradeInstructionAccounts {
+             funder,
+-            starbase_and_starbase_player,
++            starbase,
++            starbase_player,
+             upgrade_facility,
+             upgrade_recipe,
+-            game_accounts_and_profile,
++            key,
++            profile,
++            profile_faction,
++            game_id,
++            game_state,
+             system_program,
+         })
+     }
+diff --git a/src/instructions/submit_starbase_upgrade_resource.rs b/src/instructions/submit_starbase_upgrade_resource.rs
+index d740f42..b2a9570 100644
+--- a/src/instructions/submit_starbase_upgrade_resource.rs
++++ b/src/instructions/submit_starbase_upgrade_resource.rs
+@@ -13,7 +13,10 @@ pub struct SubmitStarbaseUpgradeResource {
+ #[derive(Debug, PartialEq, Eq, Clone, Hash, serde::Serialize, serde::Deserialize)]
+ pub struct SubmitStarbaseUpgradeResourceInstructionAccounts {
+     pub funds_to: solana_pubkey::Pubkey,
+-    pub starbase_and_starbase_player: solana_pubkey::Pubkey,
++    // StarbaseMutAndStarbasePlayer expansion
++    pub starbase: solana_pubkey::Pubkey,
++    pub starbase_player: solana_pubkey::Pubkey,
++    // Direct accounts
+     pub resource_crafting_instance: solana_pubkey::Pubkey,
+     pub resource_crafting_process: solana_pubkey::Pubkey,
+     pub resource_crafting_facility: solana_pubkey::Pubkey,
+@@ -26,8 +29,17 @@ pub struct SubmitStarbaseUpgradeResourceInstructionAccounts {
+     pub token_from: solana_pubkey::Pubkey,
+     pub token_to: solana_pubkey::Pubkey,
+     pub token_mint: solana_pubkey::Pubkey,
+-    pub game_accounts_and_profile: solana_pubkey::Pubkey,
+-    pub loyalty_points_accounts: solana_pubkey::Pubkey,
++    // GameAndGameStateAndProfile expansion
++    pub key: solana_pubkey::Pubkey,
++    pub profile: solana_pubkey::Pubkey,
++    pub profile_faction: solana_pubkey::Pubkey,
++    pub game_id: solana_pubkey::Pubkey,
++    pub game_state: solana_pubkey::Pubkey,
++    // PointsModificationAccounts expansion
++    pub loyalty_user_points_account: solana_pubkey::Pubkey,
++    pub loyalty_points_category: solana_pubkey::Pubkey,
++    pub loyalty_points_modifier_account: solana_pubkey::Pubkey,
++    // Direct accounts
+     pub progression_config: solana_pubkey::Pubkey,
+     pub points_program: solana_pubkey::Pubkey,
+     pub crafting_program: solana_pubkey::Pubkey,
+@@ -43,7 +55,12 @@ impl carbon_core::deserialize::ArrangeAccounts for SubmitStarbaseUpgradeResource
+     ) -> Option<Self::ArrangedAccounts> {
+         let mut iter = accounts.iter();
+         let funds_to = next_account(&mut iter)?;
+-        let starbase_and_starbase_player = next_account(&mut iter)?;
++
++        // StarbaseMutAndStarbasePlayer expansion
++        let starbase = next_account(&mut iter)?;
++        let starbase_player = next_account(&mut iter)?;
++
++        // Direct accounts
+         let resource_crafting_instance = next_account(&mut iter)?;
+         let resource_crafting_process = next_account(&mut iter)?;
+         let resource_crafting_facility = next_account(&mut iter)?;
+@@ -56,8 +73,20 @@ impl carbon_core::deserialize::ArrangeAccounts for SubmitStarbaseUpgradeResource
+         let token_from = next_account(&mut iter)?;
+         let token_to = next_account(&mut iter)?;
+         let token_mint = next_account(&mut iter)?;
+-        let game_accounts_and_profile = next_account(&mut iter)?;
+-        let loyalty_points_accounts = next_account(&mut iter)?;
++
++        // GameAndGameStateAndProfile expansion
++        let key = next_account(&mut iter)?;
++        let profile = next_account(&mut iter)?;
++        let profile_faction = next_account(&mut iter)?;
++        let game_id = next_account(&mut iter)?;
++        let game_state = next_account(&mut iter)?;
++
++        // PointsModificationAccounts expansion
++        let loyalty_user_points_account = next_account(&mut iter)?;
++        let loyalty_points_category = next_account(&mut iter)?;
++        let loyalty_points_modifier_account = next_account(&mut iter)?;
++
++        // Direct accounts
+         let progression_config = next_account(&mut iter)?;
+         let points_program = next_account(&mut iter)?;
+         let crafting_program = next_account(&mut iter)?;
+@@ -66,7 +95,8 @@ impl carbon_core::deserialize::ArrangeAccounts for SubmitStarbaseUpgradeResource
+ 
+         Some(SubmitStarbaseUpgradeResourceInstructionAccounts {
+             funds_to,
+-            starbase_and_starbase_player,
++            starbase,
++            starbase_player,
+             resource_crafting_instance,
+             resource_crafting_process,
+             resource_crafting_facility,
+@@ -79,8 +109,14 @@ impl carbon_core::deserialize::ArrangeAccounts for SubmitStarbaseUpgradeResource
+             token_from,
+             token_to,
+             token_mint,
+-            game_accounts_and_profile,
+-            loyalty_points_accounts,
++            key,
++            profile,
++            profile_faction,
++            game_id,
++            game_state,
++            loyalty_user_points_account,
++            loyalty_points_category,
++            loyalty_points_modifier_account,
+             progression_config,
+             points_program,
+             crafting_program,
+diff --git a/src/instructions/sync_starbase_upgrade_ingredients.rs b/src/instructions/sync_starbase_upgrade_ingredients.rs
+index 281226c..96c962b 100644
+--- a/src/instructions/sync_starbase_upgrade_ingredients.rs
++++ b/src/instructions/sync_starbase_upgrade_ingredients.rs
+@@ -15,7 +15,13 @@ pub struct SyncStarbaseUpgradeIngredientsInstructionAccounts {
+     pub funder: solana_pubkey::Pubkey,
+     pub starbase: solana_pubkey::Pubkey,
+     pub upgrade_recipe: solana_pubkey::Pubkey,
+-    pub game_accounts_and_profile: solana_pubkey::Pubkey,
++    // GameAndGameStateAndProfile expansion
++    pub key: solana_pubkey::Pubkey,
++    pub profile: solana_pubkey::Pubkey,
++    pub profile_faction: solana_pubkey::Pubkey,
++    pub game_id: solana_pubkey::Pubkey,
++    pub game_state: solana_pubkey::Pubkey,
++    // Direct account
+     pub system_program: solana_pubkey::Pubkey,
+ }
+ 
+@@ -29,14 +35,26 @@ impl carbon_core::deserialize::ArrangeAccounts for SyncStarbaseUpgradeIngredient
+         let funder = next_account(&mut iter)?;
+         let starbase = next_account(&mut iter)?;
+         let upgrade_recipe = next_account(&mut iter)?;
+-        let game_accounts_and_profile = next_account(&mut iter)?;
++
++        // GameAndGameStateAndProfile expansion
++        let key = next_account(&mut iter)?;
++        let profile = next_account(&mut iter)?;
++        let profile_faction = next_account(&mut iter)?;
++        let game_id = next_account(&mut iter)?;
++        let game_state = next_account(&mut iter)?;
++
++        // Direct account
+         let system_program = next_account(&mut iter)?;
+ 
+         Some(SyncStarbaseUpgradeIngredientsInstructionAccounts {
+             funder,
+             starbase,
+             upgrade_recipe,
+-            game_accounts_and_profile,
++            key,
++            profile,
++            profile_faction,
++            game_id,
++            game_state,
+             system_program,
+         })
+     }

@@ -12,11 +12,20 @@ pub struct DisbandedFleetToEscrow {
 
 #[derive(Debug, PartialEq, Eq, Clone, Hash, serde::Serialize, serde::Deserialize)]
 pub struct DisbandedFleetToEscrowInstructionAccounts {
-    pub game_accounts_and_profile: solana_pubkey::Pubkey,
+    // GameAndGameStateAndProfile expansion
+    pub key: solana_pubkey::Pubkey,
+    pub profile: solana_pubkey::Pubkey,
+    pub profile_faction: solana_pubkey::Pubkey,
+    pub game_id: solana_pubkey::Pubkey,
+    pub game_state: solana_pubkey::Pubkey,
+    // Direct accounts
     pub funder: solana_pubkey::Pubkey,
     pub disbanded_fleet: solana_pubkey::Pubkey,
     pub fleet_ships: solana_pubkey::Pubkey,
-    pub starbase_and_starbase_player: solana_pubkey::Pubkey,
+    // StarbaseAndStarbasePlayerMut expansion
+    pub starbase: solana_pubkey::Pubkey,
+    pub starbase_player: solana_pubkey::Pubkey,
+    // Direct accounts
     pub ship: solana_pubkey::Pubkey,
     pub system_program: solana_pubkey::Pubkey,
 }
@@ -28,20 +37,38 @@ impl carbon_core::deserialize::ArrangeAccounts for DisbandedFleetToEscrow {
         accounts: &[solana_instruction::AccountMeta],
     ) -> Option<Self::ArrangedAccounts> {
         let mut iter = accounts.iter();
-        let game_accounts_and_profile = next_account(&mut iter)?;
+
+        // GameAndGameStateAndProfile expansion
+        let key = next_account(&mut iter)?;
+        let profile = next_account(&mut iter)?;
+        let profile_faction = next_account(&mut iter)?;
+        let game_id = next_account(&mut iter)?;
+        let game_state = next_account(&mut iter)?;
+
+        // Direct accounts
         let funder = next_account(&mut iter)?;
         let disbanded_fleet = next_account(&mut iter)?;
         let fleet_ships = next_account(&mut iter)?;
-        let starbase_and_starbase_player = next_account(&mut iter)?;
+
+        // StarbaseAndStarbasePlayerMut expansion
+        let starbase = next_account(&mut iter)?;
+        let starbase_player = next_account(&mut iter)?;
+
+        // Direct accounts
         let ship = next_account(&mut iter)?;
         let system_program = next_account(&mut iter)?;
 
         Some(DisbandedFleetToEscrowInstructionAccounts {
-            game_accounts_and_profile,
+            key,
+            profile,
+            profile_faction,
+            game_id,
+            game_state,
             funder,
             disbanded_fleet,
             fleet_ships,
-            starbase_and_starbase_player,
+            starbase,
+            starbase_player,
             ship,
             system_program,
         })

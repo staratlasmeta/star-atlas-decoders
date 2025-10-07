@@ -13,7 +13,10 @@ pub struct SubmitStarbaseUpgradeResource {
 #[derive(Debug, PartialEq, Eq, Clone, Hash, serde::Serialize, serde::Deserialize)]
 pub struct SubmitStarbaseUpgradeResourceInstructionAccounts {
     pub funds_to: solana_pubkey::Pubkey,
-    pub starbase_and_starbase_player: solana_pubkey::Pubkey,
+    // StarbaseMutAndStarbasePlayer expansion
+    pub starbase: solana_pubkey::Pubkey,
+    pub starbase_player: solana_pubkey::Pubkey,
+    // Direct accounts
     pub resource_crafting_instance: solana_pubkey::Pubkey,
     pub resource_crafting_process: solana_pubkey::Pubkey,
     pub resource_crafting_facility: solana_pubkey::Pubkey,
@@ -26,8 +29,17 @@ pub struct SubmitStarbaseUpgradeResourceInstructionAccounts {
     pub token_from: solana_pubkey::Pubkey,
     pub token_to: solana_pubkey::Pubkey,
     pub token_mint: solana_pubkey::Pubkey,
-    pub game_accounts_and_profile: solana_pubkey::Pubkey,
-    pub loyalty_points_accounts: solana_pubkey::Pubkey,
+    // GameAndGameStateAndProfile expansion
+    pub key: solana_pubkey::Pubkey,
+    pub profile: solana_pubkey::Pubkey,
+    pub profile_faction: solana_pubkey::Pubkey,
+    pub game_id: solana_pubkey::Pubkey,
+    pub game_state: solana_pubkey::Pubkey,
+    // PointsModificationAccounts expansion
+    pub loyalty_user_points_account: solana_pubkey::Pubkey,
+    pub loyalty_points_category: solana_pubkey::Pubkey,
+    pub loyalty_points_modifier_account: solana_pubkey::Pubkey,
+    // Direct accounts
     pub progression_config: solana_pubkey::Pubkey,
     pub points_program: solana_pubkey::Pubkey,
     pub crafting_program: solana_pubkey::Pubkey,
@@ -43,7 +55,12 @@ impl carbon_core::deserialize::ArrangeAccounts for SubmitStarbaseUpgradeResource
     ) -> Option<Self::ArrangedAccounts> {
         let mut iter = accounts.iter();
         let funds_to = next_account(&mut iter)?;
-        let starbase_and_starbase_player = next_account(&mut iter)?;
+
+        // StarbaseMutAndStarbasePlayer expansion
+        let starbase = next_account(&mut iter)?;
+        let starbase_player = next_account(&mut iter)?;
+
+        // Direct accounts
         let resource_crafting_instance = next_account(&mut iter)?;
         let resource_crafting_process = next_account(&mut iter)?;
         let resource_crafting_facility = next_account(&mut iter)?;
@@ -56,8 +73,20 @@ impl carbon_core::deserialize::ArrangeAccounts for SubmitStarbaseUpgradeResource
         let token_from = next_account(&mut iter)?;
         let token_to = next_account(&mut iter)?;
         let token_mint = next_account(&mut iter)?;
-        let game_accounts_and_profile = next_account(&mut iter)?;
-        let loyalty_points_accounts = next_account(&mut iter)?;
+
+        // GameAndGameStateAndProfile expansion
+        let key = next_account(&mut iter)?;
+        let profile = next_account(&mut iter)?;
+        let profile_faction = next_account(&mut iter)?;
+        let game_id = next_account(&mut iter)?;
+        let game_state = next_account(&mut iter)?;
+
+        // PointsModificationAccounts expansion
+        let loyalty_user_points_account = next_account(&mut iter)?;
+        let loyalty_points_category = next_account(&mut iter)?;
+        let loyalty_points_modifier_account = next_account(&mut iter)?;
+
+        // Direct accounts
         let progression_config = next_account(&mut iter)?;
         let points_program = next_account(&mut iter)?;
         let crafting_program = next_account(&mut iter)?;
@@ -66,7 +95,8 @@ impl carbon_core::deserialize::ArrangeAccounts for SubmitStarbaseUpgradeResource
 
         Some(SubmitStarbaseUpgradeResourceInstructionAccounts {
             funds_to,
-            starbase_and_starbase_player,
+            starbase,
+            starbase_player,
             resource_crafting_instance,
             resource_crafting_process,
             resource_crafting_facility,
@@ -79,8 +109,14 @@ impl carbon_core::deserialize::ArrangeAccounts for SubmitStarbaseUpgradeResource
             token_from,
             token_to,
             token_mint,
-            game_accounts_and_profile,
-            loyalty_points_accounts,
+            key,
+            profile,
+            profile_faction,
+            game_id,
+            game_state,
+            loyalty_user_points_account,
+            loyalty_points_category,
+            loyalty_points_modifier_account,
             progression_config,
             points_program,
             crafting_program,
