@@ -5,11 +5,11 @@ This document outlines the complete patching strategy for expanding composite ac
 
 ## Progress Summary
 - **Total instruction files**: 106
-- **Completed patches**: 6 (covering 38 files)
-- **Remaining patches**: 10 (covering 68 files)
+- **Completed patches**: 7 (covering 42 files)
+- **Remaining patches**: 9 (covering 64 files)
 - **Estimated total patches**: 16
 
-## Completed Patches (01-05)
+## Completed Patches (01-07)
 
 ### Patch 01: Accounts
 - **Files**: 1 (fleet.rs)
@@ -66,13 +66,7 @@ This document outlines the complete patching strategy for expanding composite ac
   - `PointsModificationAccounts` (in close_crafting_process.rs)
 - **Status**: ✅ Complete
 
----
-
-## Remaining Patches (06-16)
-
-### Priority 1: Core Gameplay (High Priority)
-
-#### Patch 06: Fleet Operations & State Transitions
+### Patch 06: Fleet Operations & State Transitions
 - **Files**: 15
   - create_fleet.rs
   - add_ship_to_fleet.rs
@@ -98,18 +92,25 @@ This document outlines the complete patching strategy for expanding composite ac
 - **Priority**: 🔴 High - Core fleet functionality
 - **Status**: ✅ Complete (805 lines)
 
-#### Patch 07: Fleet Cargo Operations
-- **Files**: ~4
+### Patch 07: Fleet Cargo Operations
+- **Files**: 4
   - deposit_cargo_to_fleet.rs
   - withdraw_cargo_from_fleet.rs
   - transfer_cargo_within_fleet.rs
   - set_next_ship.rs
 - **Composite accounts**:
-  - `GameAndGameStateAndFleetAndOwnerMut`
-  - `StarbaseMutAndStarbasePlayer`
+  - `GameAndGameStateAndFleetAndOwnerMut` → key, owning_profile, owning_profile_faction, fleet, game_id, game_state
+  - `StarbaseAndStarbasePlayer` → starbase, starbase_player (deposit & withdraw only)
+  - `ActiveOrInactiveGameAndProfile` → key, profile, game_id (set_next_ship only)
 - **Complexity**: Medium
 - **Priority**: 🔴 High - Frequently used operations
-- **Status**: 🔲 Pending
+- **Status**: ✅ Complete (226 lines)
+
+---
+
+## Remaining Patches (08-16)
+
+### Priority 1: Core Gameplay (High Priority)
 
 #### Patch 11: Scanning & Discovery
 - **Files**: ~3
@@ -276,9 +277,9 @@ This document outlines the complete patching strategy for expanding composite ac
 ## Execution Strategy
 
 ### Recommended Order
-1. **Patch 06** - Fleet Operations (core gameplay)
-2. **Patch 07** - Fleet Cargo (frequently used)
-3. **Patch 11** - Scanning & Discovery (core gameplay with XP)
+1. ~~**Patch 06** - Fleet Operations (core gameplay)~~ ✅ Complete
+2. ~~**Patch 07** - Fleet Cargo (frequently used)~~ ✅ Complete
+3. **Patch 11** - Scanning & Discovery (core gameplay with XP) - **NEXT**
 4. **Patch 08** - Starbase Cargo (frequently used)
 5. **Patch 09** - Crew Management
 6. **Patch 10** - Ship Escrow
@@ -304,11 +305,10 @@ These files appear to use only direct accounts (no composite expansions needed):
 - close_disbanded_fleet.rs
 - close_player_crew_record.rs
 - force_drop_fleet_cargo.rs
-- set_next_ship.rs
 - init_game.rs
 - register_sage_player_profile.rs
 
-**Total**: ~6 files
+**Total**: ~5 files
 
 ---
 
