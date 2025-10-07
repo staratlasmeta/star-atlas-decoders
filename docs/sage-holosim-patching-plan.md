@@ -5,12 +5,12 @@ This document outlines the complete patching strategy for expanding composite ac
 
 ## Progress Summary
 - **Total instruction files**: 124
-- **Completed patches**: 5 (covering 10 instruction files + 2 account files)
-- **Files needing composite expansions**: ~85 remaining
-- **Remaining patches**: ~12
+- **Completed patches**: 6 (covering 18 instruction files + 2 account files)
+- **Files needing composite expansions**: ~77 remaining
+- **Remaining patches**: ~11
 - **Estimated total patches**: ~17
 
-## Completed Patches (01-05)
+## Completed Patches (01-06)
 
 ### Patch 01: Disable Combat Log Events
 - **Files**: 2 (combat_log_event.rs, combat_resolved_event.rs) + mod.rs updates
@@ -62,30 +62,30 @@ This document outlines the complete patching strategy for expanding composite ac
 - **Priority**: 🔴 High - Core movement mechanics
 - **Status**: ✅ Complete (238 lines)
 
----
-
-## Remaining Patches (06-17)
-
-### Priority 2: Frequently Used Operations (Medium-High Priority)
-
-#### Patch 06: Starbase Operations
-- **Files**: ~9
+### Patch 06: Starbase Operations
+- **Files**: 8 (repair_starbase.rs deferred to Patch 10)
   - deposit_starbase_upkeep_resource.rs
+  - submit_starbase_upgrade_resource.rs
   - start_starbase_upgrade.rs
   - complete_starbase_upgrade.rs
-  - submit_starbase_upgrade_resource.rs
   - create_starbase_upgrade_resource_process.rs
   - close_upgrade_process.rs
   - sync_starbase_upgrade_ingredients.rs
-  - repair_starbase.rs
   - create_cargo_pod.rs
 - **Composite accounts**:
-  - `starbase_and_starbase_player` → StarbaseMutAndStarbasePlayer (2 accounts)
+  - `starbase_and_starbase_player` → StarbaseMutAndStarbasePlayer (2 accounts): starbase, starbase_player
   - `game_accounts_and_profile` → GameAndGameStateAndProfile (5 accounts): key, profile, profile_faction, game_id, game_state
-  - `loyalty_points_accounts` → PointsModificationAccounts (3 accounts) - for upkeep only
-- **Complexity**: Medium-High
+  - `loyalty_points_accounts` → PointsModificationAccounts (3 accounts): loyalty_user_points_account, loyalty_points_category, loyalty_points_modifier_account
+- **Complexity**: Medium-High (two files with loyalty points in addition to standard starbase pattern)
 - **Priority**: 🟡 Medium-High - Frequently used starbase management
-- **Status**: 🔲 Pending
+- **Status**: ✅ Complete (578 lines)
+- **Note**: repair_starbase.rs deferred to Patch 10 Combat Operations (uses `game_and_fleet_and_owner` composite)
+
+---
+
+## Remaining Patches (07-17)
+
+### Priority 2: Frequently Used Operations (Medium-High Priority)
 
 #### Patch 07: Crafting Instructions
 - **Files**: ~10
@@ -359,8 +359,8 @@ This document outlines the complete patching strategy for expanding composite ac
 3. ~~**Patch 03** - Scanning & Discovery~~ ✅ Complete
 4. ~~**Patch 04** - Mining Operations~~ ✅ Complete
 5. ~~**Patch 05** - Movement Instructions~~ ✅ Complete
-6. **Patch 06** - Starbase Operations - **NEXT**
-7. **Patch 07** - Crafting Instructions
+6. ~~**Patch 06** - Starbase Operations~~ ✅ Complete
+7. **Patch 07** - Crafting Instructions - **NEXT**
 8. **Patch 08** - Fleet Management
 9. **Patch 09** - Fleet Cargo Operations
 10. **Patch 10** - Combat Operations
