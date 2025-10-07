@@ -5,11 +5,11 @@ This document outlines the complete patching strategy for expanding composite ac
 
 ## Progress Summary
 - **Total instruction files**: 106
-- **Completed patches**: 7 (covering 42 files)
-- **Remaining patches**: 9 (covering 64 files)
+- **Completed patches**: 8 (covering 51 files)
+- **Remaining patches**: 8 (covering 55 files)
 - **Estimated total patches**: 16
 
-## Completed Patches (01-07)
+## Completed Patches (01-08)
 
 ### Patch 01: Accounts
 - **Files**: 1 (fleet.rs)
@@ -106,9 +106,29 @@ This document outlines the complete patching strategy for expanding composite ac
 - **Priority**: 🔴 High - Frequently used operations
 - **Status**: ✅ Complete (226 lines)
 
+### Patch 08: Starbase Cargo & Player Operations
+- **Files**: 9
+  - create_cargo_pod.rs
+  - remove_cargo_pod.rs
+  - close_starbase_cargo_token_account.rs
+  - deposit_cargo_to_game.rs
+  - withdraw_cargo_from_game.rs
+  - dev_deposit_cargo_to_game.rs
+  - transfer_cargo_at_starbase.rs
+  - register_starbase_player.rs
+  - sync_starbase_player.rs
+- **Composite accounts**:
+  - `StarbaseAndStarbasePlayer` → starbase, starbase_player (7 files)
+  - `GameAndGameStateAndProfile` → key, profile, profile_faction, game_id, game_state (6 files)
+  - `GameAndProfileAndFaction` → key, profile, profile_faction (dev_deposit_cargo_to_game only)
+  - `GameAndGameState` → game_id, game_state (register/sync starbase player)
+- **Complexity**: Medium
+- **Priority**: 🟡 Medium - Frequently used starbase operations
+- **Status**: ✅ Complete (527 lines)
+
 ---
 
-## Remaining Patches (08-16)
+## Remaining Patches (09-16)
 
 ### Priority 1: Core Gameplay (High Priority)
 
@@ -127,19 +147,6 @@ This document outlines the complete patching strategy for expanding composite ac
 ---
 
 ### Priority 2: Frequently Used Operations (Medium Priority)
-
-#### Patch 08: Starbase Cargo & Player Operations
-- **Files**: ~9
-- **Functional areas**:
-  - Cargo pods: create_cargo_pod, remove_cargo_pod, close_starbase_cargo_token_account
-  - Game cargo: deposit_cargo_to_game, withdraw_cargo_from_game, dev_deposit_cargo_to_game, transfer_cargo_at_starbase
-  - Player: register_starbase_player, sync_starbase_player
-- **Composite accounts**:
-  - `StarbaseMutAndStarbasePlayer`
-  - `GameAndGameStateAndProfile`
-- **Complexity**: Medium
-- **Priority**: 🟡 Medium - Frequently used
-- **Status**: 🔲 Pending
 
 #### Patch 09: Crew & Player Management
 - **Files**: ~5
@@ -279,8 +286,8 @@ This document outlines the complete patching strategy for expanding composite ac
 ### Recommended Order
 1. ~~**Patch 06** - Fleet Operations (core gameplay)~~ ✅ Complete
 2. ~~**Patch 07** - Fleet Cargo (frequently used)~~ ✅ Complete
-3. **Patch 11** - Scanning & Discovery (core gameplay with XP) - **NEXT**
-4. **Patch 08** - Starbase Cargo (frequently used)
+3. ~~**Patch 08** - Starbase Cargo (frequently used)~~ ✅ Complete
+4. **Patch 11** - Scanning & Discovery (core gameplay with XP) - **NEXT**
 5. **Patch 09** - Crew Management
 6. **Patch 10** - Ship Escrow
 7. **Patch 12** - Rental System
