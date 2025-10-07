@@ -5,11 +5,11 @@ This document outlines the complete patching strategy for expanding composite ac
 
 ## Progress Summary
 - **Total instruction files**: 106
-- **Completed patches**: 10 (covering 62 files)
-- **Remaining patches**: 6 (covering 44 files)
+- **Completed patches**: 11 (covering 65 files)
+- **Remaining patches**: 5 (covering 41 files)
 - **Estimated total patches**: 16
 
-## Completed Patches (01-10)
+## Completed Patches (01-11)
 
 ### Patch 01: Accounts
 - **Files**: 1 (fleet.rs)
@@ -158,27 +158,25 @@ This document outlines the complete patching strategy for expanding composite ac
 - **Priority**: 🟡 Medium - Ship escrow management operations
 - **Status**: ✅ Complete (323 lines)
 
----
-
-## Remaining Patches (11-16)
-
-### Priority 1: Core Gameplay (High Priority)
-
-#### Patch 11: Scanning & Discovery
-- **Files**: ~3
+### Patch 11: Scanning & Discovery
+- **Files**: 3
   - scan_for_survey_data_units.rs
   - discover_sector.rs
-  - fleet_state_handler.rs
+  - fleet_state_handler.rs (no changes needed)
 - **Composite accounts**:
-  - `GameAndGameStateAndFleetAndOwnerMut`
-  - `PointsModificationAccounts` (XP rewards in scanning)
-- **Complexity**: Medium-High (includes XP account expansions)
+  - `GameAndGameStateAndFleetAndOwnerMut` → key, owning_profile, owning_profile_faction, fleet, game_id, game_state
+  - `PointsModificationAccounts` (2 instances in scan_for_survey_data_units.rs with unique prefixes)
+    - data_running: data_running_user_points_account, data_running_points_category, data_running_points_modifier_account
+    - council_rank: council_rank_user_points_account, council_rank_points_category, council_rank_points_modifier_account
+- **Complexity**: Medium-High (includes multiple XP account expansions with prefixes)
 - **Priority**: 🔴 High - Core gameplay mechanic
-- **Status**: 🔲 Pending
+- **Status**: ✅ Complete (150 lines)
 
 ---
 
-### Priority 2: Frequently Used Operations (Medium Priority)
+## Remaining Patches (12-16)
+
+### Priority 1: Frequently Used Operations (Medium Priority)
 
 #### Patch 12: Rental System
 - **Files**: ~3
@@ -290,10 +288,10 @@ This document outlines the complete patching strategy for expanding composite ac
 1. ~~**Patch 06** - Fleet Operations (core gameplay)~~ ✅ Complete
 2. ~~**Patch 07** - Fleet Cargo (frequently used)~~ ✅ Complete
 3. ~~**Patch 08** - Starbase Cargo (frequently used)~~ ✅ Complete
-4. **Patch 11** - Scanning & Discovery (core gameplay with XP) - **NEXT**
-5. **Patch 09** - Crew Management
-6. **Patch 10** - Ship Escrow
-7. **Patch 12** - Rental System
+4. ~~**Patch 09** - Crew Management~~ ✅ Complete
+5. ~~**Patch 10** - Ship Escrow~~ ✅ Complete
+6. ~~**Patch 11** - Scanning & Discovery (core gameplay with XP)~~ ✅ Complete
+7. **Patch 12** - Rental System - **NEXT**
 8. **Patch 13** - Game Config (admin)
 9. **Patch 14** - Starbase Config (admin)
 10. **Patch 15** - Resources Config (admin)

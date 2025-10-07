@@ -12,7 +12,13 @@ pub struct DiscoverSector {
 
 #[derive(Debug, PartialEq, Eq, Clone, Hash, serde::Serialize, serde::Deserialize)]
 pub struct DiscoverSectorInstructionAccounts {
-    pub game_accounts_fleet_and_owner: solana_pubkey::Pubkey,
+    // GameAndGameStateAndFleetAndOwner expansion
+    pub key: solana_pubkey::Pubkey,
+    pub owning_profile: solana_pubkey::Pubkey,
+    pub owning_profile_faction: solana_pubkey::Pubkey,
+    pub fleet: solana_pubkey::Pubkey,
+    pub game_id: solana_pubkey::Pubkey,
+    pub game_state: solana_pubkey::Pubkey,
     pub funder: solana_pubkey::Pubkey,
     pub sector: solana_pubkey::Pubkey,
     pub system_program: solana_pubkey::Pubkey,
@@ -25,13 +31,26 @@ impl carbon_core::deserialize::ArrangeAccounts for DiscoverSector {
         accounts: &[solana_instruction::AccountMeta],
     ) -> Option<Self::ArrangedAccounts> {
         let mut iter = accounts.iter();
-        let game_accounts_fleet_and_owner = next_account(&mut iter)?;
+
+        // GameAndGameStateAndFleetAndOwner expansion
+        let key = next_account(&mut iter)?;
+        let owning_profile = next_account(&mut iter)?;
+        let owning_profile_faction = next_account(&mut iter)?;
+        let fleet = next_account(&mut iter)?;
+        let game_id = next_account(&mut iter)?;
+        let game_state = next_account(&mut iter)?;
+
         let funder = next_account(&mut iter)?;
         let sector = next_account(&mut iter)?;
         let system_program = next_account(&mut iter)?;
 
         Some(DiscoverSectorInstructionAccounts {
-            game_accounts_fleet_and_owner,
+            key,
+            owning_profile,
+            owning_profile_faction,
+            fleet,
+            game_id,
+            game_state,
             funder,
             sector,
             system_program,
