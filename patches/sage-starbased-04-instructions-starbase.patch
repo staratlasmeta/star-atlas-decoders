@@ -148,6 +148,89 @@ index 956b940..aa1970d 100644
              crafting_program,
              system_program,
          })
+diff --git a/src/instructions/create_fleet.rs b/src/instructions/create_fleet.rs
+index 6f6c053..8ddc515 100644
+--- a/src/instructions/create_fleet.rs
++++ b/src/instructions/create_fleet.rs
+@@ -12,7 +12,13 @@ pub struct CreateFleet {
+ 
+ #[derive(Debug, PartialEq, Eq, Clone, Hash, serde::Serialize, serde::Deserialize)]
+ pub struct CreateFleetInstructionAccounts {
+-    pub game_accounts_and_profile: solana_pubkey::Pubkey,
++    // GameAndGameStateAndProfile expansion
++    pub key: solana_pubkey::Pubkey,
++    pub profile: solana_pubkey::Pubkey,
++    pub profile_faction: solana_pubkey::Pubkey,
++    pub game_id: solana_pubkey::Pubkey,
++    pub game_state: solana_pubkey::Pubkey,
++    // Direct accounts
+     pub funder: solana_pubkey::Pubkey,
+     pub fleet: solana_pubkey::Pubkey,
+     pub fleet_ships: solana_pubkey::Pubkey,
+@@ -20,7 +26,10 @@ pub struct CreateFleetInstructionAccounts {
+     pub fuel_tank: solana_pubkey::Pubkey,
+     pub ammo_bank: solana_pubkey::Pubkey,
+     pub ship: solana_pubkey::Pubkey,
+-    pub starbase_and_starbase_player: solana_pubkey::Pubkey,
++    // StarbaseAndStarbasePlayerMut expansion
++    pub starbase: solana_pubkey::Pubkey,
++    pub starbase_player: solana_pubkey::Pubkey,
++    // Direct accounts
+     pub cargo_stats_definition: solana_pubkey::Pubkey,
+     pub cargo_program: solana_pubkey::Pubkey,
+     pub system_program: solana_pubkey::Pubkey,
+@@ -33,7 +42,15 @@ impl carbon_core::deserialize::ArrangeAccounts for CreateFleet {
+         accounts: &[solana_instruction::AccountMeta],
+     ) -> Option<Self::ArrangedAccounts> {
+         let mut iter = accounts.iter();
+-        let game_accounts_and_profile = next_account(&mut iter)?;
++
++        // GameAndGameStateAndProfile expansion
++        let key = next_account(&mut iter)?;
++        let profile = next_account(&mut iter)?;
++        let profile_faction = next_account(&mut iter)?;
++        let game_id = next_account(&mut iter)?;
++        let game_state = next_account(&mut iter)?;
++
++        // Direct accounts
+         let funder = next_account(&mut iter)?;
+         let fleet = next_account(&mut iter)?;
+         let fleet_ships = next_account(&mut iter)?;
+@@ -41,13 +58,22 @@ impl carbon_core::deserialize::ArrangeAccounts for CreateFleet {
+         let fuel_tank = next_account(&mut iter)?;
+         let ammo_bank = next_account(&mut iter)?;
+         let ship = next_account(&mut iter)?;
+-        let starbase_and_starbase_player = next_account(&mut iter)?;
++
++        // StarbaseAndStarbasePlayerMut expansion
++        let starbase = next_account(&mut iter)?;
++        let starbase_player = next_account(&mut iter)?;
++
++        // Direct accounts
+         let cargo_stats_definition = next_account(&mut iter)?;
+         let cargo_program = next_account(&mut iter)?;
+         let system_program = next_account(&mut iter)?;
+ 
+         Some(CreateFleetInstructionAccounts {
+-            game_accounts_and_profile,
++            key,
++            profile,
++            profile_faction,
++            game_id,
++            game_state,
+             funder,
+             fleet,
+             fleet_ships,
+@@ -55,7 +81,8 @@ impl carbon_core::deserialize::ArrangeAccounts for CreateFleet {
+             fuel_tank,
+             ammo_bank,
+             ship,
+-            starbase_and_starbase_player,
++            starbase,
++            starbase_player,
+             cargo_stats_definition,
+             cargo_program,
+             system_program,
 diff --git a/src/instructions/create_starbase_upgrade_resource_process.rs b/src/instructions/create_starbase_upgrade_resource_process.rs
 index e0f3cb7..66ff5ce 100644
 --- a/src/instructions/create_starbase_upgrade_resource_process.rs
@@ -325,6 +408,158 @@ index 1a3fe5d..ad9df09 100644
              progression_config,
              points_program,
              cargo_program,
+diff --git a/src/instructions/disband_fleet.rs b/src/instructions/disband_fleet.rs
+index 2b88f2e..c93d6a9 100644
+--- a/src/instructions/disband_fleet.rs
++++ b/src/instructions/disband_fleet.rs
+@@ -12,7 +12,13 @@ pub struct DisbandFleet {
+ 
+ #[derive(Debug, PartialEq, Eq, Clone, Hash, serde::Serialize, serde::Deserialize)]
+ pub struct DisbandFleetInstructionAccounts {
+-    pub game_accounts_and_profile: solana_pubkey::Pubkey,
++    // GameAndGameStateAndProfile expansion
++    pub key: solana_pubkey::Pubkey,
++    pub profile: solana_pubkey::Pubkey,
++    pub profile_faction: solana_pubkey::Pubkey,
++    pub game_id: solana_pubkey::Pubkey,
++    pub game_state: solana_pubkey::Pubkey,
++    // Direct accounts
+     pub funder: solana_pubkey::Pubkey,
+     pub disbanded_fleet: solana_pubkey::Pubkey,
+     pub fleet: solana_pubkey::Pubkey,
+@@ -20,7 +26,10 @@ pub struct DisbandFleetInstructionAccounts {
+     pub cargo_hold: solana_pubkey::Pubkey,
+     pub fuel_tank: solana_pubkey::Pubkey,
+     pub ammo_bank: solana_pubkey::Pubkey,
+-    pub starbase_and_starbase_player: solana_pubkey::Pubkey,
++    // StarbaseAndStarbasePlayerMut expansion
++    pub starbase: solana_pubkey::Pubkey,
++    pub starbase_player: solana_pubkey::Pubkey,
++    // Direct accounts
+     pub cargo_program: solana_pubkey::Pubkey,
+     pub system_program: solana_pubkey::Pubkey,
+ }
+@@ -32,7 +41,15 @@ impl carbon_core::deserialize::ArrangeAccounts for DisbandFleet {
+         accounts: &[solana_instruction::AccountMeta],
+     ) -> Option<Self::ArrangedAccounts> {
+         let mut iter = accounts.iter();
+-        let game_accounts_and_profile = next_account(&mut iter)?;
++
++        // GameAndGameStateAndProfile expansion
++        let key = next_account(&mut iter)?;
++        let profile = next_account(&mut iter)?;
++        let profile_faction = next_account(&mut iter)?;
++        let game_id = next_account(&mut iter)?;
++        let game_state = next_account(&mut iter)?;
++
++        // Direct accounts
+         let funder = next_account(&mut iter)?;
+         let disbanded_fleet = next_account(&mut iter)?;
+         let fleet = next_account(&mut iter)?;
+@@ -40,12 +57,21 @@ impl carbon_core::deserialize::ArrangeAccounts for DisbandFleet {
+         let cargo_hold = next_account(&mut iter)?;
+         let fuel_tank = next_account(&mut iter)?;
+         let ammo_bank = next_account(&mut iter)?;
+-        let starbase_and_starbase_player = next_account(&mut iter)?;
++
++        // StarbaseAndStarbasePlayerMut expansion
++        let starbase = next_account(&mut iter)?;
++        let starbase_player = next_account(&mut iter)?;
++
++        // Direct accounts
+         let cargo_program = next_account(&mut iter)?;
+         let system_program = next_account(&mut iter)?;
+ 
+         Some(DisbandFleetInstructionAccounts {
+-            game_accounts_and_profile,
++            key,
++            profile,
++            profile_faction,
++            game_id,
++            game_state,
+             funder,
+             disbanded_fleet,
+             fleet,
+@@ -53,7 +79,8 @@ impl carbon_core::deserialize::ArrangeAccounts for DisbandFleet {
+             cargo_hold,
+             fuel_tank,
+             ammo_bank,
+-            starbase_and_starbase_player,
++            starbase,
++            starbase_player,
+             cargo_program,
+             system_program,
+         })
+diff --git a/src/instructions/disbanded_fleet_to_escrow.rs b/src/instructions/disbanded_fleet_to_escrow.rs
+index d0622ec..c04f1bb 100644
+--- a/src/instructions/disbanded_fleet_to_escrow.rs
++++ b/src/instructions/disbanded_fleet_to_escrow.rs
+@@ -12,11 +12,20 @@ pub struct DisbandedFleetToEscrow {
+ 
+ #[derive(Debug, PartialEq, Eq, Clone, Hash, serde::Serialize, serde::Deserialize)]
+ pub struct DisbandedFleetToEscrowInstructionAccounts {
+-    pub game_accounts_and_profile: solana_pubkey::Pubkey,
++    // GameAndGameStateAndProfile expansion
++    pub key: solana_pubkey::Pubkey,
++    pub profile: solana_pubkey::Pubkey,
++    pub profile_faction: solana_pubkey::Pubkey,
++    pub game_id: solana_pubkey::Pubkey,
++    pub game_state: solana_pubkey::Pubkey,
++    // Direct accounts
+     pub funder: solana_pubkey::Pubkey,
+     pub disbanded_fleet: solana_pubkey::Pubkey,
+     pub fleet_ships: solana_pubkey::Pubkey,
+-    pub starbase_and_starbase_player: solana_pubkey::Pubkey,
++    // StarbaseAndStarbasePlayerMut expansion
++    pub starbase: solana_pubkey::Pubkey,
++    pub starbase_player: solana_pubkey::Pubkey,
++    // Direct accounts
+     pub ship: solana_pubkey::Pubkey,
+     pub system_program: solana_pubkey::Pubkey,
+ }
+@@ -28,20 +37,38 @@ impl carbon_core::deserialize::ArrangeAccounts for DisbandedFleetToEscrow {
+         accounts: &[solana_instruction::AccountMeta],
+     ) -> Option<Self::ArrangedAccounts> {
+         let mut iter = accounts.iter();
+-        let game_accounts_and_profile = next_account(&mut iter)?;
++
++        // GameAndGameStateAndProfile expansion
++        let key = next_account(&mut iter)?;
++        let profile = next_account(&mut iter)?;
++        let profile_faction = next_account(&mut iter)?;
++        let game_id = next_account(&mut iter)?;
++        let game_state = next_account(&mut iter)?;
++
++        // Direct accounts
+         let funder = next_account(&mut iter)?;
+         let disbanded_fleet = next_account(&mut iter)?;
+         let fleet_ships = next_account(&mut iter)?;
+-        let starbase_and_starbase_player = next_account(&mut iter)?;
++
++        // StarbaseAndStarbasePlayerMut expansion
++        let starbase = next_account(&mut iter)?;
++        let starbase_player = next_account(&mut iter)?;
++
++        // Direct accounts
+         let ship = next_account(&mut iter)?;
+         let system_program = next_account(&mut iter)?;
+ 
+         Some(DisbandedFleetToEscrowInstructionAccounts {
+-            game_accounts_and_profile,
++            key,
++            profile,
++            profile_faction,
++            game_id,
++            game_state,
+             funder,
+             disbanded_fleet,
+             fleet_ships,
+-            starbase_and_starbase_player,
++            starbase,
++            starbase_player,
+             ship,
+             system_program,
+         })
 diff --git a/src/instructions/start_starbase_upgrade.rs b/src/instructions/start_starbase_upgrade.rs
 index ca1a93a..d591bc0 100644
 --- a/src/instructions/start_starbase_upgrade.rs
