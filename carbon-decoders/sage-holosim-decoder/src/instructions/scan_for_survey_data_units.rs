@@ -12,7 +12,13 @@ pub struct ScanForSurveyDataUnits {
 
 #[derive(Debug, PartialEq, Eq, Clone, Hash, serde::Serialize, serde::Deserialize)]
 pub struct ScanForSurveyDataUnitsInstructionAccounts {
-    pub game_accounts_fleet_and_owner: solana_pubkey::Pubkey,
+    // GameAndGameStateAndFleetAndOwnerMut expansion
+    pub key: solana_pubkey::Pubkey,
+    pub owning_profile: solana_pubkey::Pubkey,
+    pub owning_profile_faction: solana_pubkey::Pubkey,
+    pub fleet: solana_pubkey::Pubkey,
+    pub game_id: solana_pubkey::Pubkey,
+    pub game_state: solana_pubkey::Pubkey,
     pub survey_data_unit_tracker: solana_pubkey::Pubkey,
     pub survey_data_unit_tracker_signer: solana_pubkey::Pubkey,
     pub cargo_hold: solana_pubkey::Pubkey,
@@ -24,8 +30,14 @@ pub struct ScanForSurveyDataUnitsInstructionAccounts {
     pub sdu_cargo_type: solana_pubkey::Pubkey,
     pub resource_cargo_type: solana_pubkey::Pubkey,
     pub cargo_stats_definition: solana_pubkey::Pubkey,
-    pub data_running_xp_accounts: solana_pubkey::Pubkey,
-    pub council_rank_xp_accounts: solana_pubkey::Pubkey,
+    // PointsModificationAccounts expansion (data_running)
+    pub data_running_user_points_account: solana_pubkey::Pubkey,
+    pub data_running_points_category: solana_pubkey::Pubkey,
+    pub data_running_points_modifier_account: solana_pubkey::Pubkey,
+    // PointsModificationAccounts expansion (council_rank)
+    pub council_rank_user_points_account: solana_pubkey::Pubkey,
+    pub council_rank_points_category: solana_pubkey::Pubkey,
+    pub council_rank_points_modifier_account: solana_pubkey::Pubkey,
     pub progression_config: solana_pubkey::Pubkey,
     pub points_program: solana_pubkey::Pubkey,
     pub cargo_program: solana_pubkey::Pubkey,
@@ -41,7 +53,15 @@ impl carbon_core::deserialize::ArrangeAccounts for ScanForSurveyDataUnits {
         accounts: &[solana_instruction::AccountMeta],
     ) -> Option<Self::ArrangedAccounts> {
         let mut iter = accounts.iter();
-        let game_accounts_fleet_and_owner = next_account(&mut iter)?;
+
+        // GameAndGameStateAndFleetAndOwnerMut expansion
+        let key = next_account(&mut iter)?;
+        let owning_profile = next_account(&mut iter)?;
+        let owning_profile_faction = next_account(&mut iter)?;
+        let fleet = next_account(&mut iter)?;
+        let game_id = next_account(&mut iter)?;
+        let game_state = next_account(&mut iter)?;
+
         let survey_data_unit_tracker = next_account(&mut iter)?;
         let survey_data_unit_tracker_signer = next_account(&mut iter)?;
         let cargo_hold = next_account(&mut iter)?;
@@ -53,8 +73,17 @@ impl carbon_core::deserialize::ArrangeAccounts for ScanForSurveyDataUnits {
         let sdu_cargo_type = next_account(&mut iter)?;
         let resource_cargo_type = next_account(&mut iter)?;
         let cargo_stats_definition = next_account(&mut iter)?;
-        let data_running_xp_accounts = next_account(&mut iter)?;
-        let council_rank_xp_accounts = next_account(&mut iter)?;
+
+        // PointsModificationAccounts expansion (data_running)
+        let data_running_user_points_account = next_account(&mut iter)?;
+        let data_running_points_category = next_account(&mut iter)?;
+        let data_running_points_modifier_account = next_account(&mut iter)?;
+
+        // PointsModificationAccounts expansion (council_rank)
+        let council_rank_user_points_account = next_account(&mut iter)?;
+        let council_rank_points_category = next_account(&mut iter)?;
+        let council_rank_points_modifier_account = next_account(&mut iter)?;
+
         let progression_config = next_account(&mut iter)?;
         let points_program = next_account(&mut iter)?;
         let cargo_program = next_account(&mut iter)?;
@@ -63,7 +92,12 @@ impl carbon_core::deserialize::ArrangeAccounts for ScanForSurveyDataUnits {
         let recent_slothashes = next_account(&mut iter)?;
 
         Some(ScanForSurveyDataUnitsInstructionAccounts {
-            game_accounts_fleet_and_owner,
+            key,
+            owning_profile,
+            owning_profile_faction,
+            fleet,
+            game_id,
+            game_state,
             survey_data_unit_tracker,
             survey_data_unit_tracker_signer,
             cargo_hold,
@@ -75,8 +109,12 @@ impl carbon_core::deserialize::ArrangeAccounts for ScanForSurveyDataUnits {
             sdu_cargo_type,
             resource_cargo_type,
             cargo_stats_definition,
-            data_running_xp_accounts,
-            council_rank_xp_accounts,
+            data_running_user_points_account,
+            data_running_points_category,
+            data_running_points_modifier_account,
+            council_rank_user_points_account,
+            council_rank_points_category,
+            council_rank_points_modifier_account,
             progression_config,
             points_program,
             cargo_program,
