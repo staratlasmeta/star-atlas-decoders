@@ -24,6 +24,7 @@ pub mod starbase;
 pub mod starbase_player;
 pub mod survey_data_unit_tracker;
 
+#[derive(Debug, serde::Serialize)]
 pub enum SageAccount {
     CombatConfig(combat_config::CombatConfig),
     CraftingInstance(crafting_instance::CraftingInstance),

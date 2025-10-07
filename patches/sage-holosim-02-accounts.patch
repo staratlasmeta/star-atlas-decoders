@@ -93,10 +93,15 @@ index deb7d5c..8ce1568 100644
 +    }
  }
 diff --git a/src/accounts/mod.rs b/src/accounts/mod.rs
-index 9b22b86..a99bffd 100644
+index 9b22b86..c8e018c 100644
 --- a/src/accounts/mod.rs
 +++ b/src/accounts/mod.rs
-@@ -28,10 +28,10 @@ pub enum SageAccount {
+@@ -24,14 +24,15 @@ pub mod starbase;
+ pub mod starbase_player;
+ pub mod survey_data_unit_tracker;
+ 
++#[derive(Debug, serde::Serialize)]
+ pub enum SageAccount {
      CombatConfig(combat_config::CombatConfig),
      CraftingInstance(crafting_instance::CraftingInstance),
      DisbandedFleet(disbanded_fleet::DisbandedFleet),
@@ -110,7 +115,7 @@ index 9b22b86..a99bffd 100644
      Loot(loot::Loot),
      MineItem(mine_item::MineItem),
      Planet(planet::Planet),
-@@ -93,7 +93,7 @@ impl<'a> AccountDecoder<'a> for SageDecoder {
+@@ -93,7 +94,7 @@ impl<'a> AccountDecoder<'a> for SageDecoder {
          if let Some(decoded_account) = fleet::Fleet::deserialize(account.data.as_slice()) {
              return Some(carbon_core::account::DecodedAccount {
                  lamports: account.lamports,
@@ -119,7 +124,7 @@ index 9b22b86..a99bffd 100644
                  owner: account.owner,
                  executable: account.executable,
                  rent_epoch: account.rent_epoch,
-@@ -114,7 +114,7 @@ impl<'a> AccountDecoder<'a> for SageDecoder {
+@@ -114,7 +115,7 @@ impl<'a> AccountDecoder<'a> for SageDecoder {
          if let Some(decoded_account) = game::Game::deserialize(account.data.as_slice()) {
              return Some(carbon_core::account::DecodedAccount {
                  lamports: account.lamports,
@@ -128,7 +133,7 @@ index 9b22b86..a99bffd 100644
                  owner: account.owner,
                  executable: account.executable,
                  rent_epoch: account.rent_epoch,
-@@ -124,7 +124,7 @@ impl<'a> AccountDecoder<'a> for SageDecoder {
+@@ -124,7 +125,7 @@ impl<'a> AccountDecoder<'a> for SageDecoder {
          if let Some(decoded_account) = game_state::GameState::deserialize(account.data.as_slice()) {
              return Some(carbon_core::account::DecodedAccount {
                  lamports: account.lamports,
