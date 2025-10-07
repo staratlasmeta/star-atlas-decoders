@@ -15,7 +15,12 @@ pub struct SyncStarbaseUpgradeIngredientsInstructionAccounts {
     pub funder: solana_pubkey::Pubkey,
     pub starbase: solana_pubkey::Pubkey,
     pub upgrade_recipe: solana_pubkey::Pubkey,
-    pub game_accounts_and_profile: solana_pubkey::Pubkey,
+    // GameAndGameStateAndProfile expansion
+    pub key: solana_pubkey::Pubkey,
+    pub profile: solana_pubkey::Pubkey,
+    pub profile_faction: solana_pubkey::Pubkey,
+    pub game_id: solana_pubkey::Pubkey,
+    pub game_state: solana_pubkey::Pubkey,
     pub system_program: solana_pubkey::Pubkey,
 }
 
@@ -29,14 +34,25 @@ impl carbon_core::deserialize::ArrangeAccounts for SyncStarbaseUpgradeIngredient
         let funder = next_account(&mut iter)?;
         let starbase = next_account(&mut iter)?;
         let upgrade_recipe = next_account(&mut iter)?;
-        let game_accounts_and_profile = next_account(&mut iter)?;
+
+        // GameAndGameStateAndProfile expansion
+        let key = next_account(&mut iter)?;
+        let profile = next_account(&mut iter)?;
+        let profile_faction = next_account(&mut iter)?;
+        let game_id = next_account(&mut iter)?;
+        let game_state = next_account(&mut iter)?;
+
         let system_program = next_account(&mut iter)?;
 
         Some(SyncStarbaseUpgradeIngredientsInstructionAccounts {
             funder,
             starbase,
             upgrade_recipe,
-            game_accounts_and_profile,
+            key,
+            profile,
+            profile_faction,
+            game_id,
+            game_state,
             system_program,
         })
     }
