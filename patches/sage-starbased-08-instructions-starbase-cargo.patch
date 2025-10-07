@@ -190,10 +190,10 @@ index 9c464d3..fdd829b 100644
              token_to,
              cargo_program,
 diff --git a/src/instructions/dev_deposit_cargo_to_game.rs b/src/instructions/dev_deposit_cargo_to_game.rs
-index d20230b..f9293d8 100644
+index d20230b..2c85d0a 100644
 --- a/src/instructions/dev_deposit_cargo_to_game.rs
 +++ b/src/instructions/dev_deposit_cargo_to_game.rs
-@@ -12,11 +12,16 @@ pub struct DevDepositCargoToGame {
+@@ -12,11 +12,17 @@ pub struct DevDepositCargoToGame {
  
  #[derive(Debug, PartialEq, Eq, Clone, Hash, serde::Serialize, serde::Deserialize)]
  pub struct DevDepositCargoToGameInstructionAccounts {
@@ -209,10 +209,11 @@ index d20230b..f9293d8 100644
 +    pub key: solana_pubkey::Pubkey,
 +    pub profile: solana_pubkey::Pubkey,
 +    pub profile_faction: solana_pubkey::Pubkey,
++    pub game_id: solana_pubkey::Pubkey,
      pub token_from: solana_pubkey::Pubkey,
      pub token_to: solana_pubkey::Pubkey,
      pub cargo_program: solana_pubkey::Pubkey,
-@@ -30,22 +35,34 @@ impl carbon_core::deserialize::ArrangeAccounts for DevDepositCargoToGame {
+@@ -30,22 +36,36 @@ impl carbon_core::deserialize::ArrangeAccounts for DevDepositCargoToGame {
          accounts: &[solana_instruction::AccountMeta],
      ) -> Option<Self::ArrangedAccounts> {
          let mut iter = accounts.iter();
@@ -231,6 +232,7 @@ index d20230b..f9293d8 100644
 +        let key = next_account(&mut iter)?;
 +        let profile = next_account(&mut iter)?;
 +        let profile_faction = next_account(&mut iter)?;
++        let game_id = next_account(&mut iter)?;
 +
          let token_from = next_account(&mut iter)?;
          let token_to = next_account(&mut iter)?;
@@ -248,6 +250,7 @@ index d20230b..f9293d8 100644
 +            key,
 +            profile,
 +            profile_faction,
++            game_id,
              token_from,
              token_to,
              cargo_program,

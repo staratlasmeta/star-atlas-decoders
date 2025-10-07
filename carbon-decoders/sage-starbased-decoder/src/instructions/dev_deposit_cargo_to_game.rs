@@ -22,6 +22,7 @@ pub struct DevDepositCargoToGameInstructionAccounts {
     pub key: solana_pubkey::Pubkey,
     pub profile: solana_pubkey::Pubkey,
     pub profile_faction: solana_pubkey::Pubkey,
+    pub game_id: solana_pubkey::Pubkey,
     pub token_from: solana_pubkey::Pubkey,
     pub token_to: solana_pubkey::Pubkey,
     pub cargo_program: solana_pubkey::Pubkey,
@@ -48,6 +49,7 @@ impl carbon_core::deserialize::ArrangeAccounts for DevDepositCargoToGame {
         let key = next_account(&mut iter)?;
         let profile = next_account(&mut iter)?;
         let profile_faction = next_account(&mut iter)?;
+        let game_id = next_account(&mut iter)?;
 
         let token_from = next_account(&mut iter)?;
         let token_to = next_account(&mut iter)?;
@@ -63,6 +65,7 @@ impl carbon_core::deserialize::ArrangeAccounts for DevDepositCargoToGame {
             key,
             profile,
             profile_faction,
+            game_id,
             token_from,
             token_to,
             cargo_program,
