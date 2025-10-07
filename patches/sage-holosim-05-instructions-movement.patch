@@ -1,0 +1,238 @@
+diff --git a/src/instructions/mine_asteroid_to_respawn.rs b/src/instructions/mine_asteroid_to_respawn.rs
+index d6779d2..98dd15e 100644
+--- a/src/instructions/mine_asteroid_to_respawn.rs
++++ b/src/instructions/mine_asteroid_to_respawn.rs
+@@ -12,7 +12,13 @@ pub struct MineAsteroidToRespawn {
+ 
+ #[derive(Debug, PartialEq, Eq, Clone, Hash, serde::Serialize, serde::Deserialize)]
+ pub struct MineAsteroidToRespawnInstructionAccounts {
+-    pub game_accounts_fleet_and_owner: solana_pubkey::Pubkey,
++    // GameAndGameStateAndFleetAndOwnerMut expansion
++    pub key: solana_pubkey::Pubkey,
++    pub owning_profile: solana_pubkey::Pubkey,
++    pub owning_profile_faction: solana_pubkey::Pubkey,
++    pub fleet: solana_pubkey::Pubkey,
++    pub game_id: solana_pubkey::Pubkey,
++    pub game_state: solana_pubkey::Pubkey,
+     pub resource: solana_pubkey::Pubkey,
+     pub planet: solana_pubkey::Pubkey,
+     pub atlas_token_from: solana_pubkey::Pubkey,
+@@ -27,7 +33,15 @@ impl carbon_core::deserialize::ArrangeAccounts for MineAsteroidToRespawn {
+         accounts: &[solana_instruction::AccountMeta],
+     ) -> Option<Self::ArrangedAccounts> {
+         let mut iter = accounts.iter();
+-        let game_accounts_fleet_and_owner = next_account(&mut iter)?;
++
++        // GameAndGameStateAndFleetAndOwnerMut expansion
++        let key = next_account(&mut iter)?;
++        let owning_profile = next_account(&mut iter)?;
++        let owning_profile_faction = next_account(&mut iter)?;
++        let fleet = next_account(&mut iter)?;
++        let game_id = next_account(&mut iter)?;
++        let game_state = next_account(&mut iter)?;
++
+         let resource = next_account(&mut iter)?;
+         let planet = next_account(&mut iter)?;
+         let atlas_token_from = next_account(&mut iter)?;
+@@ -35,7 +49,12 @@ impl carbon_core::deserialize::ArrangeAccounts for MineAsteroidToRespawn {
+         let token_program = next_account(&mut iter)?;
+ 
+         Some(MineAsteroidToRespawnInstructionAccounts {
+-            game_accounts_fleet_and_owner,
++            key,
++            owning_profile,
++            owning_profile_faction,
++            fleet,
++            game_id,
++            game_state,
+             resource,
+             planet,
+             atlas_token_from,
+diff --git a/src/instructions/start_subwarp.rs b/src/instructions/start_subwarp.rs
+index 5db456b..4913304 100644
+--- a/src/instructions/start_subwarp.rs
++++ b/src/instructions/start_subwarp.rs
+@@ -12,7 +12,13 @@ pub struct StartSubwarp {
+ 
+ #[derive(Debug, PartialEq, Eq, Clone, Hash, serde::Serialize, serde::Deserialize)]
+ pub struct StartSubwarpInstructionAccounts {
+-    pub game_accounts_fleet_and_owner: solana_pubkey::Pubkey,
++    // GameAndGameStateAndFleetAndOwnerMut expansion
++    pub key: solana_pubkey::Pubkey,
++    pub owning_profile: solana_pubkey::Pubkey,
++    pub owning_profile_faction: solana_pubkey::Pubkey,
++    pub fleet: solana_pubkey::Pubkey,
++    pub game_id: solana_pubkey::Pubkey,
++    pub game_state: solana_pubkey::Pubkey,
+ }
+ 
+ impl carbon_core::deserialize::ArrangeAccounts for StartSubwarp {
+@@ -22,10 +28,22 @@ impl carbon_core::deserialize::ArrangeAccounts for StartSubwarp {
+         accounts: &[solana_instruction::AccountMeta],
+     ) -> Option<Self::ArrangedAccounts> {
+         let mut iter = accounts.iter();
+-        let game_accounts_fleet_and_owner = next_account(&mut iter)?;
++
++        // GameAndGameStateAndFleetAndOwnerMut expansion
++        let key = next_account(&mut iter)?;
++        let owning_profile = next_account(&mut iter)?;
++        let owning_profile_faction = next_account(&mut iter)?;
++        let fleet = next_account(&mut iter)?;
++        let game_id = next_account(&mut iter)?;
++        let game_state = next_account(&mut iter)?;
+ 
+         Some(StartSubwarpInstructionAccounts {
+-            game_accounts_fleet_and_owner,
++            key,
++            owning_profile,
++            owning_profile_faction,
++            fleet,
++            game_id,
++            game_state,
+         })
+     }
+ }
+diff --git a/src/instructions/stop_subwarp.rs b/src/instructions/stop_subwarp.rs
+index bbbe842..fc101ac 100644
+--- a/src/instructions/stop_subwarp.rs
++++ b/src/instructions/stop_subwarp.rs
+@@ -12,7 +12,13 @@ pub struct StopSubwarp {
+ 
+ #[derive(Debug, PartialEq, Eq, Clone, Hash, serde::Serialize, serde::Deserialize)]
+ pub struct StopSubwarpInstructionAccounts {
+-    pub game_accounts_fleet_and_owner: solana_pubkey::Pubkey,
++    // GameAndGameStateAndFleetAndOwnerMut expansion
++    pub key: solana_pubkey::Pubkey,
++    pub owning_profile: solana_pubkey::Pubkey,
++    pub owning_profile_faction: solana_pubkey::Pubkey,
++    pub fleet: solana_pubkey::Pubkey,
++    pub game_id: solana_pubkey::Pubkey,
++    pub game_state: solana_pubkey::Pubkey,
+ }
+ 
+ impl carbon_core::deserialize::ArrangeAccounts for StopSubwarp {
+@@ -22,10 +28,22 @@ impl carbon_core::deserialize::ArrangeAccounts for StopSubwarp {
+         accounts: &[solana_instruction::AccountMeta],
+     ) -> Option<Self::ArrangedAccounts> {
+         let mut iter = accounts.iter();
+-        let game_accounts_fleet_and_owner = next_account(&mut iter)?;
++
++        // GameAndGameStateAndFleetAndOwnerMut expansion
++        let key = next_account(&mut iter)?;
++        let owning_profile = next_account(&mut iter)?;
++        let owning_profile_faction = next_account(&mut iter)?;
++        let fleet = next_account(&mut iter)?;
++        let game_id = next_account(&mut iter)?;
++        let game_state = next_account(&mut iter)?;
+ 
+         Some(StopSubwarpInstructionAccounts {
+-            game_accounts_fleet_and_owner,
++            key,
++            owning_profile,
++            owning_profile_faction,
++            fleet,
++            game_id,
++            game_state,
+         })
+     }
+ }
+diff --git a/src/instructions/warp_lane.rs b/src/instructions/warp_lane.rs
+index 278efd7..8fa568d 100644
+--- a/src/instructions/warp_lane.rs
++++ b/src/instructions/warp_lane.rs
+@@ -12,7 +12,13 @@ pub struct WarpLane {
+ 
+ #[derive(Debug, PartialEq, Eq, Clone, Hash, serde::Serialize, serde::Deserialize)]
+ pub struct WarpLaneInstructionAccounts {
+-    pub game_accounts_fleet_and_owner: solana_pubkey::Pubkey,
++    // GameAndGameStateAndFleetAndOwnerMut expansion
++    pub key: solana_pubkey::Pubkey,
++    pub owning_profile: solana_pubkey::Pubkey,
++    pub owning_profile_faction: solana_pubkey::Pubkey,
++    pub fleet: solana_pubkey::Pubkey,
++    pub game_id: solana_pubkey::Pubkey,
++    pub game_state: solana_pubkey::Pubkey,
+     pub from_starbase: solana_pubkey::Pubkey,
+     pub to_starbase: solana_pubkey::Pubkey,
+     pub from_sector: solana_pubkey::Pubkey,
+@@ -36,7 +42,15 @@ impl carbon_core::deserialize::ArrangeAccounts for WarpLane {
+         accounts: &[solana_instruction::AccountMeta],
+     ) -> Option<Self::ArrangedAccounts> {
+         let mut iter = accounts.iter();
+-        let game_accounts_fleet_and_owner = next_account(&mut iter)?;
++
++        // GameAndGameStateAndFleetAndOwnerMut expansion
++        let key = next_account(&mut iter)?;
++        let owning_profile = next_account(&mut iter)?;
++        let owning_profile_faction = next_account(&mut iter)?;
++        let fleet = next_account(&mut iter)?;
++        let game_id = next_account(&mut iter)?;
++        let game_state = next_account(&mut iter)?;
++
+         let from_starbase = next_account(&mut iter)?;
+         let to_starbase = next_account(&mut iter)?;
+         let from_sector = next_account(&mut iter)?;
+@@ -53,7 +67,12 @@ impl carbon_core::deserialize::ArrangeAccounts for WarpLane {
+         let token_program = next_account(&mut iter)?;
+ 
+         Some(WarpLaneInstructionAccounts {
+-            game_accounts_fleet_and_owner,
++            key,
++            owning_profile,
++            owning_profile_faction,
++            fleet,
++            game_id,
++            game_state,
+             from_starbase,
+             to_starbase,
+             from_sector,
+diff --git a/src/instructions/warp_to_coordinate.rs b/src/instructions/warp_to_coordinate.rs
+index 80b4e6c..fd9601e 100644
+--- a/src/instructions/warp_to_coordinate.rs
++++ b/src/instructions/warp_to_coordinate.rs
+@@ -12,7 +12,13 @@ pub struct WarpToCoordinate {
+ 
+ #[derive(Debug, PartialEq, Eq, Clone, Hash, serde::Serialize, serde::Deserialize)]
+ pub struct WarpToCoordinateInstructionAccounts {
+-    pub game_accounts_fleet_and_owner: solana_pubkey::Pubkey,
++    // GameAndGameStateAndFleetAndOwnerMut expansion
++    pub key: solana_pubkey::Pubkey,
++    pub owning_profile: solana_pubkey::Pubkey,
++    pub owning_profile_faction: solana_pubkey::Pubkey,
++    pub fleet: solana_pubkey::Pubkey,
++    pub game_id: solana_pubkey::Pubkey,
++    pub game_state: solana_pubkey::Pubkey,
+     pub fuel_tank: solana_pubkey::Pubkey,
+     pub cargo_type: solana_pubkey::Pubkey,
+     pub stats_definition: solana_pubkey::Pubkey,
+@@ -29,7 +35,15 @@ impl carbon_core::deserialize::ArrangeAccounts for WarpToCoordinate {
+         accounts: &[solana_instruction::AccountMeta],
+     ) -> Option<Self::ArrangedAccounts> {
+         let mut iter = accounts.iter();
+-        let game_accounts_fleet_and_owner = next_account(&mut iter)?;
++
++        // GameAndGameStateAndFleetAndOwnerMut expansion
++        let key = next_account(&mut iter)?;
++        let owning_profile = next_account(&mut iter)?;
++        let owning_profile_faction = next_account(&mut iter)?;
++        let fleet = next_account(&mut iter)?;
++        let game_id = next_account(&mut iter)?;
++        let game_state = next_account(&mut iter)?;
++
+         let fuel_tank = next_account(&mut iter)?;
+         let cargo_type = next_account(&mut iter)?;
+         let stats_definition = next_account(&mut iter)?;
+@@ -39,7 +53,12 @@ impl carbon_core::deserialize::ArrangeAccounts for WarpToCoordinate {
+         let token_program = next_account(&mut iter)?;
+ 
+         Some(WarpToCoordinateInstructionAccounts {
+-            game_accounts_fleet_and_owner,
++            key,
++            owning_profile,
++            owning_profile_faction,
++            fleet,
++            game_id,
++            game_state,
+             fuel_tank,
+             cargo_type,
+             stats_definition,
