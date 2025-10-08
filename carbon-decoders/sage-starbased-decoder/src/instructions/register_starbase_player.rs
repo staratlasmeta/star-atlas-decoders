@@ -9,7 +9,9 @@ pub struct RegisterStarbasePlayer {}
 #[derive(Debug, PartialEq, Eq, Clone, Hash, serde::Serialize, serde::Deserialize)]
 pub struct RegisterStarbasePlayerInstructionAccounts {
     pub funder: solana_pubkey::Pubkey,
-    pub game_accounts: solana_pubkey::Pubkey,
+    // GameAndGameState expansion
+    pub game_id: solana_pubkey::Pubkey,
+    pub game_state: solana_pubkey::Pubkey,
     pub sage_player_profile: solana_pubkey::Pubkey,
     pub profile_faction: solana_pubkey::Pubkey,
     pub starbase: solana_pubkey::Pubkey,
@@ -25,7 +27,11 @@ impl carbon_core::deserialize::ArrangeAccounts for RegisterStarbasePlayer {
     ) -> Option<Self::ArrangedAccounts> {
         let mut iter = accounts.iter();
         let funder = next_account(&mut iter)?;
-        let game_accounts = next_account(&mut iter)?;
+
+        // GameAndGameState expansion
+        let game_id = next_account(&mut iter)?;
+        let game_state = next_account(&mut iter)?;
+
         let sage_player_profile = next_account(&mut iter)?;
         let profile_faction = next_account(&mut iter)?;
         let starbase = next_account(&mut iter)?;
@@ -34,7 +40,8 @@ impl carbon_core::deserialize::ArrangeAccounts for RegisterStarbasePlayer {
 
         Some(RegisterStarbasePlayerInstructionAccounts {
             funder,
-            game_accounts,
+            game_id,
+            game_state,
             sage_player_profile,
             profile_faction,
             starbase,

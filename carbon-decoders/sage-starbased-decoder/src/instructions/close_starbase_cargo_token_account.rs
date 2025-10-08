@@ -13,8 +13,15 @@ pub struct CloseStarbaseCargoTokenAccount {
 #[derive(Debug, PartialEq, Eq, Clone, Hash, serde::Serialize, serde::Deserialize)]
 pub struct CloseStarbaseCargoTokenAccountInstructionAccounts {
     pub funds_to: solana_pubkey::Pubkey,
-    pub starbase_and_starbase_player: solana_pubkey::Pubkey,
-    pub game_accounts_and_profile: solana_pubkey::Pubkey,
+    // StarbaseAndStarbasePlayer expansion
+    pub starbase: solana_pubkey::Pubkey,
+    pub starbase_player: solana_pubkey::Pubkey,
+    // GameAndGameStateAndProfile expansion
+    pub key: solana_pubkey::Pubkey,
+    pub profile: solana_pubkey::Pubkey,
+    pub profile_faction: solana_pubkey::Pubkey,
+    pub game_id: solana_pubkey::Pubkey,
+    pub game_state: solana_pubkey::Pubkey,
     pub cargo_pod: solana_pubkey::Pubkey,
     pub cargo_type: solana_pubkey::Pubkey,
     pub cargo_stats_definition: solana_pubkey::Pubkey,
@@ -32,8 +39,18 @@ impl carbon_core::deserialize::ArrangeAccounts for CloseStarbaseCargoTokenAccoun
     ) -> Option<Self::ArrangedAccounts> {
         let mut iter = accounts.iter();
         let funds_to = next_account(&mut iter)?;
-        let starbase_and_starbase_player = next_account(&mut iter)?;
-        let game_accounts_and_profile = next_account(&mut iter)?;
+
+        // StarbaseAndStarbasePlayer expansion
+        let starbase = next_account(&mut iter)?;
+        let starbase_player = next_account(&mut iter)?;
+
+        // GameAndGameStateAndProfile expansion
+        let key = next_account(&mut iter)?;
+        let profile = next_account(&mut iter)?;
+        let profile_faction = next_account(&mut iter)?;
+        let game_id = next_account(&mut iter)?;
+        let game_state = next_account(&mut iter)?;
+
         let cargo_pod = next_account(&mut iter)?;
         let cargo_type = next_account(&mut iter)?;
         let cargo_stats_definition = next_account(&mut iter)?;
@@ -44,8 +61,13 @@ impl carbon_core::deserialize::ArrangeAccounts for CloseStarbaseCargoTokenAccoun
 
         Some(CloseStarbaseCargoTokenAccountInstructionAccounts {
             funds_to,
-            starbase_and_starbase_player,
-            game_accounts_and_profile,
+            starbase,
+            starbase_player,
+            key,
+            profile,
+            profile_faction,
+            game_id,
+            game_state,
             cargo_pod,
             cargo_type,
             cargo_stats_definition,
