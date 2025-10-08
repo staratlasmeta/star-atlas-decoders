@@ -5,12 +5,12 @@ This document outlines the complete patching strategy for expanding composite ac
 
 ## Progress Summary
 - **Total instruction files**: 124
-- **Completed patches**: 6 (covering 18 instruction files + 2 account files)
-- **Files needing composite expansions**: ~77 remaining
-- **Remaining patches**: ~11
+- **Completed patches**: 7 (covering 28 instruction files + 2 account files)
+- **Files needing composite expansions**: ~67 remaining
+- **Remaining patches**: ~10
 - **Estimated total patches**: ~17
 
-## Completed Patches (01-06)
+## Completed Patches (01-07)
 
 ### Patch 01: Disable Combat Log Events
 - **Files**: 2 (combat_log_event.rs, combat_resolved_event.rs) + mod.rs updates
@@ -81,14 +81,8 @@ This document outlines the complete patching strategy for expanding composite ac
 - **Status**: ✅ Complete (578 lines)
 - **Note**: repair_starbase.rs deferred to Patch 10 Combat Operations (uses `game_and_fleet_and_owner` composite)
 
----
-
-## Remaining Patches (07-17)
-
-### Priority 2: Frequently Used Operations (Medium-High Priority)
-
-#### Patch 07: Crafting Instructions
-- **Files**: ~10
+### Patch 07: Crafting Instructions
+- **Files**: 10
   - deposit_crafting_ingredient.rs
   - withdraw_crafting_ingredient.rs
   - start_crafting_process.rs
@@ -102,10 +96,17 @@ This document outlines the complete patching strategy for expanding composite ac
 - **Composite accounts**:
   - `starbase_and_starbase_player` → StarbaseMutAndStarbasePlayer (2 accounts)
   - `game_accounts_and_profile` → GameAndGameStateAndProfile (5 accounts)
-  - PointsModificationAccounts in close_crafting_process.rs
+  - `game_accounts` → GameAndGameState (2 accounts) - claim/burn files only
+  - PointsModificationAccounts (2 instances in close_crafting_process.rs): crafting_, council_rank_
 - **Complexity**: Medium-High
 - **Priority**: 🟡 Medium-High - Core crafting system
-- **Status**: 🔲 Pending
+- **Status**: ✅ Complete (744 lines)
+
+---
+
+## Remaining Patches (08-17)
+
+### Priority 2: Frequently Used Operations (Medium-High Priority)
 
 #### Patch 08: Fleet Management & State Transitions
 - **Files**: ~15
@@ -328,10 +329,11 @@ This document outlines the complete patching strategy for expanding composite ac
 
 ### Pattern 6: GameAndProfileAndFaction
 **Field name**: `game_and_profile_and_faction`
-**Expands to** (3 accounts):
+**Expands to** (4 accounts):
 - `key` - Game account/signer
 - `profile` - Player profile
 - `profile_faction` - Profile faction
+- `game_id` - Game ID
 
 ### Pattern 7: GameAndFleetAndOwner (Combat Variant)
 **Field name**: `game_and_fleet_and_owner`
@@ -360,8 +362,8 @@ This document outlines the complete patching strategy for expanding composite ac
 4. ~~**Patch 04** - Mining Operations~~ ✅ Complete
 5. ~~**Patch 05** - Movement Instructions~~ ✅ Complete
 6. ~~**Patch 06** - Starbase Operations~~ ✅ Complete
-7. **Patch 07** - Crafting Instructions - **NEXT**
-8. **Patch 08** - Fleet Management
+7. ~~**Patch 07** - Crafting Instructions~~ ✅ Complete
+8. **Patch 08** - Fleet Management - **NEXT**
 9. **Patch 09** - Fleet Cargo Operations
 10. **Patch 10** - Combat Operations
 11. **Patch 11** - Ship & Crew Management
