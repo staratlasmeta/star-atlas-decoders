@@ -13,9 +13,15 @@ pub struct AddCrewToGame {
 #[derive(Debug, PartialEq, Eq, Clone, Hash, serde::Serialize, serde::Deserialize)]
 pub struct AddCrewToGameInstructionAccounts {
     pub sage_player_profile: solana_pubkey::Pubkey,
-    pub starbase_and_starbase_player: solana_pubkey::Pubkey,
+    // StarbaseAndStarbasePlayerMut expansion
+    pub starbase: solana_pubkey::Pubkey,
+    pub starbase_player: solana_pubkey::Pubkey,
     pub sage_crew_config: solana_pubkey::Pubkey,
-    pub game_and_profile_and_faction: solana_pubkey::Pubkey,
+    // GameAndProfileAndFaction expansion
+    pub key: solana_pubkey::Pubkey,
+    pub profile: solana_pubkey::Pubkey,
+    pub profile_faction: solana_pubkey::Pubkey,
+    pub game_id: solana_pubkey::Pubkey,
     pub crew_config: solana_pubkey::Pubkey,
     pub crew_owner: solana_pubkey::Pubkey,
     pub crew_delegate: solana_pubkey::Pubkey,
@@ -33,9 +39,19 @@ impl carbon_core::deserialize::ArrangeAccounts for AddCrewToGame {
     ) -> Option<Self::ArrangedAccounts> {
         let mut iter = accounts.iter();
         let sage_player_profile = next_account(&mut iter)?;
-        let starbase_and_starbase_player = next_account(&mut iter)?;
+
+        // StarbaseAndStarbasePlayerMut expansion
+        let starbase = next_account(&mut iter)?;
+        let starbase_player = next_account(&mut iter)?;
+
         let sage_crew_config = next_account(&mut iter)?;
-        let game_and_profile_and_faction = next_account(&mut iter)?;
+
+        // GameAndProfileAndFaction expansion
+        let key = next_account(&mut iter)?;
+        let profile = next_account(&mut iter)?;
+        let profile_faction = next_account(&mut iter)?;
+        let game_id = next_account(&mut iter)?;
+
         let crew_config = next_account(&mut iter)?;
         let crew_owner = next_account(&mut iter)?;
         let crew_delegate = next_account(&mut iter)?;
@@ -46,9 +62,13 @@ impl carbon_core::deserialize::ArrangeAccounts for AddCrewToGame {
 
         Some(AddCrewToGameInstructionAccounts {
             sage_player_profile,
-            starbase_and_starbase_player,
+            starbase,
+            starbase_player,
             sage_crew_config,
-            game_and_profile_and_faction,
+            key,
+            profile,
+            profile_faction,
+            game_id,
             crew_config,
             crew_owner,
             crew_delegate,
