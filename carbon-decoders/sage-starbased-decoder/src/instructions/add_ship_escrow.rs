@@ -17,8 +17,15 @@ pub struct AddShipEscrowInstructionAccounts {
     pub origin_token_account: solana_pubkey::Pubkey,
     pub ship: solana_pubkey::Pubkey,
     pub ship_escrow_token_account: solana_pubkey::Pubkey,
-    pub starbase_and_starbase_player: solana_pubkey::Pubkey,
-    pub game_accounts_and_profile: solana_pubkey::Pubkey,
+    // StarbaseAndStarbasePlayerMut expansion
+    pub starbase: solana_pubkey::Pubkey,
+    pub starbase_player: solana_pubkey::Pubkey,
+    // GameAndGameStateAndProfile expansion
+    pub key: solana_pubkey::Pubkey,
+    pub profile: solana_pubkey::Pubkey,
+    pub profile_faction: solana_pubkey::Pubkey,
+    pub game_id: solana_pubkey::Pubkey,
+    pub game_state: solana_pubkey::Pubkey,
     pub token_program: solana_pubkey::Pubkey,
     pub system_program: solana_pubkey::Pubkey,
 }
@@ -35,8 +42,18 @@ impl carbon_core::deserialize::ArrangeAccounts for AddShipEscrow {
         let origin_token_account = next_account(&mut iter)?;
         let ship = next_account(&mut iter)?;
         let ship_escrow_token_account = next_account(&mut iter)?;
-        let starbase_and_starbase_player = next_account(&mut iter)?;
-        let game_accounts_and_profile = next_account(&mut iter)?;
+
+        // StarbaseAndStarbasePlayerMut expansion
+        let starbase = next_account(&mut iter)?;
+        let starbase_player = next_account(&mut iter)?;
+
+        // GameAndGameStateAndProfile expansion
+        let key = next_account(&mut iter)?;
+        let profile = next_account(&mut iter)?;
+        let profile_faction = next_account(&mut iter)?;
+        let game_id = next_account(&mut iter)?;
+        let game_state = next_account(&mut iter)?;
+
         let token_program = next_account(&mut iter)?;
         let system_program = next_account(&mut iter)?;
 
@@ -46,8 +63,13 @@ impl carbon_core::deserialize::ArrangeAccounts for AddShipEscrow {
             origin_token_account,
             ship,
             ship_escrow_token_account,
-            starbase_and_starbase_player,
-            game_accounts_and_profile,
+            starbase,
+            starbase_player,
+            key,
+            profile,
+            profile_faction,
+            game_id,
+            game_state,
             token_program,
             system_program,
         })

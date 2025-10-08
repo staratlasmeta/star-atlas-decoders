@@ -10,7 +10,10 @@ pub struct InvalidateShip {
 
 #[derive(Debug, PartialEq, Eq, Clone, Hash, serde::Serialize, serde::Deserialize)]
 pub struct InvalidateShipInstructionAccounts {
-    pub game_and_profile: solana_pubkey::Pubkey,
+    // ActiveOrInactiveGameAndProfileMut expansion
+    pub key: solana_pubkey::Pubkey,
+    pub profile: solana_pubkey::Pubkey,
+    pub game_id: solana_pubkey::Pubkey,
     pub ship: solana_pubkey::Pubkey,
 }
 
@@ -21,11 +24,18 @@ impl carbon_core::deserialize::ArrangeAccounts for InvalidateShip {
         accounts: &[solana_instruction::AccountMeta],
     ) -> Option<Self::ArrangedAccounts> {
         let mut iter = accounts.iter();
-        let game_and_profile = next_account(&mut iter)?;
+
+        // ActiveOrInactiveGameAndProfileMut expansion
+        let key = next_account(&mut iter)?;
+        let profile = next_account(&mut iter)?;
+        let game_id = next_account(&mut iter)?;
+
         let ship = next_account(&mut iter)?;
 
         Some(InvalidateShipInstructionAccounts {
-            game_and_profile,
+            key,
+            profile,
+            game_id,
             ship,
         })
     }
