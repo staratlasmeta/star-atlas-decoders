@@ -12,8 +12,17 @@ pub struct WithdrawCargoFromFleet {
 
 #[derive(Debug, PartialEq, Eq, Clone, Hash, serde::Serialize, serde::Deserialize)]
 pub struct WithdrawCargoFromFleetInstructionAccounts {
-    pub game_accounts_fleet_and_owner: solana_pubkey::Pubkey,
-    pub starbase_and_starbase_player: solana_pubkey::Pubkey,
+    // GameAndGameStateAndFleetAndOwnerMut expansion
+    pub key: solana_pubkey::Pubkey,
+    pub owning_profile: solana_pubkey::Pubkey,
+    pub owning_profile_faction: solana_pubkey::Pubkey,
+    pub fleet: solana_pubkey::Pubkey,
+    pub game_id: solana_pubkey::Pubkey,
+    pub game_state: solana_pubkey::Pubkey,
+    // StarbaseAndStarbasePlayer expansion
+    pub starbase: solana_pubkey::Pubkey,
+    pub starbase_player: solana_pubkey::Pubkey,
+    // Direct accounts
     pub cargo_pod_from: solana_pubkey::Pubkey,
     pub cargo_pod_to: solana_pubkey::Pubkey,
     pub cargo_type: solana_pubkey::Pubkey,
@@ -33,8 +42,20 @@ impl carbon_core::deserialize::ArrangeAccounts for WithdrawCargoFromFleet {
         accounts: &[solana_instruction::AccountMeta],
     ) -> Option<Self::ArrangedAccounts> {
         let mut iter = accounts.iter();
-        let game_accounts_fleet_and_owner = next_account(&mut iter)?;
-        let starbase_and_starbase_player = next_account(&mut iter)?;
+
+        // GameAndGameStateAndFleetAndOwnerMut expansion
+        let key = next_account(&mut iter)?;
+        let owning_profile = next_account(&mut iter)?;
+        let owning_profile_faction = next_account(&mut iter)?;
+        let fleet = next_account(&mut iter)?;
+        let game_id = next_account(&mut iter)?;
+        let game_state = next_account(&mut iter)?;
+
+        // StarbaseAndStarbasePlayer expansion
+        let starbase = next_account(&mut iter)?;
+        let starbase_player = next_account(&mut iter)?;
+
+        // Direct accounts
         let cargo_pod_from = next_account(&mut iter)?;
         let cargo_pod_to = next_account(&mut iter)?;
         let cargo_type = next_account(&mut iter)?;
@@ -47,8 +68,14 @@ impl carbon_core::deserialize::ArrangeAccounts for WithdrawCargoFromFleet {
         let token_program = next_account(&mut iter)?;
 
         Some(WithdrawCargoFromFleetInstructionAccounts {
-            game_accounts_fleet_and_owner,
-            starbase_and_starbase_player,
+            key,
+            owning_profile,
+            owning_profile_faction,
+            fleet,
+            game_id,
+            game_state,
+            starbase,
+            starbase_player,
             cargo_pod_from,
             cargo_pod_to,
             cargo_type,
