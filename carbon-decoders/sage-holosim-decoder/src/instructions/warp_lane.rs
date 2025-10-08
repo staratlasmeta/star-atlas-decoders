@@ -12,7 +12,13 @@ pub struct WarpLane {
 
 #[derive(Debug, PartialEq, Eq, Clone, Hash, serde::Serialize, serde::Deserialize)]
 pub struct WarpLaneInstructionAccounts {
-    pub game_accounts_fleet_and_owner: solana_pubkey::Pubkey,
+    // GameAndGameStateAndFleetAndOwnerMut expansion
+    pub key: solana_pubkey::Pubkey,
+    pub owning_profile: solana_pubkey::Pubkey,
+    pub owning_profile_faction: solana_pubkey::Pubkey,
+    pub fleet: solana_pubkey::Pubkey,
+    pub game_id: solana_pubkey::Pubkey,
+    pub game_state: solana_pubkey::Pubkey,
     pub from_starbase: solana_pubkey::Pubkey,
     pub to_starbase: solana_pubkey::Pubkey,
     pub from_sector: solana_pubkey::Pubkey,
@@ -36,7 +42,15 @@ impl carbon_core::deserialize::ArrangeAccounts for WarpLane {
         accounts: &[solana_instruction::AccountMeta],
     ) -> Option<Self::ArrangedAccounts> {
         let mut iter = accounts.iter();
-        let game_accounts_fleet_and_owner = next_account(&mut iter)?;
+
+        // GameAndGameStateAndFleetAndOwnerMut expansion
+        let key = next_account(&mut iter)?;
+        let owning_profile = next_account(&mut iter)?;
+        let owning_profile_faction = next_account(&mut iter)?;
+        let fleet = next_account(&mut iter)?;
+        let game_id = next_account(&mut iter)?;
+        let game_state = next_account(&mut iter)?;
+
         let from_starbase = next_account(&mut iter)?;
         let to_starbase = next_account(&mut iter)?;
         let from_sector = next_account(&mut iter)?;
@@ -53,7 +67,12 @@ impl carbon_core::deserialize::ArrangeAccounts for WarpLane {
         let token_program = next_account(&mut iter)?;
 
         Some(WarpLaneInstructionAccounts {
-            game_accounts_fleet_and_owner,
+            key,
+            owning_profile,
+            owning_profile_faction,
+            fleet,
+            game_id,
+            game_state,
             from_starbase,
             to_starbase,
             from_sector,

@@ -5,12 +5,12 @@ This document outlines the complete patching strategy for expanding composite ac
 
 ## Progress Summary
 - **Total instruction files**: 124
-- **Completed patches**: 4 (covering 5 instruction files + 2 account files)
-- **Files needing composite expansions**: ~90 remaining
-- **Remaining patches**: ~13
+- **Completed patches**: 5 (covering 10 instruction files + 2 account files)
+- **Files needing composite expansions**: ~85 remaining
+- **Remaining patches**: ~12
 - **Estimated total patches**: ~17
 
-## Completed Patches (01-04)
+## Completed Patches (01-05)
 
 ### Patch 01: Disable Combat Log Events
 - **Files**: 2 (combat_log_event.rs, combat_resolved_event.rs) + mod.rs updates
@@ -49,13 +49,7 @@ This document outlines the complete patching strategy for expanding composite ac
 - **Priority**: 🔴 High - Core resource gathering mechanic
 - **Status**: ✅ Complete (180 lines)
 
----
-
-## Remaining Patches (05-17)
-
-### Priority 1: Core Gameplay - Movement (High Priority)
-
-#### Patch 05: Movement Instructions
+### Patch 05: Movement Instructions
 - **Files**: 5
   - start_subwarp.rs
   - stop_subwarp.rs
@@ -63,12 +57,14 @@ This document outlines the complete patching strategy for expanding composite ac
   - warp_to_coordinate.rs
   - mine_asteroid_to_respawn.rs
 - **Composite accounts**:
-  - `game_accounts_fleet_and_owner` → GameAndGameStateAndFleetAndOwnerMut (6 accounts)
-- **Complexity**: Medium
+  - `game_accounts_fleet_and_owner` → GameAndGameStateAndFleetAndOwnerMut (6 accounts): key, owning_profile, owning_profile_faction, fleet, game_id, game_state
+- **Complexity**: Low-Medium (single composite pattern across all 5 files)
 - **Priority**: 🔴 High - Core movement mechanics
-- **Status**: 🔲 Pending
+- **Status**: ✅ Complete (238 lines)
 
 ---
+
+## Remaining Patches (06-17)
 
 ### Priority 2: Frequently Used Operations (Medium-High Priority)
 
@@ -362,8 +358,8 @@ This document outlines the complete patching strategy for expanding composite ac
 2. ~~**Patch 02** - Accounts~~ ✅ Complete
 3. ~~**Patch 03** - Scanning & Discovery~~ ✅ Complete
 4. ~~**Patch 04** - Mining Operations~~ ✅ Complete
-5. **Patch 05** - Movement Instructions - **NEXT**
-6. **Patch 06** - Starbase Operations
+5. ~~**Patch 05** - Movement Instructions~~ ✅ Complete
+6. **Patch 06** - Starbase Operations - **NEXT**
 7. **Patch 07** - Crafting Instructions
 8. **Patch 08** - Fleet Management
 9. **Patch 09** - Fleet Cargo Operations
