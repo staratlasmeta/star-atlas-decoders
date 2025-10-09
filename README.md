@@ -19,12 +19,17 @@ This project generates and maintains Rust decoders for Star Atlas programs on So
 - **atlas-staking**: Atlas Staking program (`ATLocKpzDbTokxgvnLew3d7drZkEzLzDpzwgrgWKDbmc`)
   - Fetches IDL directly from Solana mainnet
   - ATLAS token staking with configurable rewards and cooldown periods
-  - No custom patches needed - straightforward account structures
+  - Minimal patches needed - adds serialization support for account types
 
 - **locked-voter**: Locked Voter program (`Lock7kBijGCQLEFAmXcengzXKA88iDNQPriQ7TbgeyG`)
   - Fetches IDL directly from Solana mainnet
   - POLIS governance and voting with escrow and whitelist controls
-  - No custom patches needed - straightforward account structures
+  - Minimal patches needed - adds serialization support for account types
+
+- **marketplace**: Galactic Marketplace program (`traderDnaR5w6Tcoi3NFm53i48FTDNbGjBSZwWXDRrg`)
+  - Fetches IDL directly from Solana mainnet
+  - NFT marketplace with order books, currency management, and royalty tiers
+  - Minimal patches needed - adds serialization support for account types
 
 ## Prerequisites
 
@@ -49,6 +54,7 @@ just all-sage-starbased
 just all-sage-holosim
 just all-atlas-staking
 just all-locked-voter
+just all-marketplace
 ```
 
 ## Project Structure
@@ -59,7 +65,8 @@ star-atlas-decoders/
 │   ├── sage-starbased-decoder/
 │   ├── sage-holosim-decoder/
 │   ├── atlas-staking-decoder/
-│   └── locked-voter-decoder/
+│   ├── locked-voter-decoder/
+│   └── marketplace-decoder/
 ├── dist/                    # Temporary build directory (gitignored)
 ├── patches/                 # Custom patches for decoders
 │   ├── sage-starbased-01-accounts.patch
@@ -143,6 +150,7 @@ cargo check -p sage-starbased-decoder
 cargo check -p sage-holosim-decoder
 cargo check -p atlas-staking-decoder
 cargo check -p locked-voter-decoder
+cargo check -p marketplace-decoder
 
 # Run clippy
 cargo clippy --all-targets --all-features -- -D warnings
@@ -159,6 +167,7 @@ just clean-sage-starbased
 just clean-sage-holosim
 just clean-atlas-staking
 just clean-locked-voter
+just clean-marketplace
 just clean-all
 
 # List available patches
