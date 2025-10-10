@@ -1,7 +1,15 @@
 [package]
-name = "marketplace-decoder"
+name = "carbon-marketplace-decoder"
 version = "0.10.0"
 edition = "2024"
+description = "Rust decoder for Star Atlas Galactic Marketplace program on Solana"
+license = "Apache-2.0"
+repository = "https://github.com/staratlasmeta/star-atlas-decoders"
+homepage = "https://github.com/staratlasmeta/star-atlas-decoders"
+readme = "README.md"
+keywords = ["solana", "star-atlas", "decoder"]
+categories = ["encoding"]
+rust-version = "1.85"
 
 [lib]
 crate-type = ["rlib"]
