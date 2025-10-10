@@ -47,11 +47,14 @@ let decoded_account = decoder.decode_account(&account);
 
 if let Some(decoded) = decoded_account {
     match decoded.data {
-        MarketplaceAccount::Market(market) => {
-            println!("Market: {:?}", market);
+        MarketplaceAccount::MarketVars(vars) => {
+            println!("Market Variables: {:?}", vars);
         }
-        MarketplaceAccount::OpenOrdersAccount(orders) => {
-            println!("Open Orders: {:?}", orders);
+        MarketplaceAccount::OrderAccount(order) => {
+            println!("Order Account: {:?}", order);
+        }
+        MarketplaceAccount::RegisteredCurrency(currency) => {
+            println!("Registered Currency: {:?}", currency);
         }
         // ... handle other account types
         _ => {}
@@ -61,12 +64,13 @@ if let Some(decoded) = decoded_account {
 
 ### Account Types
 
-This decoder supports Marketplace account types including:
-- `Market` - Marketplace configuration
-- `OpenOrdersAccount` - Active buy/sell orders
-- `Currency` - Supported currencies
-- `ProductType` - Product categorization
-- And more...
+This decoder supports all Marketplace account types:
+- `AtlasRateAccount` - ATLAS rate tracking for fee calculations
+- `FeeReduction` - Fee reduction configurations
+- `MarketVars` - Global marketplace variables and settings
+- `OpenOrdersCounter` - Counter for tracking open orders
+- `OrderAccount` - Individual buy/sell order accounts
+- `RegisteredCurrency` - Registered currencies for trading
 
 ## Documentation
 

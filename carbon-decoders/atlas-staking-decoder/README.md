@@ -47,25 +47,25 @@ let decoded_account = decoder.decode_account(&account);
 
 if let Some(decoded) = decoded_account {
     match decoded.data {
-        AtlasStakingAccount::StakePool(pool) => {
-            println!("Stake Pool: {:?}", pool);
+        AtlasStakingAccount::RegisteredStake(stake) => {
+            println!("Registered Stake: {:?}", stake);
         }
-        AtlasStakingAccount::StakeAccount(stake) => {
-            println!("User Stake: {:?}", stake);
+        AtlasStakingAccount::StakingAccount(account) => {
+            println!("Staking Account: {:?}", account);
         }
-        // ... handle other account types
-        _ => {}
+        AtlasStakingAccount::StakingVars(vars) => {
+            println!("Staking Variables: {:?}", vars);
+        }
     }
 }
 ```
 
 ### Account Types
 
-This decoder supports ATLAS staking account types including:
-- `StakePool` - Staking pool configuration and state
-- `StakeAccount` - Individual user stake positions
-- `StakeDepositReceipt` - Deposit tracking
-- And more...
+This decoder supports all ATLAS staking account types:
+- `RegisteredStake` - Registered stake configuration
+- `StakingAccount` - Individual user staking accounts
+- `StakingVars` - Global staking variables and configuration
 
 ## Documentation
 
