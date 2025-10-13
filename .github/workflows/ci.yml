@@ -26,14 +26,9 @@ jobs:
         with:
           cache-provider: warpbuild
 
-      - name: Install Just
-        run: cargo install just || echo "just already installed"
-
-      - name: Install Carbon CLI
-        run: cargo install --git https://github.com/sevenlabs-hq/carbon.git carbon-cli || echo "carbon-cli already installed"
-
-      - name: Check required tools
-        run: ./scripts/check-tools.sh
+      - uses: taiki-e/install-action
+        with:
+          tool: just,carbon-cli
 
       - name: Run CI script
         run: ./scripts/ci.sh
