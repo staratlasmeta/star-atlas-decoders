@@ -2,7 +2,6 @@
 resolver = "3"
 members = ["carbon-decoders/*"]
 exclude = [
-    "carbon-decoders/atlas-fee-payer-decoder",
     "carbon-decoders/crew-decoder",
     "carbon-decoders/profile-value-decoder",
     "carbon-decoders/srsly-decoder",

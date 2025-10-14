@@ -5,9 +5,10 @@
 # ============================================================================
 
 # List of all decoders (space-separated)
-ALL_DECODERS := "sage-starbased sage-holosim atlas-staking locked-voter marketplace"
+ALL_DECODERS := "sage-starbased sage-holosim atlas-staking locked-voter marketplace atlas-fee-payer"
 
 # Program IDs
+ATLAS_FEE_PAYER_PROGRAM_ID := "APR1MEny25pKupwn72oVqMH4qpDouArsX8zX4VwwfoXD"
 SAGE_STARBASED_PROGRAM_ID := "SAGE2HAwep459SNq61LHvjxPk4pLPEJLoMETef7f7EE"
 SAGE_HOLOSIM_PROGRAM_ID := "SAgEeT8u14TE69JXtanGSgNkEdoPUcLabeyZD2uw8x9"
 ATLAS_STAKING_PROGRAM_ID := "ATLocKpzDbTokxgvnLew3d7drZkEzLzDpzwgrgWKDbmc"
@@ -15,6 +16,7 @@ LOCKED_VOTER_PROGRAM_ID := "Lock7kBijGCQLEFAmXcengzXKA88iDNQPriQ7TbgeyG"
 MARKETPLACE_PROGRAM_ID := "traderDnaR5w6Tcoi3NFm53i48FTDNbGjBSZwWXDRrg"
 
 # Descriptions
+ATLAS_FEE_PAYER_DESC := "Rust decoder for Star Atlas ATLAS fee payer program on Solana"
 SAGE_STARBASED_DESC := "Rust decoder for Star Atlas SAGE Starbased program on Solana"
 SAGE_HOLOSIM_DESC := "Rust decoder for Star Atlas SAGE Holosim program on Solana"
 ATLAS_STAKING_DESC := "Rust decoder for Star Atlas ATLAS staking program on Solana"
@@ -22,6 +24,7 @@ LOCKED_VOTER_DESC := "Rust decoder for Star Atlas Locked Voter governance progra
 MARKETPLACE_DESC := "Rust decoder for Star Atlas Galactic Marketplace program on Solana"
 
 # IDL Sources: "mainnet" or "local"
+ATLAS_FEE_PAYER_SOURCE := "mainnet"
 SAGE_STARBASED_SOURCE := "mainnet"
 SAGE_HOLOSIM_SOURCE := "local"
 ATLAS_STAKING_SOURCE := "mainnet"
@@ -34,6 +37,7 @@ SAGE_HOLOSIM_GENERATED_NAME := "sage-decoder"
 ATLAS_STAKING_GENERATED_NAME := "atlas-staking-decoder"
 LOCKED_VOTER_GENERATED_NAME := "locked-voter-decoder"
 MARKETPLACE_GENERATED_NAME := "marketplace-decoder"
+ATLAS_FEE_PAYER_GENERATED_NAME := "atlas-fee-payer-decoder"
 
 # ============================================================================
 # OS DETECTION FOR CROSS-PLATFORM COMPATIBILITY
@@ -64,6 +68,7 @@ _get-program-id decoder_name:
         atlas-staking) echo "{{ATLAS_STAKING_PROGRAM_ID}}" ;;
         locked-voter) echo "{{LOCKED_VOTER_PROGRAM_ID}}" ;;
         marketplace) echo "{{MARKETPLACE_PROGRAM_ID}}" ;;
+        atlas-fee-payer) echo "{{ATLAS_FEE_PAYER_PROGRAM_ID}}" ;;
         *) echo "Unknown decoder: {{decoder_name}}" >&2; exit 1 ;;
     esac
 
@@ -76,6 +81,7 @@ _get-description decoder_name:
         atlas-staking) echo "{{ATLAS_STAKING_DESC}}" ;;
         locked-voter) echo "{{LOCKED_VOTER_DESC}}" ;;
         marketplace) echo "{{MARKETPLACE_DESC}}" ;;
+        atlas-fee-payer) echo "{{ATLAS_FEE_PAYER_DESC}}" ;;
         *) echo "Unknown decoder: {{decoder_name}}" >&2; exit 1 ;;
     esac
 
@@ -88,6 +94,7 @@ _get-source decoder_name:
         atlas-staking) echo "{{ATLAS_STAKING_SOURCE}}" ;;
         locked-voter) echo "{{LOCKED_VOTER_SOURCE}}" ;;
         marketplace) echo "{{MARKETPLACE_SOURCE}}" ;;
+        atlas-fee-payer) echo "{{ATLAS_FEE_PAYER_SOURCE}}" ;;
         *) echo "Unknown decoder: {{decoder_name}}" >&2; exit 1 ;;
     esac
 
@@ -100,6 +107,7 @@ _get-generated-name decoder_name:
         atlas-staking) echo "{{ATLAS_STAKING_GENERATED_NAME}}" ;;
         locked-voter) echo "{{LOCKED_VOTER_GENERATED_NAME}}" ;;
         marketplace) echo "{{MARKETPLACE_GENERATED_NAME}}" ;;
+        atlas-fee-payer) echo "{{ATLAS_FEE_PAYER_GENERATED_NAME}}" ;;
         *) echo "Unknown decoder: {{decoder_name}}" >&2; exit 1 ;;
     esac
 
@@ -352,6 +360,15 @@ apply-patches-marketplace: (apply-patches "marketplace")
 create-patch-marketplace patch_name: (create-patch "marketplace" patch_name)
 publish-marketplace: (publish "marketplace")
 all-marketplace: (all "marketplace")
+
+# ATLAS Fee Payer
+generate-atlas-fee-payer: (generate "atlas-fee-payer")
+build-atlas-fee-payer: (build "atlas-fee-payer")
+clean-atlas-fee-payer: (clean "atlas-fee-payer")
+apply-patches-atlas-fee-payer: (apply-patches "atlas-fee-payer")
+create-patch-atlas-fee-payer patch_name: (create-patch "atlas-fee-payer" patch_name)
+publish-atlas-fee-payer: (publish "atlas-fee-payer")
+all-atlas-fee-payer: (all "atlas-fee-payer")
 
 # ============================================================================
 # UTILITY COMMANDS

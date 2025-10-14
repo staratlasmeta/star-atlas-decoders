@@ -1,7 +1,3 @@
-
-
-
-
 use super::AtlasFeePayerDecoder;
 pub mod close_fee_payer;
 pub mod create_fee_payer;
@@ -11,7 +7,16 @@ pub mod post_transaction_no_vault;
 pub mod pre_transaction;
 pub mod set_fee_payer_rates;
 
-#[derive(carbon_core::InstructionType, serde::Serialize, serde::Deserialize, PartialEq, Eq, Debug, Clone, Hash)]
+#[derive(
+    carbon_core::InstructionType,
+    serde::Serialize,
+    serde::Deserialize,
+    PartialEq,
+    Eq,
+    Debug,
+    Clone,
+    Hash,
+)]
 pub enum AtlasFeePayerInstruction {
     CloseFeePayer(close_fee_payer::CloseFeePayer),
     CreateFeePayer(create_fee_payer::CreateFeePayer),

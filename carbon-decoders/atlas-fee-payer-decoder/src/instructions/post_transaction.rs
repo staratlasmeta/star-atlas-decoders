@@ -1,11 +1,10 @@
+use carbon_core::{CarbonDeserialize, account_utils::next_account, borsh};
 
-
-use carbon_core::{CarbonDeserialize, borsh, account_utils::next_account};
-
-
-#[derive(CarbonDeserialize, Debug, serde::Serialize, serde::Deserialize, PartialEq, Eq, Clone, Hash)]
+#[derive(
+    CarbonDeserialize, Debug, serde::Serialize, serde::Deserialize, PartialEq, Eq, Clone, Hash,
+)]
 #[carbon(discriminator = "0x381d7fcf2b5f6366")]
-pub struct PostTransaction{
+pub struct PostTransaction {
     pub funder_key_index: u16,
 }
 
@@ -28,7 +27,9 @@ pub struct PostTransactionInstructionAccounts {
 impl carbon_core::deserialize::ArrangeAccounts for PostTransaction {
     type ArrangedAccounts = PostTransactionInstructionAccounts;
 
-    fn arrange_accounts(accounts: &[solana_instruction::AccountMeta]) -> Option<Self::ArrangedAccounts> {
+    fn arrange_accounts(
+        accounts: &[solana_instruction::AccountMeta],
+    ) -> Option<Self::ArrangedAccounts> {
         let mut iter = accounts.iter();
         let fee_payer = next_account(&mut iter)?;
         let rates = next_account(&mut iter)?;
