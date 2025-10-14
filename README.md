@@ -25,6 +25,21 @@
   <a href="https://crates.io/crates/carbon-marketplace-decoder">
     <img src="https://img.shields.io/crates/v/carbon-marketplace-decoder?logo=rust&label=marketplace" />
   </a>
+  <a href="https://crates.io/crates/carbon-atlas-fee-payer-decoder">
+    <img src="https://img.shields.io/crates/v/carbon-atlas-fee-payer-decoder?logo=rust&label=atlas-fee-payer" />
+  </a>
+  <a href="https://crates.io/crates/carbon-crew-decoder">
+    <img src="https://img.shields.io/crates/v/carbon-crew-decoder?logo=rust&label=crew" />
+  </a>
+  <a href="https://crates.io/crates/carbon-profile-vault-decoder">
+    <img src="https://img.shields.io/crates/v/carbon-profile-vault-decoder?logo=rust&label=profile-vault" />
+  </a>
+  <a href="https://crates.io/crates/carbon-srsly-decoder">
+    <img src="https://img.shields.io/crates/v/carbon-srsly-decoder?logo=rust&label=srsly" />
+  </a>
+  <a href="https://crates.io/crates/carbon-tcomp-decoder">
+    <img src="https://img.shields.io/crates/v/carbon-tcomp-decoder?logo=rust&label=tcomp" />
+  </a>
 </p>
 
 Rust decoders for Star Atlas Solana programs, generated from IDLs using Carbon CLI with custom patches for complex account deserialization.
@@ -58,6 +73,33 @@ This project generates and maintains Rust decoders for Star Atlas programs on So
   - NFT marketplace with order books, currency management, and royalty tiers
   - Minimal patches needed - adds serialization support for account types
 
+- **atlas-fee-payer**: ATLAS Fee Payer program (`APR1MEny25pKupwn72oVqMH4qpDouArsX8zX4VwwfoXD`)
+  - Fetches IDL directly from Solana mainnet
+  - Fee payment management for Star Atlas transactions
+  - Minimal patches needed - adds serialization support for account types
+
+- **crew**: Crew Management program (`CREWiq8qbxvo4SKkAFpVnc6t7CRQC4tAAscsNAENXgrJ`)
+  - Fetches IDL directly from Solana mainnet
+  - Crew management for Star Atlas ships and operations
+  - Uses serde_big_array for large byte arrays
+  - Minimal patches needed - adds serialization support for account types
+
+- **profile-vault**: Profile Vault program (`pv1ttom8tbyh83C1AVh6QH2naGRdVQUVt3HY1Yst5sv`)
+  - Fetches IDL directly from Solana mainnet
+  - Profile vault management for Star Atlas player profiles
+  - Minimal patches needed - adds serialization support for account types
+
+- **srsly**: Fleet Rentals (SRSLY) program (`SRSLY1fq9TJqCk1gNSE7VZL2bztvTn9wm4VR8u8jMKT`)
+  - Fetches IDL directly from Solana mainnet
+  - Fleet rental contracts and automated payment processing
+  - Custom patches - adds serialization support and f64 rate field workaround
+
+- **tcomp**: Tensor cNFT Compressed program (`TCMPhJdwDryooaGtiocG1u3xcYbRpiJzb283XfCZsDp`)
+  - Fetches IDL directly from Solana mainnet
+  - Compressed NFT marketplace for trading cNFTs
+  - Uses serde_big_array for large byte arrays
+  - Minimal patches needed - adds serialization support for account types
+
 ## Prerequisites
 
 Run `./scripts/check-tools.sh` to verify all required tools are installed:
@@ -75,13 +117,6 @@ Run `./scripts/check-tools.sh` to verify all required tools are installed:
 
 # Build all decoders and run CI checks
 ./scripts/ci.sh
-
-# Or build individual decoders
-just all-sage-starbased
-just all-sage-holosim
-just all-atlas-staking
-just all-locked-voter
-just all-marketplace
 ```
 
 ## Project Structure
@@ -93,17 +128,32 @@ star-atlas-decoders/
 │   ├── sage-holosim-decoder/
 │   ├── atlas-staking-decoder/
 │   ├── locked-voter-decoder/
-│   └── marketplace-decoder/
+│   ├── marketplace-decoder/
+│   ├── atlas-fee-payer-decoder/
+│   ├── crew-decoder/
+│   ├── profile-vault-decoder/
+│   ├── srsly-decoder/
+│   └── tcomp-decoder/
 ├── dist/                    # Temporary build directory (gitignored)
 ├── patches/                 # Custom patches for decoders
 │   ├── sage-starbased-01-accounts.patch
-│   └── sage-holosim-01-disable-ix-combat-log-event.patch
+│   ├── sage-holosim-01-disable-ix-combat-log-event.patch
+│   ├── atlas-staking-01-accounts-serialize.patch
+│   ├── locked-voter-01-accounts-serialize.patch
+│   ├── marketplace-01-accounts-serialize.patch
+│   ├── atlas-fee-payer-01-accounts-serialize.patch
+│   ├── crew-01-accounts-serialize.patch
+│   ├── profile-vault-01-accounts-serialize.patch
+│   ├── srsly-01-accounts-serialize.patch
+│   ├── srsly-02-rate-f64-workaround.patch
+│   └── tcomp-01-accounts-serialize.patch
 ├── idl/                     # Local IDL files
 ├── scripts/                 # CI and utility scripts
 │   ├── ci.sh               # Full CI pipeline
 │   └── check-tools.sh      # Tool verification
 ├── docs/                    # Documentation
-│   └── patch-development-workflow.md
+│   ├── patch-development-workflow.md
+│   └── readmes/            # Individual decoder READMEs
 └── justfile                # Build automation
 
 ```
@@ -172,13 +222,6 @@ When multiple patches need specific ordering, use numbered prefixes:
 # Run full CI pipeline
 ./scripts/ci.sh
 
-# Check specific decoder
-cargo check -p sage-starbased-decoder
-cargo check -p sage-holosim-decoder
-cargo check -p atlas-staking-decoder
-cargo check -p locked-voter-decoder
-cargo check -p marketplace-decoder
-
 # Run clippy
 cargo clippy --all-targets --all-features -- -D warnings
 
@@ -190,11 +233,6 @@ cargo test --all
 
 ```bash
 # Clean build artifacts
-just clean-sage-starbased
-just clean-sage-holosim
-just clean-atlas-staking
-just clean-locked-voter
-just clean-marketplace
 just clean-all
 
 # List available patches
