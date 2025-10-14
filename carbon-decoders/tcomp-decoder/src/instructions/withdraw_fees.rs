@@ -1,6 +1,6 @@
 
 
-use carbon_core::{CarbonDeserialize, borsh};
+use carbon_core::{CarbonDeserialize, borsh, account_utils::next_account};
 
 
 #[derive(CarbonDeserialize, Debug, serde::Serialize, serde::Deserialize, PartialEq, Eq, Clone, Hash)]
@@ -23,26 +23,21 @@ impl carbon_core::deserialize::ArrangeAccounts for WithdrawFees {
     type ArrangedAccounts = WithdrawFeesInstructionAccounts;
 
     fn arrange_accounts(accounts: &[solana_instruction::AccountMeta]) -> Option<Self::ArrangedAccounts> {
-        let [
+        let mut iter = accounts.iter();
+        let tswap = next_account(&mut iter)?;
+        let tcomp = next_account(&mut iter)?;
+        let cosigner = next_account(&mut iter)?;
+        let owner = next_account(&mut iter)?;
+        let destination = next_account(&mut iter)?;
+        let system_program = next_account(&mut iter)?;
+
+        Some(WithdrawFeesInstructionAccounts {
             tswap,
             tcomp,
             cosigner,
             owner,
             destination,
             system_program,
-            _remaining @ ..
-        ] = accounts else {
-            return None;
-        };
-       
-
-        Some(WithdrawFeesInstructionAccounts {
-            tswap: tswap.pubkey,
-            tcomp: tcomp.pubkey,
-            cosigner: cosigner.pubkey,
-            owner: owner.pubkey,
-            destination: destination.pubkey,
-            system_program: system_program.pubkey,
         })
     }
 }

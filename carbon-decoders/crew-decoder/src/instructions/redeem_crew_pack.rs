@@ -1,7 +1,7 @@
 
 use super::super::types::*;
 
-use carbon_core::{CarbonDeserialize, borsh};
+use carbon_core::{CarbonDeserialize, borsh, account_utils::next_account};
 
 
 #[derive(CarbonDeserialize, Debug, serde::Serialize, serde::Deserialize, PartialEq, Eq, Clone, Hash)]
@@ -34,7 +34,25 @@ impl carbon_core::deserialize::ArrangeAccounts for RedeemCrewPack {
     type ArrangedAccounts = RedeemCrewPackInstructionAccounts;
 
     fn arrange_accounts(accounts: &[solana_instruction::AccountMeta]) -> Option<Self::ArrangedAccounts> {
-        let [
+        let mut iter = accounts.iter();
+        let pack_sft_authority = next_account(&mut iter)?;
+        let profile = next_account(&mut iter)?;
+        let profile_key = next_account(&mut iter)?;
+        let funder = next_account(&mut iter)?;
+        let owner = next_account(&mut iter)?;
+        let user_redemption = next_account(&mut iter)?;
+        let sft_redemption = next_account(&mut iter)?;
+        let pack_type = next_account(&mut iter)?;
+        let pack_tiers = next_account(&mut iter)?;
+        let crew_config = next_account(&mut iter)?;
+        let token_from = next_account(&mut iter)?;
+        let token_mint = next_account(&mut iter)?;
+        let token_program = next_account(&mut iter)?;
+        let instructions_sysvar = next_account(&mut iter)?;
+        let recent_slothashes = next_account(&mut iter)?;
+        let system_program = next_account(&mut iter)?;
+
+        Some(RedeemCrewPackInstructionAccounts {
             pack_sft_authority,
             profile,
             profile_key,
@@ -51,29 +69,6 @@ impl carbon_core::deserialize::ArrangeAccounts for RedeemCrewPack {
             instructions_sysvar,
             recent_slothashes,
             system_program,
-            _remaining @ ..
-        ] = accounts else {
-            return None;
-        };
-       
-
-        Some(RedeemCrewPackInstructionAccounts {
-            pack_sft_authority: pack_sft_authority.pubkey,
-            profile: profile.pubkey,
-            profile_key: profile_key.pubkey,
-            funder: funder.pubkey,
-            owner: owner.pubkey,
-            user_redemption: user_redemption.pubkey,
-            sft_redemption: sft_redemption.pubkey,
-            pack_type: pack_type.pubkey,
-            pack_tiers: pack_tiers.pubkey,
-            crew_config: crew_config.pubkey,
-            token_from: token_from.pubkey,
-            token_mint: token_mint.pubkey,
-            token_program: token_program.pubkey,
-            instructions_sysvar: instructions_sysvar.pubkey,
-            recent_slothashes: recent_slothashes.pubkey,
-            system_program: system_program.pubkey,
         })
     }
 }

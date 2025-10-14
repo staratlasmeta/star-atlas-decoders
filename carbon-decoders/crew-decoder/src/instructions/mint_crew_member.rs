@@ -1,7 +1,7 @@
 
 use super::super::types::*;
 
-use carbon_core::{CarbonDeserialize, borsh};
+use carbon_core::{CarbonDeserialize, borsh, account_utils::next_account};
 
 
 #[derive(CarbonDeserialize, Debug, serde::Serialize, serde::Deserialize, PartialEq, Eq, Clone, Hash)]
@@ -37,7 +37,28 @@ impl carbon_core::deserialize::ArrangeAccounts for MintCrewMember {
     type ArrangedAccounts = MintCrewMemberInstructionAccounts;
 
     fn arrange_accounts(accounts: &[solana_instruction::AccountMeta]) -> Option<Self::ArrangedAccounts> {
-        let [
+        let mut iter = accounts.iter();
+        let key = next_account(&mut iter)?;
+        let profile = next_account(&mut iter)?;
+        let rent_recipient = next_account(&mut iter)?;
+        let crew_config = next_account(&mut iter)?;
+        let owner = next_account(&mut iter)?;
+        let user_redemption = next_account(&mut iter)?;
+        let pack_type = next_account(&mut iter)?;
+        let pack_tiers = next_account(&mut iter)?;
+        let system_program = next_account(&mut iter)?;
+        let collection_mint = next_account(&mut iter)?;
+        let collection_metadata = next_account(&mut iter)?;
+        let collection_edition = next_account(&mut iter)?;
+        let compression_program = next_account(&mut iter)?;
+        let bubblegum_program = next_account(&mut iter)?;
+        let log_wrapper = next_account(&mut iter)?;
+        let tree_config = next_account(&mut iter)?;
+        let merkle_tree = next_account(&mut iter)?;
+        let collection_authority_record_pda = next_account(&mut iter)?;
+        let server_hash_preimage = next_account(&mut iter)?;
+
+        Some(MintCrewMemberInstructionAccounts {
             key,
             profile,
             rent_recipient,
@@ -57,32 +78,6 @@ impl carbon_core::deserialize::ArrangeAccounts for MintCrewMember {
             merkle_tree,
             collection_authority_record_pda,
             server_hash_preimage,
-            _remaining @ ..
-        ] = accounts else {
-            return None;
-        };
-       
-
-        Some(MintCrewMemberInstructionAccounts {
-            key: key.pubkey,
-            profile: profile.pubkey,
-            rent_recipient: rent_recipient.pubkey,
-            crew_config: crew_config.pubkey,
-            owner: owner.pubkey,
-            user_redemption: user_redemption.pubkey,
-            pack_type: pack_type.pubkey,
-            pack_tiers: pack_tiers.pubkey,
-            system_program: system_program.pubkey,
-            collection_mint: collection_mint.pubkey,
-            collection_metadata: collection_metadata.pubkey,
-            collection_edition: collection_edition.pubkey,
-            compression_program: compression_program.pubkey,
-            bubblegum_program: bubblegum_program.pubkey,
-            log_wrapper: log_wrapper.pubkey,
-            tree_config: tree_config.pubkey,
-            merkle_tree: merkle_tree.pubkey,
-            collection_authority_record_pda: collection_authority_record_pda.pubkey,
-            server_hash_preimage: server_hash_preimage.pubkey,
         })
     }
 }

@@ -1,6 +1,6 @@
 
 
-use carbon_core::{CarbonDeserialize, borsh};
+use carbon_core::{CarbonDeserialize, borsh, account_utils::next_account};
 
 
 #[derive(CarbonDeserialize, Debug, serde::Serialize, serde::Deserialize, PartialEq, Eq, Clone, Hash)]
@@ -14,12 +14,12 @@ pub struct BuyCoreInstructionAccounts {
     pub tcomp: solana_pubkey::Pubkey,
     pub list_state: solana_pubkey::Pubkey,
     pub asset: solana_pubkey::Pubkey,
-    pub collection: solana_pubkey::Pubkey,
+    pub collection: Option<solana_pubkey::Pubkey>,
     pub buyer: solana_pubkey::Pubkey,
     pub payer: solana_pubkey::Pubkey,
     pub owner: solana_pubkey::Pubkey,
-    pub taker_broker: solana_pubkey::Pubkey,
-    pub maker_broker: solana_pubkey::Pubkey,
+    pub taker_broker: Option<solana_pubkey::Pubkey>,
+    pub maker_broker: Option<solana_pubkey::Pubkey>,
     pub rent_dest: solana_pubkey::Pubkey,
     pub mpl_core_program: solana_pubkey::Pubkey,
     pub tcomp_program: solana_pubkey::Pubkey,
@@ -30,7 +30,22 @@ impl carbon_core::deserialize::ArrangeAccounts for BuyCore {
     type ArrangedAccounts = BuyCoreInstructionAccounts;
 
     fn arrange_accounts(accounts: &[solana_instruction::AccountMeta]) -> Option<Self::ArrangedAccounts> {
-        let [
+        let mut iter = accounts.iter();
+        let tcomp = next_account(&mut iter)?;
+        let list_state = next_account(&mut iter)?;
+        let asset = next_account(&mut iter)?;
+        let collection = next_account(&mut iter);
+        let buyer = next_account(&mut iter)?;
+        let payer = next_account(&mut iter)?;
+        let owner = next_account(&mut iter)?;
+        let taker_broker = next_account(&mut iter);
+        let maker_broker = next_account(&mut iter);
+        let rent_dest = next_account(&mut iter)?;
+        let mpl_core_program = next_account(&mut iter)?;
+        let tcomp_program = next_account(&mut iter)?;
+        let system_program = next_account(&mut iter)?;
+
+        Some(BuyCoreInstructionAccounts {
             tcomp,
             list_state,
             asset,
@@ -44,26 +59,6 @@ impl carbon_core::deserialize::ArrangeAccounts for BuyCore {
             mpl_core_program,
             tcomp_program,
             system_program,
-            _remaining @ ..
-        ] = accounts else {
-            return None;
-        };
-       
-
-        Some(BuyCoreInstructionAccounts {
-            tcomp: tcomp.pubkey,
-            list_state: list_state.pubkey,
-            asset: asset.pubkey,
-            collection: collection.pubkey,
-            buyer: buyer.pubkey,
-            payer: payer.pubkey,
-            owner: owner.pubkey,
-            taker_broker: taker_broker.pubkey,
-            maker_broker: maker_broker.pubkey,
-            rent_dest: rent_dest.pubkey,
-            mpl_core_program: mpl_core_program.pubkey,
-            tcomp_program: tcomp_program.pubkey,
-            system_program: system_program.pubkey,
         })
     }
 }

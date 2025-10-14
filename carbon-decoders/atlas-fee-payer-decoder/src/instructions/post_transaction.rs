@@ -1,6 +1,6 @@
 
 
-use carbon_core::{CarbonDeserialize, borsh};
+use carbon_core::{CarbonDeserialize, borsh, account_utils::next_account};
 
 
 #[derive(CarbonDeserialize, Debug, serde::Serialize, serde::Deserialize, PartialEq, Eq, Clone, Hash)]
@@ -29,7 +29,21 @@ impl carbon_core::deserialize::ArrangeAccounts for PostTransaction {
     type ArrangedAccounts = PostTransactionInstructionAccounts;
 
     fn arrange_accounts(accounts: &[solana_instruction::AccountMeta]) -> Option<Self::ArrangedAccounts> {
-        let [
+        let mut iter = accounts.iter();
+        let fee_payer = next_account(&mut iter)?;
+        let rates = next_account(&mut iter)?;
+        let payment_account = next_account(&mut iter)?;
+        let token_vault = next_account(&mut iter)?;
+        let funder_profile = next_account(&mut iter)?;
+        let funder_key = next_account(&mut iter)?;
+        let funder_vault_authority = next_account(&mut iter)?;
+        let funder_vault = next_account(&mut iter)?;
+        let instruction_sysvar = next_account(&mut iter)?;
+        let vault_program = next_account(&mut iter)?;
+        let token_program = next_account(&mut iter)?;
+        let system_program = next_account(&mut iter)?;
+
+        Some(PostTransactionInstructionAccounts {
             fee_payer,
             rates,
             payment_account,
@@ -42,25 +56,6 @@ impl carbon_core::deserialize::ArrangeAccounts for PostTransaction {
             vault_program,
             token_program,
             system_program,
-            _remaining @ ..
-        ] = accounts else {
-            return None;
-        };
-       
-
-        Some(PostTransactionInstructionAccounts {
-            fee_payer: fee_payer.pubkey,
-            rates: rates.pubkey,
-            payment_account: payment_account.pubkey,
-            token_vault: token_vault.pubkey,
-            funder_profile: funder_profile.pubkey,
-            funder_key: funder_key.pubkey,
-            funder_vault_authority: funder_vault_authority.pubkey,
-            funder_vault: funder_vault.pubkey,
-            instruction_sysvar: instruction_sysvar.pubkey,
-            vault_program: vault_program.pubkey,
-            token_program: token_program.pubkey,
-            system_program: system_program.pubkey,
         })
     }
 }

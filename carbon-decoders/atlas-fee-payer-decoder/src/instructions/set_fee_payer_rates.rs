@@ -1,7 +1,7 @@
 
 use super::super::types::*;
 
-use carbon_core::{CarbonDeserialize, borsh};
+use carbon_core::{CarbonDeserialize, borsh, account_utils::next_account};
 
 
 #[derive(CarbonDeserialize, Debug, serde::Serialize, serde::Deserialize, PartialEq, Eq, Clone, Hash)]
@@ -22,20 +22,15 @@ impl carbon_core::deserialize::ArrangeAccounts for SetFeePayerRates {
     type ArrangedAccounts = SetFeePayerRatesInstructionAccounts;
 
     fn arrange_accounts(accounts: &[solana_instruction::AccountMeta]) -> Option<Self::ArrangedAccounts> {
-        let [
+        let mut iter = accounts.iter();
+        let fee_payer = next_account(&mut iter)?;
+        let owning_profile = next_account(&mut iter)?;
+        let owning_key = next_account(&mut iter)?;
+
+        Some(SetFeePayerRatesInstructionAccounts {
             fee_payer,
             owning_profile,
             owning_key,
-            _remaining @ ..
-        ] = accounts else {
-            return None;
-        };
-       
-
-        Some(SetFeePayerRatesInstructionAccounts {
-            fee_payer: fee_payer.pubkey,
-            owning_profile: owning_profile.pubkey,
-            owning_key: owning_key.pubkey,
         })
     }
 }

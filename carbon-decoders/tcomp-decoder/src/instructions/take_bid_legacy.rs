@@ -1,7 +1,7 @@
 
 use super::super::types::*;
 
-use carbon_core::{CarbonDeserialize, borsh};
+use carbon_core::{CarbonDeserialize, borsh, account_utils::next_account};
 
 
 #[derive(CarbonDeserialize, Debug, serde::Serialize, serde::Deserialize, PartialEq, Eq, Clone, Hash)]
@@ -19,8 +19,8 @@ pub struct TakeBidLegacyInstructionAccounts {
     pub seller: solana_pubkey::Pubkey,
     pub bid_state: solana_pubkey::Pubkey,
     pub owner: solana_pubkey::Pubkey,
-    pub taker_broker: solana_pubkey::Pubkey,
-    pub maker_broker: solana_pubkey::Pubkey,
+    pub taker_broker: Option<solana_pubkey::Pubkey>,
+    pub maker_broker: Option<solana_pubkey::Pubkey>,
     pub margin_account: solana_pubkey::Pubkey,
     pub whitelist: solana_pubkey::Pubkey,
     pub nft_seller_acc: solana_pubkey::Pubkey,
@@ -48,7 +48,36 @@ impl carbon_core::deserialize::ArrangeAccounts for TakeBidLegacy {
     type ArrangedAccounts = TakeBidLegacyInstructionAccounts;
 
     fn arrange_accounts(accounts: &[solana_instruction::AccountMeta]) -> Option<Self::ArrangedAccounts> {
-        let [
+        let mut iter = accounts.iter();
+        let tcomp = next_account(&mut iter)?;
+        let seller = next_account(&mut iter)?;
+        let bid_state = next_account(&mut iter)?;
+        let owner = next_account(&mut iter)?;
+        let taker_broker = next_account(&mut iter);
+        let maker_broker = next_account(&mut iter);
+        let margin_account = next_account(&mut iter)?;
+        let whitelist = next_account(&mut iter)?;
+        let nft_seller_acc = next_account(&mut iter)?;
+        let nft_mint = next_account(&mut iter)?;
+        let nft_metadata = next_account(&mut iter)?;
+        let owner_ata_acc = next_account(&mut iter)?;
+        let nft_edition = next_account(&mut iter)?;
+        let owner_token_record = next_account(&mut iter)?;
+        let dest_token_record = next_account(&mut iter)?;
+        let pnft_shared = next_account(&mut iter)?;
+        let nft_escrow = next_account(&mut iter)?;
+        let temp_escrow_token_record = next_account(&mut iter)?;
+        let auth_rules = next_account(&mut iter)?;
+        let token_program = next_account(&mut iter)?;
+        let associated_token_program = next_account(&mut iter)?;
+        let system_program = next_account(&mut iter)?;
+        let tcomp_program = next_account(&mut iter)?;
+        let tensorswap_program = next_account(&mut iter)?;
+        let cosigner = next_account(&mut iter)?;
+        let mint_proof = next_account(&mut iter)?;
+        let rent_dest = next_account(&mut iter)?;
+
+        Some(TakeBidLegacyInstructionAccounts {
             tcomp,
             seller,
             bid_state,
@@ -76,40 +105,6 @@ impl carbon_core::deserialize::ArrangeAccounts for TakeBidLegacy {
             cosigner,
             mint_proof,
             rent_dest,
-            _remaining @ ..
-        ] = accounts else {
-            return None;
-        };
-       
-
-        Some(TakeBidLegacyInstructionAccounts {
-            tcomp: tcomp.pubkey,
-            seller: seller.pubkey,
-            bid_state: bid_state.pubkey,
-            owner: owner.pubkey,
-            taker_broker: taker_broker.pubkey,
-            maker_broker: maker_broker.pubkey,
-            margin_account: margin_account.pubkey,
-            whitelist: whitelist.pubkey,
-            nft_seller_acc: nft_seller_acc.pubkey,
-            nft_mint: nft_mint.pubkey,
-            nft_metadata: nft_metadata.pubkey,
-            owner_ata_acc: owner_ata_acc.pubkey,
-            nft_edition: nft_edition.pubkey,
-            owner_token_record: owner_token_record.pubkey,
-            dest_token_record: dest_token_record.pubkey,
-            pnft_shared: pnft_shared.pubkey,
-            nft_escrow: nft_escrow.pubkey,
-            temp_escrow_token_record: temp_escrow_token_record.pubkey,
-            auth_rules: auth_rules.pubkey,
-            token_program: token_program.pubkey,
-            associated_token_program: associated_token_program.pubkey,
-            system_program: system_program.pubkey,
-            tcomp_program: tcomp_program.pubkey,
-            tensorswap_program: tensorswap_program.pubkey,
-            cosigner: cosigner.pubkey,
-            mint_proof: mint_proof.pubkey,
-            rent_dest: rent_dest.pubkey,
         })
     }
 }

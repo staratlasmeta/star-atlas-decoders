@@ -1,7 +1,7 @@
 
 use super::super::types::*;
 
-use carbon_core::{CarbonDeserialize, borsh};
+use carbon_core::{CarbonDeserialize, borsh, account_utils::next_account};
 
 
 #[derive(CarbonDeserialize, Debug, serde::Serialize, serde::Deserialize, PartialEq, Eq, Clone, Hash)]
@@ -19,16 +19,11 @@ impl carbon_core::deserialize::ArrangeAccounts for TcompNoop {
     type ArrangedAccounts = TcompNoopInstructionAccounts;
 
     fn arrange_accounts(accounts: &[solana_instruction::AccountMeta]) -> Option<Self::ArrangedAccounts> {
-        let [
-            tcomp_signer,
-            _remaining @ ..
-        ] = accounts else {
-            return None;
-        };
-       
+        let mut iter = accounts.iter();
+        let tcomp_signer = next_account(&mut iter)?;
 
         Some(TcompNoopInstructionAccounts {
-            tcomp_signer: tcomp_signer.pubkey,
+            tcomp_signer,
         })
     }
 }

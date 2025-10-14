@@ -1,6 +1,6 @@
 
 
-use carbon_core::{CarbonDeserialize, borsh};
+use carbon_core::{CarbonDeserialize, borsh, account_utils::next_account};
 
 
 #[derive(CarbonDeserialize, Debug, serde::Serialize, serde::Deserialize, PartialEq, Eq, Clone, Hash)]
@@ -20,20 +20,15 @@ impl carbon_core::deserialize::ArrangeAccounts for PreTransaction {
     type ArrangedAccounts = PreTransactionInstructionAccounts;
 
     fn arrange_accounts(accounts: &[solana_instruction::AccountMeta]) -> Option<Self::ArrangedAccounts> {
-        let [
+        let mut iter = accounts.iter();
+        let fee_payer = next_account(&mut iter)?;
+        let payment_account = next_account(&mut iter)?;
+        let instruction_sysvar = next_account(&mut iter)?;
+
+        Some(PreTransactionInstructionAccounts {
             fee_payer,
             payment_account,
             instruction_sysvar,
-            _remaining @ ..
-        ] = accounts else {
-            return None;
-        };
-       
-
-        Some(PreTransactionInstructionAccounts {
-            fee_payer: fee_payer.pubkey,
-            payment_account: payment_account.pubkey,
-            instruction_sysvar: instruction_sysvar.pubkey,
         })
     }
 }

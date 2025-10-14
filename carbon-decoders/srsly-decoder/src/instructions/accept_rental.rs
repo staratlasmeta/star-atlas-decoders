@@ -1,6 +1,6 @@
 
 
-use carbon_core::{CarbonDeserialize, borsh};
+use carbon_core::{CarbonDeserialize, borsh, account_utils::next_account};
 
 
 #[derive(CarbonDeserialize, Debug, serde::Serialize, serde::Deserialize, PartialEq, Eq, Clone, Hash)]
@@ -38,7 +38,29 @@ impl carbon_core::deserialize::ArrangeAccounts for AcceptRental {
     type ArrangedAccounts = AcceptRentalInstructionAccounts;
 
     fn arrange_accounts(accounts: &[solana_instruction::AccountMeta]) -> Option<Self::ArrangedAccounts> {
-        let [
+        let mut iter = accounts.iter();
+        let mint = next_account(&mut iter)?;
+        let borrower = next_account(&mut iter)?;
+        let borrower_profile = next_account(&mut iter)?;
+        let borrower_profile_faction = next_account(&mut iter)?;
+        let borrower_token_account = next_account(&mut iter)?;
+        let fleet = next_account(&mut iter)?;
+        let game_id = next_account(&mut iter)?;
+        let starbase = next_account(&mut iter)?;
+        let starbase_player = next_account(&mut iter)?;
+        let contract = next_account(&mut iter)?;
+        let rental_state = next_account(&mut iter)?;
+        let rental_authority = next_account(&mut iter)?;
+        let rental_token_account = next_account(&mut iter)?;
+        let rental_thread = next_account(&mut iter)?;
+        let fee_token_account = next_account(&mut iter)?;
+        let sage_program = next_account(&mut iter)?;
+        let antegen_program = next_account(&mut iter)?;
+        let token_program = next_account(&mut iter)?;
+        let associated_token_program = next_account(&mut iter)?;
+        let system_program = next_account(&mut iter)?;
+
+        Some(AcceptRentalInstructionAccounts {
             mint,
             borrower,
             borrower_profile,
@@ -59,33 +81,6 @@ impl carbon_core::deserialize::ArrangeAccounts for AcceptRental {
             token_program,
             associated_token_program,
             system_program,
-            _remaining @ ..
-        ] = accounts else {
-            return None;
-        };
-       
-
-        Some(AcceptRentalInstructionAccounts {
-            mint: mint.pubkey,
-            borrower: borrower.pubkey,
-            borrower_profile: borrower_profile.pubkey,
-            borrower_profile_faction: borrower_profile_faction.pubkey,
-            borrower_token_account: borrower_token_account.pubkey,
-            fleet: fleet.pubkey,
-            game_id: game_id.pubkey,
-            starbase: starbase.pubkey,
-            starbase_player: starbase_player.pubkey,
-            contract: contract.pubkey,
-            rental_state: rental_state.pubkey,
-            rental_authority: rental_authority.pubkey,
-            rental_token_account: rental_token_account.pubkey,
-            rental_thread: rental_thread.pubkey,
-            fee_token_account: fee_token_account.pubkey,
-            sage_program: sage_program.pubkey,
-            antegen_program: antegen_program.pubkey,
-            token_program: token_program.pubkey,
-            associated_token_program: associated_token_program.pubkey,
-            system_program: system_program.pubkey,
         })
     }
 }

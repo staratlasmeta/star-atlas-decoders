@@ -1,7 +1,7 @@
 
 use super::super::types::*;
 
-use carbon_core::{CarbonDeserialize, borsh};
+use carbon_core::{CarbonDeserialize, borsh, account_utils::next_account};
 
 
 #[derive(CarbonDeserialize, Debug, serde::Serialize, serde::Deserialize, PartialEq, Eq, Clone, Hash)]
@@ -23,24 +23,19 @@ impl carbon_core::deserialize::ArrangeAccounts for UpdatePackTiers {
     type ArrangedAccounts = UpdatePackTiersInstructionAccounts;
 
     fn arrange_accounts(accounts: &[solana_instruction::AccountMeta]) -> Option<Self::ArrangedAccounts> {
-        let [
+        let mut iter = accounts.iter();
+        let key = next_account(&mut iter)?;
+        let profile = next_account(&mut iter)?;
+        let funder = next_account(&mut iter)?;
+        let pack_tiers = next_account(&mut iter)?;
+        let crew_config = next_account(&mut iter)?;
+
+        Some(UpdatePackTiersInstructionAccounts {
             key,
             profile,
             funder,
             pack_tiers,
             crew_config,
-            _remaining @ ..
-        ] = accounts else {
-            return None;
-        };
-       
-
-        Some(UpdatePackTiersInstructionAccounts {
-            key: key.pubkey,
-            profile: profile.pubkey,
-            funder: funder.pubkey,
-            pack_tiers: pack_tiers.pubkey,
-            crew_config: crew_config.pubkey,
         })
     }
 }

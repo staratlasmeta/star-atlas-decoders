@@ -1,7 +1,7 @@
 
 use super::super::types::*;
 
-use carbon_core::{CarbonDeserialize, borsh};
+use carbon_core::{CarbonDeserialize, borsh, account_utils::next_account};
 
 
 #[derive(CarbonDeserialize, Debug, serde::Serialize, serde::Deserialize, PartialEq, Eq, Clone, Hash)]
@@ -30,8 +30,8 @@ pub struct TakeBidFullMetaInstructionAccounts {
     pub tensorswap_program: solana_pubkey::Pubkey,
     pub bid_state: solana_pubkey::Pubkey,
     pub owner: solana_pubkey::Pubkey,
-    pub taker_broker: solana_pubkey::Pubkey,
-    pub maker_broker: solana_pubkey::Pubkey,
+    pub taker_broker: Option<solana_pubkey::Pubkey>,
+    pub maker_broker: Option<solana_pubkey::Pubkey>,
     pub margin_account: solana_pubkey::Pubkey,
     pub whitelist: solana_pubkey::Pubkey,
     pub cosigner: solana_pubkey::Pubkey,
@@ -42,7 +42,28 @@ impl carbon_core::deserialize::ArrangeAccounts for TakeBidFullMeta {
     type ArrangedAccounts = TakeBidFullMetaInstructionAccounts;
 
     fn arrange_accounts(accounts: &[solana_instruction::AccountMeta]) -> Option<Self::ArrangedAccounts> {
-        let [
+        let mut iter = accounts.iter();
+        let tcomp = next_account(&mut iter)?;
+        let tree_authority = next_account(&mut iter)?;
+        let seller = next_account(&mut iter)?;
+        let delegate = next_account(&mut iter)?;
+        let merkle_tree = next_account(&mut iter)?;
+        let log_wrapper = next_account(&mut iter)?;
+        let compression_program = next_account(&mut iter)?;
+        let system_program = next_account(&mut iter)?;
+        let bubblegum_program = next_account(&mut iter)?;
+        let tcomp_program = next_account(&mut iter)?;
+        let tensorswap_program = next_account(&mut iter)?;
+        let bid_state = next_account(&mut iter)?;
+        let owner = next_account(&mut iter)?;
+        let taker_broker = next_account(&mut iter);
+        let maker_broker = next_account(&mut iter);
+        let margin_account = next_account(&mut iter)?;
+        let whitelist = next_account(&mut iter)?;
+        let cosigner = next_account(&mut iter)?;
+        let rent_dest = next_account(&mut iter)?;
+
+        Some(TakeBidFullMetaInstructionAccounts {
             tcomp,
             tree_authority,
             seller,
@@ -62,32 +83,6 @@ impl carbon_core::deserialize::ArrangeAccounts for TakeBidFullMeta {
             whitelist,
             cosigner,
             rent_dest,
-            _remaining @ ..
-        ] = accounts else {
-            return None;
-        };
-       
-
-        Some(TakeBidFullMetaInstructionAccounts {
-            tcomp: tcomp.pubkey,
-            tree_authority: tree_authority.pubkey,
-            seller: seller.pubkey,
-            delegate: delegate.pubkey,
-            merkle_tree: merkle_tree.pubkey,
-            log_wrapper: log_wrapper.pubkey,
-            compression_program: compression_program.pubkey,
-            system_program: system_program.pubkey,
-            bubblegum_program: bubblegum_program.pubkey,
-            tcomp_program: tcomp_program.pubkey,
-            tensorswap_program: tensorswap_program.pubkey,
-            bid_state: bid_state.pubkey,
-            owner: owner.pubkey,
-            taker_broker: taker_broker.pubkey,
-            maker_broker: maker_broker.pubkey,
-            margin_account: margin_account.pubkey,
-            whitelist: whitelist.pubkey,
-            cosigner: cosigner.pubkey,
-            rent_dest: rent_dest.pubkey,
         })
     }
 }

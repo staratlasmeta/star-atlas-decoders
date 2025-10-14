@@ -1,6 +1,6 @@
 
 
-use carbon_core::{CarbonDeserialize, borsh};
+use carbon_core::{CarbonDeserialize, borsh, account_utils::next_account};
 
 
 #[derive(CarbonDeserialize, Debug, serde::Serialize, serde::Deserialize, PartialEq, Eq, Clone, Hash)]
@@ -24,26 +24,21 @@ impl carbon_core::deserialize::ArrangeAccounts for CreateFeePayerRates {
     type ArrangedAccounts = CreateFeePayerRatesInstructionAccounts;
 
     fn arrange_accounts(accounts: &[solana_instruction::AccountMeta]) -> Option<Self::ArrangedAccounts> {
-        let [
+        let mut iter = accounts.iter();
+        let rates = next_account(&mut iter)?;
+        let funder = next_account(&mut iter)?;
+        let owning_profile = next_account(&mut iter)?;
+        let token_mint = next_account(&mut iter)?;
+        let token_owner = next_account(&mut iter)?;
+        let system_program = next_account(&mut iter)?;
+
+        Some(CreateFeePayerRatesInstructionAccounts {
             rates,
             funder,
             owning_profile,
             token_mint,
             token_owner,
             system_program,
-            _remaining @ ..
-        ] = accounts else {
-            return None;
-        };
-       
-
-        Some(CreateFeePayerRatesInstructionAccounts {
-            rates: rates.pubkey,
-            funder: funder.pubkey,
-            owning_profile: owning_profile.pubkey,
-            token_mint: token_mint.pubkey,
-            token_owner: token_owner.pubkey,
-            system_program: system_program.pubkey,
         })
     }
 }

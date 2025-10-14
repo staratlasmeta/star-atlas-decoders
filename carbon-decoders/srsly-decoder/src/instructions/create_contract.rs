@@ -1,6 +1,6 @@
 
 
-use carbon_core::{CarbonDeserialize, borsh};
+use carbon_core::{CarbonDeserialize, borsh, account_utils::next_account};
 
 
 #[derive(CarbonDeserialize, Debug, serde::Serialize, serde::Deserialize, PartialEq, Eq, Clone, Hash)]
@@ -33,7 +33,21 @@ impl carbon_core::deserialize::ArrangeAccounts for CreateContract {
     type ArrangedAccounts = CreateContractInstructionAccounts;
 
     fn arrange_accounts(accounts: &[solana_instruction::AccountMeta]) -> Option<Self::ArrangedAccounts> {
-        let [
+        let mut iter = accounts.iter();
+        let mint = next_account(&mut iter)?;
+        let owner = next_account(&mut iter)?;
+        let owner_token_account = next_account(&mut iter)?;
+        let fleet = next_account(&mut iter)?;
+        let owner_profile = next_account(&mut iter)?;
+        let game_id = next_account(&mut iter)?;
+        let contract = next_account(&mut iter)?;
+        let rental_authority = next_account(&mut iter)?;
+        let token_program = next_account(&mut iter)?;
+        let associated_token_program = next_account(&mut iter)?;
+        let system_program = next_account(&mut iter)?;
+        let sage_program = next_account(&mut iter)?;
+
+        Some(CreateContractInstructionAccounts {
             mint,
             owner,
             owner_token_account,
@@ -46,25 +60,6 @@ impl carbon_core::deserialize::ArrangeAccounts for CreateContract {
             associated_token_program,
             system_program,
             sage_program,
-            _remaining @ ..
-        ] = accounts else {
-            return None;
-        };
-       
-
-        Some(CreateContractInstructionAccounts {
-            mint: mint.pubkey,
-            owner: owner.pubkey,
-            owner_token_account: owner_token_account.pubkey,
-            fleet: fleet.pubkey,
-            owner_profile: owner_profile.pubkey,
-            game_id: game_id.pubkey,
-            contract: contract.pubkey,
-            rental_authority: rental_authority.pubkey,
-            token_program: token_program.pubkey,
-            associated_token_program: associated_token_program.pubkey,
-            system_program: system_program.pubkey,
-            sage_program: sage_program.pubkey,
         })
     }
 }
