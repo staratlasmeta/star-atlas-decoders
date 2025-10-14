@@ -1,12 +1,10 @@
+use carbon_core::{CarbonDeserialize, account_utils::next_account, borsh};
 
-
-use carbon_core::{CarbonDeserialize, borsh, account_utils::next_account};
-
-
-#[derive(CarbonDeserialize, Debug, serde::Serialize, serde::Deserialize, PartialEq, Eq, Clone, Hash)]
+#[derive(
+    CarbonDeserialize, Debug, serde::Serialize, serde::Deserialize, PartialEq, Eq, Clone, Hash,
+)]
 #[carbon(discriminator = "0x59ab4e504abc3f3a")]
-pub struct CloseExpiredListingCore{
-}
+pub struct CloseExpiredListingCore {}
 
 #[derive(Debug, PartialEq, Eq, Clone, Hash, serde::Serialize, serde::Deserialize)]
 pub struct CloseExpiredListingCoreInstructionAccounts {
@@ -23,7 +21,9 @@ pub struct CloseExpiredListingCoreInstructionAccounts {
 impl carbon_core::deserialize::ArrangeAccounts for CloseExpiredListingCore {
     type ArrangedAccounts = CloseExpiredListingCoreInstructionAccounts;
 
-    fn arrange_accounts(accounts: &[solana_instruction::AccountMeta]) -> Option<Self::ArrangedAccounts> {
+    fn arrange_accounts(
+        accounts: &[solana_instruction::AccountMeta],
+    ) -> Option<Self::ArrangedAccounts> {
         let mut iter = accounts.iter();
         let list_state = next_account(&mut iter)?;
         let asset = next_account(&mut iter)?;

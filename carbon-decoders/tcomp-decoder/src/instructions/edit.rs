@@ -1,11 +1,10 @@
+use carbon_core::{CarbonDeserialize, account_utils::next_account, borsh};
 
-
-use carbon_core::{CarbonDeserialize, borsh, account_utils::next_account};
-
-
-#[derive(CarbonDeserialize, Debug, serde::Serialize, serde::Deserialize, PartialEq, Eq, Clone, Hash)]
+#[derive(
+    CarbonDeserialize, Debug, serde::Serialize, serde::Deserialize, PartialEq, Eq, Clone, Hash,
+)]
 #[carbon(discriminator = "0x0fb72156571c9791")]
-pub struct Edit{
+pub struct Edit {
     pub amount: u64,
     pub expire_in_sec: Option<u64>,
     pub currency: Option<solana_pubkey::Pubkey>,
@@ -23,7 +22,9 @@ pub struct EditInstructionAccounts {
 impl carbon_core::deserialize::ArrangeAccounts for Edit {
     type ArrangedAccounts = EditInstructionAccounts;
 
-    fn arrange_accounts(accounts: &[solana_instruction::AccountMeta]) -> Option<Self::ArrangedAccounts> {
+    fn arrange_accounts(
+        accounts: &[solana_instruction::AccountMeta],
+    ) -> Option<Self::ArrangedAccounts> {
         let mut iter = accounts.iter();
         let list_state = next_account(&mut iter)?;
         let owner = next_account(&mut iter)?;

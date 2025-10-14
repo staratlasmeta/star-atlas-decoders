@@ -1,11 +1,10 @@
+use carbon_core::{CarbonDeserialize, account_utils::next_account, borsh};
 
-
-use carbon_core::{CarbonDeserialize, borsh, account_utils::next_account};
-
-
-#[derive(CarbonDeserialize, Debug, serde::Serialize, serde::Deserialize, PartialEq, Eq, Clone, Hash)]
+#[derive(
+    CarbonDeserialize, Debug, serde::Serialize, serde::Deserialize, PartialEq, Eq, Clone, Hash,
+)]
 #[carbon(discriminator = "0xfa29f8143da11b8d")]
-pub struct TakeBidCore{
+pub struct TakeBidCore {
     pub min_amount: u64,
 }
 
@@ -33,7 +32,9 @@ pub struct TakeBidCoreInstructionAccounts {
 impl carbon_core::deserialize::ArrangeAccounts for TakeBidCore {
     type ArrangedAccounts = TakeBidCoreInstructionAccounts;
 
-    fn arrange_accounts(accounts: &[solana_instruction::AccountMeta]) -> Option<Self::ArrangedAccounts> {
+    fn arrange_accounts(
+        accounts: &[solana_instruction::AccountMeta],
+    ) -> Option<Self::ArrangedAccounts> {
         let mut iter = accounts.iter();
         let tcomp = next_account(&mut iter)?;
         let seller = next_account(&mut iter)?;

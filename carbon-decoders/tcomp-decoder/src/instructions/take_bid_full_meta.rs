@@ -1,12 +1,12 @@
-
 use super::super::types::*;
 
-use carbon_core::{CarbonDeserialize, borsh, account_utils::next_account};
+use carbon_core::{CarbonDeserialize, account_utils::next_account, borsh};
 
-
-#[derive(CarbonDeserialize, Debug, serde::Serialize, serde::Deserialize, PartialEq, Eq, Clone, Hash)]
+#[derive(
+    CarbonDeserialize, Debug, serde::Serialize, serde::Deserialize, PartialEq, Eq, Clone, Hash,
+)]
 #[carbon(discriminator = "0xf2c2cbe1ea350a60")]
-pub struct TakeBidFullMeta{
+pub struct TakeBidFullMeta {
     pub nonce: u64,
     pub index: u32,
     pub root: [u8; 32],
@@ -41,7 +41,9 @@ pub struct TakeBidFullMetaInstructionAccounts {
 impl carbon_core::deserialize::ArrangeAccounts for TakeBidFullMeta {
     type ArrangedAccounts = TakeBidFullMetaInstructionAccounts;
 
-    fn arrange_accounts(accounts: &[solana_instruction::AccountMeta]) -> Option<Self::ArrangedAccounts> {
+    fn arrange_accounts(
+        accounts: &[solana_instruction::AccountMeta],
+    ) -> Option<Self::ArrangedAccounts> {
         let mut iter = accounts.iter();
         let tcomp = next_account(&mut iter)?;
         let tree_authority = next_account(&mut iter)?;

@@ -1,12 +1,12 @@
-
 use super::super::types::*;
 
-use carbon_core::{CarbonDeserialize, borsh, account_utils::next_account};
+use carbon_core::{CarbonDeserialize, account_utils::next_account, borsh};
 
-
-#[derive(CarbonDeserialize, Debug, serde::Serialize, serde::Deserialize, PartialEq, Eq, Clone, Hash)]
+#[derive(
+    CarbonDeserialize, Debug, serde::Serialize, serde::Deserialize, PartialEq, Eq, Clone, Hash,
+)]
 #[carbon(discriminator = "0xbc23746c00e9edc9")]
-pub struct TakeBidLegacy{
+pub struct TakeBidLegacy {
     pub min_amount: u64,
     pub optional_royalty_pct: Option<u16>,
     pub rules_acc_present: bool,
@@ -47,7 +47,9 @@ pub struct TakeBidLegacyInstructionAccounts {
 impl carbon_core::deserialize::ArrangeAccounts for TakeBidLegacy {
     type ArrangedAccounts = TakeBidLegacyInstructionAccounts;
 
-    fn arrange_accounts(accounts: &[solana_instruction::AccountMeta]) -> Option<Self::ArrangedAccounts> {
+    fn arrange_accounts(
+        accounts: &[solana_instruction::AccountMeta],
+    ) -> Option<Self::ArrangedAccounts> {
         let mut iter = accounts.iter();
         let tcomp = next_account(&mut iter)?;
         let seller = next_account(&mut iter)?;
