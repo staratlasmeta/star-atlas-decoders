@@ -1,5 +1,32 @@
 # Star Atlas Decoders
 
+<p align="center">
+  <a href="https://github.com/staratlasmeta/star-atlas-decoders/actions/workflows/ci.yml">
+    <img src="https://img.shields.io/github/actions/workflow/status/staratlasmeta/star-atlas-decoders/ci.yml?logo=GitHub" />
+  </a>
+  <a href="LICENSE">
+    <img src="https://img.shields.io/badge/license-Apache%202.0-blue" />
+  </a>
+</p>
+
+<p align="center">
+  <a href="https://crates.io/crates/carbon-sage-starbased-decoder">
+    <img src="https://img.shields.io/crates/v/carbon-sage-starbased-decoder?logo=rust&label=sage-starbased" />
+  </a>
+  <a href="https://crates.io/crates/carbon-sage-holosim-decoder">
+    <img src="https://img.shields.io/crates/v/carbon-sage-holosim-decoder?logo=rust&label=sage-holosim" />
+  </a>
+  <a href="https://crates.io/crates/carbon-atlas-staking-decoder">
+    <img src="https://img.shields.io/crates/v/carbon-atlas-staking-decoder?logo=rust&label=atlas-staking" />
+  </a>
+  <a href="https://crates.io/crates/carbon-locked-voter-decoder">
+    <img src="https://img.shields.io/crates/v/carbon-locked-voter-decoder?logo=rust&label=locked-voter" />
+  </a>
+  <a href="https://crates.io/crates/carbon-marketplace-decoder">
+    <img src="https://img.shields.io/crates/v/carbon-marketplace-decoder?logo=rust&label=marketplace" />
+  </a>
+</p>
+
 Rust decoders for Star Atlas Solana programs, generated from IDLs using Carbon CLI with custom patches for complex account deserialization.
 
 ## Overview
@@ -188,10 +215,10 @@ Example accounts with custom deserialization:
 
 ## Technical Details
 
-- **Rust Edition**: 2024
-- **Carbon Version**: 0.10.0
+- **Rust Edition**: 2024 (requires Rust 1.85.0+)
+- **Carbon Version**: 0.10.0 (available on [crates.io](https://crates.io/crates/carbon-core))
 - **Solana SDK**: 2.x
-- **Platform**: macOS compatible (BSD sed)
+- **Platform**: macOS and Linux compatible
 
 ## Contributing
 

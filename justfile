@@ -41,6 +41,41 @@ _fix-workspace-refs decoder_name:
     just _sed 's/serde-big-array = { workspace = true }/serde-big-array = "0.5.1"/' ./dist/{{decoder_name}}/Cargo.toml
     @echo "✅ Workspace references fixed"
 
+# Rename package with carbon- prefix
+_rename-package decoder_name old_name new_name:
+    @echo "Renaming package from {{old_name}} to {{new_name}}..."
+    just _sed 's/name = "{{old_name}}"/name = "{{new_name}}"/' ./dist/{{decoder_name}}/Cargo.toml
+    @echo "✅ Package renamed"
+
+# Add crates.io metadata to Cargo.toml
+_add-crate-metadata decoder_name description program_id:
+    #!/bin/bash
+    echo "Adding crates.io metadata for {{decoder_name}}..."
+    CARGO_TOML="./dist/{{decoder_name}}/Cargo.toml"
+
+    # Create temp file with metadata
+    TEMP_FILE=$(mktemp)
+
+    # Read the file and insert metadata after edition line
+    awk '
+    /^edition = / {
+        print
+        print "description = \"{{description}}\""
+        print "license = \"Apache-2.0\""
+        print "repository = \"https://github.com/staratlasmeta/star-atlas-decoders\""
+        print "homepage = \"https://github.com/staratlasmeta/star-atlas-decoders\""
+        print "readme = \"README.md\""
+        print "keywords = [\"solana\", \"star-atlas\", \"decoder\"]"
+        print "categories = [\"encoding\"]"
+        print "rust-version = \"1.85\""
+        next
+    }
+    { print }
+    ' "$CARGO_TOML" > "$TEMP_FILE"
+
+    mv "$TEMP_FILE" "$CARGO_TOML"
+    echo "✅ Metadata added"
+
 # Prepare generated code by fixing compilation issues
 _prepare-decoder decoder_name:
     #!/bin/bash
@@ -98,9 +133,11 @@ _publish-decoder decoder_name:
     rm -f ./dist/{{decoder_name}}/.gitignore
     rm -f ./dist/{{decoder_name}}/Cargo.lock
     mv ./dist/{{decoder_name}} ./carbon-decoders/{{decoder_name}}-decoder
+    @echo "Copying README.md..."
+    cp ./docs/readmes/{{decoder_name}}-README.md ./carbon-decoders/{{decoder_name}}-decoder/README.md
     @echo "✅ Decoder published to ./carbon-decoders/{{decoder_name}}-decoder"
     @echo "Verifying in workspace..."
-    cargo check -p {{decoder_name}}-decoder
+    cargo check -p carbon-{{decoder_name}}-decoder
     @echo "✅ Decoder works in main workspace"
 
 # Clean generated decoder files
@@ -135,16 +172,12 @@ generate-sage-starbased:
     echo "✅ Decoder generated from mainnet IDL"
     echo "Renaming to sage-starbased..."
     mv ./dist/sage-decoder ./dist/sage-starbased
-    if [ "$(uname -s)" = "Darwin" ]; then
-        sed -i '' 's/name = "sage-decoder"/name = "sage-starbased-decoder"/' ./dist/sage-starbased/Cargo.toml
-    else
-        sed -i 's/name = "sage-decoder"/name = "sage-starbased-decoder"/' ./dist/sage-starbased/Cargo.toml
-    fi
     echo "✅ Renamed to sage-starbased"
+    just _rename-package sage-starbased sage-decoder carbon-sage-starbased-decoder
     just _fix-workspace-refs sage-starbased
 
 # Build sage-starbased decoder
-build-sage-starbased: (_clean "sage-starbased") generate-sage-starbased (_prepare-decoder "sage-starbased")
+build-sage-starbased: (_clean "sage-starbased") generate-sage-starbased (_prepare-decoder "sage-starbased") (_add-crate-metadata "sage-starbased" "Rust decoder for Star Atlas SAGE Starbased program on Solana" SAGE_STARBASED_PROGRAM_ID)
     @echo "✅ sage-starbased decoder generated and prepared"
     just _init-git sage-starbased
 
@@ -177,16 +210,12 @@ generate-sage-holosim:
     echo "✅ Decoder generated from local IDL"
     echo "Renaming to sage-holosim..."
     mv ./dist/sage-decoder ./dist/sage-holosim
-    if [ "$(uname -s)" = "Darwin" ]; then
-        sed -i '' 's/name = "sage-decoder"/name = "sage-holosim-decoder"/' ./dist/sage-holosim/Cargo.toml
-    else
-        sed -i 's/name = "sage-decoder"/name = "sage-holosim-decoder"/' ./dist/sage-holosim/Cargo.toml
-    fi
     echo "✅ Renamed to sage-holosim"
+    just _rename-package sage-holosim sage-decoder carbon-sage-holosim-decoder
     just _fix-workspace-refs sage-holosim
 
 # Build sage-holosim decoder
-build-sage-holosim: (_clean "sage-holosim") generate-sage-holosim (_prepare-decoder "sage-holosim")
+build-sage-holosim: (_clean "sage-holosim") generate-sage-holosim (_prepare-decoder "sage-holosim") (_add-crate-metadata "sage-holosim" "Rust decoder for Star Atlas SAGE Holosim program on Solana" SAGE_HOLOSIM_PROGRAM_ID)
     @echo "✅ sage-holosim decoder generated and prepared"
     just _init-git sage-holosim
 
@@ -220,10 +249,11 @@ generate-atlas-staking:
     echo "Renaming to atlas-staking..."
     mv ./dist/atlas-staking-decoder ./dist/atlas-staking
     echo "✅ Renamed to atlas-staking"
+    just _rename-package atlas-staking atlas-staking-decoder carbon-atlas-staking-decoder
     just _fix-workspace-refs atlas-staking
 
 # Build atlas-staking decoder
-build-atlas-staking: (_clean "atlas-staking") generate-atlas-staking (_prepare-decoder "atlas-staking")
+build-atlas-staking: (_clean "atlas-staking") generate-atlas-staking (_prepare-decoder "atlas-staking") (_add-crate-metadata "atlas-staking" "Rust decoder for Star Atlas ATLAS staking program on Solana" ATLAS_STAKING_PROGRAM_ID)
     @echo "✅ atlas-staking decoder generated and prepared"
     just _init-git atlas-staking
 
@@ -257,10 +287,11 @@ generate-locked-voter:
     echo "Renaming to locked-voter..."
     mv ./dist/locked-voter-decoder ./dist/locked-voter
     echo "✅ Renamed to locked-voter"
+    just _rename-package locked-voter locked-voter-decoder carbon-locked-voter-decoder
     just _fix-workspace-refs locked-voter
 
 # Build locked-voter decoder
-build-locked-voter: (_clean "locked-voter") generate-locked-voter (_prepare-decoder "locked-voter")
+build-locked-voter: (_clean "locked-voter") generate-locked-voter (_prepare-decoder "locked-voter") (_add-crate-metadata "locked-voter" "Rust decoder for Star Atlas Locked Voter governance program on Solana" LOCKED_VOTER_PROGRAM_ID)
     @echo "✅ locked-voter decoder generated and prepared"
     just _init-git locked-voter
 
@@ -294,10 +325,11 @@ generate-marketplace:
     echo "Renaming to marketplace..."
     mv ./dist/marketplace-decoder ./dist/marketplace
     echo "✅ Renamed to marketplace"
+    just _rename-package marketplace marketplace-decoder carbon-marketplace-decoder
     just _fix-workspace-refs marketplace
 
 # Build marketplace decoder
-build-marketplace: (_clean "marketplace") generate-marketplace (_prepare-decoder "marketplace")
+build-marketplace: (_clean "marketplace") generate-marketplace (_prepare-decoder "marketplace") (_add-crate-metadata "marketplace" "Rust decoder for Star Atlas Galactic Marketplace program on Solana" MARKETPLACE_PROGRAM_ID)
     @echo "✅ marketplace decoder generated and prepared"
     just _init-git marketplace
 

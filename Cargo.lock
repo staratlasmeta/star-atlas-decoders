@@ -134,19 +134,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "atlas-staking-decoder"
-version = "0.10.0"
-dependencies = [
- "carbon-core",
- "carbon-macros",
- "carbon-proc-macros",
- "serde",
- "solana-account",
- "solana-instruction",
- "solana-pubkey",
-]
-
-[[package]]
 name = "autocfg"
 version = "1.5.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -352,6 +339,19 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "d71b6127be86fdcfddb610f7182ac57211d4b18a3e9c82eb2d17662f2227ad6a"
 
 [[package]]
+name = "carbon-atlas-staking-decoder"
+version = "0.10.0"
+dependencies = [
+ "carbon-core",
+ "carbon-macros",
+ "carbon-proc-macros",
+ "serde",
+ "solana-account",
+ "solana-instruction",
+ "solana-pubkey",
+]
+
+[[package]]
 name = "carbon-core"
 version = "0.10.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -383,10 +383,36 @@ dependencies = [
 ]
 
 [[package]]
+name = "carbon-locked-voter-decoder"
+version = "0.10.0"
+dependencies = [
+ "carbon-core",
+ "carbon-macros",
+ "carbon-proc-macros",
+ "serde",
+ "solana-account",
+ "solana-instruction",
+ "solana-pubkey",
+]
+
+[[package]]
 name = "carbon-macros"
 version = "0.10.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "23175f9aa37308c836d1cb5b4b42cbfe178e168a2e6dbba42f50a51b27c529f8"
+
+[[package]]
+name = "carbon-marketplace-decoder"
+version = "0.10.0"
+dependencies = [
+ "carbon-core",
+ "carbon-macros",
+ "carbon-proc-macros",
+ "serde",
+ "solana-account",
+ "solana-instruction",
+ "solana-pubkey",
+]
 
 [[package]]
 name = "carbon-proc-macros"
@@ -400,6 +426,34 @@ dependencies = [
  "quote",
  "serde",
  "syn 1.0.109",
+]
+
+[[package]]
+name = "carbon-sage-holosim-decoder"
+version = "0.10.0"
+dependencies = [
+ "carbon-core",
+ "carbon-macros",
+ "carbon-proc-macros",
+ "serde",
+ "serde-big-array",
+ "solana-account",
+ "solana-instruction",
+ "solana-pubkey",
+]
+
+[[package]]
+name = "carbon-sage-starbased-decoder"
+version = "0.10.0"
+dependencies = [
+ "carbon-core",
+ "carbon-macros",
+ "carbon-proc-macros",
+ "serde",
+ "serde-big-array",
+ "solana-account",
+ "solana-instruction",
+ "solana-pubkey",
 ]
 
 [[package]]
@@ -895,36 +949,10 @@ dependencies = [
 ]
 
 [[package]]
-name = "locked-voter-decoder"
-version = "0.10.0"
-dependencies = [
- "carbon-core",
- "carbon-macros",
- "carbon-proc-macros",
- "serde",
- "solana-account",
- "solana-instruction",
- "solana-pubkey",
-]
-
-[[package]]
 name = "log"
 version = "0.4.28"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "34080505efa8e45a4b816c349525ebe327ceaa8559756f0356cba97ef3bf7432"
-
-[[package]]
-name = "marketplace-decoder"
-version = "0.10.0"
-dependencies = [
- "carbon-core",
- "carbon-macros",
- "carbon-proc-macros",
- "serde",
- "solana-account",
- "solana-instruction",
- "solana-pubkey",
-]
 
 [[package]]
 name = "memchr"
@@ -1312,34 +1340,6 @@ name = "ryu"
 version = "1.0.20"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "28d3b2b1366ec20994f1fd18c3c594f05c5dd4bc44d8bb0c1c632c8d6829481f"
-
-[[package]]
-name = "sage-holosim-decoder"
-version = "0.10.0"
-dependencies = [
- "carbon-core",
- "carbon-macros",
- "carbon-proc-macros",
- "serde",
- "serde-big-array",
- "solana-account",
- "solana-instruction",
- "solana-pubkey",
-]
-
-[[package]]
-name = "sage-starbased-decoder"
-version = "0.10.0"
-dependencies = [
- "carbon-core",
- "carbon-macros",
- "carbon-proc-macros",
- "serde",
- "serde-big-array",
- "solana-account",
- "solana-instruction",
- "solana-pubkey",
-]
 
 [[package]]
 name = "scopeguard"
