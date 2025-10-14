@@ -1,7 +1,3 @@
-
-
-
-
 use super::SrslyDecoder;
 pub mod accept_rental;
 pub mod cancel_rental;
@@ -11,7 +7,16 @@ pub mod create_contract;
 pub mod pay_rental;
 pub mod reset_rental;
 
-#[derive(carbon_core::InstructionType, serde::Serialize, serde::Deserialize, PartialEq, Eq, Debug, Clone, Hash)]
+#[derive(
+    carbon_core::InstructionType,
+    serde::Serialize,
+    serde::Deserialize,
+    PartialEq,
+    Eq,
+    Debug,
+    Clone,
+    Hash,
+)]
 pub enum SrslyInstruction {
     AcceptRental(accept_rental::AcceptRental),
     CancelRental(cancel_rental::CancelRental),

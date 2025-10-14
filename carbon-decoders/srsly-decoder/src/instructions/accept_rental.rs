@@ -1,11 +1,10 @@
+use carbon_core::{CarbonDeserialize, account_utils::next_account, borsh};
 
-
-use carbon_core::{CarbonDeserialize, borsh, account_utils::next_account};
-
-
-#[derive(CarbonDeserialize, Debug, serde::Serialize, serde::Deserialize, PartialEq, Eq, Clone, Hash)]
+#[derive(
+    CarbonDeserialize, Debug, serde::Serialize, serde::Deserialize, PartialEq, Eq, Clone, Hash,
+)]
 #[carbon(discriminator = "0xc0ddf1d48da12492")]
-pub struct AcceptRental{
+pub struct AcceptRental {
     pub amount: u64,
     pub duration: u64,
 }
@@ -37,7 +36,9 @@ pub struct AcceptRentalInstructionAccounts {
 impl carbon_core::deserialize::ArrangeAccounts for AcceptRental {
     type ArrangedAccounts = AcceptRentalInstructionAccounts;
 
-    fn arrange_accounts(accounts: &[solana_instruction::AccountMeta]) -> Option<Self::ArrangedAccounts> {
+    fn arrange_accounts(
+        accounts: &[solana_instruction::AccountMeta],
+    ) -> Option<Self::ArrangedAccounts> {
         let mut iter = accounts.iter();
         let mint = next_account(&mut iter)?;
         let borrower = next_account(&mut iter)?;
