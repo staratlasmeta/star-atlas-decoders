@@ -5,11 +5,12 @@
 # ============================================================================
 
 # List of all decoders (space-separated)
-ALL_DECODERS := "sage-starbased sage-holosim atlas-staking locked-voter marketplace atlas-fee-payer crew"
+ALL_DECODERS := "sage-starbased sage-holosim atlas-staking locked-voter marketplace atlas-fee-payer crew profile-vault"
 
 # Program IDs
 ATLAS_FEE_PAYER_PROGRAM_ID := "APR1MEny25pKupwn72oVqMH4qpDouArsX8zX4VwwfoXD"
 CREW_PROGRAM_ID := "CREWiq8qbxvo4SKkAFpVnc6t7CRQC4tAAscsNAENXgrJ"
+PROFILE_VAULT_PROGRAM_ID := "pv1ttom8tbyh83C1AVh6QH2naGRdVQUVt3HY1Yst5sv"
 SAGE_STARBASED_PROGRAM_ID := "SAGE2HAwep459SNq61LHvjxPk4pLPEJLoMETef7f7EE"
 SAGE_HOLOSIM_PROGRAM_ID := "SAgEeT8u14TE69JXtanGSgNkEdoPUcLabeyZD2uw8x9"
 ATLAS_STAKING_PROGRAM_ID := "ATLocKpzDbTokxgvnLew3d7drZkEzLzDpzwgrgWKDbmc"
@@ -19,6 +20,7 @@ MARKETPLACE_PROGRAM_ID := "traderDnaR5w6Tcoi3NFm53i48FTDNbGjBSZwWXDRrg"
 # Descriptions
 ATLAS_FEE_PAYER_DESC := "Rust decoder for Star Atlas ATLAS fee payer program on Solana"
 CREW_DESC := "Rust decoder for Star Atlas Crew management program on Solana"
+PROFILE_VAULT_DESC := "Rust decoder for Star Atlas Profile Vault program on Solana"
 SAGE_STARBASED_DESC := "Rust decoder for Star Atlas SAGE Starbased program on Solana"
 SAGE_HOLOSIM_DESC := "Rust decoder for Star Atlas SAGE Holosim program on Solana"
 ATLAS_STAKING_DESC := "Rust decoder for Star Atlas ATLAS staking program on Solana"
@@ -28,6 +30,7 @@ MARKETPLACE_DESC := "Rust decoder for Star Atlas Galactic Marketplace program on
 # IDL Sources: "mainnet" or "local"
 ATLAS_FEE_PAYER_SOURCE := "mainnet"
 CREW_SOURCE := "mainnet"
+PROFILE_VAULT_SOURCE := "mainnet"
 SAGE_STARBASED_SOURCE := "mainnet"
 SAGE_HOLOSIM_SOURCE := "local"
 ATLAS_STAKING_SOURCE := "mainnet"
@@ -42,6 +45,7 @@ LOCKED_VOTER_GENERATED_NAME := "locked-voter-decoder"
 MARKETPLACE_GENERATED_NAME := "marketplace-decoder"
 ATLAS_FEE_PAYER_GENERATED_NAME := "atlas-fee-payer-decoder"
 CREW_GENERATED_NAME := "crew-decoder"
+PROFILE_VAULT_GENERATED_NAME := "profile-vault-decoder"
 
 # ============================================================================
 # OS DETECTION FOR CROSS-PLATFORM COMPATIBILITY
@@ -74,6 +78,7 @@ _get-program-id decoder_name:
         marketplace) echo "{{MARKETPLACE_PROGRAM_ID}}" ;;
         atlas-fee-payer) echo "{{ATLAS_FEE_PAYER_PROGRAM_ID}}" ;;
         crew) echo "{{CREW_PROGRAM_ID}}" ;;
+        profile-vault) echo "{{PROFILE_VAULT_PROGRAM_ID}}" ;;
         *) echo "Unknown decoder: {{decoder_name}}" >&2; exit 1 ;;
     esac
 
@@ -88,6 +93,7 @@ _get-description decoder_name:
         marketplace) echo "{{MARKETPLACE_DESC}}" ;;
         atlas-fee-payer) echo "{{ATLAS_FEE_PAYER_DESC}}" ;;
         crew) echo "{{CREW_DESC}}" ;;
+        profile-vault) echo "{{PROFILE_VAULT_DESC}}" ;;
         *) echo "Unknown decoder: {{decoder_name}}" >&2; exit 1 ;;
     esac
 
@@ -102,6 +108,7 @@ _get-source decoder_name:
         marketplace) echo "{{MARKETPLACE_SOURCE}}" ;;
         atlas-fee-payer) echo "{{ATLAS_FEE_PAYER_SOURCE}}" ;;
         crew) echo "{{CREW_SOURCE}}" ;;
+        profile-vault) echo "{{PROFILE_VAULT_SOURCE}}" ;;
         *) echo "Unknown decoder: {{decoder_name}}" >&2; exit 1 ;;
     esac
 
@@ -116,6 +123,7 @@ _get-generated-name decoder_name:
         marketplace) echo "{{MARKETPLACE_GENERATED_NAME}}" ;;
         atlas-fee-payer) echo "{{ATLAS_FEE_PAYER_GENERATED_NAME}}" ;;
         crew) echo "{{CREW_GENERATED_NAME}}" ;;
+        profile-vault) echo "{{PROFILE_VAULT_GENERATED_NAME}}" ;;
         *) echo "Unknown decoder: {{decoder_name}}" >&2; exit 1 ;;
     esac
 
@@ -412,6 +420,15 @@ apply-patches-crew: (apply-patches "crew")
 create-patch-crew patch_name: (create-patch "crew" patch_name)
 publish-crew: (publish "crew")
 all-crew: (all "crew")
+
+# Profile Vault
+generate-profile-vault: (generate "profile-vault")
+build-profile-vault: (build "profile-vault")
+clean-profile-vault: (clean "profile-vault")
+apply-patches-profile-vault: (apply-patches "profile-vault")
+create-patch-profile-vault patch_name: (create-patch "profile-vault" patch_name)
+publish-profile-vault: (publish "profile-vault")
+all-profile-vault: (all "profile-vault")
 
 # ============================================================================
 # UTILITY COMMANDS

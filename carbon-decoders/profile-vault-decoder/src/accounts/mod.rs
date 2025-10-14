@@ -4,6 +4,7 @@ use carbon_core::deserialize::CarbonDeserialize;
 use super::ProfileVaultDecoder;
 pub mod vault_authority;
 
+#[derive(Debug, serde::Serialize)]
 pub enum ProfileVaultAccount {
     VaultAuthority(vault_authority::VaultAuthority),
 }

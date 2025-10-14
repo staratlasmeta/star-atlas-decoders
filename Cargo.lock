@@ -426,6 +426,19 @@ dependencies = [
 ]
 
 [[package]]
+name = "carbon-profile-vault-decoder"
+version = "0.10.0"
+dependencies = [
+ "carbon-core",
+ "carbon-macros",
+ "carbon-proc-macros",
+ "serde",
+ "solana-account",
+ "solana-instruction",
+ "solana-pubkey",
+]
+
+[[package]]
 name = "carbon-sage-holosim-decoder"
 version = "0.10.0"
 dependencies = [
@@ -1140,19 +1153,6 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "89ae43fd86e4158d6db51ad8e2b80f313af9cc74f5c0e03ccb87de09998732de"
 dependencies = [
  "unicode-ident",
-]
-
-[[package]]
-name = "profile-vault-decoder"
-version = "0.10.0"
-dependencies = [
- "carbon-core",
- "carbon-macros",
- "carbon-proc-macros",
- "serde",
- "solana-account",
- "solana-instruction",
- "solana-pubkey",
 ]
 
 [[package]]
