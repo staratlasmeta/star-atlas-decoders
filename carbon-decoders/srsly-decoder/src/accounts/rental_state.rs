@@ -14,7 +14,7 @@ pub struct RentalState {
         pub thread: solana_pubkey::Pubkey,
         pub contract: solana_pubkey::Pubkey,
         pub owner_token_account: solana_pubkey::Pubkey,
-        pub rate: f64,
+        pub rate: i64,
         pub start_time: i64,
         pub end_time: i64,
         pub cancelled: bool,
