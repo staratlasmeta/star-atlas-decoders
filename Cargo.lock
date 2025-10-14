@@ -134,6 +134,19 @@ dependencies = [
 ]
 
 [[package]]
+name = "atlas-fee-payer-decoder"
+version = "0.8.1"
+dependencies = [
+ "carbon-core",
+ "carbon-macros",
+ "carbon-proc-macros",
+ "serde",
+ "solana-account",
+ "solana-instruction",
+ "solana-pubkey",
+]
+
+[[package]]
 name = "autocfg"
 version = "1.5.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -523,6 +536,19 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "59ed5838eebb26a2bb2e58f6d5b5316989ae9d08bab10e0e6d103e656d1b0280"
 dependencies = [
  "libc",
+]
+
+[[package]]
+name = "crew-decoder"
+version = "0.8.1"
+dependencies = [
+ "carbon-core",
+ "carbon-macros",
+ "carbon-proc-macros",
+ "serde",
+ "solana-account",
+ "solana-instruction",
+ "solana-pubkey",
 ]
 
 [[package]]
@@ -1179,6 +1205,19 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "89ae43fd86e4158d6db51ad8e2b80f313af9cc74f5c0e03ccb87de09998732de"
 dependencies = [
  "unicode-ident",
+]
+
+[[package]]
+name = "profile-vault-decoder"
+version = "0.8.1"
+dependencies = [
+ "carbon-core",
+ "carbon-macros",
+ "carbon-proc-macros",
+ "serde",
+ "solana-account",
+ "solana-instruction",
+ "solana-pubkey",
 ]
 
 [[package]]
@@ -3002,6 +3041,19 @@ dependencies = [
 ]
 
 [[package]]
+name = "srsly-decoder"
+version = "0.8.1"
+dependencies = [
+ "carbon-core",
+ "carbon-macros",
+ "carbon-proc-macros",
+ "serde",
+ "solana-account",
+ "solana-instruction",
+ "solana-pubkey",
+]
+
+[[package]]
 name = "subtle"
 version = "2.6.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -3027,6 +3079,19 @@ dependencies = [
  "proc-macro2",
  "quote",
  "unicode-ident",
+]
+
+[[package]]
+name = "tcomp-decoder"
+version = "0.8.1"
+dependencies = [
+ "carbon-core",
+ "carbon-macros",
+ "carbon-proc-macros",
+ "serde",
+ "solana-account",
+ "solana-instruction",
+ "solana-pubkey",
 ]
 
 [[package]]
