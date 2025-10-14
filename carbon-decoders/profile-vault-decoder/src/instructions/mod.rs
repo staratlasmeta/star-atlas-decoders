@@ -1,13 +1,18 @@
-
-
-
-
 use super::ProfileVaultDecoder;
 pub mod close_vault;
 pub mod create_vault_authority;
 pub mod drain_vault;
 
-#[derive(carbon_core::InstructionType, serde::Serialize, serde::Deserialize, PartialEq, Eq, Debug, Clone, Hash)]
+#[derive(
+    carbon_core::InstructionType,
+    serde::Serialize,
+    serde::Deserialize,
+    PartialEq,
+    Eq,
+    Debug,
+    Clone,
+    Hash,
+)]
 pub enum ProfileVaultInstruction {
     CloseVault(close_vault::CloseVault),
     CreateVaultAuthority(create_vault_authority::CreateVaultAuthority),

@@ -1,7 +1,14 @@
 [workspace]
 resolver = "3"
 members = ["carbon-decoders/*"]
-exclude = ["dist"]
+exclude = [
+    "carbon-decoders/atlas-fee-payer-decoder",
+    "carbon-decoders/crew-decoder",
+    "carbon-decoders/profile-value-decoder",
+    "carbon-decoders/srsly-decoder",
+    "carbon-decoders/tcomp-decoder",
+    "dist"
+]
 
 [workspace.package]
 version = "0.0.1"
