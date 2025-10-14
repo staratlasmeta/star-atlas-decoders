@@ -1,0 +1,12 @@
+diff --git a/src/accounts/mod.rs b/src/accounts/mod.rs
+index 34d0258..dc5dbd5 100644
+--- a/src/accounts/mod.rs
++++ b/src/accounts/mod.rs
+@@ -9,6 +9,7 @@ pub mod open_orders_counter;
+ pub mod order_account;
+ pub mod registered_currency;
+ 
++#[derive(Debug, serde::Serialize)]
+ pub enum MarketplaceAccount {
+     AtlasRateAccount(atlas_rate_account::AtlasRateAccount),
+     FeeReduction(fee_reduction::FeeReduction),

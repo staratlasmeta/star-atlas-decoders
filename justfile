@@ -5,6 +5,7 @@ SAGE_STARBASED_PROGRAM_ID := "SAGE2HAwep459SNq61LHvjxPk4pLPEJLoMETef7f7EE"
 SAGE_HOLOSIM_PROGRAM_ID := "SAgEeT8u14TE69JXtanGSgNkEdoPUcLabeyZD2uw8x9"
 ATLAS_STAKING_PROGRAM_ID := "ATLocKpzDbTokxgvnLew3d7drZkEzLzDpzwgrgWKDbmc"
 LOCKED_VOTER_PROGRAM_ID := "Lock7kBijGCQLEFAmXcengzXKA88iDNQPriQ7TbgeyG"
+MARKETPLACE_PROGRAM_ID := "traderDnaR5w6Tcoi3NFm53i48FTDNbGjBSZwWXDRrg"
 
 # ============================================================================
 # OS DETECTION FOR CROSS-PLATFORM COMPATIBILITY
@@ -281,11 +282,48 @@ all-locked-voter: build-locked-voter (_apply-patches "locked-voter") (_publish-d
     @echo "✅ locked-voter built, patched, and published"
 
 # ============================================================================
+# MARKETPLACE DECODER COMMANDS
+# ============================================================================
+
+# Generate marketplace decoder from mainnet IDL
+generate-marketplace:
+    #!/bin/bash
+    echo "Fetching IDL from mainnet for {{MARKETPLACE_PROGRAM_ID}}..."
+    carbon-cli parse --idl {{MARKETPLACE_PROGRAM_ID}} -u mainnet-beta --output ./dist --as-crate --standard anchor
+    echo "✅ Decoder generated from mainnet IDL"
+    echo "Renaming to marketplace..."
+    mv ./dist/marketplace-decoder ./dist/marketplace
+    echo "✅ Renamed to marketplace"
+    just _fix-workspace-refs marketplace
+
+# Build marketplace decoder
+build-marketplace: (_clean "marketplace") generate-marketplace (_prepare-decoder "marketplace")
+    @echo "✅ marketplace decoder generated and prepared"
+    just _init-git marketplace
+
+# Clean marketplace decoder
+clean-marketplace: (_clean "marketplace")
+
+# Apply patches for marketplace
+apply-patches-marketplace: (_apply-patches "marketplace")
+
+# Create patch for marketplace
+# Usage: just create-patch-marketplace <patch-name>
+create-patch-marketplace patch_name: (_create-patch "marketplace" patch_name)
+
+# Publish marketplace decoder
+publish-marketplace: (_publish-decoder "marketplace")
+
+# Full pipeline for marketplace
+all-marketplace: build-marketplace (_apply-patches "marketplace") (_publish-decoder "marketplace")
+    @echo "✅ marketplace built, patched, and published"
+
+# ============================================================================
 # UTILITY COMMANDS
 # ============================================================================
 
 # Clean all generated decoders
-clean-all: clean-sage-starbased clean-sage-holosim clean-atlas-staking clean-locked-voter
+clean-all: clean-sage-starbased clean-sage-holosim clean-atlas-staking clean-locked-voter clean-marketplace
     @echo "✅ All decoders cleaned"
 
 # List available patches

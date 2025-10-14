@@ -74,6 +74,13 @@ main() {
     fi
     print_info "✅ locked-voter decoder complete"
 
+    print_info "Building marketplace decoder..."
+    if ! just all-marketplace; then
+        print_error "Failed to build marketplace decoder"
+        exit 1
+    fi
+    print_info "✅ marketplace decoder complete"
+
     # Verify git is still clean
     print_info "Checking final git status..."
     if ! check_git_clean; then
