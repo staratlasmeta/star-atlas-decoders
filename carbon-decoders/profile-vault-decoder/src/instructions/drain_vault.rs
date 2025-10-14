@@ -1,11 +1,10 @@
-
-
 use carbon_core::{CarbonDeserialize, borsh};
 
-
-#[derive(CarbonDeserialize, Debug, serde::Serialize, serde::Deserialize, PartialEq, Eq, Clone, Hash)]
+#[derive(
+    CarbonDeserialize, Debug, serde::Serialize, serde::Deserialize, PartialEq, Eq, Clone, Hash,
+)]
 #[carbon(discriminator = "0x57db22f905874174")]
-pub struct DrainVault{
+pub struct DrainVault {
     pub key_index: u16,
     pub amount: u64,
 }
@@ -23,7 +22,9 @@ pub struct DrainVaultInstructionAccounts {
 impl carbon_core::deserialize::ArrangeAccounts for DrainVault {
     type ArrangedAccounts = DrainVaultInstructionAccounts;
 
-    fn arrange_accounts(accounts: &[solana_instruction::AccountMeta]) -> Option<Self::ArrangedAccounts> {
+    fn arrange_accounts(
+        accounts: &[solana_instruction::AccountMeta],
+    ) -> Option<Self::ArrangedAccounts> {
         let [
             profile,
             key,
@@ -31,11 +32,11 @@ impl carbon_core::deserialize::ArrangeAccounts for DrainVault {
             vault_authority,
             tokens_to,
             token_program,
-            _remaining @ ..
-        ] = accounts else {
+            _remaining @ ..,
+        ] = accounts
+        else {
             return None;
         };
-       
 
         Some(DrainVaultInstructionAccounts {
             profile: profile.pubkey,

@@ -1,10 +1,26 @@
 [workspace]
 resolver = "3"
 members = ["carbon-decoders/*"]
-exclude = ["dist"]
+exclude = [
+    "carbon-decoders/atlas-fee-payer-decoder",
+    "carbon-decoders/crew-decoder",
+    "carbon-decoders/profile-value-decoder",
+    "carbon-decoders/srsly-decoder",
+    "carbon-decoders/tcomp-decoder",
+    "dist"
+]
 
 [workspace.package]
 version = "0.0.1"
 edition = "2024"
 license = "Apache-2.0"
 repository = "https://github.com/staratlasmeta/star-atlas-decoders"
+
+[workspace.dependencies]
+carbon-core = "0.10.0"
+carbon-proc-macros = "0.10.0"
+carbon-macros = "0.10.0"
+solana-account = "2.2.1"
+solana-instruction = { version = "2.3.0", default-features = false }
+solana-pubkey = { version = "2.4.0", features = ["borsh", "serde", "bytemuck"] }
+serde = { version = "1.0", features = ["derive"] }
