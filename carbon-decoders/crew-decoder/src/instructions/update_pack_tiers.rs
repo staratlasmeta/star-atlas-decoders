@@ -1,12 +1,12 @@
-
 use super::super::types::*;
 
-use carbon_core::{CarbonDeserialize, borsh, account_utils::next_account};
+use carbon_core::{CarbonDeserialize, account_utils::next_account, borsh};
 
-
-#[derive(CarbonDeserialize, Debug, serde::Serialize, serde::Deserialize, PartialEq, Eq, Clone, Hash)]
+#[derive(
+    CarbonDeserialize, Debug, serde::Serialize, serde::Deserialize, PartialEq, Eq, Clone, Hash,
+)]
 #[carbon(discriminator = "0x2941de5b8cc573c0")]
-pub struct UpdatePackTiers{
+pub struct UpdatePackTiers {
     pub input: UpdatePackTiersInput,
 }
 
@@ -22,7 +22,9 @@ pub struct UpdatePackTiersInstructionAccounts {
 impl carbon_core::deserialize::ArrangeAccounts for UpdatePackTiers {
     type ArrangedAccounts = UpdatePackTiersInstructionAccounts;
 
-    fn arrange_accounts(accounts: &[solana_instruction::AccountMeta]) -> Option<Self::ArrangedAccounts> {
+    fn arrange_accounts(
+        accounts: &[solana_instruction::AccountMeta],
+    ) -> Option<Self::ArrangedAccounts> {
         let mut iter = accounts.iter();
         let key = next_account(&mut iter)?;
         let profile = next_account(&mut iter)?;

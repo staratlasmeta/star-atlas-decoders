@@ -1,7 +1,3 @@
-
-
-
-
 use super::CrewDecoder;
 pub mod mint_crew_member;
 pub mod redeem_crew_pack;
@@ -11,7 +7,16 @@ pub mod register_pack_type;
 pub mod register_sft_redemption;
 pub mod update_pack_tiers;
 
-#[derive(carbon_core::InstructionType, serde::Serialize, serde::Deserialize, PartialEq, Eq, Debug, Clone, Hash)]
+#[derive(
+    carbon_core::InstructionType,
+    serde::Serialize,
+    serde::Deserialize,
+    PartialEq,
+    Eq,
+    Debug,
+    Clone,
+    Hash,
+)]
 pub enum CrewInstruction {
     MintCrewMember(mint_crew_member::MintCrewMember),
     RedeemCrewPack(redeem_crew_pack::RedeemCrewPack),

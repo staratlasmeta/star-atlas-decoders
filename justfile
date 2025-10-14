@@ -5,10 +5,11 @@
 # ============================================================================
 
 # List of all decoders (space-separated)
-ALL_DECODERS := "sage-starbased sage-holosim atlas-staking locked-voter marketplace atlas-fee-payer"
+ALL_DECODERS := "sage-starbased sage-holosim atlas-staking locked-voter marketplace atlas-fee-payer crew"
 
 # Program IDs
 ATLAS_FEE_PAYER_PROGRAM_ID := "APR1MEny25pKupwn72oVqMH4qpDouArsX8zX4VwwfoXD"
+CREW_PROGRAM_ID := "CREWiq8qbxvo4SKkAFpVnc6t7CRQC4tAAscsNAENXgrJ"
 SAGE_STARBASED_PROGRAM_ID := "SAGE2HAwep459SNq61LHvjxPk4pLPEJLoMETef7f7EE"
 SAGE_HOLOSIM_PROGRAM_ID := "SAgEeT8u14TE69JXtanGSgNkEdoPUcLabeyZD2uw8x9"
 ATLAS_STAKING_PROGRAM_ID := "ATLocKpzDbTokxgvnLew3d7drZkEzLzDpzwgrgWKDbmc"
@@ -17,6 +18,7 @@ MARKETPLACE_PROGRAM_ID := "traderDnaR5w6Tcoi3NFm53i48FTDNbGjBSZwWXDRrg"
 
 # Descriptions
 ATLAS_FEE_PAYER_DESC := "Rust decoder for Star Atlas ATLAS fee payer program on Solana"
+CREW_DESC := "Rust decoder for Star Atlas Crew management program on Solana"
 SAGE_STARBASED_DESC := "Rust decoder for Star Atlas SAGE Starbased program on Solana"
 SAGE_HOLOSIM_DESC := "Rust decoder for Star Atlas SAGE Holosim program on Solana"
 ATLAS_STAKING_DESC := "Rust decoder for Star Atlas ATLAS staking program on Solana"
@@ -25,6 +27,7 @@ MARKETPLACE_DESC := "Rust decoder for Star Atlas Galactic Marketplace program on
 
 # IDL Sources: "mainnet" or "local"
 ATLAS_FEE_PAYER_SOURCE := "mainnet"
+CREW_SOURCE := "mainnet"
 SAGE_STARBASED_SOURCE := "mainnet"
 SAGE_HOLOSIM_SOURCE := "local"
 ATLAS_STAKING_SOURCE := "mainnet"
@@ -38,6 +41,7 @@ ATLAS_STAKING_GENERATED_NAME := "atlas-staking-decoder"
 LOCKED_VOTER_GENERATED_NAME := "locked-voter-decoder"
 MARKETPLACE_GENERATED_NAME := "marketplace-decoder"
 ATLAS_FEE_PAYER_GENERATED_NAME := "atlas-fee-payer-decoder"
+CREW_GENERATED_NAME := "crew-decoder"
 
 # ============================================================================
 # OS DETECTION FOR CROSS-PLATFORM COMPATIBILITY
@@ -69,6 +73,7 @@ _get-program-id decoder_name:
         locked-voter) echo "{{LOCKED_VOTER_PROGRAM_ID}}" ;;
         marketplace) echo "{{MARKETPLACE_PROGRAM_ID}}" ;;
         atlas-fee-payer) echo "{{ATLAS_FEE_PAYER_PROGRAM_ID}}" ;;
+        crew) echo "{{CREW_PROGRAM_ID}}" ;;
         *) echo "Unknown decoder: {{decoder_name}}" >&2; exit 1 ;;
     esac
 
@@ -82,6 +87,7 @@ _get-description decoder_name:
         locked-voter) echo "{{LOCKED_VOTER_DESC}}" ;;
         marketplace) echo "{{MARKETPLACE_DESC}}" ;;
         atlas-fee-payer) echo "{{ATLAS_FEE_PAYER_DESC}}" ;;
+        crew) echo "{{CREW_DESC}}" ;;
         *) echo "Unknown decoder: {{decoder_name}}" >&2; exit 1 ;;
     esac
 
@@ -95,6 +101,7 @@ _get-source decoder_name:
         locked-voter) echo "{{LOCKED_VOTER_SOURCE}}" ;;
         marketplace) echo "{{MARKETPLACE_SOURCE}}" ;;
         atlas-fee-payer) echo "{{ATLAS_FEE_PAYER_SOURCE}}" ;;
+        crew) echo "{{CREW_SOURCE}}" ;;
         *) echo "Unknown decoder: {{decoder_name}}" >&2; exit 1 ;;
     esac
 
@@ -108,6 +115,7 @@ _get-generated-name decoder_name:
         locked-voter) echo "{{LOCKED_VOTER_GENERATED_NAME}}" ;;
         marketplace) echo "{{MARKETPLACE_GENERATED_NAME}}" ;;
         atlas-fee-payer) echo "{{ATLAS_FEE_PAYER_GENERATED_NAME}}" ;;
+        crew) echo "{{CREW_GENERATED_NAME}}" ;;
         *) echo "Unknown decoder: {{decoder_name}}" >&2; exit 1 ;;
     esac
 
@@ -117,7 +125,8 @@ _get-generated-name decoder_name:
 
 # Fix workspace references in generated Cargo.toml
 _fix-workspace-refs decoder_name:
-    @echo "Fixing workspace references for {{decoder_name}}..."
+    #!/bin/bash
+    echo "Fixing workspace references for {{decoder_name}}..."
     just _sed 's/edition = { workspace = true }/edition = "2024"/' ./dist/{{decoder_name}}/Cargo.toml
     just _sed 's/carbon-core = { workspace = true }/carbon-core = "0.10.0"/' ./dist/{{decoder_name}}/Cargo.toml
     just _sed 's/carbon-proc-macros = { workspace = true }/carbon-proc-macros = "0.10.0"/' ./dist/{{decoder_name}}/Cargo.toml
@@ -126,8 +135,23 @@ _fix-workspace-refs decoder_name:
     just _sed 's/solana-instruction = { workspace = true }/solana-instruction = { version = "2.3.0", default-features = false }/' ./dist/{{decoder_name}}/Cargo.toml
     just _sed 's/solana-pubkey = { workspace = true }/solana-pubkey = { version = "2.4.0", features = ["borsh", "serde", "bytemuck"] }/' ./dist/{{decoder_name}}/Cargo.toml
     just _sed 's/serde = { workspace = true }/serde = { version = "1.0", features = ["derive"] }/' ./dist/{{decoder_name}}/Cargo.toml
-    just _sed 's/serde-big-array = { workspace = true }/serde-big-array = "0.5.1"/' ./dist/{{decoder_name}}/Cargo.toml
-    @echo "✅ Workspace references fixed"
+
+    # Only replace serde-big-array workspace reference if not crew (crew doesn't have it generated)
+    if [ "{{decoder_name}}" != "crew" ]; then
+        just _sed 's/serde-big-array = { workspace = true }/serde-big-array = "0.5.1"/' ./dist/{{decoder_name}}/Cargo.toml
+    fi
+
+    # Add serde-big-array dependency for crew (not generated by carbon-cli)
+    if [ "{{decoder_name}}" = "crew" ]; then
+        echo "Adding serde-big-array dependency for crew..."
+        # Insert after serde dependency using awk
+        CARGO_TOML="./dist/{{decoder_name}}/Cargo.toml"
+        TEMP_FILE=$(mktemp)
+        awk '/^serde = \{ version/ { print; print "serde-big-array = \"0.5.1\""; next } { print }' "$CARGO_TOML" > "$TEMP_FILE"
+        mv "$TEMP_FILE" "$CARGO_TOML"
+    fi
+
+    echo "✅ Workspace references fixed"
 
 # Rename package with carbon- prefix
 _rename-package decoder_name old_name new_name:
@@ -168,6 +192,16 @@ _add-crate-metadata decoder_name description program_id:
 _prepare-decoder decoder_name:
     #!/bin/bash
     echo "Preparing {{decoder_name}} decoder..."
+
+    # Skip array conversion for crew decoder - it keeps serde_big_array
+    if [ "{{decoder_name}}" = "crew" ]; then
+        echo "Skipping array conversion for crew (keeping serde_big_array)..."
+        echo "Running cargo fmt..."
+        cd ./dist/{{decoder_name}} && cargo fmt
+        echo "✅ Decoder prepared"
+        exit 0
+    fi
+
     echo "Fixing large byte arrays in types and instructions modules..."
     # Replace [u8; 64] with Vec<u8> in types and instructions
     if [ "$(uname -s)" = "Darwin" ]; then
@@ -369,6 +403,15 @@ apply-patches-atlas-fee-payer: (apply-patches "atlas-fee-payer")
 create-patch-atlas-fee-payer patch_name: (create-patch "atlas-fee-payer" patch_name)
 publish-atlas-fee-payer: (publish "atlas-fee-payer")
 all-atlas-fee-payer: (all "atlas-fee-payer")
+
+# Crew
+generate-crew: (generate "crew")
+build-crew: (build "crew")
+clean-crew: (clean "crew")
+apply-patches-crew: (apply-patches "crew")
+create-patch-crew patch_name: (create-patch "crew" patch_name)
+publish-crew: (publish "crew")
+all-crew: (all "crew")
 
 # ============================================================================
 # UTILITY COMMANDS

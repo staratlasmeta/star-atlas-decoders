@@ -1,12 +1,12 @@
-
 use super::super::types::*;
 
-use carbon_core::{CarbonDeserialize, borsh, account_utils::next_account};
+use carbon_core::{CarbonDeserialize, account_utils::next_account, borsh};
 
-
-#[derive(CarbonDeserialize, Debug, serde::Serialize, serde::Deserialize, PartialEq, Eq, Clone, Hash)]
+#[derive(
+    CarbonDeserialize, Debug, serde::Serialize, serde::Deserialize, PartialEq, Eq, Clone, Hash,
+)]
 #[carbon(discriminator = "0x36d847fd14ebabf1")]
-pub struct RegisterSftRedemption{
+pub struct RegisterSftRedemption {
     pub input: RegisterSftRedemptionInput,
 }
 
@@ -25,7 +25,9 @@ pub struct RegisterSftRedemptionInstructionAccounts {
 impl carbon_core::deserialize::ArrangeAccounts for RegisterSftRedemption {
     type ArrangedAccounts = RegisterSftRedemptionInstructionAccounts;
 
-    fn arrange_accounts(accounts: &[solana_instruction::AccountMeta]) -> Option<Self::ArrangedAccounts> {
+    fn arrange_accounts(
+        accounts: &[solana_instruction::AccountMeta],
+    ) -> Option<Self::ArrangedAccounts> {
         let mut iter = accounts.iter();
         let key = next_account(&mut iter)?;
         let profile = next_account(&mut iter)?;

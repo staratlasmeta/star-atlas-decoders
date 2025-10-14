@@ -1,12 +1,12 @@
-
 use super::super::types::*;
 
-use carbon_core::{CarbonDeserialize, borsh, account_utils::next_account};
+use carbon_core::{CarbonDeserialize, account_utils::next_account, borsh};
 
-
-#[derive(CarbonDeserialize, Debug, serde::Serialize, serde::Deserialize, PartialEq, Eq, Clone, Hash)]
+#[derive(
+    CarbonDeserialize, Debug, serde::Serialize, serde::Deserialize, PartialEq, Eq, Clone, Hash,
+)]
 #[carbon(discriminator = "0xfd1c8664fd2e4ee5")]
-pub struct RegisterCrewConfig{
+pub struct RegisterCrewConfig {
     pub args: RegisterCrewConfigArgs,
 }
 
@@ -22,7 +22,9 @@ pub struct RegisterCrewConfigInstructionAccounts {
 impl carbon_core::deserialize::ArrangeAccounts for RegisterCrewConfig {
     type ArrangedAccounts = RegisterCrewConfigInstructionAccounts;
 
-    fn arrange_accounts(accounts: &[solana_instruction::AccountMeta]) -> Option<Self::ArrangedAccounts> {
+    fn arrange_accounts(
+        accounts: &[solana_instruction::AccountMeta],
+    ) -> Option<Self::ArrangedAccounts> {
         let mut iter = accounts.iter();
         let profile = next_account(&mut iter)?;
         let funder = next_account(&mut iter)?;
