@@ -26,7 +26,7 @@ jobs:
         with:
           cache-provider: warpbuild
 
-      - uses: taiki-e/install-action
+      - uses: taiki-e/install-action@v2
         with:
           tool: just,carbon-cli
 
