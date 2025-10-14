@@ -1,11 +1,39 @@
 # Justfile for managing decoder generation and patching
 
+# ============================================================================
+# DECODER METADATA
+# ============================================================================
+
+# List of all decoders (space-separated)
+ALL_DECODERS := "sage-starbased sage-holosim atlas-staking locked-voter marketplace"
+
 # Program IDs
 SAGE_STARBASED_PROGRAM_ID := "SAGE2HAwep459SNq61LHvjxPk4pLPEJLoMETef7f7EE"
 SAGE_HOLOSIM_PROGRAM_ID := "SAgEeT8u14TE69JXtanGSgNkEdoPUcLabeyZD2uw8x9"
 ATLAS_STAKING_PROGRAM_ID := "ATLocKpzDbTokxgvnLew3d7drZkEzLzDpzwgrgWKDbmc"
 LOCKED_VOTER_PROGRAM_ID := "Lock7kBijGCQLEFAmXcengzXKA88iDNQPriQ7TbgeyG"
 MARKETPLACE_PROGRAM_ID := "traderDnaR5w6Tcoi3NFm53i48FTDNbGjBSZwWXDRrg"
+
+# Descriptions
+SAGE_STARBASED_DESC := "Rust decoder for Star Atlas SAGE Starbased program on Solana"
+SAGE_HOLOSIM_DESC := "Rust decoder for Star Atlas SAGE Holosim program on Solana"
+ATLAS_STAKING_DESC := "Rust decoder for Star Atlas ATLAS staking program on Solana"
+LOCKED_VOTER_DESC := "Rust decoder for Star Atlas Locked Voter governance program on Solana"
+MARKETPLACE_DESC := "Rust decoder for Star Atlas Galactic Marketplace program on Solana"
+
+# IDL Sources: "mainnet" or "local"
+SAGE_STARBASED_SOURCE := "mainnet"
+SAGE_HOLOSIM_SOURCE := "local"
+ATLAS_STAKING_SOURCE := "mainnet"
+LOCKED_VOTER_SOURCE := "mainnet"
+MARKETPLACE_SOURCE := "mainnet"
+
+# Carbon-cli generated names (what carbon-cli names the directory)
+SAGE_STARBASED_GENERATED_NAME := "sage-decoder"
+SAGE_HOLOSIM_GENERATED_NAME := "sage-decoder"
+ATLAS_STAKING_GENERATED_NAME := "atlas-staking-decoder"
+LOCKED_VOTER_GENERATED_NAME := "locked-voter-decoder"
+MARKETPLACE_GENERATED_NAME := "marketplace-decoder"
 
 # ============================================================================
 # OS DETECTION FOR CROSS-PLATFORM COMPATIBILITY
@@ -22,6 +50,58 @@ _sed pattern file:
     else
         sed -i '{{pattern}}' {{file}}
     fi
+
+# ============================================================================
+# METADATA HELPER RECIPES
+# ============================================================================
+
+# Get program ID for a decoder
+_get-program-id decoder_name:
+    #!/bin/bash
+    case "{{decoder_name}}" in
+        sage-starbased) echo "{{SAGE_STARBASED_PROGRAM_ID}}" ;;
+        sage-holosim) echo "{{SAGE_HOLOSIM_PROGRAM_ID}}" ;;
+        atlas-staking) echo "{{ATLAS_STAKING_PROGRAM_ID}}" ;;
+        locked-voter) echo "{{LOCKED_VOTER_PROGRAM_ID}}" ;;
+        marketplace) echo "{{MARKETPLACE_PROGRAM_ID}}" ;;
+        *) echo "Unknown decoder: {{decoder_name}}" >&2; exit 1 ;;
+    esac
+
+# Get description for a decoder
+_get-description decoder_name:
+    #!/bin/bash
+    case "{{decoder_name}}" in
+        sage-starbased) echo "{{SAGE_STARBASED_DESC}}" ;;
+        sage-holosim) echo "{{SAGE_HOLOSIM_DESC}}" ;;
+        atlas-staking) echo "{{ATLAS_STAKING_DESC}}" ;;
+        locked-voter) echo "{{LOCKED_VOTER_DESC}}" ;;
+        marketplace) echo "{{MARKETPLACE_DESC}}" ;;
+        *) echo "Unknown decoder: {{decoder_name}}" >&2; exit 1 ;;
+    esac
+
+# Get IDL source type for a decoder
+_get-source decoder_name:
+    #!/bin/bash
+    case "{{decoder_name}}" in
+        sage-starbased) echo "{{SAGE_STARBASED_SOURCE}}" ;;
+        sage-holosim) echo "{{SAGE_HOLOSIM_SOURCE}}" ;;
+        atlas-staking) echo "{{ATLAS_STAKING_SOURCE}}" ;;
+        locked-voter) echo "{{LOCKED_VOTER_SOURCE}}" ;;
+        marketplace) echo "{{MARKETPLACE_SOURCE}}" ;;
+        *) echo "Unknown decoder: {{decoder_name}}" >&2; exit 1 ;;
+    esac
+
+# Get generated name from carbon-cli for a decoder
+_get-generated-name decoder_name:
+    #!/bin/bash
+    case "{{decoder_name}}" in
+        sage-starbased) echo "{{SAGE_STARBASED_GENERATED_NAME}}" ;;
+        sage-holosim) echo "{{SAGE_HOLOSIM_GENERATED_NAME}}" ;;
+        atlas-staking) echo "{{ATLAS_STAKING_GENERATED_NAME}}" ;;
+        locked-voter) echo "{{LOCKED_VOTER_GENERATED_NAME}}" ;;
+        marketplace) echo "{{MARKETPLACE_GENERATED_NAME}}" ;;
+        *) echo "Unknown decoder: {{decoder_name}}" >&2; exit 1 ;;
+    esac
 
 # ============================================================================
 # GENERIC REUSABLE RECIPES (Private, prefixed with _)
@@ -160,203 +240,157 @@ _create-patch decoder_name patch_name:
     @echo "✅ Patch saved to patches/{{decoder_name}}-{{patch_name}}.patch"
     @echo "Patch size: $(wc -l < patches/{{decoder_name}}-{{patch_name}}.patch) lines"
 
-# ============================================================================
-# SAGE-STARBASED DECODER COMMANDS
-# ============================================================================
-
-# Generate sage-starbased decoder from mainnet IDL
-generate-sage-starbased:
+# Universal decoder generation (handles both mainnet and local IDL sources)
+_generate-decoder decoder_name:
     #!/bin/bash
-    echo "Fetching IDL from mainnet for {{SAGE_STARBASED_PROGRAM_ID}}..."
-    carbon-cli parse --idl {{SAGE_STARBASED_PROGRAM_ID}} -u mainnet-beta --output ./dist --as-crate --standard anchor
-    echo "✅ Decoder generated from mainnet IDL"
-    echo "Renaming to sage-starbased..."
-    mv ./dist/sage-decoder ./dist/sage-starbased
-    echo "✅ Renamed to sage-starbased"
-    just _rename-package sage-starbased sage-decoder carbon-sage-starbased-decoder
-    just _fix-workspace-refs sage-starbased
+    set -euo pipefail
 
-# Build sage-starbased decoder
-build-sage-starbased: (_clean "sage-starbased") generate-sage-starbased (_prepare-decoder "sage-starbased") (_add-crate-metadata "sage-starbased" "Rust decoder for Star Atlas SAGE Starbased program on Solana" SAGE_STARBASED_PROGRAM_ID)
-    @echo "✅ sage-starbased decoder generated and prepared"
-    just _init-git sage-starbased
+    PROGRAM_ID=$(just _get-program-id {{decoder_name}})
+    SOURCE=$(just _get-source {{decoder_name}})
+    GENERATED_NAME=$(just _get-generated-name {{decoder_name}})
 
-# Clean sage-starbased decoder
-clean-sage-starbased: (_clean "sage-starbased")
+    if [ "$SOURCE" = "mainnet" ]; then
+        echo "Fetching IDL from mainnet for $PROGRAM_ID..."
+        carbon-cli parse --idl "$PROGRAM_ID" -u mainnet-beta --output ./dist --as-crate --standard anchor
+    elif [ "$SOURCE" = "local" ]; then
+        echo "Generating decoder from local IDL for $PROGRAM_ID..."
+        carbon-cli parse --idl ./idl/${PROGRAM_ID}-idl.json --output ./dist --as-crate --standard anchor
+    else
+        echo "Error: Unknown source type '$SOURCE'" >&2
+        exit 1
+    fi
 
-# Apply patches for sage-starbased
-apply-patches-sage-starbased: (_apply-patches "sage-starbased")
+    echo "✅ Decoder generated from $SOURCE IDL"
+    echo "Renaming to {{decoder_name}}..."
+    mv ./dist/$GENERATED_NAME ./dist/{{decoder_name}}
+    echo "✅ Renamed to {{decoder_name}}"
 
-# Create patch for sage-starbased
-# Usage: just create-patch-sage-starbased <patch-name>
-create-patch-sage-starbased patch_name: (_create-patch "sage-starbased" patch_name)
+    # Rename package to include carbon- prefix
+    just _rename-package {{decoder_name}} $GENERATED_NAME carbon-{{decoder_name}}-decoder
 
-# Publish sage-starbased decoder
-publish-sage-starbased: (_publish-decoder "sage-starbased")
-
-# Full pipeline for sage-starbased
-all-sage-starbased: build-sage-starbased (_apply-patches "sage-starbased") (_publish-decoder "sage-starbased")
-    @echo "✅ sage-starbased built, patched, and published"
+    # Fix workspace references
+    just _fix-workspace-refs {{decoder_name}}
 
 # ============================================================================
-# SAGE-HOLOSIM DECODER COMMANDS
+# UNIVERSAL DECODER PIPELINE COMMANDS
 # ============================================================================
 
-# Generate sage-holosim decoder from local IDL
-generate-sage-holosim:
+# Generate a decoder from its IDL source
+generate decoder: (_generate-decoder decoder)
+
+# Build a decoder (clean + generate + prepare + add metadata)
+build decoder: (_clean decoder) (_generate-decoder decoder) (_prepare-decoder decoder)
     #!/bin/bash
-    echo "Generating decoder from local IDL for {{SAGE_HOLOSIM_PROGRAM_ID}}..."
-    carbon-cli parse --idl ./idl/{{SAGE_HOLOSIM_PROGRAM_ID}}-idl.json --output ./dist --as-crate --standard anchor
-    echo "✅ Decoder generated from local IDL"
-    echo "Renaming to sage-holosim..."
-    mv ./dist/sage-decoder ./dist/sage-holosim
-    echo "✅ Renamed to sage-holosim"
-    just _rename-package sage-holosim sage-decoder carbon-sage-holosim-decoder
-    just _fix-workspace-refs sage-holosim
+    DESCRIPTION=$(just _get-description {{decoder}})
+    PROGRAM_ID=$(just _get-program-id {{decoder}})
+    just _add-crate-metadata {{decoder}} "$DESCRIPTION" "$PROGRAM_ID"
+    echo "✅ {{decoder}} decoder generated and prepared"
+    just _init-git {{decoder}}
 
-# Build sage-holosim decoder
-build-sage-holosim: (_clean "sage-holosim") generate-sage-holosim (_prepare-decoder "sage-holosim") (_add-crate-metadata "sage-holosim" "Rust decoder for Star Atlas SAGE Holosim program on Solana" SAGE_HOLOSIM_PROGRAM_ID)
-    @echo "✅ sage-holosim decoder generated and prepared"
-    just _init-git sage-holosim
+# Clean a decoder
+clean decoder: (_clean decoder)
 
-# Clean sage-holosim decoder
-clean-sage-holosim: (_clean "sage-holosim")
+# Apply patches to a decoder
+apply-patches decoder: (_apply-patches decoder)
 
-# Apply patches for sage-holosim
-apply-patches-sage-holosim: (_apply-patches "sage-holosim")
+# Create a patch for a decoder
+# Usage: just create-patch <decoder-name> <patch-name>
+create-patch decoder patch_name: (_create-patch decoder patch_name)
 
-# Create patch for sage-holosim
-# Usage: just create-patch-sage-holosim <patch-name>
-create-patch-sage-holosim patch_name: (_create-patch "sage-holosim" patch_name)
+# Publish a decoder to the workspace
+publish decoder: (_publish-decoder decoder)
 
-# Publish sage-holosim decoder
-publish-sage-holosim: (_publish-decoder "sage-holosim")
-
-# Full pipeline for sage-holosim
-all-sage-holosim: build-sage-holosim (_apply-patches "sage-holosim") (_publish-decoder "sage-holosim")
-    @echo "✅ sage-holosim built, patched, and published"
+# Full pipeline for a decoder (build + patch + publish)
+all decoder: (build decoder) (_apply-patches decoder) (_publish-decoder decoder)
+    @echo "✅ {{decoder}} built, patched, and published"
 
 # ============================================================================
-# ATLAS-STAKING DECODER COMMANDS
+# CONVENIENCE ALIASES (Keep existing command names)
 # ============================================================================
 
-# Generate atlas-staking decoder from mainnet IDL
-generate-atlas-staking:
-    #!/bin/bash
-    echo "Fetching IDL from mainnet for {{ATLAS_STAKING_PROGRAM_ID}}..."
-    carbon-cli parse --idl {{ATLAS_STAKING_PROGRAM_ID}} -u mainnet-beta --output ./dist --as-crate --standard anchor
-    echo "✅ Decoder generated from mainnet IDL"
-    echo "Renaming to atlas-staking..."
-    mv ./dist/atlas-staking-decoder ./dist/atlas-staking
-    echo "✅ Renamed to atlas-staking"
-    just _rename-package atlas-staking atlas-staking-decoder carbon-atlas-staking-decoder
-    just _fix-workspace-refs atlas-staking
+# SAGE Starbased
+generate-sage-starbased: (generate "sage-starbased")
+build-sage-starbased: (build "sage-starbased")
+clean-sage-starbased: (clean "sage-starbased")
+apply-patches-sage-starbased: (apply-patches "sage-starbased")
+create-patch-sage-starbased patch_name: (create-patch "sage-starbased" patch_name)
+publish-sage-starbased: (publish "sage-starbased")
+all-sage-starbased: (all "sage-starbased")
 
-# Build atlas-staking decoder
-build-atlas-staking: (_clean "atlas-staking") generate-atlas-staking (_prepare-decoder "atlas-staking") (_add-crate-metadata "atlas-staking" "Rust decoder for Star Atlas ATLAS staking program on Solana" ATLAS_STAKING_PROGRAM_ID)
-    @echo "✅ atlas-staking decoder generated and prepared"
-    just _init-git atlas-staking
+# SAGE Holosim
+generate-sage-holosim: (generate "sage-holosim")
+build-sage-holosim: (build "sage-holosim")
+clean-sage-holosim: (clean "sage-holosim")
+apply-patches-sage-holosim: (apply-patches "sage-holosim")
+create-patch-sage-holosim patch_name: (create-patch "sage-holosim" patch_name)
+publish-sage-holosim: (publish "sage-holosim")
+all-sage-holosim: (all "sage-holosim")
 
-# Clean atlas-staking decoder
-clean-atlas-staking: (_clean "atlas-staking")
+# ATLAS Staking
+generate-atlas-staking: (generate "atlas-staking")
+build-atlas-staking: (build "atlas-staking")
+clean-atlas-staking: (clean "atlas-staking")
+apply-patches-atlas-staking: (apply-patches "atlas-staking")
+create-patch-atlas-staking patch_name: (create-patch "atlas-staking" patch_name)
+publish-atlas-staking: (publish "atlas-staking")
+all-atlas-staking: (all "atlas-staking")
 
-# Apply patches for atlas-staking
-apply-patches-atlas-staking: (_apply-patches "atlas-staking")
+# Locked Voter
+generate-locked-voter: (generate "locked-voter")
+build-locked-voter: (build "locked-voter")
+clean-locked-voter: (clean "locked-voter")
+apply-patches-locked-voter: (apply-patches "locked-voter")
+create-patch-locked-voter patch_name: (create-patch "locked-voter" patch_name)
+publish-locked-voter: (publish "locked-voter")
+all-locked-voter: (all "locked-voter")
 
-# Create patch for atlas-staking
-# Usage: just create-patch-atlas-staking <patch-name>
-create-patch-atlas-staking patch_name: (_create-patch "atlas-staking" patch_name)
-
-# Publish atlas-staking decoder
-publish-atlas-staking: (_publish-decoder "atlas-staking")
-
-# Full pipeline for atlas-staking
-all-atlas-staking: build-atlas-staking (_apply-patches "atlas-staking") (_publish-decoder "atlas-staking")
-    @echo "✅ atlas-staking built, patched, and published"
-
-# ============================================================================
-# LOCKED-VOTER DECODER COMMANDS
-# ============================================================================
-
-# Generate locked-voter decoder from mainnet IDL
-generate-locked-voter:
-    #!/bin/bash
-    echo "Fetching IDL from mainnet for {{LOCKED_VOTER_PROGRAM_ID}}..."
-    carbon-cli parse --idl {{LOCKED_VOTER_PROGRAM_ID}} -u mainnet-beta --output ./dist --as-crate --standard anchor
-    echo "✅ Decoder generated from mainnet IDL"
-    echo "Renaming to locked-voter..."
-    mv ./dist/locked-voter-decoder ./dist/locked-voter
-    echo "✅ Renamed to locked-voter"
-    just _rename-package locked-voter locked-voter-decoder carbon-locked-voter-decoder
-    just _fix-workspace-refs locked-voter
-
-# Build locked-voter decoder
-build-locked-voter: (_clean "locked-voter") generate-locked-voter (_prepare-decoder "locked-voter") (_add-crate-metadata "locked-voter" "Rust decoder for Star Atlas Locked Voter governance program on Solana" LOCKED_VOTER_PROGRAM_ID)
-    @echo "✅ locked-voter decoder generated and prepared"
-    just _init-git locked-voter
-
-# Clean locked-voter decoder
-clean-locked-voter: (_clean "locked-voter")
-
-# Apply patches for locked-voter
-apply-patches-locked-voter: (_apply-patches "locked-voter")
-
-# Create patch for locked-voter
-# Usage: just create-patch-locked-voter <patch-name>
-create-patch-locked-voter patch_name: (_create-patch "locked-voter" patch_name)
-
-# Publish locked-voter decoder
-publish-locked-voter: (_publish-decoder "locked-voter")
-
-# Full pipeline for locked-voter
-all-locked-voter: build-locked-voter (_apply-patches "locked-voter") (_publish-decoder "locked-voter")
-    @echo "✅ locked-voter built, patched, and published"
-
-# ============================================================================
-# MARKETPLACE DECODER COMMANDS
-# ============================================================================
-
-# Generate marketplace decoder from mainnet IDL
-generate-marketplace:
-    #!/bin/bash
-    echo "Fetching IDL from mainnet for {{MARKETPLACE_PROGRAM_ID}}..."
-    carbon-cli parse --idl {{MARKETPLACE_PROGRAM_ID}} -u mainnet-beta --output ./dist --as-crate --standard anchor
-    echo "✅ Decoder generated from mainnet IDL"
-    echo "Renaming to marketplace..."
-    mv ./dist/marketplace-decoder ./dist/marketplace
-    echo "✅ Renamed to marketplace"
-    just _rename-package marketplace marketplace-decoder carbon-marketplace-decoder
-    just _fix-workspace-refs marketplace
-
-# Build marketplace decoder
-build-marketplace: (_clean "marketplace") generate-marketplace (_prepare-decoder "marketplace") (_add-crate-metadata "marketplace" "Rust decoder for Star Atlas Galactic Marketplace program on Solana" MARKETPLACE_PROGRAM_ID)
-    @echo "✅ marketplace decoder generated and prepared"
-    just _init-git marketplace
-
-# Clean marketplace decoder
-clean-marketplace: (_clean "marketplace")
-
-# Apply patches for marketplace
-apply-patches-marketplace: (_apply-patches "marketplace")
-
-# Create patch for marketplace
-# Usage: just create-patch-marketplace <patch-name>
-create-patch-marketplace patch_name: (_create-patch "marketplace" patch_name)
-
-# Publish marketplace decoder
-publish-marketplace: (_publish-decoder "marketplace")
-
-# Full pipeline for marketplace
-all-marketplace: build-marketplace (_apply-patches "marketplace") (_publish-decoder "marketplace")
-    @echo "✅ marketplace built, patched, and published"
+# Marketplace
+generate-marketplace: (generate "marketplace")
+build-marketplace: (build "marketplace")
+clean-marketplace: (clean "marketplace")
+apply-patches-marketplace: (apply-patches "marketplace")
+create-patch-marketplace patch_name: (create-patch "marketplace" patch_name)
+publish-marketplace: (publish "marketplace")
+all-marketplace: (all "marketplace")
 
 # ============================================================================
 # UTILITY COMMANDS
 # ============================================================================
 
 # Clean all generated decoders
-clean-all: clean-sage-starbased clean-sage-holosim clean-atlas-staking clean-locked-voter clean-marketplace
-    @echo "✅ All decoders cleaned"
+clean-all:
+    #!/bin/bash
+    for decoder in {{ALL_DECODERS}}; do
+        echo "Cleaning $decoder..."
+        just clean $decoder
+    done
+    echo "✅ All decoders cleaned"
+
+# Build all decoders
+build-all:
+    #!/bin/bash
+    for decoder in {{ALL_DECODERS}}; do
+        echo "Building $decoder..."
+        just build $decoder
+    done
+    echo "✅ All decoders built"
+
+# Run full pipeline for all decoders
+all-all:
+    #!/bin/bash
+    for decoder in {{ALL_DECODERS}}; do
+        echo "Running full pipeline for $decoder..."
+        just all $decoder
+    done
+    echo "✅ All decoders completed"
+
+# List all available decoders
+list-decoders:
+    #!/bin/bash
+    echo "Available decoders:"
+    for decoder in {{ALL_DECODERS}}; do
+        echo "  - $decoder"
+    done
 
 # List available patches
 list-patches:
