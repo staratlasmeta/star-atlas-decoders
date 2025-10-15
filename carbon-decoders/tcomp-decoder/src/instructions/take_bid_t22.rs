@@ -1,11 +1,10 @@
+use carbon_core::{CarbonDeserialize, account_utils::next_account, borsh};
 
-
-use carbon_core::{CarbonDeserialize, borsh};
-
-
-#[derive(CarbonDeserialize, Debug, serde::Serialize, serde::Deserialize, PartialEq, Eq, Clone, Hash)]
+#[derive(
+    CarbonDeserialize, Debug, serde::Serialize, serde::Deserialize, PartialEq, Eq, Clone, Hash,
+)]
 #[carbon(discriminator = "0x12fa71f21ff41396")]
-pub struct TakeBidT22{
+pub struct TakeBidT22 {
     pub min_amount: u64,
 }
 
@@ -15,8 +14,8 @@ pub struct TakeBidT22InstructionAccounts {
     pub seller: solana_pubkey::Pubkey,
     pub bid_state: solana_pubkey::Pubkey,
     pub owner: solana_pubkey::Pubkey,
-    pub taker_broker: solana_pubkey::Pubkey,
-    pub maker_broker: solana_pubkey::Pubkey,
+    pub taker_broker: Option<solana_pubkey::Pubkey>,
+    pub maker_broker: Option<solana_pubkey::Pubkey>,
     pub margin_account: solana_pubkey::Pubkey,
     pub whitelist: solana_pubkey::Pubkey,
     pub nft_seller_acc: solana_pubkey::Pubkey,
@@ -35,8 +34,31 @@ pub struct TakeBidT22InstructionAccounts {
 impl carbon_core::deserialize::ArrangeAccounts for TakeBidT22 {
     type ArrangedAccounts = TakeBidT22InstructionAccounts;
 
-    fn arrange_accounts(accounts: &[solana_instruction::AccountMeta]) -> Option<Self::ArrangedAccounts> {
-        let [
+    fn arrange_accounts(
+        accounts: &[solana_instruction::AccountMeta],
+    ) -> Option<Self::ArrangedAccounts> {
+        let mut iter = accounts.iter();
+        let tcomp = next_account(&mut iter)?;
+        let seller = next_account(&mut iter)?;
+        let bid_state = next_account(&mut iter)?;
+        let owner = next_account(&mut iter)?;
+        let taker_broker = next_account(&mut iter);
+        let maker_broker = next_account(&mut iter);
+        let margin_account = next_account(&mut iter)?;
+        let whitelist = next_account(&mut iter)?;
+        let nft_seller_acc = next_account(&mut iter)?;
+        let nft_mint = next_account(&mut iter)?;
+        let owner_ata_acc = next_account(&mut iter)?;
+        let token_program = next_account(&mut iter)?;
+        let associated_token_program = next_account(&mut iter)?;
+        let system_program = next_account(&mut iter)?;
+        let tcomp_program = next_account(&mut iter)?;
+        let tensorswap_program = next_account(&mut iter)?;
+        let cosigner = next_account(&mut iter)?;
+        let mint_proof = next_account(&mut iter)?;
+        let rent_dest = next_account(&mut iter)?;
+
+        Some(TakeBidT22InstructionAccounts {
             tcomp,
             seller,
             bid_state,
@@ -56,32 +78,6 @@ impl carbon_core::deserialize::ArrangeAccounts for TakeBidT22 {
             cosigner,
             mint_proof,
             rent_dest,
-            _remaining @ ..
-        ] = accounts else {
-            return None;
-        };
-       
-
-        Some(TakeBidT22InstructionAccounts {
-            tcomp: tcomp.pubkey,
-            seller: seller.pubkey,
-            bid_state: bid_state.pubkey,
-            owner: owner.pubkey,
-            taker_broker: taker_broker.pubkey,
-            maker_broker: maker_broker.pubkey,
-            margin_account: margin_account.pubkey,
-            whitelist: whitelist.pubkey,
-            nft_seller_acc: nft_seller_acc.pubkey,
-            nft_mint: nft_mint.pubkey,
-            owner_ata_acc: owner_ata_acc.pubkey,
-            token_program: token_program.pubkey,
-            associated_token_program: associated_token_program.pubkey,
-            system_program: system_program.pubkey,
-            tcomp_program: tcomp_program.pubkey,
-            tensorswap_program: tensorswap_program.pubkey,
-            cosigner: cosigner.pubkey,
-            mint_proof: mint_proof.pubkey,
-            rent_dest: rent_dest.pubkey,
         })
     }
 }

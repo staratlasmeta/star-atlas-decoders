@@ -1,0 +1,26 @@
+diff --git a/src/accounts/rental_state.rs b/src/accounts/rental_state.rs
+index db19d9d..360fd80 100644
+--- a/src/accounts/rental_state.rs
++++ b/src/accounts/rental_state.rs
+@@ -10,7 +10,7 @@ pub struct RentalState {
+     pub thread: solana_pubkey::Pubkey,
+     pub contract: solana_pubkey::Pubkey,
+     pub owner_token_account: solana_pubkey::Pubkey,
+-    pub rate: f64,
++    pub rate: i64, // FIXME: temporary hack for rate (f64)
+     pub start_time: i64,
+     pub end_time: i64,
+     pub cancelled: bool,
+diff --git a/src/types/rental_state.rs b/src/types/rental_state.rs
+index 008e062..8c94833 100644
+--- a/src/types/rental_state.rs
++++ b/src/types/rental_state.rs
+@@ -9,7 +9,7 @@ pub struct RentalState {
+     pub thread: solana_pubkey::Pubkey,
+     pub contract: solana_pubkey::Pubkey,
+     pub owner_token_account: solana_pubkey::Pubkey,
+-    pub rate: f64,
++    pub rate: i64, // FIXME: temporary hack for rate (f64)
+     pub start_time: i64,
+     pub end_time: i64,
+     pub cancelled: bool,

@@ -1,4 +1,4 @@
-use carbon_core::{CarbonDeserialize, borsh};
+use carbon_core::{CarbonDeserialize, account_utils::next_account, borsh};
 
 #[derive(
     CarbonDeserialize, Debug, serde::Serialize, serde::Deserialize, PartialEq, Eq, Clone, Hash,
@@ -25,7 +25,16 @@ impl carbon_core::deserialize::ArrangeAccounts for CloseVault {
     fn arrange_accounts(
         accounts: &[solana_instruction::AccountMeta],
     ) -> Option<Self::ArrangedAccounts> {
-        let [
+        let mut iter = accounts.iter();
+        let profile = next_account(&mut iter)?;
+        let key = next_account(&mut iter)?;
+        let vault = next_account(&mut iter)?;
+        let vault_authority = next_account(&mut iter)?;
+        let tokens_to = next_account(&mut iter)?;
+        let funds_to = next_account(&mut iter)?;
+        let token_program = next_account(&mut iter)?;
+
+        Some(CloseVaultInstructionAccounts {
             profile,
             key,
             vault,
@@ -33,20 +42,6 @@ impl carbon_core::deserialize::ArrangeAccounts for CloseVault {
             tokens_to,
             funds_to,
             token_program,
-            _remaining @ ..,
-        ] = accounts
-        else {
-            return None;
-        };
-
-        Some(CloseVaultInstructionAccounts {
-            profile: profile.pubkey,
-            key: key.pubkey,
-            vault: vault.pubkey,
-            vault_authority: vault_authority.pubkey,
-            tokens_to: tokens_to.pubkey,
-            funds_to: funds_to.pubkey,
-            token_program: token_program.pubkey,
         })
     }
 }

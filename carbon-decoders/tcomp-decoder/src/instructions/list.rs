@@ -1,11 +1,10 @@
+use carbon_core::{CarbonDeserialize, account_utils::next_account, borsh};
 
-
-use carbon_core::{CarbonDeserialize, borsh};
-
-
-#[derive(CarbonDeserialize, Debug, serde::Serialize, serde::Deserialize, PartialEq, Eq, Clone, Hash)]
+#[derive(
+    CarbonDeserialize, Debug, serde::Serialize, serde::Deserialize, PartialEq, Eq, Clone, Hash,
+)]
 #[carbon(discriminator = "0x36aec14311298426")]
-pub struct List{
+pub struct List {
     pub nonce: u64,
     pub index: u32,
     pub root: [u8; 32],
@@ -36,8 +35,23 @@ pub struct ListInstructionAccounts {
 impl carbon_core::deserialize::ArrangeAccounts for List {
     type ArrangedAccounts = ListInstructionAccounts;
 
-    fn arrange_accounts(accounts: &[solana_instruction::AccountMeta]) -> Option<Self::ArrangedAccounts> {
-        let [
+    fn arrange_accounts(
+        accounts: &[solana_instruction::AccountMeta],
+    ) -> Option<Self::ArrangedAccounts> {
+        let mut iter = accounts.iter();
+        let tree_authority = next_account(&mut iter)?;
+        let owner = next_account(&mut iter)?;
+        let delegate = next_account(&mut iter)?;
+        let merkle_tree = next_account(&mut iter)?;
+        let log_wrapper = next_account(&mut iter)?;
+        let compression_program = next_account(&mut iter)?;
+        let system_program = next_account(&mut iter)?;
+        let bubblegum_program = next_account(&mut iter)?;
+        let tcomp_program = next_account(&mut iter)?;
+        let list_state = next_account(&mut iter)?;
+        let rent_payer = next_account(&mut iter)?;
+
+        Some(ListInstructionAccounts {
             tree_authority,
             owner,
             delegate,
@@ -49,24 +63,6 @@ impl carbon_core::deserialize::ArrangeAccounts for List {
             tcomp_program,
             list_state,
             rent_payer,
-            _remaining @ ..
-        ] = accounts else {
-            return None;
-        };
-       
-
-        Some(ListInstructionAccounts {
-            tree_authority: tree_authority.pubkey,
-            owner: owner.pubkey,
-            delegate: delegate.pubkey,
-            merkle_tree: merkle_tree.pubkey,
-            log_wrapper: log_wrapper.pubkey,
-            compression_program: compression_program.pubkey,
-            system_program: system_program.pubkey,
-            bubblegum_program: bubblegum_program.pubkey,
-            tcomp_program: tcomp_program.pubkey,
-            list_state: list_state.pubkey,
-            rent_payer: rent_payer.pubkey,
         })
     }
 }

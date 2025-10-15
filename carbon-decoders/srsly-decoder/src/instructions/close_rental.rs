@@ -1,12 +1,10 @@
+use carbon_core::{CarbonDeserialize, account_utils::next_account, borsh};
 
-
-use carbon_core::{CarbonDeserialize, borsh};
-
-
-#[derive(CarbonDeserialize, Debug, serde::Serialize, serde::Deserialize, PartialEq, Eq, Clone, Hash)]
+#[derive(
+    CarbonDeserialize, Debug, serde::Serialize, serde::Deserialize, PartialEq, Eq, Clone, Hash,
+)]
 #[carbon(discriminator = "0xb3bc71d329e83333")]
-pub struct CloseRental{
-}
+pub struct CloseRental {}
 
 #[derive(Debug, PartialEq, Eq, Clone, Hash, serde::Serialize, serde::Deserialize)]
 pub struct CloseRentalInstructionAccounts {
@@ -26,8 +24,23 @@ pub struct CloseRentalInstructionAccounts {
 impl carbon_core::deserialize::ArrangeAccounts for CloseRental {
     type ArrangedAccounts = CloseRentalInstructionAccounts;
 
-    fn arrange_accounts(accounts: &[solana_instruction::AccountMeta]) -> Option<Self::ArrangedAccounts> {
-        let [
+    fn arrange_accounts(
+        accounts: &[solana_instruction::AccountMeta],
+    ) -> Option<Self::ArrangedAccounts> {
+        let mut iter = accounts.iter();
+        let borrower = next_account(&mut iter)?;
+        let borrower_token_account = next_account(&mut iter)?;
+        let owner_token_account = next_account(&mut iter)?;
+        let contract = next_account(&mut iter)?;
+        let rental_state = next_account(&mut iter)?;
+        let rental_token_account = next_account(&mut iter)?;
+        let rental_authority = next_account(&mut iter)?;
+        let rental_thread = next_account(&mut iter)?;
+        let antegen_program = next_account(&mut iter)?;
+        let token_program = next_account(&mut iter)?;
+        let system_program = next_account(&mut iter)?;
+
+        Some(CloseRentalInstructionAccounts {
             borrower,
             borrower_token_account,
             owner_token_account,
@@ -39,24 +52,6 @@ impl carbon_core::deserialize::ArrangeAccounts for CloseRental {
             antegen_program,
             token_program,
             system_program,
-            _remaining @ ..
-        ] = accounts else {
-            return None;
-        };
-       
-
-        Some(CloseRentalInstructionAccounts {
-            borrower: borrower.pubkey,
-            borrower_token_account: borrower_token_account.pubkey,
-            owner_token_account: owner_token_account.pubkey,
-            contract: contract.pubkey,
-            rental_state: rental_state.pubkey,
-            rental_token_account: rental_token_account.pubkey,
-            rental_authority: rental_authority.pubkey,
-            rental_thread: rental_thread.pubkey,
-            antegen_program: antegen_program.pubkey,
-            token_program: token_program.pubkey,
-            system_program: system_program.pubkey,
         })
     }
 }

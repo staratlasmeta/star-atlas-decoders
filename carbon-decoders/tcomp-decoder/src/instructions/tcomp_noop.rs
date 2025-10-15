@@ -1,12 +1,12 @@
-
 use super::super::types::*;
 
-use carbon_core::{CarbonDeserialize, borsh};
+use carbon_core::{CarbonDeserialize, account_utils::next_account, borsh};
 
-
-#[derive(CarbonDeserialize, Debug, serde::Serialize, serde::Deserialize, PartialEq, Eq, Clone, Hash)]
+#[derive(
+    CarbonDeserialize, Debug, serde::Serialize, serde::Deserialize, PartialEq, Eq, Clone, Hash,
+)]
 #[carbon(discriminator = "0x6aa20ae28444df15")]
-pub struct TcompNoop{
+pub struct TcompNoop {
     pub event: TcompEvent,
 }
 
@@ -18,17 +18,12 @@ pub struct TcompNoopInstructionAccounts {
 impl carbon_core::deserialize::ArrangeAccounts for TcompNoop {
     type ArrangedAccounts = TcompNoopInstructionAccounts;
 
-    fn arrange_accounts(accounts: &[solana_instruction::AccountMeta]) -> Option<Self::ArrangedAccounts> {
-        let [
-            tcomp_signer,
-            _remaining @ ..
-        ] = accounts else {
-            return None;
-        };
-       
+    fn arrange_accounts(
+        accounts: &[solana_instruction::AccountMeta],
+    ) -> Option<Self::ArrangedAccounts> {
+        let mut iter = accounts.iter();
+        let tcomp_signer = next_account(&mut iter)?;
 
-        Some(TcompNoopInstructionAccounts {
-            tcomp_signer: tcomp_signer.pubkey,
-        })
+        Some(TcompNoopInstructionAccounts { tcomp_signer })
     }
 }

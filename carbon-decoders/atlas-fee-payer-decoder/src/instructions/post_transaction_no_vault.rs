@@ -1,12 +1,10 @@
+use carbon_core::{CarbonDeserialize, account_utils::next_account, borsh};
 
-
-use carbon_core::{CarbonDeserialize, borsh};
-
-
-#[derive(CarbonDeserialize, Debug, serde::Serialize, serde::Deserialize, PartialEq, Eq, Clone, Hash)]
+#[derive(
+    CarbonDeserialize, Debug, serde::Serialize, serde::Deserialize, PartialEq, Eq, Clone, Hash,
+)]
 #[carbon(discriminator = "0xef2dfb2c230c83a6")]
-pub struct PostTransactionNoVault{
-}
+pub struct PostTransactionNoVault {}
 
 #[derive(Debug, PartialEq, Eq, Clone, Hash, serde::Serialize, serde::Deserialize)]
 pub struct PostTransactionNoVaultInstructionAccounts {
@@ -24,8 +22,21 @@ pub struct PostTransactionNoVaultInstructionAccounts {
 impl carbon_core::deserialize::ArrangeAccounts for PostTransactionNoVault {
     type ArrangedAccounts = PostTransactionNoVaultInstructionAccounts;
 
-    fn arrange_accounts(accounts: &[solana_instruction::AccountMeta]) -> Option<Self::ArrangedAccounts> {
-        let [
+    fn arrange_accounts(
+        accounts: &[solana_instruction::AccountMeta],
+    ) -> Option<Self::ArrangedAccounts> {
+        let mut iter = accounts.iter();
+        let fee_payer = next_account(&mut iter)?;
+        let rates = next_account(&mut iter)?;
+        let payment_account = next_account(&mut iter)?;
+        let token_vault = next_account(&mut iter)?;
+        let funder = next_account(&mut iter)?;
+        let funder_token_account = next_account(&mut iter)?;
+        let instruction_sysvar = next_account(&mut iter)?;
+        let token_program = next_account(&mut iter)?;
+        let system_program = next_account(&mut iter)?;
+
+        Some(PostTransactionNoVaultInstructionAccounts {
             fee_payer,
             rates,
             payment_account,
@@ -35,22 +46,6 @@ impl carbon_core::deserialize::ArrangeAccounts for PostTransactionNoVault {
             instruction_sysvar,
             token_program,
             system_program,
-            _remaining @ ..
-        ] = accounts else {
-            return None;
-        };
-       
-
-        Some(PostTransactionNoVaultInstructionAccounts {
-            fee_payer: fee_payer.pubkey,
-            rates: rates.pubkey,
-            payment_account: payment_account.pubkey,
-            token_vault: token_vault.pubkey,
-            funder: funder.pubkey,
-            funder_token_account: funder_token_account.pubkey,
-            instruction_sysvar: instruction_sysvar.pubkey,
-            token_program: token_program.pubkey,
-            system_program: system_program.pubkey,
         })
     }
 }

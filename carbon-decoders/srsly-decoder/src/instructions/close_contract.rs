@@ -1,12 +1,10 @@
+use carbon_core::{CarbonDeserialize, account_utils::next_account, borsh};
 
-
-use carbon_core::{CarbonDeserialize, borsh};
-
-
-#[derive(CarbonDeserialize, Debug, serde::Serialize, serde::Deserialize, PartialEq, Eq, Clone, Hash)]
+#[derive(
+    CarbonDeserialize, Debug, serde::Serialize, serde::Deserialize, PartialEq, Eq, Clone, Hash,
+)]
 #[carbon(discriminator = "0x25f422a85cca506a")]
-pub struct CloseContract{
-}
+pub struct CloseContract {}
 
 #[derive(Debug, PartialEq, Eq, Clone, Hash, serde::Serialize, serde::Deserialize)]
 pub struct CloseContractInstructionAccounts {
@@ -28,8 +26,25 @@ pub struct CloseContractInstructionAccounts {
 impl carbon_core::deserialize::ArrangeAccounts for CloseContract {
     type ArrangedAccounts = CloseContractInstructionAccounts;
 
-    fn arrange_accounts(accounts: &[solana_instruction::AccountMeta]) -> Option<Self::ArrangedAccounts> {
-        let [
+    fn arrange_accounts(
+        accounts: &[solana_instruction::AccountMeta],
+    ) -> Option<Self::ArrangedAccounts> {
+        let mut iter = accounts.iter();
+        let owner = next_account(&mut iter)?;
+        let owner_token_account = next_account(&mut iter)?;
+        let rental_token_account = next_account(&mut iter)?;
+        let borrower_token_account = next_account(&mut iter)?;
+        let rental_state = next_account(&mut iter)?;
+        let fleet = next_account(&mut iter)?;
+        let game_id = next_account(&mut iter)?;
+        let starbase = next_account(&mut iter)?;
+        let starbase_player = next_account(&mut iter)?;
+        let contract = next_account(&mut iter)?;
+        let rental_authority = next_account(&mut iter)?;
+        let sage_program = next_account(&mut iter)?;
+        let token_program = next_account(&mut iter)?;
+
+        Some(CloseContractInstructionAccounts {
             owner,
             owner_token_account,
             rental_token_account,
@@ -43,26 +58,6 @@ impl carbon_core::deserialize::ArrangeAccounts for CloseContract {
             rental_authority,
             sage_program,
             token_program,
-            _remaining @ ..
-        ] = accounts else {
-            return None;
-        };
-       
-
-        Some(CloseContractInstructionAccounts {
-            owner: owner.pubkey,
-            owner_token_account: owner_token_account.pubkey,
-            rental_token_account: rental_token_account.pubkey,
-            borrower_token_account: borrower_token_account.pubkey,
-            rental_state: rental_state.pubkey,
-            fleet: fleet.pubkey,
-            game_id: game_id.pubkey,
-            starbase: starbase.pubkey,
-            starbase_player: starbase_player.pubkey,
-            contract: contract.pubkey,
-            rental_authority: rental_authority.pubkey,
-            sage_program: sage_program.pubkey,
-            token_program: token_program.pubkey,
         })
     }
 }

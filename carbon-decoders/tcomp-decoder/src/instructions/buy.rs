@@ -1,11 +1,10 @@
+use carbon_core::{CarbonDeserialize, account_utils::next_account, borsh};
 
-
-use carbon_core::{CarbonDeserialize, borsh};
-
-
-#[derive(CarbonDeserialize, Debug, serde::Serialize, serde::Deserialize, PartialEq, Eq, Clone, Hash)]
+#[derive(
+    CarbonDeserialize, Debug, serde::Serialize, serde::Deserialize, PartialEq, Eq, Clone, Hash,
+)]
 #[carbon(discriminator = "0x66063d1201daebea")]
-pub struct Buy{
+pub struct Buy {
     pub nonce: u64,
     pub index: u32,
     pub root: [u8; 32],
@@ -31,16 +30,35 @@ pub struct BuyInstructionAccounts {
     pub buyer: solana_pubkey::Pubkey,
     pub payer: solana_pubkey::Pubkey,
     pub owner: solana_pubkey::Pubkey,
-    pub taker_broker: solana_pubkey::Pubkey,
-    pub maker_broker: solana_pubkey::Pubkey,
+    pub taker_broker: Option<solana_pubkey::Pubkey>,
+    pub maker_broker: Option<solana_pubkey::Pubkey>,
     pub rent_dest: solana_pubkey::Pubkey,
 }
 
 impl carbon_core::deserialize::ArrangeAccounts for Buy {
     type ArrangedAccounts = BuyInstructionAccounts;
 
-    fn arrange_accounts(accounts: &[solana_instruction::AccountMeta]) -> Option<Self::ArrangedAccounts> {
-        let [
+    fn arrange_accounts(
+        accounts: &[solana_instruction::AccountMeta],
+    ) -> Option<Self::ArrangedAccounts> {
+        let mut iter = accounts.iter();
+        let tcomp = next_account(&mut iter)?;
+        let tree_authority = next_account(&mut iter)?;
+        let merkle_tree = next_account(&mut iter)?;
+        let log_wrapper = next_account(&mut iter)?;
+        let compression_program = next_account(&mut iter)?;
+        let system_program = next_account(&mut iter)?;
+        let bubblegum_program = next_account(&mut iter)?;
+        let tcomp_program = next_account(&mut iter)?;
+        let list_state = next_account(&mut iter)?;
+        let buyer = next_account(&mut iter)?;
+        let payer = next_account(&mut iter)?;
+        let owner = next_account(&mut iter)?;
+        let taker_broker = next_account(&mut iter);
+        let maker_broker = next_account(&mut iter);
+        let rent_dest = next_account(&mut iter)?;
+
+        Some(BuyInstructionAccounts {
             tcomp,
             tree_authority,
             merkle_tree,
@@ -56,28 +74,6 @@ impl carbon_core::deserialize::ArrangeAccounts for Buy {
             taker_broker,
             maker_broker,
             rent_dest,
-            _remaining @ ..
-        ] = accounts else {
-            return None;
-        };
-       
-
-        Some(BuyInstructionAccounts {
-            tcomp: tcomp.pubkey,
-            tree_authority: tree_authority.pubkey,
-            merkle_tree: merkle_tree.pubkey,
-            log_wrapper: log_wrapper.pubkey,
-            compression_program: compression_program.pubkey,
-            system_program: system_program.pubkey,
-            bubblegum_program: bubblegum_program.pubkey,
-            tcomp_program: tcomp_program.pubkey,
-            list_state: list_state.pubkey,
-            buyer: buyer.pubkey,
-            payer: payer.pubkey,
-            owner: owner.pubkey,
-            taker_broker: taker_broker.pubkey,
-            maker_broker: maker_broker.pubkey,
-            rent_dest: rent_dest.pubkey,
         })
     }
 }

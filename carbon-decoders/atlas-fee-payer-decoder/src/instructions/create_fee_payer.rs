@@ -1,12 +1,10 @@
+use carbon_core::{CarbonDeserialize, account_utils::next_account, borsh};
 
-
-use carbon_core::{CarbonDeserialize, borsh};
-
-
-#[derive(CarbonDeserialize, Debug, serde::Serialize, serde::Deserialize, PartialEq, Eq, Clone, Hash)]
+#[derive(
+    CarbonDeserialize, Debug, serde::Serialize, serde::Deserialize, PartialEq, Eq, Clone, Hash,
+)]
 #[carbon(discriminator = "0x4d5df9b46f54f78d")]
-pub struct CreateFeePayer{
-}
+pub struct CreateFeePayer {}
 
 #[derive(Debug, PartialEq, Eq, Clone, Hash, serde::Serialize, serde::Deserialize)]
 pub struct CreateFeePayerInstructionAccounts {
@@ -21,27 +19,24 @@ pub struct CreateFeePayerInstructionAccounts {
 impl carbon_core::deserialize::ArrangeAccounts for CreateFeePayer {
     type ArrangedAccounts = CreateFeePayerInstructionAccounts;
 
-    fn arrange_accounts(accounts: &[solana_instruction::AccountMeta]) -> Option<Self::ArrangedAccounts> {
-        let [
+    fn arrange_accounts(
+        accounts: &[solana_instruction::AccountMeta],
+    ) -> Option<Self::ArrangedAccounts> {
+        let mut iter = accounts.iter();
+        let fee_payer = next_account(&mut iter)?;
+        let rates = next_account(&mut iter)?;
+        let funder = next_account(&mut iter)?;
+        let payment_account = next_account(&mut iter)?;
+        let token_vault = next_account(&mut iter)?;
+        let system_program = next_account(&mut iter)?;
+
+        Some(CreateFeePayerInstructionAccounts {
             fee_payer,
             rates,
             funder,
             payment_account,
             token_vault,
             system_program,
-            _remaining @ ..
-        ] = accounts else {
-            return None;
-        };
-       
-
-        Some(CreateFeePayerInstructionAccounts {
-            fee_payer: fee_payer.pubkey,
-            rates: rates.pubkey,
-            funder: funder.pubkey,
-            payment_account: payment_account.pubkey,
-            token_vault: token_vault.pubkey,
-            system_program: system_program.pubkey,
         })
     }
 }

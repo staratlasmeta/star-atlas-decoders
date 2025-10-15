@@ -1,11 +1,10 @@
+use carbon_core::{CarbonDeserialize, account_utils::next_account, borsh};
 
-
-use carbon_core::{CarbonDeserialize, borsh};
-
-
-#[derive(CarbonDeserialize, Debug, serde::Serialize, serde::Deserialize, PartialEq, Eq, Clone, Hash)]
+#[derive(
+    CarbonDeserialize, Debug, serde::Serialize, serde::Deserialize, PartialEq, Eq, Clone, Hash,
+)]
 #[carbon(discriminator = "0x96460d8709cc4b04")]
-pub struct CloseExpiredListing{
+pub struct CloseExpiredListing {
     pub nonce: u64,
     pub index: u32,
     pub root: [u8; 32],
@@ -30,8 +29,22 @@ pub struct CloseExpiredListingInstructionAccounts {
 impl carbon_core::deserialize::ArrangeAccounts for CloseExpiredListing {
     type ArrangedAccounts = CloseExpiredListingInstructionAccounts;
 
-    fn arrange_accounts(accounts: &[solana_instruction::AccountMeta]) -> Option<Self::ArrangedAccounts> {
-        let [
+    fn arrange_accounts(
+        accounts: &[solana_instruction::AccountMeta],
+    ) -> Option<Self::ArrangedAccounts> {
+        let mut iter = accounts.iter();
+        let list_state = next_account(&mut iter)?;
+        let owner = next_account(&mut iter)?;
+        let system_program = next_account(&mut iter)?;
+        let tcomp_program = next_account(&mut iter)?;
+        let tree_authority = next_account(&mut iter)?;
+        let merkle_tree = next_account(&mut iter)?;
+        let log_wrapper = next_account(&mut iter)?;
+        let compression_program = next_account(&mut iter)?;
+        let bubblegum_program = next_account(&mut iter)?;
+        let rent_dest = next_account(&mut iter)?;
+
+        Some(CloseExpiredListingInstructionAccounts {
             list_state,
             owner,
             system_program,
@@ -42,23 +55,6 @@ impl carbon_core::deserialize::ArrangeAccounts for CloseExpiredListing {
             compression_program,
             bubblegum_program,
             rent_dest,
-            _remaining @ ..
-        ] = accounts else {
-            return None;
-        };
-       
-
-        Some(CloseExpiredListingInstructionAccounts {
-            list_state: list_state.pubkey,
-            owner: owner.pubkey,
-            system_program: system_program.pubkey,
-            tcomp_program: tcomp_program.pubkey,
-            tree_authority: tree_authority.pubkey,
-            merkle_tree: merkle_tree.pubkey,
-            log_wrapper: log_wrapper.pubkey,
-            compression_program: compression_program.pubkey,
-            bubblegum_program: bubblegum_program.pubkey,
-            rent_dest: rent_dest.pubkey,
         })
     }
 }

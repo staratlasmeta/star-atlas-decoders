@@ -1,17 +1,25 @@
 [package]
-name = "profile-vault-decoder"
-version = "0.8.1"
-edition = { workspace = true }
+name = "carbon-profile-vault-decoder"
+version = "0.10.0"
+edition = "2024"
+description = "Rust decoder for Star Atlas Profile Vault program on Solana"
+license = "Apache-2.0"
+repository = "https://github.com/staratlasmeta/star-atlas-decoders"
+homepage = "https://github.com/staratlasmeta/star-atlas-decoders"
+readme = "README.md"
+keywords = ["solana", "star-atlas", "decoder"]
+categories = ["encoding"]
+rust-version = "1.85"
 
 [lib]
 crate-type = ["rlib"]
 
 [dependencies]
-carbon-core = { workspace = true }
-carbon-proc-macros = { workspace = true }
-carbon-macros = { workspace = true }
-solana-account = { workspace = true }
-solana-instruction = { workspace = true }
-solana-pubkey = { workspace = true }
-serde = { workspace = true }
+carbon-core = "0.10.0"
+carbon-proc-macros = "0.10.0"
+carbon-macros = "0.10.0"
+solana-account = "2.2.1"
+solana-instruction = { version = "2.3.0", default-features = false }
+solana-pubkey = { version = "2.4.0", features = ["borsh", "serde", "bytemuck"] }
+serde = { version = "1.0", features = ["derive"] }
 

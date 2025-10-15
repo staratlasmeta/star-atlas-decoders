@@ -1,12 +1,12 @@
-
 use super::super::types::*;
 
-use carbon_core::{CarbonDeserialize, borsh};
+use carbon_core::{CarbonDeserialize, account_utils::next_account, borsh};
 
-
-#[derive(CarbonDeserialize, Debug, serde::Serialize, serde::Deserialize, PartialEq, Eq, Clone, Hash)]
+#[derive(
+    CarbonDeserialize, Debug, serde::Serialize, serde::Deserialize, PartialEq, Eq, Clone, Hash,
+)]
 #[carbon(discriminator = "0x36d847fd14ebabf1")]
-pub struct RegisterSftRedemption{
+pub struct RegisterSftRedemption {
     pub input: RegisterSftRedemptionInput,
 }
 
@@ -25,8 +25,20 @@ pub struct RegisterSftRedemptionInstructionAccounts {
 impl carbon_core::deserialize::ArrangeAccounts for RegisterSftRedemption {
     type ArrangedAccounts = RegisterSftRedemptionInstructionAccounts;
 
-    fn arrange_accounts(accounts: &[solana_instruction::AccountMeta]) -> Option<Self::ArrangedAccounts> {
-        let [
+    fn arrange_accounts(
+        accounts: &[solana_instruction::AccountMeta],
+    ) -> Option<Self::ArrangedAccounts> {
+        let mut iter = accounts.iter();
+        let key = next_account(&mut iter)?;
+        let profile = next_account(&mut iter)?;
+        let funder = next_account(&mut iter)?;
+        let sft_redemption_data = next_account(&mut iter)?;
+        let crew_config = next_account(&mut iter)?;
+        let pack_type = next_account(&mut iter)?;
+        let sft_mint = next_account(&mut iter)?;
+        let system_program = next_account(&mut iter)?;
+
+        Some(RegisterSftRedemptionInstructionAccounts {
             key,
             profile,
             funder,
@@ -35,21 +47,6 @@ impl carbon_core::deserialize::ArrangeAccounts for RegisterSftRedemption {
             pack_type,
             sft_mint,
             system_program,
-            _remaining @ ..
-        ] = accounts else {
-            return None;
-        };
-       
-
-        Some(RegisterSftRedemptionInstructionAccounts {
-            key: key.pubkey,
-            profile: profile.pubkey,
-            funder: funder.pubkey,
-            sft_redemption_data: sft_redemption_data.pubkey,
-            crew_config: crew_config.pubkey,
-            pack_type: pack_type.pubkey,
-            sft_mint: sft_mint.pubkey,
-            system_program: system_program.pubkey,
         })
     }
 }

@@ -1,0 +1,12 @@
+diff --git a/src/accounts/mod.rs b/src/accounts/mod.rs
+index 86a3210..e0bd3b4 100644
+--- a/src/accounts/mod.rs
++++ b/src/accounts/mod.rs
+@@ -5,6 +5,7 @@ use super::AtlasFeePayerDecoder;
+ pub mod fee_payer;
+ pub mod fee_payer_rates;
+
++#[derive(Debug, serde::Serialize)]
+ pub enum AtlasFeePayerAccount {
+     FeePayer(fee_payer::FeePayer),
+     FeePayerRates(fee_payer_rates::FeePayerRates),

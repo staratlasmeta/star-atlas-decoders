@@ -1,0 +1,12 @@
+diff --git a/src/accounts/mod.rs b/src/accounts/mod.rs
+index ae36251..22bc0c0 100644
+--- a/src/accounts/mod.rs
++++ b/src/accounts/mod.rs
+@@ -8,6 +8,7 @@ pub mod pack_type;
+ pub mod sft_redemption;
+ pub mod user_redemption;
+ 
++#[derive(Debug, serde::Serialize)]
+ pub enum CrewAccount {
+     CrewConfig(crew_config::CrewConfig),
+     PackTiers(pack_tiers::PackTiers),

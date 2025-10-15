@@ -1,18 +1,16 @@
+use carbon_core::{CarbonDeserialize, account_utils::next_account, borsh};
 
-
-use carbon_core::{CarbonDeserialize, borsh};
-
-
-#[derive(CarbonDeserialize, Debug, serde::Serialize, serde::Deserialize, PartialEq, Eq, Clone, Hash)]
+#[derive(
+    CarbonDeserialize, Debug, serde::Serialize, serde::Deserialize, PartialEq, Eq, Clone, Hash,
+)]
 #[carbon(discriminator = "0x59ab4e504abc3f3a")]
-pub struct CloseExpiredListingCore{
-}
+pub struct CloseExpiredListingCore {}
 
 #[derive(Debug, PartialEq, Eq, Clone, Hash, serde::Serialize, serde::Deserialize)]
 pub struct CloseExpiredListingCoreInstructionAccounts {
     pub list_state: solana_pubkey::Pubkey,
     pub asset: solana_pubkey::Pubkey,
-    pub collection: solana_pubkey::Pubkey,
+    pub collection: Option<solana_pubkey::Pubkey>,
     pub owner: solana_pubkey::Pubkey,
     pub mpl_core_program: solana_pubkey::Pubkey,
     pub system_program: solana_pubkey::Pubkey,
@@ -23,8 +21,20 @@ pub struct CloseExpiredListingCoreInstructionAccounts {
 impl carbon_core::deserialize::ArrangeAccounts for CloseExpiredListingCore {
     type ArrangedAccounts = CloseExpiredListingCoreInstructionAccounts;
 
-    fn arrange_accounts(accounts: &[solana_instruction::AccountMeta]) -> Option<Self::ArrangedAccounts> {
-        let [
+    fn arrange_accounts(
+        accounts: &[solana_instruction::AccountMeta],
+    ) -> Option<Self::ArrangedAccounts> {
+        let mut iter = accounts.iter();
+        let list_state = next_account(&mut iter)?;
+        let asset = next_account(&mut iter)?;
+        let collection = next_account(&mut iter);
+        let owner = next_account(&mut iter)?;
+        let mpl_core_program = next_account(&mut iter)?;
+        let system_program = next_account(&mut iter)?;
+        let tcomp_program = next_account(&mut iter)?;
+        let rent_dest = next_account(&mut iter)?;
+
+        Some(CloseExpiredListingCoreInstructionAccounts {
             list_state,
             asset,
             collection,
@@ -33,21 +43,6 @@ impl carbon_core::deserialize::ArrangeAccounts for CloseExpiredListingCore {
             system_program,
             tcomp_program,
             rent_dest,
-            _remaining @ ..
-        ] = accounts else {
-            return None;
-        };
-       
-
-        Some(CloseExpiredListingCoreInstructionAccounts {
-            list_state: list_state.pubkey,
-            asset: asset.pubkey,
-            collection: collection.pubkey,
-            owner: owner.pubkey,
-            mpl_core_program: mpl_core_program.pubkey,
-            system_program: system_program.pubkey,
-            tcomp_program: tcomp_program.pubkey,
-            rent_dest: rent_dest.pubkey,
         })
     }
 }

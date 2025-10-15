@@ -1,12 +1,10 @@
+use carbon_core::{CarbonDeserialize, account_utils::next_account, borsh};
 
-
-use carbon_core::{CarbonDeserialize, borsh};
-
-
-#[derive(CarbonDeserialize, Debug, serde::Serialize, serde::Deserialize, PartialEq, Eq, Clone, Hash)]
+#[derive(
+    CarbonDeserialize, Debug, serde::Serialize, serde::Deserialize, PartialEq, Eq, Clone, Hash,
+)]
 #[carbon(discriminator = "0x53146943f84468be")]
-pub struct CloseExpiredBid{
-}
+pub struct CloseExpiredBid {}
 
 #[derive(Debug, PartialEq, Eq, Clone, Hash, serde::Serialize, serde::Deserialize)]
 pub struct CloseExpiredBidInstructionAccounts {
@@ -20,25 +18,22 @@ pub struct CloseExpiredBidInstructionAccounts {
 impl carbon_core::deserialize::ArrangeAccounts for CloseExpiredBid {
     type ArrangedAccounts = CloseExpiredBidInstructionAccounts;
 
-    fn arrange_accounts(accounts: &[solana_instruction::AccountMeta]) -> Option<Self::ArrangedAccounts> {
-        let [
+    fn arrange_accounts(
+        accounts: &[solana_instruction::AccountMeta],
+    ) -> Option<Self::ArrangedAccounts> {
+        let mut iter = accounts.iter();
+        let bid_state = next_account(&mut iter)?;
+        let owner = next_account(&mut iter)?;
+        let system_program = next_account(&mut iter)?;
+        let tcomp_program = next_account(&mut iter)?;
+        let rent_dest = next_account(&mut iter)?;
+
+        Some(CloseExpiredBidInstructionAccounts {
             bid_state,
             owner,
             system_program,
             tcomp_program,
             rent_dest,
-            _remaining @ ..
-        ] = accounts else {
-            return None;
-        };
-       
-
-        Some(CloseExpiredBidInstructionAccounts {
-            bid_state: bid_state.pubkey,
-            owner: owner.pubkey,
-            system_program: system_program.pubkey,
-            tcomp_program: tcomp_program.pubkey,
-            rent_dest: rent_dest.pubkey,
         })
     }
 }
