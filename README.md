@@ -43,6 +43,9 @@
   <a href="https://crates.io/crates/carbon-player-profile-decoder">
     <img src="https://img.shields.io/crates/v/carbon-player-profile-decoder?logo=rust&label=player-profile" />
   </a>
+  <a href="https://crates.io/crates/carbon-profile-faction-decoder">
+    <img src="https://img.shields.io/crates/v/carbon-profile-faction-decoder?logo=rust&label=profile-faction" />
+  </a>
 </p>
 
 Rust decoders for Star Atlas Solana programs, generated from IDLs using Carbon CLI with custom patches for complex account deserialization.
@@ -109,6 +112,12 @@ This project generates and maintains Rust decoders for Star Atlas programs on So
   - Custom patches - adds serialization and ergonomic permission bitflags with helper methods
   - Includes permission checking, key expiration validation, and role management
 
+- **profile-faction**: Profile Faction program (`pFACSRuobDmvfMKq1bAzwj27t6d2GJhSCHb1VcfnRmq`)
+  - Fetches IDL directly from Solana mainnet
+  - Player faction affiliation management for Star Atlas universe
+  - Custom patches - adds serialization and type-safe Faction enum
+  - Supports Unaligned, MUD, ONI, and Ustur factions
+
 ## Prerequisites
 
 Run `./scripts/check-tools.sh` to verify all required tools are installed:
@@ -143,7 +152,8 @@ star-atlas-decoders/
 │   ├── profile-vault-decoder/
 │   ├── srsly-decoder/
 │   ├── tcomp-decoder/
-│   └── player-profile-decoder/
+│   ├── player-profile-decoder/
+│   └── profile-faction-decoder/
 ├── dist/                    # Temporary build directory (gitignored)
 ├── patches/                 # Custom patches for decoders
 │   ├── sage-starbased-01-accounts.patch
@@ -161,6 +171,8 @@ star-atlas-decoders/
 │   ├── player-profile-02-permissions-helpers.patch
 │   ├── player-profile-03-remaining-data.patch
 │   └── player-profile-04-instruction-remaining-accounts.patch
+│   ├── profile-faction-01-accounts-serialize.patch
+│   └── profile-faction-02-use-faction-enum.patch
 ├── idl/                     # Local IDL files
 ├── scripts/                 # CI and utility scripts
 │   ├── ci.sh               # Full CI pipeline
