@@ -5,11 +5,12 @@
 # ============================================================================
 
 # List of all decoders (space-separated)
-ALL_DECODERS := "sage-starbased sage-holosim atlas-staking locked-voter marketplace atlas-fee-payer crew profile-vault srsly tcomp"
+ALL_DECODERS := "sage-starbased sage-holosim atlas-staking locked-voter marketplace atlas-fee-payer crew profile-vault srsly tcomp player-profile"
 
 # Program IDs
 ATLAS_FEE_PAYER_PROGRAM_ID := "APR1MEny25pKupwn72oVqMH4qpDouArsX8zX4VwwfoXD"
 CREW_PROGRAM_ID := "CREWiq8qbxvo4SKkAFpVnc6t7CRQC4tAAscsNAENXgrJ"
+PLAYER_PROFILE_PROGRAM_ID := "pprofELXjL5Kck7Jn5hCpwAL82DpTkSYBENzahVtbc9"
 PROFILE_VAULT_PROGRAM_ID := "pv1ttom8tbyh83C1AVh6QH2naGRdVQUVt3HY1Yst5sv"
 SAGE_STARBASED_PROGRAM_ID := "SAGE2HAwep459SNq61LHvjxPk4pLPEJLoMETef7f7EE"
 SAGE_HOLOSIM_PROGRAM_ID := "SAgEeT8u14TE69JXtanGSgNkEdoPUcLabeyZD2uw8x9"
@@ -22,6 +23,7 @@ MARKETPLACE_PROGRAM_ID := "traderDnaR5w6Tcoi3NFm53i48FTDNbGjBSZwWXDRrg"
 # Descriptions
 ATLAS_FEE_PAYER_DESC := "Rust decoder for Star Atlas ATLAS fee payer program on Solana"
 CREW_DESC := "Rust decoder for Star Atlas Crew management program on Solana"
+PLAYER_PROFILE_DESC := "Rust decoder for Star Atlas Player Profile program on Solana"
 PROFILE_VAULT_DESC := "Rust decoder for Star Atlas Profile Vault program on Solana"
 SRSLY_DESC := "Rust decoder for Star Atlas Fleet Rentals (SRSLY) program on Solana"
 TCOMP_DESC := "Rust decoder for Tensor cNFT Compressed program on Solana"
@@ -34,6 +36,7 @@ MARKETPLACE_DESC := "Rust decoder for Star Atlas Galactic Marketplace program on
 # IDL Sources: "mainnet" or "local"
 ATLAS_FEE_PAYER_SOURCE := "mainnet"
 CREW_SOURCE := "mainnet"
+PLAYER_PROFILE_SOURCE := "mainnet"
 PROFILE_VAULT_SOURCE := "mainnet"
 SRSLY_SOURCE := "mainnet"
 TCOMP_SOURCE := "mainnet"
@@ -51,6 +54,7 @@ LOCKED_VOTER_GENERATED_NAME := "locked-voter-decoder"
 MARKETPLACE_GENERATED_NAME := "marketplace-decoder"
 ATLAS_FEE_PAYER_GENERATED_NAME := "atlas-fee-payer-decoder"
 CREW_GENERATED_NAME := "crew-decoder"
+PLAYER_PROFILE_GENERATED_NAME := "player-profile-decoder"
 PROFILE_VAULT_GENERATED_NAME := "profile-vault-decoder"
 SRSLY_GENERATED_NAME := "srsly-decoder"
 TCOMP_GENERATED_NAME := "tcomp-decoder"
@@ -86,6 +90,7 @@ _get-program-id decoder_name:
         marketplace) echo "{{MARKETPLACE_PROGRAM_ID}}" ;;
         atlas-fee-payer) echo "{{ATLAS_FEE_PAYER_PROGRAM_ID}}" ;;
         crew) echo "{{CREW_PROGRAM_ID}}" ;;
+        player-profile) echo "{{PLAYER_PROFILE_PROGRAM_ID}}" ;;
         profile-vault) echo "{{PROFILE_VAULT_PROGRAM_ID}}" ;;
         srsly) echo "{{SRSLY_PROGRAM_ID}}" ;;
         tcomp) echo "{{TENSOR_TCOMP_PROGRAM_ID}}" ;;
@@ -103,6 +108,7 @@ _get-description decoder_name:
         marketplace) echo "{{MARKETPLACE_DESC}}" ;;
         atlas-fee-payer) echo "{{ATLAS_FEE_PAYER_DESC}}" ;;
         crew) echo "{{CREW_DESC}}" ;;
+        player-profile) echo "{{PLAYER_PROFILE_DESC}}" ;;
         profile-vault) echo "{{PROFILE_VAULT_DESC}}" ;;
         srsly) echo "{{SRSLY_DESC}}" ;;
         tcomp) echo "{{TCOMP_DESC}}" ;;
@@ -120,6 +126,7 @@ _get-source decoder_name:
         marketplace) echo "{{MARKETPLACE_SOURCE}}" ;;
         atlas-fee-payer) echo "{{ATLAS_FEE_PAYER_SOURCE}}" ;;
         crew) echo "{{CREW_SOURCE}}" ;;
+        player-profile) echo "{{PLAYER_PROFILE_SOURCE}}" ;;
         profile-vault) echo "{{PROFILE_VAULT_SOURCE}}" ;;
         srsly) echo "{{SRSLY_SOURCE}}" ;;
         tcomp) echo "{{TCOMP_SOURCE}}" ;;
@@ -137,6 +144,7 @@ _get-generated-name decoder_name:
         marketplace) echo "{{MARKETPLACE_GENERATED_NAME}}" ;;
         atlas-fee-payer) echo "{{ATLAS_FEE_PAYER_GENERATED_NAME}}" ;;
         crew) echo "{{CREW_GENERATED_NAME}}" ;;
+        player-profile) echo "{{PLAYER_PROFILE_GENERATED_NAME}}" ;;
         profile-vault) echo "{{PROFILE_VAULT_GENERATED_NAME}}" ;;
         srsly) echo "{{SRSLY_GENERATED_NAME}}" ;;
         tcomp) echo "{{TCOMP_GENERATED_NAME}}" ;;
@@ -463,6 +471,15 @@ apply-patches-tcomp: (apply-patches "tcomp")
 create-patch-tcomp patch_name: (create-patch "tcomp" patch_name)
 publish-tcomp: (publish "tcomp")
 all-tcomp: (all "tcomp")
+
+# Player Profile
+generate-player-profile: (generate "player-profile")
+build-player-profile: (build "player-profile")
+clean-player-profile: (clean "player-profile")
+apply-patches-player-profile: (apply-patches "player-profile")
+create-patch-player-profile patch_name: (create-patch "player-profile" patch_name)
+publish-player-profile: (publish "player-profile")
+all-player-profile: (all "player-profile")
 
 # ============================================================================
 # UTILITY COMMANDS

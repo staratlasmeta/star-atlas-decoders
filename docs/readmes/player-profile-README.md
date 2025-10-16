@@ -1,0 +1,133 @@
+# Carbon Player Profile Decoder
+
+<p align="center">
+  <a href="https://crates.io/crates/carbon-player-profile-decoder">
+    <img src="https://img.shields.io/crates/v/carbon-player-profile-decoder?logo=rust" />
+  </a>
+  <a href="https://docs.rs/carbon-player-profile-decoder">
+    <img src="https://img.shields.io/docsrs/carbon-player-profile-decoder?logo=docsdotrs" />
+  </a>
+  <a href="https://github.com/staratlasmeta/star-atlas-decoders/blob/main/LICENSE">
+    <img src="https://img.shields.io/badge/license-Apache%202.0-blue" />
+  </a>
+</p>
+
+Rust decoder for the Star Atlas Player Profile program on Solana, generated using [Carbon CLI](https://github.com/sevenlabs-hq/carbon).
+
+## Program Information
+
+- **Program ID**: `pprofELXjL5Kck7Jn5hCpwAL82DpTkSYBENzahVtbc9`
+- **Network**: Solana Mainnet
+- **Description**: Star Atlas Player Profile program for managing player identities, permissions, and role-based access control within the Star Atlas ecosystem.
+
+## Features
+
+- Decodes all Player Profile account types
+- Full instruction parsing support
+- Integration with Carbon indexing framework
+- Permission bitflags support for ergonomic permission checking
+- Helper methods for key expiration and authorization checks
+
+## Usage
+
+Add this crate to your `Cargo.toml`:
+
+```toml
+[dependencies]
+carbon-player-profile-decoder = "0.10.0"
+```
+
+### Decoding Accounts
+
+```rust
+use carbon_player_profile_decoder::{PlayerProfileDecoder, PlayerProfileAccount};
+use carbon_core::account::AccountDecoder;
+
+let decoder = PlayerProfileDecoder;
+let decoded_account = decoder.decode_account(&account);
+
+if let Some(decoded) = decoded_account {
+    match decoded.data {
+        PlayerProfileAccount::Profile(profile) => {
+            println!("Profile: {:?}", profile);
+        }
+        PlayerProfileAccount::PlayerName(player_name) => {
+            println!("Player Name: {:?}", player_name);
+        }
+        PlayerProfileAccount::Role(role) => {
+            println!("Role: {:?}", role);
+        }
+        PlayerProfileAccount::ProfileRoleMembership(membership) => {
+            println!("Role Membership: {:?}", membership);
+        }
+    }
+}
+```
+
+### Working with Permissions
+
+The decoder includes ergonomic permission handling with bitflags:
+
+```rust
+use carbon_player_profile_decoder::{ProfileKey, ProfilePermissions};
+
+// Check if a key has specific permissions
+let key: ProfileKey = /* ... */;
+
+if key.is_auth() {
+    println!("This is an auth key");
+}
+
+if key.has_permission(ProfilePermissions::ADD_KEYS) {
+    println!("This key can add other keys");
+}
+
+// Check if a key has expired
+let current_time = /* current unix timestamp */;
+if key.is_expired(current_time) {
+    println!("This key has expired");
+}
+
+// Get permission flags
+let flags = key.permissions_flags();
+if flags.contains(ProfilePermissions::CREATE_ROLE | ProfilePermissions::REMOVE_ROLE) {
+    println!("This key can manage roles");
+}
+```
+
+### Account Types
+
+This decoder supports all Player Profile account types:
+- `Profile` - Player profile with keys and metadata
+- `PlayerName` - Player name registration
+- `Role` - Role definition with permissions
+- `ProfileRoleMembership` - Membership relationship between profiles and roles
+
+### Permission Flags
+
+The `ProfilePermissions` bitflags type includes:
+- `AUTH` - Auth key with full profile control
+- `ADD_KEYS` - Can add non-auth keys
+- `REMOVE_KEYS` - Can remove non-auth keys
+- `CHANGE_NAME` - Can change player name
+- `CREATE_ROLE` - Can create new roles
+- `REMOVE_ROLE` - Can remove roles
+- `SET_AUTHORIZER` - Can set role authorizer
+- `JOIN_ROLE` - Can add profile to a role
+- `LEAVE_ROLE` - Can remove profile from a role
+- `TOGGLE_ACCEPTING_NEW_MEMBERS` - Can toggle accepting new members
+- `ADD_MEMBER` - Can add members to roles
+- `REMOVE_MEMBER` - Can remove members from roles
+- `DRAIN_SOL_VAULT` - Can withdraw from SOL vault (scope-agnostic)
+
+## Documentation
+
+Full documentation is available at [docs.rs](https://docs.rs/carbon-player-profile-decoder).
+
+## Repository
+
+See the [main repository](https://github.com/staratlasmeta/star-atlas-decoders) for build instructions and contribution guidelines.
+
+## License
+
+Licensed under the [Apache-2.0](https://github.com/staratlasmeta/star-atlas-decoders/blob/main/LICENSE) license.
