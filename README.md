@@ -31,6 +31,9 @@
   <a href="https://crates.io/crates/carbon-cargo-decoder">
     <img src="https://img.shields.io/crates/v/carbon-cargo-decoder?logo=rust&label=cargo" />
   </a>
+  <a href="https://crates.io/crates/carbon-crafting-decoder">
+    <img src="https://img.shields.io/crates/v/carbon-crafting-decoder?logo=rust&label=crafting" />
+  </a>
   <a href="https://crates.io/crates/carbon-crew-decoder">
     <img src="https://img.shields.io/crates/v/carbon-crew-decoder?logo=rust&label=crew" />
   </a>
@@ -92,6 +95,12 @@ This project generates and maintains Rust decoders for Star Atlas programs on So
   - Resource container management with dynamic stat tracking and cargo types
   - Custom patches - adds serialization and ergonomic permission bitflags with helper methods
   - Includes permission checking for cargo definitions and type management
+
+- **crafting**: Crafting program (`CRAFT2RPXPJWCEix4WpJST3E7NLf79GTqZUL75wngXo5`)
+  - Fetches IDL directly from Solana mainnet
+  - Recipe-based item crafting with facilities and process tracking
+  - Custom patches - adds serialization and type-safe enums for status fields
+  - Supports ProcessStatus, RecipeStatus, and LocationType enums for better ergonomics
 
 - **crew**: Crew Management program (`CREWiq8qbxvo4SKkAFpVnc6t7CRQC4tAAscsNAENXgrJ`)
   - Fetches IDL directly from Solana mainnet
@@ -158,6 +167,7 @@ star-atlas-decoders/
 │   ├── marketplace-decoder/
 │   ├── atlas-fee-payer-decoder/
 │   ├── cargo-decoder/
+│   ├── crafting-decoder/
 │   ├── crew-decoder/
 │   ├── profile-vault-decoder/
 │   ├── srsly-decoder/
@@ -174,6 +184,8 @@ star-atlas-decoders/
 │   ├── atlas-fee-payer-01-accounts-serialize.patch
 │   ├── cargo-01-accounts-serialize.patch
 │   ├── cargo-02-permissions-helpers.patch
+│   ├── crafting-01-accounts-serialize.patch
+│   ├── crafting-02-use-enums.patch
 │   ├── crew-01-accounts-serialize.patch
 │   ├── profile-vault-01-accounts-serialize.patch
 │   ├── srsly-01-accounts-serialize.patch
