@@ -28,6 +28,9 @@
   <a href="https://crates.io/crates/carbon-atlas-fee-payer-decoder">
     <img src="https://img.shields.io/crates/v/carbon-atlas-fee-payer-decoder?logo=rust&label=atlas-fee-payer" />
   </a>
+  <a href="https://crates.io/crates/carbon-cargo-decoder">
+    <img src="https://img.shields.io/crates/v/carbon-cargo-decoder?logo=rust&label=cargo" />
+  </a>
   <a href="https://crates.io/crates/carbon-crew-decoder">
     <img src="https://img.shields.io/crates/v/carbon-crew-decoder?logo=rust&label=crew" />
   </a>
@@ -83,6 +86,12 @@ This project generates and maintains Rust decoders for Star Atlas programs on So
   - Fetches IDL directly from Solana mainnet
   - Fee payment management for Star Atlas transactions
   - Minimal patches needed - adds serialization support for account types
+
+- **cargo**: Cargo program (`Cargo2VNTPPTi9c1vq1Jw5d3BWUNr18MjRtSupAghKEk`)
+  - Fetches IDL directly from Solana mainnet
+  - Resource container management with dynamic stat tracking and cargo types
+  - Custom patches - adds serialization and ergonomic permission bitflags with helper methods
+  - Includes permission checking for cargo definitions and type management
 
 - **crew**: Crew Management program (`CREWiq8qbxvo4SKkAFpVnc6t7CRQC4tAAscsNAENXgrJ`)
   - Fetches IDL directly from Solana mainnet
@@ -148,6 +157,7 @@ star-atlas-decoders/
 │   ├── locked-voter-decoder/
 │   ├── marketplace-decoder/
 │   ├── atlas-fee-payer-decoder/
+│   ├── cargo-decoder/
 │   ├── crew-decoder/
 │   ├── profile-vault-decoder/
 │   ├── srsly-decoder/
@@ -162,6 +172,8 @@ star-atlas-decoders/
 │   ├── locked-voter-01-accounts-serialize.patch
 │   ├── marketplace-01-accounts-serialize.patch
 │   ├── atlas-fee-payer-01-accounts-serialize.patch
+│   ├── cargo-01-accounts-serialize.patch
+│   ├── cargo-02-permissions-helpers.patch
 │   ├── crew-01-accounts-serialize.patch
 │   ├── profile-vault-01-accounts-serialize.patch
 │   ├── srsly-01-accounts-serialize.patch

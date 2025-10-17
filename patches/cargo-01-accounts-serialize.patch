@@ -1,0 +1,12 @@
+diff --git a/src/accounts/mod.rs b/src/accounts/mod.rs
+index 39b0355..40785ff 100644
+--- a/src/accounts/mod.rs
++++ b/src/accounts/mod.rs
+@@ -6,6 +6,7 @@ pub mod cargo_pod;
+ pub mod cargo_stats_definition;
+ pub mod cargo_type;
+ 
++#[derive(Debug, serde::Serialize)]
+ pub enum CargoAccount {
+     CargoPod(cargo_pod::CargoPod),
+     CargoStatsDefinition(cargo_stats_definition::CargoStatsDefinition),
