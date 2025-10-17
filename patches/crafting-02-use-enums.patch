@@ -1,0 +1,63 @@
+diff --git a/src/accounts/crafting_facility.rs b/src/accounts/crafting_facility.rs
+index a25f88d..94234c2 100644
+--- a/src/accounts/crafting_facility.rs
++++ b/src/accounts/crafting_facility.rs
+@@ -1,5 +1,7 @@
+ use carbon_core::{CarbonDeserialize, borsh};
+ 
++use crate::types::LocationType;
++
+ #[derive(
+     CarbonDeserialize, Debug, serde::Deserialize, serde::Serialize, PartialEq, Eq, Clone, Hash,
+ )]
+@@ -8,7 +10,7 @@ pub struct CraftingFacility {
+     pub version: u8,
+     pub domain: solana_pubkey::Pubkey,
+     pub location: solana_pubkey::Pubkey,
+-    pub location_type: u8,
++    pub location_type: LocationType,
+     pub max_concurrent_processes: u32,
+     pub num_concurrent_processes: u32,
+     pub efficiency: u32,
+diff --git a/src/accounts/crafting_process.rs b/src/accounts/crafting_process.rs
+index ecbf2c4..267bf21 100644
+--- a/src/accounts/crafting_process.rs
++++ b/src/accounts/crafting_process.rs
+@@ -1,5 +1,7 @@
+ use carbon_core::{CarbonDeserialize, borsh};
+ 
++use crate::types::ProcessStatus;
++
+ #[derive(
+     CarbonDeserialize, Debug, serde::Deserialize, serde::Serialize, PartialEq, Eq, Clone, Hash,
+ )]
+@@ -13,7 +15,7 @@ pub struct CraftingProcess {
+     pub inputs_checksum: [u8; 16],
+     pub outputs_checksum: [u8; 16],
+     pub quantity: u64,
+-    pub status: u8,
++    pub status: ProcessStatus,
+     pub start_time: i64,
+     pub end_time: i64,
+     pub deny_permissionless_claiming: u8,
+diff --git a/src/accounts/recipe.rs b/src/accounts/recipe.rs
+index 32b3433..1b25f1a 100644
+--- a/src/accounts/recipe.rs
++++ b/src/accounts/recipe.rs
+@@ -1,6 +1,7 @@
+ use super::super::types::*;
+ 
+ use carbon_core::{CarbonDeserialize, borsh};
++use crate::types::RecipeStatus;
+ 
+ #[derive(
+     CarbonDeserialize, Debug, serde::Deserialize, serde::Serialize, PartialEq, Eq, Clone, Hash,
+@@ -14,7 +15,7 @@ pub struct Recipe {
+     pub duration: i64,
+     pub min_duration: i64,
+     pub namespace: [u8; 32],
+-    pub status: u8,
++    pub status: RecipeStatus,
+     pub fee_amount: u64,
+     pub fee_recipient: OptionalNonSystemPubkey,
+     pub usage_count: u64,
