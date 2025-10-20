@@ -466,6 +466,19 @@ dependencies = [
 ]
 
 [[package]]
+name = "carbon-points-store-decoder"
+version = "0.10.0"
+dependencies = [
+ "carbon-core",
+ "carbon-macros",
+ "carbon-proc-macros",
+ "serde",
+ "solana-account",
+ "solana-instruction",
+ "solana-pubkey",
+]
+
+[[package]]
 name = "carbon-proc-macros"
 version = "0.10.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"

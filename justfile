@@ -5,7 +5,7 @@
 # ============================================================================
 
 # List of all decoders (space-separated)
-ALL_DECODERS := "sage-starbased sage-holosim atlas-staking locked-voter marketplace atlas-fee-payer cargo crafting crew profile-vault srsly tcomp player-profile points profile-faction"
+ALL_DECODERS := "sage-starbased sage-holosim atlas-staking locked-voter marketplace atlas-fee-payer cargo crafting crew profile-vault srsly tcomp player-profile points points-store profile-faction"
 
 # Program IDs
 ATLAS_FEE_PAYER_PROGRAM_ID := "APR1MEny25pKupwn72oVqMH4qpDouArsX8zX4VwwfoXD"
@@ -13,9 +13,10 @@ CARGO_PROGRAM_ID := "Cargo2VNTPPTi9c1vq1Jw5d3BWUNr18MjRtSupAghKEk"
 CRAFTING_PROGRAM_ID := "CRAFT2RPXPJWCEix4WpJST3E7NLf79GTqZUL75wngXo5"
 CREW_PROGRAM_ID := "CREWiq8qbxvo4SKkAFpVnc6t7CRQC4tAAscsNAENXgrJ"
 PLAYER_PROFILE_PROGRAM_ID := "pprofELXjL5Kck7Jn5hCpwAL82DpTkSYBENzahVtbc9"
+POINTS_PROGRAM_ID := "Point2iBvz7j5TMVef8nEgpmz4pDr7tU7v3RjAfkQbM"
+POINTS_STORE_PROGRAM_ID := "PsToRxhEPScGt1Bxpm7zNDRzaMk31t8Aox7fyewoVse"
 PROFILE_FACTION_PROGRAM_ID := "pFACSRuobDmvfMKq1bAzwj27t6d2GJhSCHb1VcfnRmq"
 PROFILE_VAULT_PROGRAM_ID := "pv1ttom8tbyh83C1AVh6QH2naGRdVQUVt3HY1Yst5sv"
-POINTS_PROGRAM_ID := "Point2iBvz7j5TMVef8nEgpmz4pDr7tU7v3RjAfkQbM"
 SAGE_STARBASED_PROGRAM_ID := "SAGE2HAwep459SNq61LHvjxPk4pLPEJLoMETef7f7EE"
 SAGE_HOLOSIM_PROGRAM_ID := "SAgEeT8u14TE69JXtanGSgNkEdoPUcLabeyZD2uw8x9"
 SRSLY_PROGRAM_ID := "SRSLY1fq9TJqCk1gNSE7VZL2bztvTn9wm4VR8u8jMKT"
@@ -31,6 +32,7 @@ CRAFTING_DESC := "Rust decoder for Star Atlas Crafting program on Solana"
 CREW_DESC := "Rust decoder for Star Atlas Crew management program on Solana"
 PLAYER_PROFILE_DESC := "Rust decoder for Star Atlas Player Profile program on Solana"
 POINTS_DESC := "Rust decoder for Star Atlas Points program on Solana"
+POINTS_STORE_DESC := "Rust decoder for Star Atlas Points Store program on Solana"
 PROFILE_FACTION_DESC := "Rust decoder for Star Atlas Profile Faction program on Solana"
 PROFILE_VAULT_DESC := "Rust decoder for Star Atlas Profile Vault program on Solana"
 SRSLY_DESC := "Rust decoder for Star Atlas Fleet Rentals (SRSLY) program on Solana"
@@ -47,9 +49,10 @@ CARGO_SOURCE := "mainnet"
 CRAFTING_SOURCE := "mainnet"
 CREW_SOURCE := "mainnet"
 PLAYER_PROFILE_SOURCE := "mainnet"
+POINTS_SOURCE := "mainnet"
+POINTS_STORE_SOURCE := "mainnet"
 PROFILE_FACTION_SOURCE := "mainnet"
 PROFILE_VAULT_SOURCE := "mainnet"
-POINTS_SOURCE := "mainnet"
 SRSLY_SOURCE := "mainnet"
 TCOMP_SOURCE := "mainnet"
 SAGE_STARBASED_SOURCE := "local"
@@ -70,6 +73,7 @@ CRAFTING_GENERATED_NAME := "crafting-decoder"
 CREW_GENERATED_NAME := "crew-decoder"
 PLAYER_PROFILE_GENERATED_NAME := "player-profile-decoder"
 POINTS_GENERATED_NAME := "points-decoder"
+POINTS_STORE_GENERATED_NAME := "points-store-decoder"
 PROFILE_FACTION_GENERATED_NAME := "profile-faction-decoder"
 PROFILE_VAULT_GENERATED_NAME := "profile-vault-decoder"
 SRSLY_GENERATED_NAME := "srsly-decoder"
@@ -110,6 +114,7 @@ _get-program-id decoder_name:
         crew) echo "{{CREW_PROGRAM_ID}}" ;;
         player-profile) echo "{{PLAYER_PROFILE_PROGRAM_ID}}" ;;
         points) echo "{{POINTS_PROGRAM_ID}}" ;;
+        points-store) echo "{{POINTS_STORE_PROGRAM_ID}}" ;;
         profile-faction) echo "{{PROFILE_FACTION_PROGRAM_ID}}" ;;
         profile-vault) echo "{{PROFILE_VAULT_PROGRAM_ID}}" ;;
         srsly) echo "{{SRSLY_PROGRAM_ID}}" ;;
@@ -132,6 +137,7 @@ _get-description decoder_name:
         crew) echo "{{CREW_DESC}}" ;;
         player-profile) echo "{{PLAYER_PROFILE_DESC}}" ;;
         points) echo "{{POINTS_DESC}}" ;;
+        points-store) echo "{{POINTS_STORE_DESC}}" ;;
         profile-faction) echo "{{PROFILE_FACTION_DESC}}" ;;
         profile-vault) echo "{{PROFILE_VAULT_DESC}}" ;;
         srsly) echo "{{SRSLY_DESC}}" ;;
@@ -154,6 +160,7 @@ _get-source decoder_name:
         crew) echo "{{CREW_SOURCE}}" ;;
         player-profile) echo "{{PLAYER_PROFILE_SOURCE}}" ;;
         points) echo "{{POINTS_SOURCE}}" ;;
+        points-store) echo "{{POINTS_STORE_SOURCE}}" ;;
         profile-faction) echo "{{PROFILE_FACTION_SOURCE}}" ;;
         profile-vault) echo "{{PROFILE_VAULT_SOURCE}}" ;;
         srsly) echo "{{SRSLY_SOURCE}}" ;;
@@ -176,6 +183,7 @@ _get-generated-name decoder_name:
         crew) echo "{{CREW_GENERATED_NAME}}" ;;
         player-profile) echo "{{PLAYER_PROFILE_GENERATED_NAME}}" ;;
         points) echo "{{POINTS_GENERATED_NAME}}" ;;
+        points-store) echo "{{POINTS_STORE_GENERATED_NAME}}" ;;
         profile-faction) echo "{{PROFILE_FACTION_GENERATED_NAME}}" ;;
         profile-vault) echo "{{PROFILE_VAULT_GENERATED_NAME}}" ;;
         srsly) echo "{{SRSLY_GENERATED_NAME}}" ;;
@@ -539,6 +547,15 @@ apply-patches-points: (apply-patches "points")
 create-patch-points patch_name: (create-patch "points" patch_name)
 publish-points: (publish "points")
 all-points: (all "points")
+
+# Points Store
+generate-points-store: (generate "points-store")
+build-points-store: (build "points-store")
+clean-points-store: (clean "points-store")
+apply-patches-points-store: (apply-patches "points-store")
+create-patch-points-store patch_name: (create-patch "points-store" patch_name)
+publish-points-store: (publish "points-store")
+all-points-store: (all "points-store")
 
 # Profile Faction
 generate-profile-faction: (generate "profile-faction")
