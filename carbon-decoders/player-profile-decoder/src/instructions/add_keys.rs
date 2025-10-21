@@ -18,6 +18,7 @@ pub struct AddKeysInstructionAccounts {
     pub key: solana_pubkey::Pubkey,
     pub profile: solana_pubkey::Pubkey,
     pub system_program: solana_pubkey::Pubkey,
+    pub keys_to_add_accounts: Vec<solana_pubkey::Pubkey>,
 }
 
 impl carbon_core::deserialize::ArrangeAccounts for AddKeys {
@@ -32,11 +33,15 @@ impl carbon_core::deserialize::ArrangeAccounts for AddKeys {
         let profile = next_account(&mut iter)?;
         let system_program = next_account(&mut iter)?;
 
+        // Collect remaining accounts (the actual keys being added to the profile)
+        let keys_to_add_accounts = iter.map(|acc| acc.pubkey).collect();
+
         Some(AddKeysInstructionAccounts {
             funder,
             key,
             profile,
             system_program,
+            keys_to_add_accounts,
         })
     }
 }

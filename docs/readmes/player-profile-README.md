@@ -71,6 +71,53 @@ if let Some(decoded) = decoded_account {
 }
 ```
 
+### Decoding Instructions
+
+The decoder supports parsing all Player Profile instructions with full account resolution:
+
+```rust
+use carbon_player_profile_decoder::{PlayerProfileDecoder, PlayerProfileInstruction};
+use carbon_core::instruction::InstructionDecoder;
+
+let decoder = PlayerProfileDecoder;
+let decoded_ix = decoder.decode_instruction(&instruction);
+
+if let Some(decoded) = decoded_ix {
+    match decoded.data {
+        PlayerProfileInstruction::AddKeys(add_keys) => {
+            println!("Adding {} keys to profile", add_keys.keys_to_add.len());
+
+            // Access the instruction data (permissions)
+            for (i, key_input) in add_keys.keys_to_add.iter().enumerate() {
+                println!("  Key {}: scope={}, expire={}",
+                    i, key_input.scope, key_input.expire_time);
+            }
+
+            // Access the actual account pubkeys being added
+            for (i, pubkey) in decoded.accounts.keys_to_add_accounts.iter().enumerate() {
+                println!("  Account {}: {}", i, pubkey);
+            }
+        }
+        PlayerProfileInstruction::CreateProfile(create_profile) => {
+            println!("Creating profile with {} keys", create_profile.key_permissions.len());
+            println!("Key threshold: {}", create_profile.key_threshold);
+
+            // Access the initial key account pubkeys
+            for pubkey in &decoded.accounts.init_keys_accounts {
+                println!("  Init key: {}", pubkey);
+            }
+        }
+        _ => {
+            // Handle other instructions
+        }
+    }
+}
+```
+
+**Note:** The `AddKeys` and `CreateProfile` instructions include both:
+- **Instruction data** (`keys_to_add`, `key_permissions`) - Contains permission scopes and metadata
+- **Account lists** (`keys_to_add_accounts`, `init_keys_accounts`) - Contains the actual pubkeys of the keys being added
+
 ### Working with Permissions
 
 The decoder includes ergonomic permission handling with bitflags:
