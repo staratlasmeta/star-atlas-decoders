@@ -49,16 +49,23 @@ let decoded_account = decoder.decode_account(&account);
 if let Some(decoded) = decoded_account {
     match decoded.data {
         PlayerProfileAccount::Profile(profile) => {
-            println!("Profile: {:?}", profile);
+            println!("Profile has {} keys", profile.profile_keys.len());
+            for key in &profile.profile_keys {
+                println!("  Key: {}, Scope: {}", key.key, key.scope);
+            }
         }
         PlayerProfileAccount::PlayerName(player_name) => {
-            println!("Player Name: {:?}", player_name);
+            let name_str = String::from_utf8_lossy(&player_name.name);
+            println!("Player Name: {}", name_str);
         }
         PlayerProfileAccount::Role(role) => {
-            println!("Role: {:?}", role);
+            println!("Role has {} members", role.members.len());
+            for member in &role.members {
+                println!("  Member: {}", member.key);
+            }
         }
         PlayerProfileAccount::ProfileRoleMembership(membership) => {
-            println!("Role Membership: {:?}", membership);
+            println!("Profile has {} role memberships", membership.memberships.len());
         }
     }
 }
@@ -102,6 +109,30 @@ This decoder supports all Player Profile account types:
 - `PlayerName` - Player name registration
 - `Role` - Role definition with permissions
 - `ProfileRoleMembership` - Membership relationship between profiles and roles
+
+### Account Fields (RemainingData)
+
+All account types include dynamically-sized fields deserialized from RemainingData:
+
+#### Profile
+- `profile_keys: Vec<ProfileKey>` - List of all keys associated with this profile
+  - Each key includes: public key, scope, expiration time, and permissions
+  - Maximum of 65,535 keys (u16 length prefix)
+
+#### PlayerName
+- `name: Vec<u8>` - UTF-8 encoded player name bytes
+  - Variable length, stored as raw bytes without length prefix
+  - Example: `String::from_utf8_lossy(&player_name.name)`
+
+#### Role
+- `members: Vec<RoleMembership>` - List of all members in this role
+  - Each membership includes: member key and status (Active/Inactive)
+  - Maximum of 256 members (u32 length prefix, enforced by MAX_MEMBERSHIPS)
+
+#### ProfileRoleMembership
+- `memberships: Vec<RoleMembership>` - List of all roles this profile belongs to
+  - Each membership includes: role key and status (Active/Inactive)
+  - Maximum of 256 memberships (u32 length prefix, enforced by MAX_MEMBERSHIPS)
 
 ### Permission Flags
 

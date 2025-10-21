@@ -158,7 +158,8 @@ star-atlas-decoders/
 │   ├── srsly-02-rate-f64-workaround.patch
 │   ├── tcomp-01-accounts-serialize.patch
 │   ├── player-profile-01-accounts-serialize.patch
-│   └── player-profile-02-permissions-helpers.patch
+│   ├── player-profile-02-permissions-helpers.patch
+│   └── player-profile-03-remaining-data.patch
 ├── idl/                     # Local IDL files
 ├── scripts/                 # CI and utility scripts
 │   ├── ci.sh               # Full CI pipeline

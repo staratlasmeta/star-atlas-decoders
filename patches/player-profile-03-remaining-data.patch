@@ -1,0 +1,357 @@
+diff --git a/src/accounts/player_name.rs b/src/accounts/player_name.rs
+index 062f1f4..af3e740 100644
+--- a/src/accounts/player_name.rs
++++ b/src/accounts/player_name.rs
+@@ -1,11 +1,58 @@
+-use carbon_core::{CarbonDeserialize, borsh};
++use carbon_core::borsh::{self, BorshDeserialize};
+ 
+-#[derive(
+-    CarbonDeserialize, Debug, serde::Deserialize, serde::Serialize, PartialEq, Eq, Clone, Hash,
+-)]
+-#[carbon(discriminator = "0x6609f16260c4d4a1")]
++#[derive(Debug, serde::Serialize, serde::Deserialize)]
+ pub struct PlayerName {
+     pub version: u8,
+     pub profile: solana_pubkey::Pubkey,
+     pub bump: u8,
++    pub name: Vec<u8>,
++}
++
++impl borsh::de::BorshDeserialize for PlayerName
++where
++    u8: borsh::BorshDeserialize,
++    solana_pubkey::Pubkey: borsh::BorshDeserialize,
++    u8: borsh::BorshDeserialize,
++{
++    fn deserialize_reader<R: borsh::maybestd::io::Read>(
++        reader: &mut R,
++    ) -> Result<Self, borsh::maybestd::io::Error> {
++        Ok(Self {
++            version: borsh::BorshDeserialize::deserialize_reader(reader)?,
++            profile: borsh::BorshDeserialize::deserialize_reader(reader)?,
++            bump: borsh::BorshDeserialize::deserialize_reader(reader)?,
++            name: Vec::new(),
++        })
++    }
++}
++
++#[automatically_derived]
++impl carbon_core::deserialize::CarbonDeserialize for PlayerName {
++    const DISCRIMINATOR: &'static [u8] = &[102u8, 9u8, 241u8, 98u8, 96u8, 196u8, 212u8, 161u8];
++    fn deserialize(data: &[u8]) -> Option<Self> {
++        if data.len() < Self::DISCRIMINATOR.len() {
++            return None;
++        }
++
++        let (disc, mut rest) = data.split_at(Self::DISCRIMINATOR.len());
++
++        if disc != Self::DISCRIMINATOR {
++            return None;
++        }
++
++        let player_name: PlayerName = match BorshDeserialize::deserialize(&mut rest) {
++            Ok(res) => res,
++            Err(_) => return None,
++        };
++
++        // PlayerName has RemainingData = Bytes (no length prefix, just raw bytes)
++        // All remaining bytes after the fixed fields are the player's name
++        // Fixed fields: version(1) + profile(32) + bump(1) = 34 bytes
++        let name = rest.to_vec();
++
++        let mut final_player_name = player_name;
++        final_player_name.name = name;
++
++        Some(final_player_name)
++    }
+ }
+diff --git a/src/accounts/profile.rs b/src/accounts/profile.rs
+index f19d585..566784e 100644
+--- a/src/accounts/profile.rs
++++ b/src/accounts/profile.rs
+@@ -1,13 +1,87 @@
+-use carbon_core::{CarbonDeserialize, borsh};
++use carbon_core::borsh::{self, BorshDeserialize};
+ 
+-#[derive(
+-    CarbonDeserialize, Debug, serde::Deserialize, serde::Serialize, PartialEq, Eq, Clone, Hash,
+-)]
+-#[carbon(discriminator = "0xb865a5bc5f3f7fbc")]
++use crate::types::ProfileKey;
++
++#[derive(Debug, serde::Serialize, serde::Deserialize)]
+ pub struct Profile {
+     pub version: u8,
+     pub auth_key_count: u16,
+     pub key_threshold: u8,
+     pub next_seq_id: u64,
+     pub created_at: i64,
++    pub profile_keys: Vec<ProfileKey>,
++}
++
++impl borsh::de::BorshDeserialize for Profile
++where
++    u8: borsh::BorshDeserialize,
++    u16: borsh::BorshDeserialize,
++    u8: borsh::BorshDeserialize,
++    u64: borsh::BorshDeserialize,
++    i64: borsh::BorshDeserialize,
++{
++    fn deserialize_reader<R: borsh::maybestd::io::Read>(
++        reader: &mut R,
++    ) -> Result<Self, borsh::maybestd::io::Error> {
++        Ok(Self {
++            version: borsh::BorshDeserialize::deserialize_reader(reader)?,
++            auth_key_count: borsh::BorshDeserialize::deserialize_reader(reader)?,
++            key_threshold: borsh::BorshDeserialize::deserialize_reader(reader)?,
++            next_seq_id: borsh::BorshDeserialize::deserialize_reader(reader)?,
++            created_at: borsh::BorshDeserialize::deserialize_reader(reader)?,
++            profile_keys: Vec::new(),
++        })
++    }
++}
++#[automatically_derived]
++impl carbon_core::deserialize::CarbonDeserialize for Profile {
++    const DISCRIMINATOR: &'static [u8] = &[184u8, 101u8, 165u8, 188u8, 95u8, 63u8, 127u8, 188u8];
++    fn deserialize(data: &[u8]) -> Option<Self> {
++        if data.len() < Self::DISCRIMINATOR.len() {
++            return None;
++        }
++
++        let (disc, mut rest) = data.split_at(Self::DISCRIMINATOR.len());
++
++        if disc != Self::DISCRIMINATOR {
++            return None;
++        }
++
++        // Profile has RemainingData = UnorderedList<ProfileKey, u16>
++        // The u16 length prefix is stored after the fixed fields (20 bytes total)
++        // Byte layout: version(1) + auth_key_count(2) + key_threshold(1) + next_seq_id(8) + created_at(8) = 20 bytes
++        if rest.len() < 22 {  // 20 bytes fixed + 2 bytes u16 length
++            return None;
++        }
++
++        let list_length = &rest[20..=21];  // u16 length at bytes 20-21
++        let list_length = u16::from_le_bytes(list_length.try_into().unwrap());
++
++        let profile: Profile = match BorshDeserialize::deserialize(&mut rest) {
++            Ok(res) => res,
++            Err(_) => return None,
++        };
++
++        rest = &rest[2..];
++        let mut profile_keys = Vec::new();
++        for _ in 0..list_length {
++            match BorshDeserialize::deserialize(&mut rest) {
++                Ok(profile_key) => profile_keys.push(profile_key),
++                Err(_) => return None,
++            }
++        }
++
++        let mut final_profile = profile;
++        final_profile.profile_keys = profile_keys;
++
++        if !rest.is_empty() {
++            carbon_core::log::debug!(
++                "Not all bytes were read when deserializing {}: {} bytes remaining",
++                stringify!(Profile),
++                rest.len(),
++            );
++        }
++
++        Some(final_profile)
++    }
+ }
+diff --git a/src/accounts/profile_role_membership.rs b/src/accounts/profile_role_membership.rs
+index a3b8e4d..ffd1109 100644
+--- a/src/accounts/profile_role_membership.rs
++++ b/src/accounts/profile_role_membership.rs
+@@ -1,12 +1,84 @@
+-use carbon_core::{CarbonDeserialize, borsh};
++use carbon_core::borsh::{self, BorshDeserialize};
+ 
+-#[derive(
+-    CarbonDeserialize, Debug, serde::Deserialize, serde::Serialize, PartialEq, Eq, Clone, Hash,
+-)]
+-#[carbon(discriminator = "0x2d02566f6e790501")]
++use crate::types::RoleMembership;
++
++#[derive(Debug, serde::Serialize, serde::Deserialize)]
+ pub struct ProfileRoleMembership {
+     pub version: u8,
+     pub profile: solana_pubkey::Pubkey,
+     pub member: solana_pubkey::Pubkey,
+     pub bump: u8,
++    pub memberships: Vec<RoleMembership>,
++}
++
++impl borsh::de::BorshDeserialize for ProfileRoleMembership
++where
++    u8: borsh::BorshDeserialize,
++    solana_pubkey::Pubkey: borsh::BorshDeserialize,
++{
++    fn deserialize_reader<R: borsh::maybestd::io::Read>(
++        reader: &mut R,
++    ) -> Result<Self, borsh::maybestd::io::Error> {
++        Ok(Self {
++            version: borsh::BorshDeserialize::deserialize_reader(reader)?,
++            profile: borsh::BorshDeserialize::deserialize_reader(reader)?,
++            member: borsh::BorshDeserialize::deserialize_reader(reader)?,
++            bump: borsh::BorshDeserialize::deserialize_reader(reader)?,
++            memberships: Vec::new(),
++        })
++    }
++}
++
++#[automatically_derived]
++impl carbon_core::deserialize::CarbonDeserialize for ProfileRoleMembership {
++    const DISCRIMINATOR: &'static [u8] = &[45u8, 2u8, 86u8, 111u8, 110u8, 121u8, 5u8, 1u8];
++    fn deserialize(data: &[u8]) -> Option<Self> {
++        if data.len() < Self::DISCRIMINATOR.len() {
++            return None;
++        }
++
++        let (disc, mut rest) = data.split_at(Self::DISCRIMINATOR.len());
++
++        if disc != Self::DISCRIMINATOR {
++            return None;
++        }
++
++        // ProfileRoleMembership has RemainingData = UnorderedList<RoleMembership, u32>
++        // The u32 length prefix is stored after the fixed fields (66 bytes total)
++        // Byte layout: version(1) + profile(32) + member(32) + bump(1) = 66 bytes
++        if rest.len() < 70 {  // 66 bytes fixed + 4 bytes u32 length
++            return None;
++        }
++
++        let list_length = &rest[66..70];  // u32 length at bytes 66-69
++        let list_length = u32::from_le_bytes(list_length.try_into().unwrap());
++
++        let profile_role_membership: ProfileRoleMembership =
++            match BorshDeserialize::deserialize(&mut rest) {
++                Ok(res) => res,
++                Err(_) => return None,
++            };
++
++        rest = &rest[4..];
++        let mut memberships = Vec::new();
++        for _ in 0..list_length {
++            match BorshDeserialize::deserialize(&mut rest) {
++                Ok(membership) => memberships.push(membership),
++                Err(_) => return None,
++            }
++        }
++
++        let mut final_profile_role_membership = profile_role_membership;
++        final_profile_role_membership.memberships = memberships;
++
++        if !rest.is_empty() {
++            carbon_core::log::debug!(
++                "Not all bytes were read when deserializing {}: {} bytes remaining",
++                stringify!(ProfileRoleMembership),
++                rest.len(),
++            );
++        }
++
++        Some(final_profile_role_membership)
++    }
+ }
+diff --git a/src/accounts/role.rs b/src/accounts/role.rs
+index ad11f28..a58ea18 100644
+--- a/src/accounts/role.rs
++++ b/src/accounts/role.rs
+@@ -1,9 +1,8 @@
+-use carbon_core::{CarbonDeserialize, borsh};
++use carbon_core::borsh::{self, BorshDeserialize};
+ 
+-#[derive(
+-    CarbonDeserialize, Debug, serde::Deserialize, serde::Serialize, PartialEq, Eq, Clone, Hash,
+-)]
+-#[carbon(discriminator = "0x2edbc518e9f9fd9a")]
++use crate::types::RoleMembership;
++
++#[derive(Debug, serde::Serialize, serde::Deserialize)]
+ pub struct Role {
+     pub version: u8,
+     pub profile: solana_pubkey::Pubkey,
+@@ -11,4 +10,79 @@ pub struct Role {
+     pub role_seq_id: u64,
+     pub accepting_new_members: u8,
+     pub bump: u8,
++    pub members: Vec<RoleMembership>,
++}
++
++impl borsh::de::BorshDeserialize for Role
++where
++    u8: borsh::BorshDeserialize,
++    solana_pubkey::Pubkey: borsh::BorshDeserialize,
++    u64: borsh::BorshDeserialize,
++{
++    fn deserialize_reader<R: borsh::maybestd::io::Read>(
++        reader: &mut R,
++    ) -> Result<Self, borsh::maybestd::io::Error> {
++        Ok(Self {
++            version: borsh::BorshDeserialize::deserialize_reader(reader)?,
++            profile: borsh::BorshDeserialize::deserialize_reader(reader)?,
++            authorizer: borsh::BorshDeserialize::deserialize_reader(reader)?,
++            role_seq_id: borsh::BorshDeserialize::deserialize_reader(reader)?,
++            accepting_new_members: borsh::BorshDeserialize::deserialize_reader(reader)?,
++            bump: borsh::BorshDeserialize::deserialize_reader(reader)?,
++            members: Vec::new(),
++        })
++    }
++}
++
++#[automatically_derived]
++impl carbon_core::deserialize::CarbonDeserialize for Role {
++    const DISCRIMINATOR: &'static [u8] = &[46u8, 219u8, 197u8, 24u8, 233u8, 249u8, 253u8, 154u8];
++    fn deserialize(data: &[u8]) -> Option<Self> {
++        if data.len() < Self::DISCRIMINATOR.len() {
++            return None;
++        }
++
++        let (disc, mut rest) = data.split_at(Self::DISCRIMINATOR.len());
++
++        if disc != Self::DISCRIMINATOR {
++            return None;
++        }
++
++        // Role has RemainingData = UnorderedList<RoleMembership, u32>
++        // The u32 length prefix is stored after the fixed fields (75 bytes total)
++        // Byte layout: version(1) + profile(32) + authorizer(32) + role_seq_id(8) + accepting_new_members(1) + bump(1) = 75 bytes
++        if rest.len() < 79 {  // 75 bytes fixed + 4 bytes u32 length
++            return None;
++        }
++
++        let list_length = &rest[75..79];  // u32 length at bytes 75-78
++        let list_length = u32::from_le_bytes(list_length.try_into().unwrap());
++
++        let role: Role = match BorshDeserialize::deserialize(&mut rest) {
++            Ok(res) => res,
++            Err(_) => return None,
++        };
++
++        rest = &rest[4..];
++        let mut members = Vec::new();
++        for _ in 0..list_length {
++            match BorshDeserialize::deserialize(&mut rest) {
++                Ok(member) => members.push(member),
++                Err(_) => return None,
++            }
++        }
++
++        let mut final_role = role;
++        final_role.members = members;
++
++        if !rest.is_empty() {
++            carbon_core::log::debug!(
++                "Not all bytes were read when deserializing {}: {} bytes remaining",
++                stringify!(Role),
++                rest.len(),
++            );
++        }
++
++        Some(final_role)
++    }
+ }
