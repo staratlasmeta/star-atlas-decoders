@@ -17,7 +17,6 @@ pub struct ProcessCancelInstructionAccounts {
     pub order_vault_authority: solana_pubkey::Pubkey,
     pub order_account: solana_pubkey::Pubkey,
     pub open_orders_counter: solana_pubkey::Pubkey,
-    pub token_program: solana_pubkey::Pubkey,
 }
 
 impl carbon_core::deserialize::ArrangeAccounts for ProcessCancel {
@@ -36,7 +35,6 @@ impl carbon_core::deserialize::ArrangeAccounts for ProcessCancel {
         let order_vault_authority = next_account(&mut iter)?;
         let order_account = next_account(&mut iter)?;
         let open_orders_counter = next_account(&mut iter)?;
-        let token_program = next_account(&mut iter)?;
 
         Some(ProcessCancelInstructionAccounts {
             signer,
@@ -48,7 +46,6 @@ impl carbon_core::deserialize::ArrangeAccounts for ProcessCancel {
             order_vault_authority,
             order_account,
             open_orders_counter,
-            token_program,
         })
     }
 }

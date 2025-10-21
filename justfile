@@ -41,7 +41,7 @@ SAGE_STARBASED_SOURCE := "mainnet"
 SAGE_HOLOSIM_SOURCE := "local"
 ATLAS_STAKING_SOURCE := "mainnet"
 LOCKED_VOTER_SOURCE := "mainnet"
-MARKETPLACE_SOURCE := "mainnet"
+MARKETPLACE_SOURCE := "local"
 
 # Carbon-cli generated names (what carbon-cli names the directory)
 SAGE_STARBASED_GENERATED_NAME := "sage-decoder"
