@@ -45,41 +45,25 @@ main() {
 
     print_info "Git repository is clean, proceeding with decoder generation..."
 
+    # Extract decoder list from justfile (single source of truth)
+    DECODERS=$(grep -E '^ALL_DECODERS :=' justfile | sed 's/.*:= "\(.*\)"/\1/')
+
+    if [ -z "$DECODERS" ]; then
+        print_error "Failed to extract decoder list from justfile"
+        exit 1
+    fi
+
+    print_info "Found decoders: $DECODERS"
+
     # Run all decoder pipelines
-    print_info "Building sage-starbased decoder..."
-    if ! just all-sage-starbased; then
-        print_error "Failed to build sage-starbased decoder"
-        exit 1
-    fi
-    print_info "✅ sage-starbased decoder complete"
-
-    print_info "Building sage-holosim decoder..."
-    if ! just all-sage-holosim; then
-        print_error "Failed to build sage-holosim decoder"
-        exit 1
-    fi
-    print_info "✅ sage-holosim decoder complete"
-
-    print_info "Building atlas-staking decoder..."
-    if ! just all-atlas-staking; then
-        print_error "Failed to build atlas-staking decoder"
-        exit 1
-    fi
-    print_info "✅ atlas-staking decoder complete"
-
-    print_info "Building locked-voter decoder..."
-    if ! just all-locked-voter; then
-        print_error "Failed to build locked-voter decoder"
-        exit 1
-    fi
-    print_info "✅ locked-voter decoder complete"
-
-    print_info "Building marketplace decoder..."
-    if ! just all-marketplace; then
-        print_error "Failed to build marketplace decoder"
-        exit 1
-    fi
-    print_info "✅ marketplace decoder complete"
+    for decoder in $DECODERS; do
+        print_info "Building $decoder decoder..."
+        if ! just all-$decoder; then
+            print_error "Failed to build $decoder decoder"
+            exit 1
+        fi
+        print_info "✅ $decoder decoder complete"
+    done
 
     # Verify git is still clean
     print_info "Checking final git status..."
