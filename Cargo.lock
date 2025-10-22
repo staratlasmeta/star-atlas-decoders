@@ -440,6 +440,19 @@ dependencies = [
 ]
 
 [[package]]
+name = "carbon-profile-faction-decoder"
+version = "0.10.0"
+dependencies = [
+ "carbon-core",
+ "carbon-macros",
+ "carbon-proc-macros",
+ "serde",
+ "solana-account",
+ "solana-instruction",
+ "solana-pubkey",
+]
+
+[[package]]
 name = "carbon-profile-vault-decoder"
 version = "0.10.0"
 dependencies = [

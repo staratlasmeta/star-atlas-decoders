@@ -1,0 +1,20 @@
+diff --git a/src/accounts/profile_faction_account.rs b/src/accounts/profile_faction_account.rs
+index 41aea74..1c3e01a 100644
+--- a/src/accounts/profile_faction_account.rs
++++ b/src/accounts/profile_faction_account.rs
+@@ -1,5 +1,7 @@
+ use carbon_core::{CarbonDeserialize, borsh};
+ 
++use crate::types::Faction;
++
+ #[derive(
+     CarbonDeserialize, Debug, serde::Deserialize, serde::Serialize, PartialEq, Eq, Clone, Hash,
+ )]
+@@ -7,6 +9,6 @@ use carbon_core::{CarbonDeserialize, borsh};
+ pub struct ProfileFactionAccount {
+     pub version: u8,
+     pub profile: solana_pubkey::Pubkey,
+-    pub faction: u8,
++    pub faction: Faction,
+     pub bump: u8,
+ }
