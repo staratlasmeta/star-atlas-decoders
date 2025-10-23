@@ -52,11 +52,19 @@ if let Some(decoded) = decoded_account {
             println!("Cargo Pod: {:?}", pod);
             println!("Authority: {}", pod.authority);
             println!("Open Token Accounts: {}", pod.open_token_accounts);
+<<<<<<< HEAD
+            println!("Cargo Contents: {:?}", pod.cargo_contents);
+=======
+>>>>>>> 2e6e39f (feat: add cargo decoder)
         }
         CargoAccount::CargoType(cargo_type) => {
             println!("Cargo Type: {:?}", cargo_type);
             println!("Mint: {}", cargo_type.mint);
             println!("Stats Count: {}", cargo_type.stats_count);
+<<<<<<< HEAD
+            println!("Cargo Stats: {:?}", cargo_type.cargo_stats);
+=======
+>>>>>>> 2e6e39f (feat: add cargo decoder)
         }
         CargoAccount::CargoStatsDefinition(definition) => {
             println!("Stats Definition: {:?}", definition);
@@ -104,7 +112,13 @@ let restored = CargoPermissions::from_le_bytes(bytes);
 
 This decoder supports all Cargo account types:
 - `CargoPod` - Container for resources with dynamic stat tracking
+<<<<<<< HEAD
+  - Contains `cargo_contents: Vec<u64>` with the pod's cargo values
 - `CargoType` - Definition of a specific cargo type with associated stats
+  - Contains `cargo_stats: Vec<u64>` with stat values (length = `stats_count`)
+=======
+- `CargoType` - Definition of a specific cargo type with associated stats
+>>>>>>> 2e6e39f (feat: add cargo decoder)
 - `CargoStatsDefinition` - Global configuration for cargo stat definitions
 
 ### Permission Flags

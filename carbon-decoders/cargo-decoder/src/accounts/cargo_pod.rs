@@ -1,15 +1,6 @@
-<<<<<<< HEAD
 use carbon_core::borsh::{self, BorshDeserialize};
 
 #[derive(Debug, serde::Serialize, serde::Deserialize)]
-=======
-use carbon_core::{CarbonDeserialize, borsh};
-
-#[derive(
-    CarbonDeserialize, Debug, serde::Deserialize, serde::Serialize, PartialEq, Eq, Clone, Hash,
-)]
-#[carbon(discriminator = "0xa52176ebfcbcf45d")]
->>>>>>> 2e6e39f (feat: add cargo decoder)
 pub struct CargoPod {
     pub version: u8,
     pub stats_definition: solana_pubkey::Pubkey,
@@ -19,7 +10,6 @@ pub struct CargoPod {
     pub pod_bump: u8,
     pub seq_id: u16,
     pub unupdated_token_accounts: u8,
-<<<<<<< HEAD
     pub cargo_contents: Vec<u64>,
 }
 
@@ -94,6 +84,4 @@ impl carbon_core::deserialize::CarbonDeserialize for CargoPod {
 
         Some(final_cargo_pod)
     }
-=======
->>>>>>> 2e6e39f (feat: add cargo decoder)
 }
