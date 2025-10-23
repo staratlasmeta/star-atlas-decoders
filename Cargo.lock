@@ -400,7 +400,7 @@ checksum = "23175f9aa37308c836d1cb5b4b42cbfe178e168a2e6dbba42f50a51b27c529f8"
 
 [[package]]
 name = "carbon-marketplace-decoder"
-version = "0.10.0"
+version = "0.10.1"
 dependencies = [
  "carbon-core",
  "carbon-macros",
