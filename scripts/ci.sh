@@ -22,14 +22,7 @@ print_error() {
 main() {
     print_info "Starting CI pipeline for Star Atlas decoders"
 
-    # Run cargo check to ensure everything compiles
-    print_info "Running compilation check..."
-    if ! cargo check --all; then
-        print_error "Cargo check failed"
-        exit 1
-    fi
-
-    # Run clippy to check code quality
+    # Run clippy to check compilation and code quality
     print_info "Running clippy checks..."
     if ! cargo clippy --all-targets --all-features -- -D warnings; then
         print_error "Clippy checks failed"
