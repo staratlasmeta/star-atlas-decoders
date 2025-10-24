@@ -92,7 +92,7 @@ This project generates and maintains Rust decoders for Star Atlas programs on So
 
 - **crafting**: Crafting program (`CRAFT2RPXPJWCEix4WpJST3E7NLf79GTqZUL75wngXo5`)
   - Recipe-based item crafting with facilities and process tracking
-  - Custom patches for type-safe enum handling
+  - Custom patches for type-safe enum handling and remaining data deserialization
 
 - **crew**: Crew Management program (`CREWiq8qbxvo4SKkAFpVnc6t7CRQC4tAAscsNAENXgrJ`)
   - Crew management for Star Atlas ships and operations
