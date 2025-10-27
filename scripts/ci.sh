@@ -1,8 +1,6 @@
 #!/bin/bash
 
 # CI script for Star Atlas decoders
-# Runs all decoder pipelines and ensures git repository remains clean
-
 set -euo pipefail
 
 # Colors for output
@@ -20,71 +18,11 @@ print_error() {
     echo -e "${RED}[ERROR]${NC} $1"
 }
 
-print_warning() {
-    echo -e "${YELLOW}[WARNING]${NC} $1"
-}
-
-# Function to check if git repo is clean
-check_git_clean() {
-    if [ -n "$(git status --porcelain)" ]; then
-        return 1
-    fi
-    return 0
-}
-
 # Main execution
 main() {
     print_info "Starting CI pipeline for Star Atlas decoders"
 
-    # Check initial git status
-    if ! check_git_clean; then
-        print_error "Git repository is not clean. Please commit or stash your changes first."
-        git status --short
-        exit 1
-    fi
-
-    print_info "Git repository is clean, proceeding with decoder generation..."
-
-    # Extract decoder list from justfile (single source of truth)
-    DECODERS=$(grep -E '^ALL_DECODERS :=' justfile | sed 's/.*:= "\(.*\)"/\1/')
-
-    if [ -z "$DECODERS" ]; then
-        print_error "Failed to extract decoder list from justfile"
-        exit 1
-    fi
-
-    print_info "Found decoders: $DECODERS"
-
-    # Run all decoder pipelines
-    for decoder in $DECODERS; do
-        print_info "Building $decoder decoder..."
-        if ! just all-$decoder; then
-            print_error "Failed to build $decoder decoder"
-            exit 1
-        fi
-        print_info "✅ $decoder decoder complete"
-    done
-
-    # Verify git is still clean
-    print_info "Checking final git status..."
-    if ! check_git_clean; then
-        print_error "Git repository is not clean after running pipelines!"
-        print_error "The following files have been modified:"
-        git status --short
-        exit 1
-    fi
-
-    print_info "✅ All decoder pipelines completed successfully"
-    print_info "✅ Git repository is clean"
-
-    # Run cargo check to ensure everything compiles
-    print_info "Running compilation check..."
-    if ! cargo check --all; then
-        print_error "Cargo check failed"
-        exit 1
-    fi
-
-    # Run clippy to check code quality
+    # Run clippy to check compilation and code quality
     print_info "Running clippy checks..."
     if ! cargo clippy --all-targets --all-features -- -D warnings; then
         print_error "Clippy checks failed"

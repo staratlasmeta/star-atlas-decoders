@@ -1,4 +1,4 @@
-use carbon_core::{CarbonDeserialize, account_utils::next_account, borsh};
+use carbon_core::{CarbonDeserialize, borsh};
 
 #[derive(
     CarbonDeserialize, Debug, serde::Serialize, serde::Deserialize, PartialEq, Eq, Clone, Hash,
@@ -13,10 +13,8 @@ impl carbon_core::deserialize::ArrangeAccounts for Noop {
     type ArrangedAccounts = NoopInstructionAccounts;
 
     fn arrange_accounts(
-        accounts: &[solana_instruction::AccountMeta],
+        _accounts: &[solana_instruction::AccountMeta],
     ) -> Option<Self::ArrangedAccounts> {
-        let mut iter = accounts.iter();
-
         Some(NoopInstructionAccounts {})
     }
 }
