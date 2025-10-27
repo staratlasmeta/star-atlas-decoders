@@ -51,20 +51,25 @@ impl carbon_core::deserialize::CarbonDeserialize for CargoPod {
         }
 
         // CargoPod has RemainingData = List<PackedValue<u64>>
-        // Contains the contents of the cargo pod as a list of u64 (no length prefix in account)
+        // Contains the contents of the cargo pod as a list of u64 with a u32 length prefix
         // Byte layout: version(1) + stats_definition(32) + authority(32) + open_token_accounts(1) + pod_seeds(32) + pod_bump(1) + seq_id(2) + unupdated_token_accounts(1) = 102 bytes
-        // All remaining bytes after fixed fields are u64 cargo values
+        // After fixed fields: u32 length prefix (4 bytes) + list of u64 cargo values (8 bytes each)
 
         let cargo_pod: CargoPod = match BorshDeserialize::deserialize(&mut rest) {
             Ok(res) => res,
             Err(_) => return None,
         };
 
-        // Read all remaining bytes as u64 values (each u64 is 8 bytes)
-        let num_u64_values = rest.len() / 8;
-        let mut cargo_contents = Vec::with_capacity(num_u64_values);
+        // Read u32 length prefix from remaining data
+        let list_length: u32 = match BorshDeserialize::deserialize(&mut rest) {
+            Ok(len) => len,
+            Err(_) => return None,
+        };
 
-        for _ in 0..num_u64_values {
+        // Read list_length u64 values
+        let mut cargo_contents = Vec::with_capacity(list_length as usize);
+
+        for _ in 0..list_length {
             match BorshDeserialize::deserialize(&mut rest) {
                 Ok(value) => cargo_contents.push(value),
                 Err(_) => return None,
