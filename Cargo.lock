@@ -380,6 +380,19 @@ dependencies = [
 ]
 
 [[package]]
+name = "carbon-crafting-decoder"
+version = "0.10.0"
+dependencies = [
+ "carbon-core",
+ "carbon-macros",
+ "carbon-proc-macros",
+ "serde",
+ "solana-account",
+ "solana-instruction",
+ "solana-pubkey",
+]
+
+[[package]]
 name = "carbon-crew-decoder"
 version = "0.10.0"
 dependencies = [

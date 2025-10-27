@@ -1,0 +1,209 @@
+diff --git a/src/accounts/crafting_facility.rs b/src/accounts/crafting_facility.rs
+index 94234c2..cf02c63 100644
+--- a/src/accounts/crafting_facility.rs
++++ b/src/accounts/crafting_facility.rs
+@@ -1,11 +1,8 @@
+-use carbon_core::{CarbonDeserialize, borsh};
++use carbon_core::borsh::{self, BorshDeserialize};
+ 
+ use crate::types::LocationType;
+ 
+-#[derive(
+-    CarbonDeserialize, Debug, serde::Deserialize, serde::Serialize, PartialEq, Eq, Clone, Hash,
+-)]
+-#[carbon(discriminator = "0x3a4923115cf7311e")]
++#[derive(Debug, serde::Serialize, serde::Deserialize)]
+ pub struct CraftingFacility {
+     pub version: u8,
+     pub domain: solana_pubkey::Pubkey,
+@@ -15,4 +12,79 @@ pub struct CraftingFacility {
+     pub num_concurrent_processes: u32,
+     pub efficiency: u32,
+     pub num_recipe_categories: u32,
++    pub recipe_categories: Vec<solana_pubkey::Pubkey>,
++}
++
++impl borsh::de::BorshDeserialize for CraftingFacility
++where
++    u8: borsh::BorshDeserialize,
++    solana_pubkey::Pubkey: borsh::BorshDeserialize,
++    LocationType: borsh::BorshDeserialize,
++    u32: borsh::BorshDeserialize,
++{
++    fn deserialize_reader<R: borsh::maybestd::io::Read>(
++        reader: &mut R,
++    ) -> Result<Self, borsh::maybestd::io::Error> {
++        Ok(Self {
++            version: borsh::BorshDeserialize::deserialize_reader(reader)?,
++            domain: borsh::BorshDeserialize::deserialize_reader(reader)?,
++            location: borsh::BorshDeserialize::deserialize_reader(reader)?,
++            location_type: borsh::BorshDeserialize::deserialize_reader(reader)?,
++            max_concurrent_processes: borsh::BorshDeserialize::deserialize_reader(reader)?,
++            num_concurrent_processes: borsh::BorshDeserialize::deserialize_reader(reader)?,
++            efficiency: borsh::BorshDeserialize::deserialize_reader(reader)?,
++            num_recipe_categories: borsh::BorshDeserialize::deserialize_reader(reader)?,
++            recipe_categories: Vec::new(),
++        })
++    }
++}
++
++#[automatically_derived]
++impl carbon_core::deserialize::CarbonDeserialize for CraftingFacility {
++    const DISCRIMINATOR: &'static [u8] = &[58u8, 73u8, 35u8, 17u8, 92u8, 247u8, 49u8, 30u8];
++    fn deserialize(data: &[u8]) -> Option<Self> {
++        if data.len() < Self::DISCRIMINATOR.len() {
++            return None;
++        }
++
++        let (disc, mut rest) = data.split_at(Self::DISCRIMINATOR.len());
++
++        if disc != Self::DISCRIMINATOR {
++            return None;
++        }
++
++        // CraftingFacility has RemainingData = UnorderedList<WrappedRecipeCategory>
++        // Contains a list of recipe category pubkeys (no length prefix in account)
++        // Byte layout: version(1) + domain(32) + location(32) + location_type(1) + max_concurrent_processes(4) + num_concurrent_processes(4) + efficiency(4) + num_recipe_categories(4) = 82 bytes
++        // All remaining bytes after fixed fields are Pubkeys (32 bytes each)
++
++        let crafting_facility: CraftingFacility = match BorshDeserialize::deserialize(&mut rest) {
++            Ok(res) => res,
++            Err(_) => return None,
++        };
++
++        // Read num_recipe_categories pubkeys from remaining data
++        let num_categories = crafting_facility.num_recipe_categories as usize;
++        let mut recipe_categories = Vec::with_capacity(num_categories);
++
++        for _ in 0..num_categories {
++            match BorshDeserialize::deserialize(&mut rest) {
++                Ok(pubkey) => recipe_categories.push(pubkey),
++                Err(_) => return None,
++            }
++        }
++
++        let mut final_crafting_facility = crafting_facility;
++        final_crafting_facility.recipe_categories = recipe_categories;
++
++        if !rest.is_empty() {
++            carbon_core::log::debug!(
++                "Not all bytes were read when deserializing {}: {} bytes remaining",
++                stringify!(CraftingFacility),
++                rest.len(),
++            );
++        }
++
++        Some(final_crafting_facility)
++    }
+ }
+diff --git a/src/accounts/recipe.rs b/src/accounts/recipe.rs
+index 1b25f1a..6108428 100644
+--- a/src/accounts/recipe.rs
++++ b/src/accounts/recipe.rs
+@@ -1,12 +1,9 @@
+ use super::super::types::*;
+ 
+-use carbon_core::{CarbonDeserialize, borsh};
++use carbon_core::borsh::{self, BorshDeserialize};
+ use crate::types::RecipeStatus;
+ 
+-#[derive(
+-    CarbonDeserialize, Debug, serde::Deserialize, serde::Serialize, PartialEq, Eq, Clone, Hash,
+-)]
+-#[carbon(discriminator = "0x0aa29c6438c1cd4d")]
++#[derive(Debug, serde::Serialize, serde::Deserialize)]
+ pub struct Recipe {
+     pub version: u8,
+     pub domain: solana_pubkey::Pubkey,
+@@ -25,4 +22,91 @@ pub struct Recipe {
+     pub non_consumables_count: u8,
+     pub outputs_count: u8,
+     pub total_count: u16,
++    pub recipe_items: Vec<RecipeInputsOutputs>,
++}
++
++impl borsh::de::BorshDeserialize for Recipe
++where
++    u8: borsh::BorshDeserialize,
++    solana_pubkey::Pubkey: borsh::BorshDeserialize,
++    i64: borsh::BorshDeserialize,
++    RecipeStatus: borsh::BorshDeserialize,
++    u64: borsh::BorshDeserialize,
++    OptionalNonSystemPubkey: borsh::BorshDeserialize,
++    u16: borsh::BorshDeserialize,
++{
++    fn deserialize_reader<R: borsh::maybestd::io::Read>(
++        reader: &mut R,
++    ) -> Result<Self, borsh::maybestd::io::Error> {
++        Ok(Self {
++            version: borsh::BorshDeserialize::deserialize_reader(reader)?,
++            domain: borsh::BorshDeserialize::deserialize_reader(reader)?,
++            category: borsh::BorshDeserialize::deserialize_reader(reader)?,
++            creator: borsh::BorshDeserialize::deserialize_reader(reader)?,
++            duration: borsh::BorshDeserialize::deserialize_reader(reader)?,
++            min_duration: borsh::BorshDeserialize::deserialize_reader(reader)?,
++            namespace: borsh::BorshDeserialize::deserialize_reader(reader)?,
++            status: borsh::BorshDeserialize::deserialize_reader(reader)?,
++            fee_amount: borsh::BorshDeserialize::deserialize_reader(reader)?,
++            fee_recipient: borsh::BorshDeserialize::deserialize_reader(reader)?,
++            usage_count: borsh::BorshDeserialize::deserialize_reader(reader)?,
++            usage_limit: borsh::BorshDeserialize::deserialize_reader(reader)?,
++            value: borsh::BorshDeserialize::deserialize_reader(reader)?,
++            consumables_count: borsh::BorshDeserialize::deserialize_reader(reader)?,
++            non_consumables_count: borsh::BorshDeserialize::deserialize_reader(reader)?,
++            outputs_count: borsh::BorshDeserialize::deserialize_reader(reader)?,
++            total_count: borsh::BorshDeserialize::deserialize_reader(reader)?,
++            recipe_items: Vec::new(),
++        })
++    }
++}
++
++#[automatically_derived]
++impl carbon_core::deserialize::CarbonDeserialize for Recipe {
++    const DISCRIMINATOR: &'static [u8] = &[10u8, 162u8, 156u8, 100u8, 56u8, 193u8, 205u8, 77u8];
++    fn deserialize(data: &[u8]) -> Option<Self> {
++        if data.len() < Self::DISCRIMINATOR.len() {
++            return None;
++        }
++
++        let (disc, mut rest) = data.split_at(Self::DISCRIMINATOR.len());
++
++        if disc != Self::DISCRIMINATOR {
++            return None;
++        }
++
++        // Recipe has RemainingData = UnorderedList<RecipeInputsOutputs>
++        // Contains recipe inputs/outputs with amount and mint for each item
++        // Byte layout: version(1) + domain(32) + category(32) + creator(32) + duration(8) + min_duration(8) + namespace(32) + status(1) + fee_amount(8) + fee_recipient(33) + usage_count(8) + usage_limit(8) + value(8) + consumables_count(1) + non_consumables_count(1) + outputs_count(1) + total_count(2) = 216 bytes
++        // After fixed fields: total_count RecipeInputsOutputs structs (40 bytes each: 8 bytes for u64 amount + 32 bytes for Pubkey mint)
++
++        let recipe: Recipe = match BorshDeserialize::deserialize(&mut rest) {
++            Ok(res) => res,
++            Err(_) => return None,
++        };
++
++        // Read total_count RecipeInputsOutputs from remaining data
++        let total_count = recipe.total_count as usize;
++        let mut recipe_items = Vec::with_capacity(total_count);
++
++        for _ in 0..total_count {
++            match BorshDeserialize::deserialize(&mut rest) {
++                Ok(item) => recipe_items.push(item),
++                Err(_) => return None,
++            }
++        }
++
++        let mut final_recipe = recipe;
++        final_recipe.recipe_items = recipe_items;
++
++        if !rest.is_empty() {
++            carbon_core::log::debug!(
++                "Not all bytes were read when deserializing {}: {} bytes remaining",
++                stringify!(Recipe),
++                rest.len(),
++            );
++        }
++
++        Some(final_recipe)
++    }
+ }

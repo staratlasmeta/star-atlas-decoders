@@ -31,6 +31,9 @@
   <a href="https://crates.io/crates/carbon-cargo-decoder">
     <img src="https://img.shields.io/crates/v/carbon-cargo-decoder?logo=rust&label=cargo" />
   </a>
+  <a href="https://crates.io/crates/carbon-crafting-decoder">
+    <img src="https://img.shields.io/crates/v/carbon-crafting-decoder?logo=rust&label=crafting" />
+  </a>
   <a href="https://crates.io/crates/carbon-crew-decoder">
     <img src="https://img.shields.io/crates/v/carbon-crew-decoder?logo=rust&label=crew" />
   </a>
@@ -86,6 +89,10 @@ This project generates and maintains Rust decoders for Star Atlas programs on So
 - **cargo**: Cargo program (`Cargo2VNTPPTi9c1vq1Jw5d3BWUNr18MjRtSupAghKEk`)
   - Resource container management with dynamic stat tracking
   - Custom patches for remaining data deserialization
+
+- **crafting**: Crafting program (`CRAFT2RPXPJWCEix4WpJST3E7NLf79GTqZUL75wngXo5`)
+  - Recipe-based item crafting with facilities and process tracking
+  - Custom patches for type-safe enum handling and remaining data deserialization
 
 - **crew**: Crew Management program (`CREWiq8qbxvo4SKkAFpVnc6t7CRQC4tAAscsNAENXgrJ`)
   - Crew management for Star Atlas ships and operations
