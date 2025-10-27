@@ -28,9 +28,6 @@
   <a href="https://crates.io/crates/carbon-atlas-fee-payer-decoder">
     <img src="https://img.shields.io/crates/v/carbon-atlas-fee-payer-decoder?logo=rust&label=atlas-fee-payer" />
   </a>
-  <a href="https://crates.io/crates/carbon-cargo-decoder">
-    <img src="https://img.shields.io/crates/v/carbon-cargo-decoder?logo=rust&label=cargo" />
-  </a>
   <a href="https://crates.io/crates/carbon-crew-decoder">
     <img src="https://img.shields.io/crates/v/carbon-crew-decoder?logo=rust&label=crew" />
   </a>
@@ -60,56 +57,66 @@ This project generates and maintains Rust decoders for Star Atlas programs on So
 ### Supported Decoders
 
 - **sage-starbased**: SAGE Starbase program (`SAGE2HAwep459SNq61LHvjxPk4pLPEJLoMETef7f7EE`)
-  - Fleet and starbase management for Star Atlas
-  - Custom patches for remaining data deserialization
+  - Fetches IDL directly from Solana mainnet
+  - Custom deserialization for Fleet and StarbasePlayer accounts
 
 - **sage-holosim**: SAGE Holosim program (`SAgEeT8u14TE69JXtanGSgNkEdoPUcLabeyZD2uw8x9`)
-  - Fleet and starbase management for Star Atlas (uses local IDL)
-  - Custom patches for remaining data deserialization
+  - Uses local IDL file from `./idl/` directory
+  - Custom deserialization for Fleet and StarbasePlayer accounts
 
 - **atlas-staking**: Atlas Staking program (`ATLocKpzDbTokxgvnLew3d7drZkEzLzDpzwgrgWKDbmc`)
+  - Fetches IDL directly from Solana mainnet
   - ATLAS token staking with configurable rewards and cooldown periods
-  - Minimal patches for serialization support
+  - Minimal patches needed - adds serialization support for account types
 
 - **locked-voter**: Locked Voter program (`Lock7kBijGCQLEFAmXcengzXKA88iDNQPriQ7TbgeyG`)
+  - Fetches IDL directly from Solana mainnet
   - POLIS governance and voting with escrow and whitelist controls
-  - Minimal patches for serialization support
+  - Minimal patches needed - adds serialization support for account types
 
 - **marketplace**: Galactic Marketplace program (`traderDnaR5w6Tcoi3NFm53i48FTDNbGjBSZwWXDRrg`)
+  - Fetches IDL directly from Solana mainnet
   - NFT marketplace with order books, currency management, and royalty tiers
-  - Minimal patches for serialization support
+  - Minimal patches needed - adds serialization support for account types
 
 - **atlas-fee-payer**: ATLAS Fee Payer program (`APR1MEny25pKupwn72oVqMH4qpDouArsX8zX4VwwfoXD`)
+  - Fetches IDL directly from Solana mainnet
   - Fee payment management for Star Atlas transactions
-  - Minimal patches for serialization support
-
-- **cargo**: Cargo program (`Cargo2VNTPPTi9c1vq1Jw5d3BWUNr18MjRtSupAghKEk`)
-  - Resource container management with dynamic stat tracking
-  - Custom patches for remaining data deserialization
+  - Minimal patches needed - adds serialization support for account types
 
 - **crew**: Crew Management program (`CREWiq8qbxvo4SKkAFpVnc6t7CRQC4tAAscsNAENXgrJ`)
+  - Fetches IDL directly from Solana mainnet
   - Crew management for Star Atlas ships and operations
-  - Minimal patches for serialization support
+  - Uses serde_big_array for large byte arrays
+  - Minimal patches needed - adds serialization support for account types
 
 - **profile-vault**: Profile Vault program (`pv1ttom8tbyh83C1AVh6QH2naGRdVQUVt3HY1Yst5sv`)
+  - Fetches IDL directly from Solana mainnet
   - Profile vault management for Star Atlas player profiles
-  - Minimal patches for serialization support
+  - Minimal patches needed - adds serialization support for account types
 
 - **srsly**: Fleet Rentals (SRSLY) program (`SRSLY1fq9TJqCk1gNSE7VZL2bztvTn9wm4VR8u8jMKT`)
+  - Fetches IDL directly from Solana mainnet
   - Fleet rental contracts and automated payment processing
-  - Custom patches for numeric field handling
+  - Custom patches - adds serialization support and f64 rate field workaround
 
 - **tcomp**: Tensor cNFT Compressed program (`TCMPhJdwDryooaGtiocG1u3xcYbRpiJzb283XfCZsDp`)
+  - Fetches IDL directly from Solana mainnet
   - Compressed NFT marketplace for trading cNFTs
-  - Minimal patches for serialization support
+  - Uses serde_big_array for large byte arrays
+  - Minimal patches needed - adds serialization support for account types
 
 - **player-profile**: Player Profile program (`pprofELXjL5Kck7Jn5hCpwAL82DpTkSYBENzahVtbc9`)
+  - Fetches IDL directly from Solana mainnet
   - Player identity and role-based access control for Star Atlas
-  - Custom patches for remaining data deserialization
+  - Custom patches - adds serialization and ergonomic permission bitflags with helper methods
+  - Includes permission checking, key expiration validation, and role management
 
 - **profile-faction**: Profile Faction program (`pFACSRuobDmvfMKq1bAzwj27t6d2GJhSCHb1VcfnRmq`)
+  - Fetches IDL directly from Solana mainnet
   - Player faction affiliation management for Star Atlas universe
-  - Custom patches for type-safe faction handling
+  - Custom patches - adds serialization and type-safe Faction enum
+  - Supports Unaligned, MUD, ONI, and Ustur factions
 
 ## Prerequisites
 
@@ -135,18 +142,46 @@ Run `./scripts/check-tools.sh` to verify all required tools are installed:
 ```
 star-atlas-decoders/
 ├── carbon-decoders/         # Published decoder crates
+│   ├── sage-starbased-decoder/
+│   ├── sage-holosim-decoder/
+│   ├── atlas-staking-decoder/
+│   ├── locked-voter-decoder/
+│   ├── marketplace-decoder/
+│   ├── atlas-fee-payer-decoder/
+│   ├── crew-decoder/
+│   ├── profile-vault-decoder/
+│   ├── srsly-decoder/
+│   ├── tcomp-decoder/
+│   ├── player-profile-decoder/
+│   └── profile-faction-decoder/
 ├── dist/                    # Temporary build directory (gitignored)
 ├── patches/                 # Custom patches for decoders
+│   ├── sage-starbased-01-accounts.patch
+│   ├── sage-holosim-01-disable-ix-combat-log-event.patch
+│   ├── atlas-staking-01-accounts-serialize.patch
+│   ├── locked-voter-01-accounts-serialize.patch
+│   ├── marketplace-01-accounts-serialize.patch
+│   ├── atlas-fee-payer-01-accounts-serialize.patch
+│   ├── crew-01-accounts-serialize.patch
+│   ├── profile-vault-01-accounts-serialize.patch
+│   ├── srsly-01-accounts-serialize.patch
+│   ├── srsly-02-rate-f64-workaround.patch
+│   ├── tcomp-01-accounts-serialize.patch
+│   ├── player-profile-01-accounts-serialize.patch
+│   ├── player-profile-02-permissions-helpers.patch
+│   ├── player-profile-03-remaining-data.patch
+│   └── player-profile-04-instruction-remaining-accounts.patch
+│   ├── profile-faction-01-accounts-serialize.patch
+│   └── profile-faction-02-use-faction-enum.patch
 ├── idl/                     # Local IDL files
 ├── scripts/                 # CI and utility scripts
-│   ├── ci-clean.sh          # Full CI pipeline
-│   ├── ci.sh                # GitHub CI pipeline
-│   └── check-tools.sh       # Tool verification
+│   ├── ci.sh               # Full CI pipeline
+│   └── check-tools.sh      # Tool verification
 ├── docs/                    # Documentation
-│   ├── adding-new-decoder.md
 │   ├── patch-development-workflow.md
-│   └── readmes/             # Individual decoder READMEs
-└── justfile                 # Build automation
+│   └── readmes/            # Individual decoder READMEs
+└── justfile                # Build automation
+
 ```
 
 ## Development Workflow
@@ -234,17 +269,13 @@ just list-patches
 
 The decoders include custom deserialization for accounts with:
 
-- **Variable-length "remaining data" fields**: e.g., Fleet's `fleet_state`, CargoType's `cargo_stats`, CargoPod's `cargo_contents`
-- **Dynamic arrays not in IDL**: e.g., StarbasePlayer's `ship_escrows`, Profile's `profile_keys`
+- **Variable-length "remaining data" fields**: e.g., Fleet's `fleet_state`
+- **Dynamic arrays not in IDL**: e.g., StarbasePlayer's `ship_escrows`
 - **Complex nested structures**: Custom BorshDeserialize implementations
 
 Example accounts with custom deserialization:
 - `Fleet`: Includes `fleet_state` enum for current fleet activity
 - `StarbasePlayer`: Includes dynamic `ship_escrows` list
-- `CargoType`: Includes `cargo_stats` array (length = `stats_count`)
-- `CargoPod`: Includes `cargo_contents` array of u64 values
-
-> For detailed patch implementations, see the `patches/` directory and individual decoder READMEs in `docs/readmes/`.
 
 ## Technical Details
 
