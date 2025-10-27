@@ -5,10 +5,11 @@
 # ============================================================================
 
 # List of all decoders (space-separated)
-ALL_DECODERS := "sage-starbased sage-holosim atlas-staking locked-voter marketplace atlas-fee-payer crew profile-vault srsly tcomp player-profile profile-faction"
+ALL_DECODERS := "sage-starbased sage-holosim atlas-staking locked-voter marketplace atlas-fee-payer cargo crew profile-vault srsly tcomp player-profile profile-faction"
 
 # Program IDs
 ATLAS_FEE_PAYER_PROGRAM_ID := "APR1MEny25pKupwn72oVqMH4qpDouArsX8zX4VwwfoXD"
+CARGO_PROGRAM_ID := "Cargo2VNTPPTi9c1vq1Jw5d3BWUNr18MjRtSupAghKEk"
 CREW_PROGRAM_ID := "CREWiq8qbxvo4SKkAFpVnc6t7CRQC4tAAscsNAENXgrJ"
 PLAYER_PROFILE_PROGRAM_ID := "pprofELXjL5Kck7Jn5hCpwAL82DpTkSYBENzahVtbc9"
 PROFILE_FACTION_PROGRAM_ID := "pFACSRuobDmvfMKq1bAzwj27t6d2GJhSCHb1VcfnRmq"
@@ -23,6 +24,7 @@ MARKETPLACE_PROGRAM_ID := "traderDnaR5w6Tcoi3NFm53i48FTDNbGjBSZwWXDRrg"
 
 # Descriptions
 ATLAS_FEE_PAYER_DESC := "Rust decoder for Star Atlas ATLAS fee payer program on Solana"
+CARGO_DESC := "Rust decoder for Star Atlas Cargo program on Solana"
 CREW_DESC := "Rust decoder for Star Atlas Crew management program on Solana"
 PLAYER_PROFILE_DESC := "Rust decoder for Star Atlas Player Profile program on Solana"
 PROFILE_FACTION_DESC := "Rust decoder for Star Atlas Profile Faction program on Solana"
@@ -37,6 +39,7 @@ MARKETPLACE_DESC := "Rust decoder for Star Atlas Galactic Marketplace program on
 
 # IDL Sources: "mainnet" or "local"
 ATLAS_FEE_PAYER_SOURCE := "mainnet"
+CARGO_SOURCE := "mainnet"
 CREW_SOURCE := "mainnet"
 PLAYER_PROFILE_SOURCE := "mainnet"
 PROFILE_FACTION_SOURCE := "mainnet"
@@ -56,6 +59,7 @@ ATLAS_STAKING_GENERATED_NAME := "atlas-staking-decoder"
 LOCKED_VOTER_GENERATED_NAME := "locked-voter-decoder"
 MARKETPLACE_GENERATED_NAME := "marketplace-decoder"
 ATLAS_FEE_PAYER_GENERATED_NAME := "atlas-fee-payer-decoder"
+CARGO_GENERATED_NAME := "cargo-decoder"
 CREW_GENERATED_NAME := "crew-decoder"
 PLAYER_PROFILE_GENERATED_NAME := "player-profile-decoder"
 PROFILE_FACTION_GENERATED_NAME := "profile-faction-decoder"
@@ -93,6 +97,7 @@ _get-program-id decoder_name:
         locked-voter) echo "{{LOCKED_VOTER_PROGRAM_ID}}" ;;
         marketplace) echo "{{MARKETPLACE_PROGRAM_ID}}" ;;
         atlas-fee-payer) echo "{{ATLAS_FEE_PAYER_PROGRAM_ID}}" ;;
+        cargo) echo "{{CARGO_PROGRAM_ID}}" ;;
         crew) echo "{{CREW_PROGRAM_ID}}" ;;
         player-profile) echo "{{PLAYER_PROFILE_PROGRAM_ID}}" ;;
         profile-faction) echo "{{PROFILE_FACTION_PROGRAM_ID}}" ;;
@@ -112,6 +117,7 @@ _get-description decoder_name:
         locked-voter) echo "{{LOCKED_VOTER_DESC}}" ;;
         marketplace) echo "{{MARKETPLACE_DESC}}" ;;
         atlas-fee-payer) echo "{{ATLAS_FEE_PAYER_DESC}}" ;;
+        cargo) echo "{{CARGO_DESC}}" ;;
         crew) echo "{{CREW_DESC}}" ;;
         player-profile) echo "{{PLAYER_PROFILE_DESC}}" ;;
         profile-faction) echo "{{PROFILE_FACTION_DESC}}" ;;
@@ -131,6 +137,7 @@ _get-source decoder_name:
         locked-voter) echo "{{LOCKED_VOTER_SOURCE}}" ;;
         marketplace) echo "{{MARKETPLACE_SOURCE}}" ;;
         atlas-fee-payer) echo "{{ATLAS_FEE_PAYER_SOURCE}}" ;;
+        cargo) echo "{{CARGO_SOURCE}}" ;;
         crew) echo "{{CREW_SOURCE}}" ;;
         player-profile) echo "{{PLAYER_PROFILE_SOURCE}}" ;;
         profile-faction) echo "{{PROFILE_FACTION_SOURCE}}" ;;
@@ -150,6 +157,7 @@ _get-generated-name decoder_name:
         locked-voter) echo "{{LOCKED_VOTER_GENERATED_NAME}}" ;;
         marketplace) echo "{{MARKETPLACE_GENERATED_NAME}}" ;;
         atlas-fee-payer) echo "{{ATLAS_FEE_PAYER_GENERATED_NAME}}" ;;
+        cargo) echo "{{CARGO_GENERATED_NAME}}" ;;
         crew) echo "{{CREW_GENERATED_NAME}}" ;;
         player-profile) echo "{{PLAYER_PROFILE_GENERATED_NAME}}" ;;
         profile-faction) echo "{{PROFILE_FACTION_GENERATED_NAME}}" ;;
@@ -443,6 +451,15 @@ apply-patches-atlas-fee-payer: (apply-patches "atlas-fee-payer")
 create-patch-atlas-fee-payer patch_name: (create-patch "atlas-fee-payer" patch_name)
 publish-atlas-fee-payer: (publish "atlas-fee-payer")
 all-atlas-fee-payer: (all "atlas-fee-payer")
+
+# Cargo
+generate-cargo: (generate "cargo")
+build-cargo: (build "cargo")
+clean-cargo: (clean "cargo")
+apply-patches-cargo: (apply-patches "cargo")
+create-patch-cargo patch_name: (create-patch "cargo" patch_name)
+publish-cargo: (publish "cargo")
+all-cargo: (all "cargo")
 
 # Crew
 generate-crew: (generate "crew")

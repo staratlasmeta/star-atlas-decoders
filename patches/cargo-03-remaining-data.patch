@@ -1,0 +1,188 @@
+diff --git a/src/accounts/cargo_pod.rs b/src/accounts/cargo_pod.rs
+index cab42f3..05b3edd 100644
+--- a/src/accounts/cargo_pod.rs
++++ b/src/accounts/cargo_pod.rs
+@@ -1,9 +1,6 @@
+-use carbon_core::{CarbonDeserialize, borsh};
++use carbon_core::borsh::{self, BorshDeserialize};
+ 
+-#[derive(
+-    CarbonDeserialize, Debug, serde::Deserialize, serde::Serialize, PartialEq, Eq, Clone, Hash,
+-)]
+-#[carbon(discriminator = "0xa52176ebfcbcf45d")]
++#[derive(Debug, serde::Serialize, serde::Deserialize)]
+ pub struct CargoPod {
+     pub version: u8,
+     pub stats_definition: solana_pubkey::Pubkey,
+@@ -13,4 +10,78 @@ pub struct CargoPod {
+     pub pod_bump: u8,
+     pub seq_id: u16,
+     pub unupdated_token_accounts: u8,
++    pub cargo_contents: Vec<u64>,
++}
++
++impl borsh::de::BorshDeserialize for CargoPod
++where
++    u8: borsh::BorshDeserialize,
++    solana_pubkey::Pubkey: borsh::BorshDeserialize,
++    u16: borsh::BorshDeserialize,
++{
++    fn deserialize_reader<R: borsh::maybestd::io::Read>(
++        reader: &mut R,
++    ) -> Result<Self, borsh::maybestd::io::Error> {
++        Ok(Self {
++            version: borsh::BorshDeserialize::deserialize_reader(reader)?,
++            stats_definition: borsh::BorshDeserialize::deserialize_reader(reader)?,
++            authority: borsh::BorshDeserialize::deserialize_reader(reader)?,
++            open_token_accounts: borsh::BorshDeserialize::deserialize_reader(reader)?,
++            pod_seeds: borsh::BorshDeserialize::deserialize_reader(reader)?,
++            pod_bump: borsh::BorshDeserialize::deserialize_reader(reader)?,
++            seq_id: borsh::BorshDeserialize::deserialize_reader(reader)?,
++            unupdated_token_accounts: borsh::BorshDeserialize::deserialize_reader(reader)?,
++            cargo_contents: Vec::new(),
++        })
++    }
++}
++
++#[automatically_derived]
++impl carbon_core::deserialize::CarbonDeserialize for CargoPod {
++    const DISCRIMINATOR: &'static [u8] = &[165u8, 33u8, 118u8, 235u8, 252u8, 188u8, 244u8, 93u8];
++    fn deserialize(data: &[u8]) -> Option<Self> {
++        if data.len() < Self::DISCRIMINATOR.len() {
++            return None;
++        }
++
++        let (disc, mut rest) = data.split_at(Self::DISCRIMINATOR.len());
++
++        if disc != Self::DISCRIMINATOR {
++            return None;
++        }
++
++        // CargoPod has RemainingData = List<PackedValue<u64>>
++        // Contains the contents of the cargo pod as a list of u64 (no length prefix in account)
++        // Byte layout: version(1) + stats_definition(32) + authority(32) + open_token_accounts(1) + pod_seeds(32) + pod_bump(1) + seq_id(2) + unupdated_token_accounts(1) = 102 bytes
++        // All remaining bytes after fixed fields are u64 cargo values
++
++        let cargo_pod: CargoPod = match BorshDeserialize::deserialize(&mut rest) {
++            Ok(res) => res,
++            Err(_) => return None,
++        };
++
++        // Read all remaining bytes as u64 values (each u64 is 8 bytes)
++        let num_u64_values = rest.len() / 8;
++        let mut cargo_contents = Vec::with_capacity(num_u64_values);
++
++        for _ in 0..num_u64_values {
++            match BorshDeserialize::deserialize(&mut rest) {
++                Ok(value) => cargo_contents.push(value),
++                Err(_) => return None,
++            }
++        }
++
++        let mut final_cargo_pod = cargo_pod;
++        final_cargo_pod.cargo_contents = cargo_contents;
++
++        if !rest.is_empty() {
++            carbon_core::log::debug!(
++                "Not all bytes were read when deserializing {}: {} bytes remaining",
++                stringify!(CargoPod),
++                rest.len(),
++            );
++        }
++
++        Some(final_cargo_pod)
++    }
+ }
+diff --git a/src/accounts/cargo_type.rs b/src/accounts/cargo_type.rs
+index 9427dc8..3550d24 100644
+--- a/src/accounts/cargo_type.rs
++++ b/src/accounts/cargo_type.rs
+@@ -1,9 +1,6 @@
+-use carbon_core::{CarbonDeserialize, borsh};
++use carbon_core::borsh::{self, BorshDeserialize};
+ 
+-#[derive(
+-    CarbonDeserialize, Debug, serde::Deserialize, serde::Serialize, PartialEq, Eq, Clone, Hash,
+-)]
+-#[carbon(discriminator = "0x9866bce6c80ea4e0")]
++#[derive(Debug, serde::Serialize, serde::Deserialize)]
+ pub struct CargoType {
+     pub version: u8,
+     pub stats_definition: solana_pubkey::Pubkey,
+@@ -12,4 +9,76 @@ pub struct CargoType {
+     pub bump: u8,
+     pub stats_count: u16,
+     pub seq_id: u16,
++    pub cargo_stats: Vec<u64>,
++}
++
++impl borsh::de::BorshDeserialize for CargoType
++where
++    u8: borsh::BorshDeserialize,
++    solana_pubkey::Pubkey: borsh::BorshDeserialize,
++    u16: borsh::BorshDeserialize,
++{
++    fn deserialize_reader<R: borsh::maybestd::io::Read>(
++        reader: &mut R,
++    ) -> Result<Self, borsh::maybestd::io::Error> {
++        Ok(Self {
++            version: borsh::BorshDeserialize::deserialize_reader(reader)?,
++            stats_definition: borsh::BorshDeserialize::deserialize_reader(reader)?,
++            mint: borsh::BorshDeserialize::deserialize_reader(reader)?,
++            creator: borsh::BorshDeserialize::deserialize_reader(reader)?,
++            bump: borsh::BorshDeserialize::deserialize_reader(reader)?,
++            stats_count: borsh::BorshDeserialize::deserialize_reader(reader)?,
++            seq_id: borsh::BorshDeserialize::deserialize_reader(reader)?,
++            cargo_stats: Vec::new(),
++        })
++    }
++}
++
++#[automatically_derived]
++impl carbon_core::deserialize::CarbonDeserialize for CargoType {
++    const DISCRIMINATOR: &'static [u8] = &[152u8, 102u8, 188u8, 230u8, 200u8, 14u8, 164u8, 224u8];
++    fn deserialize(data: &[u8]) -> Option<Self> {
++        if data.len() < Self::DISCRIMINATOR.len() {
++            return None;
++        }
++
++        let (disc, mut rest) = data.split_at(Self::DISCRIMINATOR.len());
++
++        if disc != Self::DISCRIMINATOR {
++            return None;
++        }
++
++        // CargoType has RemainingData = List<PackedValue<u64>>
++        // The stats_count field (u16) indicates how many u64 values follow in remaining data
++        // Byte layout: version(1) + stats_definition(32) + mint(32) + creator(32) + bump(1) + stats_count(2) + seq_id(2) = 102 bytes
++        // After fixed fields: stats_count u64 values (8 bytes each)
++
++        let cargo_type: CargoType = match BorshDeserialize::deserialize(&mut rest) {
++            Ok(res) => res,
++            Err(_) => return None,
++        };
++
++        let stats_count = cargo_type.stats_count as usize;
++        let mut cargo_stats = Vec::with_capacity(stats_count);
++
++        for _ in 0..stats_count {
++            match BorshDeserialize::deserialize(&mut rest) {
++                Ok(stat) => cargo_stats.push(stat),
++                Err(_) => return None,
++            }
++        }
++
++        let mut final_cargo_type = cargo_type;
++        final_cargo_type.cargo_stats = cargo_stats;
++
++        if !rest.is_empty() {
++            carbon_core::log::debug!(
++                "Not all bytes were read when deserializing {}: {} bytes remaining",
++                stringify!(CargoType),
++                rest.len(),
++            );
++        }
++
++        Some(final_cargo_type)
++    }
+ }
