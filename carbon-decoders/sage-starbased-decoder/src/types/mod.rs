@@ -58,6 +58,8 @@ pub mod init_game_state_input;
 pub use init_game_state_input::*;
 pub mod key_index_input;
 pub use key_index_input::*;
+pub mod loading_bay_to_respawn_input;
+pub use loading_bay_to_respawn_input::*;
 pub mod location_type;
 pub use location_type::*;
 pub mod manage_game_input;

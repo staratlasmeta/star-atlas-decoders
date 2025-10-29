@@ -50,6 +50,7 @@ pub mod invalidate_rental;
 pub mod invalidate_ship;
 pub mod load_fleet_crew;
 pub mod loading_bay_to_idle;
+pub mod loading_bay_to_respawn;
 pub mod mine_asteroid_to_respawn;
 pub mod mint_certificate;
 pub mod mint_crew_to_game;
@@ -176,6 +177,7 @@ pub enum SageInstruction {
     InvalidateShip(invalidate_ship::InvalidateShip),
     LoadFleetCrew(load_fleet_crew::LoadFleetCrew),
     LoadingBayToIdle(loading_bay_to_idle::LoadingBayToIdle),
+    LoadingBayToRespawn(loading_bay_to_respawn::LoadingBayToRespawn),
     MineAsteroidToRespawn(mine_asteroid_to_respawn::MineAsteroidToRespawn),
     MintCertificate(mint_certificate::MintCertificate),
     MintCrewToGame(mint_crew_to_game::MintCrewToGame),
@@ -294,6 +296,7 @@ impl<'a> carbon_core::instruction::InstructionDecoder<'a> for SageDecoder {
             SageInstruction::InvalidateShip => invalidate_ship::InvalidateShip,
             SageInstruction::LoadFleetCrew => load_fleet_crew::LoadFleetCrew,
             SageInstruction::LoadingBayToIdle => loading_bay_to_idle::LoadingBayToIdle,
+            SageInstruction::LoadingBayToRespawn => loading_bay_to_respawn::LoadingBayToRespawn,
             SageInstruction::MineAsteroidToRespawn => mine_asteroid_to_respawn::MineAsteroidToRespawn,
             SageInstruction::MintCertificate => mint_certificate::MintCertificate,
             SageInstruction::MintCrewToGame => mint_crew_to_game::MintCrewToGame,

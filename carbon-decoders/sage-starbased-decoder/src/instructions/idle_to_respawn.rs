@@ -12,7 +12,14 @@ pub struct IdleToRespawn {
 
 #[derive(Debug, PartialEq, Eq, Clone, Hash, serde::Serialize, serde::Deserialize)]
 pub struct IdleToRespawnInstructionAccounts {
-    pub game_accounts_fleet_and_owner: solana_pubkey::Pubkey,
+    // GameAndGameStateAndFleetAndOwnerMut expansion
+    pub key: solana_pubkey::Pubkey,
+    pub owning_profile: solana_pubkey::Pubkey,
+    pub owning_profile_faction: solana_pubkey::Pubkey,
+    pub fleet: solana_pubkey::Pubkey,
+    pub game_id: solana_pubkey::Pubkey,
+    pub game_state: solana_pubkey::Pubkey,
+    // Direct accounts
     pub atlas_token_from: solana_pubkey::Pubkey,
     pub atlas_token_to: solana_pubkey::Pubkey,
     pub token_program: solana_pubkey::Pubkey,
@@ -25,13 +32,25 @@ impl carbon_core::deserialize::ArrangeAccounts for IdleToRespawn {
         accounts: &[solana_instruction::AccountMeta],
     ) -> Option<Self::ArrangedAccounts> {
         let mut iter = accounts.iter();
-        let game_accounts_fleet_and_owner = next_account(&mut iter)?;
+        // GameAndGameStateAndFleetAndOwnerMut expansion
+        let key = next_account(&mut iter)?;
+        let owning_profile = next_account(&mut iter)?;
+        let owning_profile_faction = next_account(&mut iter)?;
+        let fleet = next_account(&mut iter)?;
+        let game_id = next_account(&mut iter)?;
+        let game_state = next_account(&mut iter)?;
+        // Direct accounts
         let atlas_token_from = next_account(&mut iter)?;
         let atlas_token_to = next_account(&mut iter)?;
         let token_program = next_account(&mut iter)?;
 
         Some(IdleToRespawnInstructionAccounts {
-            game_accounts_fleet_and_owner,
+            key,
+            owning_profile,
+            owning_profile_faction,
+            fleet,
+            game_id,
+            game_state,
             atlas_token_from,
             atlas_token_to,
             token_program,
