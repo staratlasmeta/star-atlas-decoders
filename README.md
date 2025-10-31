@@ -126,7 +126,7 @@ This project generates and maintains Rust decoders for Star Atlas programs on So
 
 - **points-store**: Points Store program (`PsToRxhEPScGt1Bxpm7zNDRzaMk31t8Aox7fyewoVse`)
   - Token purchases and redemptions using points
-  - Minimal patches for serialization support
+  - Custom patches for remaining data deserialization (redemption config epochs)
 
 - **profile-faction**: Profile Faction program (`pFACSRuobDmvfMKq1bAzwj27t6d2GJhSCHb1VcfnRmq`)
   - Player faction affiliation management for Star Atlas universe
