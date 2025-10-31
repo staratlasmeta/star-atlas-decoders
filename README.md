@@ -119,7 +119,7 @@ This project generates and maintains Rust decoders for Star Atlas programs on So
 
 - **points**: Points program (`Point2iBvz7j5TMVef8nEgpmz4pDr7tU7v3RjAfkQbM`)
   - Player progression with points, levels, and token-gated unlocks
-  - Minimal patches for serialization support
+  - Custom patches for remaining data deserialization (point category levels)
 
 - **profile-faction**: Profile Faction program (`pFACSRuobDmvfMKq1bAzwj27t6d2GJhSCHb1VcfnRmq`)
   - Player faction affiliation management for Star Atlas universe

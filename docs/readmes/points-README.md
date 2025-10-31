@@ -59,6 +59,16 @@ if let Some(decoded) = decoded_account {
                 println!("Token Mint: {}", category.token_mint);
                 println!("Token Qty: {}", category.token_qty);
             }
+
+            // Access the levels array (deserialized from remaining data)
+            println!("Number of levels: {}", category.levels.len());
+            for level in &category.levels {
+                println!("  Level {}: {} points required", level.level, level.points);
+                if level.token_qty > 0 {
+                    println!("    Requires {} tokens (vault: {})",
+                             level.token_qty, level.token_vault);
+                }
+            }
         }
         PointsAccount::UserPointsAccount(user_points) => {
             println!("User Points Account: {:?}", user_points);
@@ -144,7 +154,7 @@ This decoder supports all Points account types:
 
 - **`PointCategory`** - Defines a category of points with levels, limits, and token requirements
   - Contains point limits, spendability settings, and token-gating configuration
-  - Supports dynamic levels array (stored as RemainingData in the on-chain account)
+  - Includes fully deserialized `levels` array from remaining data (each level specifies points threshold and token requirements)
   - Can require tokens for point earning or level upgrades
 
 - **`UserPointsAccount`** - Tracks a user's points and level for a specific category
