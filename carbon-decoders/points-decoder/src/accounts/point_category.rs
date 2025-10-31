@@ -1,0 +1,98 @@
+use crate::types::PointsLevel;
+use carbon_core::borsh::{self, BorshDeserialize};
+
+#[derive(Debug, serde::Serialize, serde::Deserialize)]
+pub struct PointCategory {
+    pub version: u8,
+    pub profile: solana_pubkey::Pubkey,
+    pub token_required: u8,
+    pub token_mint: solana_pubkey::Pubkey,
+    pub token_qty: u64,
+    pub transfer_tokens_to_vault: u8,
+    pub token_vault: solana_pubkey::Pubkey,
+    pub point_limit: u64,
+    pub is_spendable: u8,
+    pub post_levels_upgrade_threshold: u64,
+    pub levels: Vec<PointsLevel>,
+}
+
+impl borsh::de::BorshDeserialize for PointCategory
+where
+    u8: borsh::BorshDeserialize,
+    solana_pubkey::Pubkey: borsh::BorshDeserialize,
+    u64: borsh::BorshDeserialize,
+{
+    fn deserialize_reader<R: borsh::maybestd::io::Read>(
+        reader: &mut R,
+    ) -> Result<Self, borsh::maybestd::io::Error> {
+        Ok(Self {
+            version: borsh::BorshDeserialize::deserialize_reader(reader)?,
+            profile: borsh::BorshDeserialize::deserialize_reader(reader)?,
+            token_required: borsh::BorshDeserialize::deserialize_reader(reader)?,
+            token_mint: borsh::BorshDeserialize::deserialize_reader(reader)?,
+            token_qty: borsh::BorshDeserialize::deserialize_reader(reader)?,
+            transfer_tokens_to_vault: borsh::BorshDeserialize::deserialize_reader(reader)?,
+            token_vault: borsh::BorshDeserialize::deserialize_reader(reader)?,
+            point_limit: borsh::BorshDeserialize::deserialize_reader(reader)?,
+            is_spendable: borsh::BorshDeserialize::deserialize_reader(reader)?,
+            post_levels_upgrade_threshold: borsh::BorshDeserialize::deserialize_reader(reader)?,
+            levels: Vec::new(),
+        })
+    }
+}
+
+#[automatically_derived]
+impl carbon_core::deserialize::CarbonDeserialize for PointCategory {
+    const DISCRIMINATOR: &'static [u8] = &[248u8, 7u8, 84u8, 202u8, 50u8, 104u8, 143u8, 34u8];
+    fn deserialize(data: &[u8]) -> Option<Self> {
+        if data.len() < Self::DISCRIMINATOR.len() {
+            return None;
+        }
+
+        let (disc, mut rest) = data.split_at(Self::DISCRIMINATOR.len());
+
+        if disc != Self::DISCRIMINATOR {
+            return None;
+        }
+
+        // PointCategory has RemainingData = UnorderedList<PointsLevel, u32>
+        // Contains a u32 length prefix followed by that many PointsLevel structs
+        // Byte layout: version(1) + profile(32) + token_required(1) + token_mint(32) + token_qty(8) +
+        //              transfer_tokens_to_vault(1) + token_vault(32) + point_limit(8) + is_spendable(1) +
+        //              post_levels_upgrade_threshold(8) = 124 bytes
+        // After fixed fields: u32 length + (length * PointsLevel)
+
+        let point_category: PointCategory = match BorshDeserialize::deserialize(&mut rest) {
+            Ok(res) => res,
+            Err(_) => return None,
+        };
+
+        // Read u32 length prefix
+        let levels_count: u32 = match BorshDeserialize::deserialize(&mut rest) {
+            Ok(count) => count,
+            Err(_) => return None,
+        };
+
+        let mut levels = Vec::with_capacity(levels_count as usize);
+
+        for _ in 0..levels_count {
+            match BorshDeserialize::deserialize(&mut rest) {
+                Ok(level) => levels.push(level),
+                Err(_) => return None,
+            }
+        }
+
+        let mut final_point_category = point_category;
+        final_point_category.levels = levels;
+
+        if !rest.is_empty() {
+            carbon_core::log::debug!(
+                "Not all bytes were read when deserializing {}: {} bytes remaining",
+                stringify!(PointCategory),
+                rest.len(),
+            );
+        }
+
+        Some(final_point_category)
+    }
+}
