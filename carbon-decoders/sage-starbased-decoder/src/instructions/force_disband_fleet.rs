@@ -12,6 +12,7 @@ pub struct ForceDisbandFleet {
 
 #[derive(Debug, PartialEq, Eq, Clone, Hash, serde::Serialize, serde::Deserialize)]
 pub struct ForceDisbandFleetInstructionAccounts {
+    // Direct accounts
     pub funder: solana_pubkey::Pubkey,
     pub disbanded_fleet: solana_pubkey::Pubkey,
     pub fleet: solana_pubkey::Pubkey,
@@ -19,9 +20,15 @@ pub struct ForceDisbandFleetInstructionAccounts {
     pub cargo_hold: solana_pubkey::Pubkey,
     pub fuel_tank: solana_pubkey::Pubkey,
     pub ammo_bank: solana_pubkey::Pubkey,
-    pub starbase_and_starbase_player: solana_pubkey::Pubkey,
+    // StarbaseMutAndStarbasePlayer expansion
+    pub starbase: solana_pubkey::Pubkey,
+    pub starbase_player: solana_pubkey::Pubkey,
+    // Direct accounts
     pub ship: solana_pubkey::Pubkey,
-    pub game_accounts: solana_pubkey::Pubkey,
+    // GameAndGameState expansion
+    pub game_id: solana_pubkey::Pubkey,
+    pub game_state: solana_pubkey::Pubkey,
+    // Direct accounts
     pub cargo_program: solana_pubkey::Pubkey,
     pub system_program: solana_pubkey::Pubkey,
 }
@@ -33,6 +40,7 @@ impl carbon_core::deserialize::ArrangeAccounts for ForceDisbandFleet {
         accounts: &[solana_instruction::AccountMeta],
     ) -> Option<Self::ArrangedAccounts> {
         let mut iter = accounts.iter();
+        // Direct accounts
         let funder = next_account(&mut iter)?;
         let disbanded_fleet = next_account(&mut iter)?;
         let fleet = next_account(&mut iter)?;
@@ -40,9 +48,15 @@ impl carbon_core::deserialize::ArrangeAccounts for ForceDisbandFleet {
         let cargo_hold = next_account(&mut iter)?;
         let fuel_tank = next_account(&mut iter)?;
         let ammo_bank = next_account(&mut iter)?;
-        let starbase_and_starbase_player = next_account(&mut iter)?;
+        // StarbaseMutAndStarbasePlayer expansion
+        let starbase = next_account(&mut iter)?;
+        let starbase_player = next_account(&mut iter)?;
+        // Direct accounts
         let ship = next_account(&mut iter)?;
-        let game_accounts = next_account(&mut iter)?;
+        // GameAndGameState expansion
+        let game_id = next_account(&mut iter)?;
+        let game_state = next_account(&mut iter)?;
+        // Direct accounts
         let cargo_program = next_account(&mut iter)?;
         let system_program = next_account(&mut iter)?;
 
@@ -54,9 +68,11 @@ impl carbon_core::deserialize::ArrangeAccounts for ForceDisbandFleet {
             cargo_hold,
             fuel_tank,
             ammo_bank,
-            starbase_and_starbase_player,
+            starbase,
+            starbase_player,
             ship,
-            game_accounts,
+            game_id,
+            game_state,
             cargo_program,
             system_program,
         })

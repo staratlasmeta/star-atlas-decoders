@@ -11,4 +11,5 @@ pub struct CreateFleetInput {
     pub fuel_tank_seeds: [u8; 32],
     pub ammo_bank_seeds: [u8; 32],
     pub key_index: u16,
+    pub crew_amount: Option<u16>,
 }
