@@ -49,6 +49,9 @@
   <a href="https://crates.io/crates/carbon-player-profile-decoder">
     <img src="https://img.shields.io/crates/v/carbon-player-profile-decoder?logo=rust&label=player-profile" />
   </a>
+  <a href="https://crates.io/crates/carbon-points-decoder">
+    <img src="https://img.shields.io/crates/v/carbon-points-decoder?logo=rust&label=points" />
+  </a>
   <a href="https://crates.io/crates/carbon-profile-faction-decoder">
     <img src="https://img.shields.io/crates/v/carbon-profile-faction-decoder?logo=rust&label=profile-faction" />
   </a>
@@ -113,6 +116,10 @@ This project generates and maintains Rust decoders for Star Atlas programs on So
 - **player-profile**: Player Profile program (`pprofELXjL5Kck7Jn5hCpwAL82DpTkSYBENzahVtbc9`)
   - Player identity and role-based access control for Star Atlas
   - Custom patches for remaining data deserialization
+
+- **points**: Points program (`Point2iBvz7j5TMVef8nEgpmz4pDr7tU7v3RjAfkQbM`)
+  - Player progression with points, levels, and token-gated unlocks
+  - Custom patches for remaining data deserialization (point category levels)
 
 - **profile-faction**: Profile Faction program (`pFACSRuobDmvfMKq1bAzwj27t6d2GJhSCHb1VcfnRmq`)
   - Player faction affiliation management for Star Atlas universe
