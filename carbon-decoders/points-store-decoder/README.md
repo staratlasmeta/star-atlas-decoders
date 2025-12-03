@@ -63,6 +63,19 @@ if let Some(decoded) = decoded_account {
             println!("Faction: {}", config.faction);
             println!("Bank: {}", config.bank);
             println!("Allow Only Current Epoch: {}", config.allow_only_current_epoch != 0);
+
+            // Access the redemption_epochs array (deserialized from remaining data)
+            println!("Number of redemption epochs: {}", config.redemption_epochs.len());
+            for epoch in &config.redemption_epochs {
+                println!("  Day {}: {} total points, {} total tokens",
+                         epoch.day_index, epoch.total_points, epoch.total_tokens);
+                println!("    Redeemed: {} points, {} tokens",
+                         epoch.redeemed_points, epoch.redeemed_tokens);
+                if epoch.total_points > 0 {
+                    let tokens_remaining = epoch.total_tokens - epoch.redeemed_tokens;
+                    println!("    Tokens remaining: {}", tokens_remaining);
+                }
+            }
         }
         PointsStoreAccount::UserRedemption(redemption) => {
             println!("User Redemption: {:?}", redemption);
@@ -125,7 +138,7 @@ This decoder supports all Points Store account types:
   - Enables time-locked redemption pools where users contribute points
   - Tokens are distributed proportionally based on each user's contribution
   - Faction-specific configurations allow different redemption rules per faction
-  - Supports dynamic redemption epochs (stored as RemainingData in on-chain account)
+  - Includes fully deserialized `redemption_epochs` array from remaining data (each epoch tracks total/redeemed points and tokens for a specific day)
   - Can restrict redemptions to only the current epoch
 
 - **`UserRedemption`** - Tracks a user's points contribution for a specific redemption epoch

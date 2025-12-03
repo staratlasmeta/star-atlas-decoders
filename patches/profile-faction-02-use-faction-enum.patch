@@ -1,20 +1,22 @@
 diff --git a/src/accounts/profile_faction_account.rs b/src/accounts/profile_faction_account.rs
-index 41aea74..1c3e01a 100644
+index ee793a1..3b432c3 100644
 --- a/src/accounts/profile_faction_account.rs
 +++ b/src/accounts/profile_faction_account.rs
-@@ -1,5 +1,7 @@
- use carbon_core::{CarbonDeserialize, borsh};
+@@ -4,6 +4,8 @@ use carbon_core::borsh;
+ use carbon_core::deserialize::CarbonDeserialize;
+ use solana_pubkey::Pubkey;
  
 +use crate::types::Faction;
 +
- #[derive(
-     CarbonDeserialize, Debug, serde::Deserialize, serde::Serialize, PartialEq, Eq, Clone, Hash,
- )]
-@@ -7,6 +9,6 @@ use carbon_core::{CarbonDeserialize, borsh};
- pub struct ProfileFactionAccount {
-     pub version: u8,
-     pub profile: solana_pubkey::Pubkey,
+ /// Stores a profile's enlisted faction on-chain.
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+@@ -14,7 +16,7 @@ pub struct ProfileFactionAccount {
+     /// The profile this faction enlistment is for.
+     pub profile: Pubkey,
+     /// The faction of the profile.
 -    pub faction: u8,
 +    pub faction: Faction,
+     /// The bump for this account.
      pub bump: u8,
  }

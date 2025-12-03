@@ -54,6 +54,11 @@ if let Some(decoded) = decoded_account {
             println!("Status: {:?}", recipe.status);
             println!("Consumables: {}", recipe.consumables_count);
             println!("Outputs: {}", recipe.outputs_count);
+            println!("Total items: {}", recipe.recipe_items.len());
+            // Access recipe inputs/outputs from remaining data
+            for (i, item) in recipe.recipe_items.iter().enumerate() {
+                println!("Item {}: amount={}, mint={}", i, item.amount, item.mint);
+            }
         }
         CraftingAccount::CraftingFacility(facility) => {
             println!("Crafting Facility: {:?}", facility);
@@ -61,6 +66,11 @@ if let Some(decoded) = decoded_account {
             println!("Location Type: {:?}", facility.location_type);
             println!("Efficiency: {}", facility.efficiency);
             println!("Max Concurrent Processes: {}", facility.max_concurrent_processes);
+            println!("Recipe categories: {}", facility.recipe_categories.len());
+            // Access recipe category pubkeys from remaining data
+            for (i, category) in facility.recipe_categories.iter().enumerate() {
+                println!("Category {}: {}", i, category);
+            }
         }
         CraftingAccount::CraftingProcess(process) => {
             println!("Crafting Process: {:?}", process);
@@ -114,8 +124,8 @@ match facility.location_type {
 ### Account Types
 
 This decoder supports all Crafting account types:
-- `Recipe` - Blueprint defining inputs, outputs, duration, and requirements for crafting
-- `CraftingFacility` - Physical location where crafting occurs with efficiency modifiers
+- `Recipe` - Blueprint defining inputs, outputs, duration, and requirements for crafting. Includes `recipe_items` (Vec<RecipeInputsOutputs>) containing all consumable/non-consumable inputs and outputs with amounts and mint addresses.
+- `CraftingFacility` - Physical location where crafting occurs with efficiency modifiers. Includes `recipe_categories` (Vec<Pubkey>) listing all recipe categories available at this facility.
 - `CraftingProcess` - Active crafting operation tracking progress and status
 - `CraftableItem` - Item that can be produced through crafting
 - `Domain` - Administrative domain controlling crafting permissions
