@@ -1,5 +1,5 @@
 [package]
-name = "carbon-sage-decoder"
+name = "carbon-sage-starbased-decoder"
 version = "0.1.0"
 edition = "2024"
 description = "Rust decoder for Star Atlas SAGE Starbased program on Solana"

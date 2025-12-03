@@ -33,7 +33,7 @@ Add this crate to your `Cargo.toml`:
 
 ```toml
 [dependencies]
-carbon-atlas-staking-decoder = "0.10.0"
+carbon-atlas-staking-decoder = "0.12.0"
 ```
 
 ### Decoding Accounts

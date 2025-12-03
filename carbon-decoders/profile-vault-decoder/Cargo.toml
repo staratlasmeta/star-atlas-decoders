@@ -1,6 +1,6 @@
 [package]
 name = "carbon-profile-vault-decoder"
-version = "0.1.0"
+version = "0.12.0"
 edition = "2024"
 description = "Rust decoder for Star Atlas Profile Vault program on Solana"
 license = "Apache-2.0"
