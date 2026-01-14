@@ -33,7 +33,7 @@ Add this crate to your `Cargo.toml`:
 
 ```toml
 [dependencies]
-carbon-marketplace-decoder = "0.10.0"
+carbon-marketplace-decoder = "0.12.0"
 ```
 
 ### Decoding Accounts
