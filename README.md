@@ -167,6 +167,8 @@ star-atlas-decoders/
 │   ├── adding-new-decoder.md
 │   ├── patch-development-workflow.md
 │   └── readmes/             # Individual decoder READMEs
+├── tools/                   # Development tools
+│   └── decoder-explorer/    # Test decoders against live accounts
 └── justfile                 # Build automation
 ```
 
@@ -273,6 +275,17 @@ Example accounts with custom deserialization:
 - **Carbon Version**: 0.10.0 (available on [crates.io](https://crates.io/crates/carbon-core))
 - **Solana SDK**: 2.x
 - **Platform**: macOS and Linux compatible
+
+## Tools
+
+### [Decoder Explorer](tools/decoder-explorer/README.md)
+
+CLI tool for testing and debugging Carbon decoders against live Solana accounts. Fetches all program accounts and analyzes decoder success rates, type distributions, and failure patterns.
+
+```bash
+cd tools/decoder-explorer
+RPC_URL="https://api.mainnet-beta.solana.com" cargo run --release --features cargo
+```
 
 ## Contributing
 

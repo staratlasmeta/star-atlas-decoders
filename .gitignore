@@ -3,5 +3,6 @@
 .idea
 .vscode
 /dist
-/target
+target
 CLAUDE.md
+.env

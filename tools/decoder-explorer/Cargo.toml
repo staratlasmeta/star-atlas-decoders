@@ -1,0 +1,71 @@
+[package]
+name = "decoder-explorer"
+version = "0.1.0"
+edition = "2024"
+
+[features]
+# No default - must explicitly specify decoder feature
+sage-starbased = ["dep:carbon-sage-starbased-decoder"]
+sage-holosim = ["dep:carbon-sage-holosim-decoder"]
+atlas-staking = ["dep:carbon-atlas-staking-decoder"]
+locked-voter = ["dep:carbon-locked-voter-decoder"]
+marketplace = ["dep:carbon-marketplace-decoder"]
+atlas-fee-payer = ["dep:carbon-atlas-fee-payer-decoder"]
+cargo = ["dep:carbon-cargo-decoder"]
+crafting = ["dep:carbon-crafting-decoder"]
+crew = ["dep:carbon-crew-decoder"]
+profile-vault = ["dep:carbon-profile-vault-decoder"]
+srsly = ["dep:carbon-srsly-decoder"]
+tcomp = ["dep:carbon-tcomp-decoder"]
+player-profile = ["dep:carbon-player-profile-decoder"]
+points = ["dep:carbon-points-decoder"]
+points-store = ["dep:carbon-points-store-decoder"]
+profile-faction = ["dep:carbon-profile-faction-decoder"]
+
+[dependencies]
+# Carbon decoders (optional, enabled by features)
+carbon-sage-starbased-decoder = { path = "../../carbon-decoders/sage-starbased-decoder", optional = true, features = ["serde"] }
+carbon-sage-holosim-decoder = { path = "../../carbon-decoders/sage-holosim-decoder", optional = true, features = ["serde"] }
+carbon-atlas-staking-decoder = { path = "../../carbon-decoders/atlas-staking-decoder", optional = true, features = ["serde"] }
+carbon-locked-voter-decoder = { path = "../../carbon-decoders/locked-voter-decoder", optional = true, features = ["serde"] }
+carbon-marketplace-decoder = { path = "../../carbon-decoders/marketplace-decoder", optional = true, features = ["serde"] }
+carbon-atlas-fee-payer-decoder = { path = "../../carbon-decoders/atlas-fee-payer-decoder", optional = true, features = ["serde"] }
+carbon-cargo-decoder = { path = "../../carbon-decoders/cargo-decoder", optional = true, features = ["serde"] }
+carbon-crafting-decoder = { path = "../../carbon-decoders/crafting-decoder", optional = true, features = ["serde"] }
+carbon-crew-decoder = { path = "../../carbon-decoders/crew-decoder", optional = true, features = ["serde"] }
+carbon-profile-vault-decoder = { path = "../../carbon-decoders/profile-vault-decoder", optional = true, features = ["serde"] }
+carbon-srsly-decoder = { path = "../../carbon-decoders/srsly-decoder", optional = true, features = ["serde"] }
+carbon-tcomp-decoder = { path = "../../carbon-decoders/tcomp-decoder", optional = true, features = ["serde"] }
+carbon-player-profile-decoder = { path = "../../carbon-decoders/player-profile-decoder", optional = true, features = ["serde"] }
+carbon-points-decoder = { path = "../../carbon-decoders/points-decoder", optional = true, features = ["serde"] }
+carbon-points-store-decoder = { path = "../../carbon-decoders/points-store-decoder", optional = true, features = ["serde"] }
+carbon-profile-faction-decoder = { path = "../../carbon-decoders/profile-faction-decoder", optional = true, features = ["serde"] }
+
+# Carbon core
+carbon-core = "0.12"
+
+# Solana 3.x
+solana-account = "3.0"
+solana-pubkey = "3.0"
+solana-sdk = "3.0"
+solana-client = "3.0"
+solana-account-decoder = "3.0"
+solana-commitment-config = "3.0"
+
+# Async runtime
+tokio = { version = "1", features = ["full"] }
+
+# Serialization
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+
+# Configuration
+dotenvy = "0.15"
+envy = "0.4"
+
+# Error handling
+anyhow = "1"
+
+# Logging
+tracing = "0.1"
+tracing-subscriber = { version = "0.3", features = ["env-filter"] }
