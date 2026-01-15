@@ -9,8 +9,8 @@ use carbon_core::deserialize::CarbonDeserialize;
 #[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq)]
 pub struct RegisterSector {
     pub coordinates: [i64; 2],
-
-    pub name: Vec<u8>,
+    #[cfg_attr(feature = "serde", serde(with = "serde_big_array::BigArray"))]
+    pub name: [u8; 64],
     pub key_index: u16,
 }
 

@@ -6,8 +6,8 @@ use solana_pubkey::Pubkey;
 #[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq)]
 pub struct CombatParticipant {
     pub fleet_key: Pubkey,
-
-    pub fleet_label: Vec<u8>,
+    #[cfg_attr(feature = "serde", serde(with = "serde_big_array::BigArray"))]
+    pub fleet_label: [u8; 64],
     pub fleet_state: u8,
     pub owner_profile: Pubkey,
     pub player_key: Pubkey,

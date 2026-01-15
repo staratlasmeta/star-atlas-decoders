@@ -12,6 +12,7 @@ pub struct Star {
     /// The data version of this account.
     pub version: u8,
     /// The name of this `Star`
+    #[cfg_attr(feature = "serde", serde(with = "serde_big_array::BigArray"))]
     pub name: [u8; 64],
     /// the game_id that this belongs to
     pub game_id: Pubkey,

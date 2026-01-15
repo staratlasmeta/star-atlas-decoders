@@ -6,7 +6,8 @@ use carbon_core::borsh;
 #[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq)]
 pub struct RegisterStarbaseInput {
     /// `Starbase` name
-    pub name: Vec<u8>,
+    #[cfg_attr(feature = "serde", serde(with = "serde_big_array::BigArray"))]
+    pub name: [u8; 64],
     /// `Starbase` coordinates
     pub sub_coordinates: [i64; 2],
     /// The index representing the level of the `Starbase` in the game variables.

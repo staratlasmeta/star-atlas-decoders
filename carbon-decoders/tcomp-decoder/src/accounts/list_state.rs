@@ -19,7 +19,7 @@ pub struct ListState {
     /// owner is the rent payer when this is PublicKey::default
     pub rent_payer: Pubkey,
     pub reserved: [u8; 32],
-
+    #[cfg_attr(feature = "serde", serde(with = "serde_big_array::BigArray"))]
     pub reserved1: [u8; 64],
 }
 

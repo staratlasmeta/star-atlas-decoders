@@ -251,38 +251,16 @@ _prepare-decoder decoder_name:
     #!/bin/bash
     echo "Preparing {{decoder_name}} decoder..."
 
-    # Skip array conversion for crew and tcomp decoders - they keep serde_big_array
-    if [ "{{decoder_name}}" = "crew" ] || [ "{{decoder_name}}" = "tcomp" ]; then
-        echo "Skipping array conversion for {{decoder_name}} (keeping serde_big_array)..."
-        echo "Running cargo fmt..."
-        cd ./dist/{{decoder_name}} && cargo fmt
-        echo "✅ Decoder prepared"
-        exit 0
+    # Convert Option<[u8; 64]> to Option<Vec<u8>> since serde_big_array doesn't support Option wrapping
+    # Keep [u8; 64] as-is since it's handled by serde_big_array attribute
+    echo "Converting Option<[u8; 64]> to Option<Vec<u8>>..."
+    if [ "$(uname -s)" = "Darwin" ]; then
+        find ./dist/{{decoder_name}}/src -name "*.rs" -type f -exec sed -i '' 's/Option<\[u8; 64\]>/Option<Vec<u8>>/g' {} \;
+    else
+        find ./dist/{{decoder_name}}/src -name "*.rs" -type f -exec sed -i 's/Option<\[u8; 64\]>/Option<Vec<u8>>/g' {} \;
     fi
 
-    echo "Fixing large byte arrays in types and instructions modules..."
-    # Replace [u8; 64] with Vec<u8> in types and instructions
-    if [ "$(uname -s)" = "Darwin" ]; then
-        find ./dist/{{decoder_name}}/src/types -name "*.rs" -type f -exec sed -i '' 's/\[u8; 64\]/Vec<u8>/g' {} \;
-        find ./dist/{{decoder_name}}/src/instructions -name "*.rs" -type f -exec sed -i '' 's/\[u8; 64\]/Vec<u8>/g' {} \;
-        # Also fix Option<[u8; 64]> to Option<Vec<u8>> in types and instructions
-        find ./dist/{{decoder_name}}/src/types -name "*.rs" -type f -exec sed -i '' 's/Option<\[u8; 64\]>/Option<Vec<u8>>/g' {} \;
-        find ./dist/{{decoder_name}}/src/instructions -name "*.rs" -type f -exec sed -i '' 's/Option<\[u8; 64\]>/Option<Vec<u8>>/g' {} \;
-        # Remove serde-big-array attributes since we're using Vec<u8> now
-        find ./dist/{{decoder_name}}/src/types -name "*.rs" -type f -exec sed -i '' '/#\[serde(with = "serde_big_array::BigArray")\]/d' {} \;
-        find ./dist/{{decoder_name}}/src/instructions -name "*.rs" -type f -exec sed -i '' '/#\[serde(with = "serde_big_array::BigArray")\]/d' {} \;
-    else
-        find ./dist/{{decoder_name}}/src/types -name "*.rs" -type f -exec sed -i 's/\[u8; 64\]/Vec<u8>/g' {} \;
-        find ./dist/{{decoder_name}}/src/instructions -name "*.rs" -type f -exec sed -i 's/\[u8; 64\]/Vec<u8>/g' {} \;
-        # Also fix Option<[u8; 64]> to Option<Vec<u8>> in types and instructions
-        find ./dist/{{decoder_name}}/src/types -name "*.rs" -type f -exec sed -i 's/Option<\[u8; 64\]>/Option<Vec<u8>>/g' {} \;
-        find ./dist/{{decoder_name}}/src/instructions -name "*.rs" -type f -exec sed -i 's/Option<\[u8; 64\]>/Option<Vec<u8>>/g' {} \;
-        # Remove serde-big-array attributes since we're using Vec<u8> now
-        find ./dist/{{decoder_name}}/src/types -name "*.rs" -type f -exec sed -i '/#\[serde(with = "serde_big_array::BigArray")\]/d' {} \;
-        find ./dist/{{decoder_name}}/src/instructions -name "*.rs" -type f -exec sed -i '/#\[serde(with = "serde_big_array::BigArray")\]/d' {} \;
-    fi
-    echo "✅ Large byte arrays converted to Vec<u8>"
-    echo "✅ Serde attributes removed"
+    echo "✅ Option<[u8; 64]> converted to Option<Vec<u8>>"
     echo "Running cargo fmt..."
     cd ./dist/{{decoder_name}} && cargo fmt
     echo "✅ Decoder prepared"
@@ -293,7 +271,8 @@ _apply-patches decoder_name:
     echo "Applying patches to {{decoder_name}} decoder..."
     cd ./dist/{{decoder_name}}
     # Apply all patches using git apply
-    for patch in ../../patches/{{decoder_name}}-*.patch; do
+    # Use regex to match only patches for this exact decoder (followed by dash and digit)
+    for patch in ../../patches/{{decoder_name}}-[0-9]*.patch; do
         if [ -f "$patch" ]; then
             echo "Applying $(basename $patch)..."
             git apply -p1 "$patch" && echo "✅ Applied"
@@ -362,8 +341,9 @@ _generate-decoder decoder_name:
 
     echo "✅ Decoder generated from $SOURCE IDL"
 
-    # Rename package to include carbon- prefix (CLI now generates with correct name but let's ensure consistency)
-    just _rename-package {{decoder_name}} carbon-{{decoder_name}}-decoder carbon-{{decoder_name}}-decoder
+    # Rename package from generated name to our desired name
+    # carbon-cli generates names like "carbon-sage-decoder" from IDL, but we want "carbon-sage-holosim-decoder"
+    just _rename-package {{decoder_name}} "carbon-${GENERATED_NAME}" carbon-{{decoder_name}}-decoder
 
     # Fix workspace references
     just _fix-workspace-refs {{decoder_name}}
@@ -375,14 +355,18 @@ _generate-decoder decoder_name:
 # Generate a decoder from its IDL source
 generate decoder: (_generate-decoder decoder)
 
-# Build a decoder (clean + generate + prepare + add metadata)
-build decoder: (_clean decoder) (_generate-decoder decoder) (_prepare-decoder decoder)
+# Build a decoder (clean + generate + add metadata + init git)
+# Note: Does NOT run _prepare-decoder - that happens after patches in 'all'
+build decoder: (_clean decoder) (_generate-decoder decoder)
     #!/bin/bash
     DESCRIPTION=$(just _get-description {{decoder}})
     PROGRAM_ID=$(just _get-program-id {{decoder}})
     just _add-crate-metadata {{decoder}} "$DESCRIPTION" "$PROGRAM_ID"
-    echo "✅ {{decoder}} decoder generated and prepared"
+    echo "✅ {{decoder}} decoder generated"
     just _init-git {{decoder}}
+
+# Prepare a decoder (remove empty lines after doc comments, convert Option<[u8; 64]>, format)
+prepare decoder: (_prepare-decoder decoder)
 
 # Clean a decoder
 clean decoder: (_clean decoder)
@@ -397,9 +381,10 @@ create-patch decoder patch_name: (_create-patch decoder patch_name)
 # Publish a decoder to the workspace
 publish decoder: (_publish-decoder decoder)
 
-# Full pipeline for a decoder (build + patch + publish)
-all decoder: (build decoder) (_apply-patches decoder) (_publish-decoder decoder)
-    @echo "✅ {{decoder}} built, patched, and published"
+# Full pipeline for a decoder (build + patch + prepare + publish)
+# Order: generate → apply patches → prepare (format/cleanup) → publish
+all decoder: (build decoder) (_apply-patches decoder) (_prepare-decoder decoder) (_publish-decoder decoder)
+    @echo "✅ {{decoder}} built, patched, prepared, and published"
 
 # ============================================================================
 # CONVENIENCE ALIASES (Keep existing command names)

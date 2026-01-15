@@ -20,6 +20,7 @@ pub struct Starbase {
     /// the [`CraftingFacility`] to use for upgrade jobs at this `Starbase`
     pub upgrade_facility: Pubkey,
     /// The name of this `Starbase`
+    #[cfg_attr(feature = "serde", serde(with = "serde_big_array::BigArray"))]
     pub name: [u8; 64],
     /// coordinates as [x, y]
     pub sub_coordinates: [i64; 2],

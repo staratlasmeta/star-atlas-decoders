@@ -18,6 +18,7 @@ pub struct Ship {
     /// the mint representing the Ship
     pub mint: Pubkey,
     /// The name of this `Ship`
+    #[cfg_attr(feature = "serde", serde(with = "serde_big_array::BigArray"))]
     pub name: [u8; 64],
     /// the ship's size class
     pub size_class: u8,

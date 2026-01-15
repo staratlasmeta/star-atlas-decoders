@@ -27,6 +27,7 @@ pub struct CrewConfig {
     /// The length of the symbol
     pub symbol_len: u8,
     /// The uri prefix
+    #[cfg_attr(feature = "serde", serde(with = "serde_big_array::BigArray"))]
     pub uri_prefix: [u8; 40],
     /// The length of the uri prefix
     pub uri_prefix_len: u8,

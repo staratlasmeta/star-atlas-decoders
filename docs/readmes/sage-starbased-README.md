@@ -33,7 +33,7 @@ Add this crate to your `Cargo.toml`:
 
 ```toml
 [dependencies]
-carbon-sage-starbased-decoder = "0.10.0"
+carbon-sage-starbased-decoder = "0.12.0"
 ```
 
 ### Decoding Accounts

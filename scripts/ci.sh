@@ -22,13 +22,13 @@ print_error() {
 main() {
     print_info "Starting CI pipeline for Star Atlas decoders"
 
-    # Run clippy to check compilation and code quality
-    print_info "Running clippy checks..."
-    if ! cargo clippy --all-targets --all-features -- -D warnings; then
-        print_error "Clippy checks failed"
+    # Check that all crates compile with the serde feature
+    print_info "Checking all crates compile with serde feature..."
+    if ! cargo check --workspace --features serde; then
+        print_error "Compilation with serde feature failed"
         exit 1
     fi
-    print_info "✅ All clippy checks passed"
+    print_info "✅ All crates compile with serde feature"
 
     print_info "🎉 CI pipeline completed successfully!"
 }

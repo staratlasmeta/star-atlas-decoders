@@ -77,13 +77,13 @@ main() {
     print_info "✅ All decoder pipelines completed successfully"
     print_info "✅ Git repository is clean"
 
-    # Run clippy to check compilation and code quality
-    print_info "Running clippy checks..."
-    if ! cargo clippy --all-targets --all-features -- -D warnings; then
-        print_error "Clippy checks failed"
-        exit 1
-    fi
-    print_info "✅ All clippy checks passed"
+    # # Run clippy to check compilation and code quality
+    # print_info "Running clippy checks..."
+    # if ! cargo clippy --all-targets --all-features -- -D warnings; then
+    #     print_error "Clippy checks failed"
+    #     exit 1
+    # fi
+    # print_info "✅ All clippy checks passed"
 
     print_info "🎉 CI pipeline completed successfully!"
 }

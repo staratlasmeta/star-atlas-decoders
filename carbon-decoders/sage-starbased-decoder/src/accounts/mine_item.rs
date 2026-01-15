@@ -14,6 +14,7 @@ pub struct MineItem {
     /// the game_id account this item is registered with
     pub game_id: Pubkey,
     /// The name of the `MineItem`
+    #[cfg_attr(feature = "serde", serde(with = "serde_big_array::BigArray"))]
     pub name: [u8; 64],
     /// the mint representing the items mined
     pub mint: Pubkey,

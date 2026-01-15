@@ -6,7 +6,8 @@ use carbon_core::borsh;
 #[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq)]
 pub struct RegisterStarInput {
     /// `Star` name
-    pub name: Vec<u8>,
+    #[cfg_attr(feature = "serde", serde(with = "serde_big_array::BigArray"))]
+    pub name: [u8; 64],
     /// `Star` size
     pub size: u64,
     /// `Star` sub_coordinates

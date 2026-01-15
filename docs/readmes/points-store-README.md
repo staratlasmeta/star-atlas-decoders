@@ -34,7 +34,7 @@ Add this crate to your `Cargo.toml`:
 
 ```toml
 [dependencies]
-carbon-points-store-decoder = "0.10.0"
+carbon-points-store-decoder = "0.12.0"
 ```
 
 ### Decoding Accounts

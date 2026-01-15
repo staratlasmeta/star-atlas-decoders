@@ -6,7 +6,8 @@ use carbon_core::borsh;
 #[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq)]
 pub struct RegisterMineItemInput {
     /// The name of the `MineItem`
-    pub name: Vec<u8>,
+    #[cfg_attr(feature = "serde", serde(with = "serde_big_array::BigArray"))]
+    pub name: [u8; 64],
     /// How hard it is to mine this item
     pub resource_hardness: u16,
     /// the index of the key in the fleet permissions profile

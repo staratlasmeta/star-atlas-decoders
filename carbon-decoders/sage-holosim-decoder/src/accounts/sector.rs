@@ -18,6 +18,7 @@ pub struct Sector {
     /// The discoverer of this sector
     pub discoverer: Pubkey,
     /// The name of this sector
+    #[cfg_attr(feature = "serde", serde(with = "serde_big_array::BigArray"))]
     pub name: [u8; 64],
     /// the number of stars in this system
     pub num_stars: u16,
