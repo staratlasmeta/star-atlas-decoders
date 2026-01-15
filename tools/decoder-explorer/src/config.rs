@@ -69,9 +69,7 @@ impl Config {
     /// Get the program ID, using feature-specific default if not overridden
     pub fn get_program_id(&self) -> Result<Pubkey> {
         match &self.program_id {
-            Some(id) => {
-                Pubkey::from_str(id).with_context(|| format!("Invalid program ID: {}", id))
-            }
+            Some(id) => Pubkey::from_str(id).with_context(|| format!("Invalid program ID: {}", id)),
             None => Ok(DEFAULT_PROGRAM_ID),
         }
     }

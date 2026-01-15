@@ -13,54 +13,54 @@ use tracing_subscriber::EnvFilter;
 // ============================================================
 
 #[cfg(feature = "sage-starbased")]
-use carbon_sage_starbased_decoder::{accounts::SageAccount, SageDecoder};
+use carbon_sage_starbased_decoder::{SageDecoder, accounts::SageAccount};
 
 #[cfg(feature = "sage-holosim")]
 use carbon_sage_holosim_decoder::{
-    accounts::SageAccount as SageHolosimAccount, SageDecoder as SageHolosimDecoder,
+    SageDecoder as SageHolosimDecoder, accounts::SageAccount as SageHolosimAccount,
 };
 
 #[cfg(feature = "atlas-staking")]
-use carbon_atlas_staking_decoder::{accounts::AtlasStakingAccount, AtlasStakingDecoder};
+use carbon_atlas_staking_decoder::{AtlasStakingDecoder, accounts::AtlasStakingAccount};
 
 #[cfg(feature = "locked-voter")]
-use carbon_locked_voter_decoder::{accounts::LockedVoterAccount, LockedVoterDecoder};
+use carbon_locked_voter_decoder::{LockedVoterDecoder, accounts::LockedVoterAccount};
 
 #[cfg(feature = "marketplace")]
-use carbon_marketplace_decoder::{accounts::MarketplaceAccount, MarketplaceDecoder};
+use carbon_marketplace_decoder::{MarketplaceDecoder, accounts::MarketplaceAccount};
 
 #[cfg(feature = "atlas-fee-payer")]
-use carbon_atlas_fee_payer_decoder::{accounts::AtlasFeePayerAccount, AtlasFeePayerDecoder};
+use carbon_atlas_fee_payer_decoder::{AtlasFeePayerDecoder, accounts::AtlasFeePayerAccount};
 
 #[cfg(feature = "cargo")]
-use carbon_cargo_decoder::{accounts::CargoAccount, CargoDecoder};
+use carbon_cargo_decoder::{CargoDecoder, accounts::CargoAccount};
 
 #[cfg(feature = "crafting")]
-use carbon_crafting_decoder::{accounts::CraftingAccount, CraftingDecoder};
+use carbon_crafting_decoder::{CraftingDecoder, accounts::CraftingAccount};
 
 #[cfg(feature = "crew")]
-use carbon_crew_decoder::{accounts::CrewAccount, CrewDecoder};
+use carbon_crew_decoder::{CrewDecoder, accounts::CrewAccount};
 
 #[cfg(feature = "profile-vault")]
-use carbon_profile_vault_decoder::{accounts::ProfileVaultAccount, ProfileVaultDecoder};
+use carbon_profile_vault_decoder::{ProfileVaultDecoder, accounts::ProfileVaultAccount};
 
 #[cfg(feature = "srsly")]
-use carbon_srsly_decoder::{accounts::SrslyAccount, SrslyDecoder};
+use carbon_srsly_decoder::{SrslyDecoder, accounts::SrslyAccount};
 
 #[cfg(feature = "tcomp")]
-use carbon_tcomp_decoder::{accounts::TcompAccount, TcompDecoder};
+use carbon_tcomp_decoder::{TcompDecoder, accounts::TcompAccount};
 
 #[cfg(feature = "player-profile")]
-use carbon_player_profile_decoder::{accounts::PlayerProfileAccount, PlayerProfileDecoder};
+use carbon_player_profile_decoder::{PlayerProfileDecoder, accounts::PlayerProfileAccount};
 
 #[cfg(feature = "points")]
-use carbon_points_decoder::{accounts::PointsAccount, PointsDecoder};
+use carbon_points_decoder::{PointsDecoder, accounts::PointsAccount};
 
 #[cfg(feature = "points-store")]
-use carbon_points_store_decoder::{accounts::PointsStoreAccount, PointsStoreDecoder};
+use carbon_points_store_decoder::{PointsStoreDecoder, accounts::PointsStoreAccount};
 
 #[cfg(feature = "profile-faction")]
-use carbon_profile_faction_decoder::{accounts::ProfileFactionAccount, ProfileFactionDecoder};
+use carbon_profile_faction_decoder::{ProfileFactionDecoder, accounts::ProfileFactionAccount};
 
 // ============================================================
 // AccountTypeIdentifier implementations
@@ -176,20 +176,45 @@ fn run_analysis(ctx: &AnalysisContext) -> Result<()> {
     // Type classification (decoder-specific)
     run_decoder_analysis!(ctx, "sage-starbased", SageDecoder, SageAccount);
     run_decoder_analysis!(ctx, "sage-holosim", SageHolosimDecoder, SageHolosimAccount);
-    run_decoder_analysis!(ctx, "atlas-staking", AtlasStakingDecoder, AtlasStakingAccount);
+    run_decoder_analysis!(
+        ctx,
+        "atlas-staking",
+        AtlasStakingDecoder,
+        AtlasStakingAccount
+    );
     run_decoder_analysis!(ctx, "locked-voter", LockedVoterDecoder, LockedVoterAccount);
     run_decoder_analysis!(ctx, "marketplace", MarketplaceDecoder, MarketplaceAccount);
-    run_decoder_analysis!(ctx, "atlas-fee-payer", AtlasFeePayerDecoder, AtlasFeePayerAccount);
+    run_decoder_analysis!(
+        ctx,
+        "atlas-fee-payer",
+        AtlasFeePayerDecoder,
+        AtlasFeePayerAccount
+    );
     run_decoder_analysis!(ctx, "cargo", CargoDecoder, CargoAccount);
     run_decoder_analysis!(ctx, "crafting", CraftingDecoder, CraftingAccount);
     run_decoder_analysis!(ctx, "crew", CrewDecoder, CrewAccount);
-    run_decoder_analysis!(ctx, "profile-vault", ProfileVaultDecoder, ProfileVaultAccount);
+    run_decoder_analysis!(
+        ctx,
+        "profile-vault",
+        ProfileVaultDecoder,
+        ProfileVaultAccount
+    );
     run_decoder_analysis!(ctx, "srsly", SrslyDecoder, SrslyAccount);
     run_decoder_analysis!(ctx, "tcomp", TcompDecoder, TcompAccount);
-    run_decoder_analysis!(ctx, "player-profile", PlayerProfileDecoder, PlayerProfileAccount);
+    run_decoder_analysis!(
+        ctx,
+        "player-profile",
+        PlayerProfileDecoder,
+        PlayerProfileAccount
+    );
     run_decoder_analysis!(ctx, "points", PointsDecoder, PointsAccount);
     run_decoder_analysis!(ctx, "points-store", PointsStoreDecoder, PointsStoreAccount);
-    run_decoder_analysis!(ctx, "profile-faction", ProfileFactionDecoder, ProfileFactionAccount);
+    run_decoder_analysis!(
+        ctx,
+        "profile-faction",
+        ProfileFactionDecoder,
+        ProfileFactionAccount
+    );
 
     Ok(())
 }
