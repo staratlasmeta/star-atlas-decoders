@@ -136,7 +136,7 @@ This project generates and maintains Rust decoders for Star Atlas programs on So
 
 Run `./scripts/check-tools.sh` to verify all required tools are installed:
 
-- **Rust** (1.75+ for edition 2024)
+- **Rust** (1.85+ for edition 2024)
 - **Carbon CLI**: `cargo install --git https://github.com/sevenlabs-hq/carbon.git carbon-cli`
 - **Just**: `cargo install just` or `brew install just`
 - **Git** and standard Unix tools (sed, find)
@@ -237,7 +237,7 @@ When multiple patches need specific ordering, use numbered prefixes:
 ./scripts/ci.sh
 
 # Run clippy
-cargo clippy --all-targets --all-features -- -D warnings
+# cargo clippy --all-targets --all-features -- -D warnings
 
 # Run tests
 cargo test --all
@@ -272,8 +272,8 @@ Example accounts with custom deserialization:
 ## Technical Details
 
 - **Rust Edition**: 2024 (requires Rust 1.85.0+)
-- **Carbon Version**: 0.10.0 (available on [crates.io](https://crates.io/crates/carbon-core))
-- **Solana SDK**: 2.x
+- **Carbon Version**: 0.12.0 (available on [crates.io](https://crates.io/crates/carbon-core))
+- **Solana SDK**: 3.x
 - **Platform**: macOS and Linux compatible
 
 ## Tools

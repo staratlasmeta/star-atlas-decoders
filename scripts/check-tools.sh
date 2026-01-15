@@ -50,9 +50,22 @@ echo ""
 # Check for carbon-cli
 echo "Checking for carbon-cli..."
 TOTAL_TOOLS=$((TOTAL_TOOLS + 1))
+CARBON_MIN_VERSION="0.12.0"
 if command -v carbon-cli >/dev/null 2>&1; then
-    echo -e "${GREEN}✅ carbon-cli is available${NC}"
-    AVAILABLE_COUNT=$((AVAILABLE_COUNT + 1))
+    CARBON_VERSION=$(carbon-cli --version 2>/dev/null | grep -oE '[0-9]+\.[0-9]+\.[0-9]+' | head -n1)
+    if [ -n "$CARBON_VERSION" ]; then
+        if [ "$(printf '%s\n' "$CARBON_MIN_VERSION" "$CARBON_VERSION" | sort -V | head -n1)" = "$CARBON_MIN_VERSION" ]; then
+            echo -e "${GREEN}✅ carbon-cli is available. Version: $CARBON_VERSION${NC}"
+            AVAILABLE_COUNT=$((AVAILABLE_COUNT + 1))
+        else
+            echo -e "${RED}❌ carbon-cli version $CARBON_VERSION is below minimum required $CARBON_MIN_VERSION${NC}"
+            echo "  Update with: cargo install --git https://github.com/sevenlabs-hq/carbon.git carbon-cli"
+            MISSING_COUNT=$((MISSING_COUNT + 1))
+        fi
+    else
+        echo -e "${YELLOW}⚠️  carbon-cli is available but version could not be determined${NC}"
+        AVAILABLE_COUNT=$((AVAILABLE_COUNT + 1))
+    fi
 else
     echo -e "${RED}❌ carbon-cli is not available${NC}"
     echo "  Install with: cargo install --git https://github.com/sevenlabs-hq/carbon.git carbon-cli"
@@ -130,8 +143,8 @@ echo ""
 echo "Checking Rust edition support..."
 if command -v rustc >/dev/null 2>&1; then
     RUST_VERSION=$(rustc --version | cut -d' ' -f2)
-    # Check if version is >= 1.75 (required for edition 2024)
-    if [ "$(printf '%s\n' "1.75.0" "$RUST_VERSION" | sort -V | head -n1)" = "1.75.0" ]; then
+    # Check if version is >= 1.85 (required for edition 2024)
+    if [ "$(printf '%s\n' "1.85.0" "$RUST_VERSION" | sort -V | head -n1)" = "1.85.0" ]; then
         echo -e "${GREEN}✅ Rust version supports edition 2024${NC}"
     else
         echo -e "${YELLOW}⚠️  Rust version may not support edition 2024${NC}"
@@ -160,7 +173,7 @@ fi
 
 # Exit with error if critical tools are missing
 CRITICAL_MISSING=0
-for tool in cargo git just sed find; do
+for tool in cargo carbon-cli git just sed find; do
     if ! command -v $tool >/dev/null 2>&1; then
         CRITICAL_MISSING=1
         break
