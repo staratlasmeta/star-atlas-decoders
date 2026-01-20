@@ -5,7 +5,7 @@ use solana_pubkey::Pubkey;
 /// The triggering conditions of a thread.
 
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
-#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq)]
+#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq, Eq, Hash)]
 pub enum Trigger {
     Account {
         /// The address of the account to monitor.

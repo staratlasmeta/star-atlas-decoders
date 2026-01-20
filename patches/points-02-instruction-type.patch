@@ -1,13 +1,340 @@
+diff --git a/src/instructions/add_point_category_level.rs b/src/instructions/add_point_category_level.rs
+index 662ced4..1fa6d00 100644
+--- a/src/instructions/add_point_category_level.rs
++++ b/src/instructions/add_point_category_level.rs
+@@ -7,7 +7,7 @@ use carbon_core::deserialize::CarbonDeserialize;
+ use crate::types::AddPointCategoryLevelInput;
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq, Eq, Hash)]
+ pub struct AddPointCategoryLevel {
+     pub input: AddPointCategoryLevelInput,
+ }
+diff --git a/src/instructions/create_point_category.rs b/src/instructions/create_point_category.rs
+index cd4611c..6c526a5 100644
+--- a/src/instructions/create_point_category.rs
++++ b/src/instructions/create_point_category.rs
+@@ -7,7 +7,7 @@ use carbon_core::deserialize::CarbonDeserialize;
+ use crate::types::CreatePointCategoryInput;
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq, Eq, Hash)]
+ pub struct CreatePointCategory {
+     pub input: CreatePointCategoryInput,
+ }
+diff --git a/src/instructions/create_user_point_account.rs b/src/instructions/create_user_point_account.rs
+index 1bd0fac..b183734 100644
+--- a/src/instructions/create_user_point_account.rs
++++ b/src/instructions/create_user_point_account.rs
+@@ -6,7 +6,7 @@ use carbon_core::deserialize::ArrangeAccounts;
+ use carbon_core::deserialize::CarbonDeserialize;
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq, Eq, Hash)]
+ pub struct CreateUserPointAccount {
+ }
+ 
+diff --git a/src/instructions/create_user_point_account_with_license.rs b/src/instructions/create_user_point_account_with_license.rs
+index d805deb..acb6474 100644
+--- a/src/instructions/create_user_point_account_with_license.rs
++++ b/src/instructions/create_user_point_account_with_license.rs
+@@ -6,7 +6,7 @@ use carbon_core::deserialize::ArrangeAccounts;
+ use carbon_core::deserialize::CarbonDeserialize;
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq, Eq, Hash)]
+ pub struct CreateUserPointAccountWithLicense {
+ }
+ 
+diff --git a/src/instructions/decrement_level.rs b/src/instructions/decrement_level.rs
+index 709b93e..9f4cf35 100644
+--- a/src/instructions/decrement_level.rs
++++ b/src/instructions/decrement_level.rs
+@@ -7,7 +7,7 @@ use carbon_core::deserialize::CarbonDeserialize;
+ use crate::types::DecrementLevelInput;
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq, Eq, Hash)]
+ pub struct DecrementLevel {
+     pub input: DecrementLevelInput,
+ }
+diff --git a/src/instructions/decrement_points.rs b/src/instructions/decrement_points.rs
+index f0570fb..b1131df 100644
+--- a/src/instructions/decrement_points.rs
++++ b/src/instructions/decrement_points.rs
+@@ -6,7 +6,7 @@ use carbon_core::deserialize::ArrangeAccounts;
+ use carbon_core::deserialize::CarbonDeserialize;
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq, Eq, Hash)]
+ pub struct DecrementPoints {
+     pub points_amount: u64,
+ }
+diff --git a/src/instructions/deregister_point_modifier.rs b/src/instructions/deregister_point_modifier.rs
+index 15e8f81..ab6a0c9 100644
+--- a/src/instructions/deregister_point_modifier.rs
++++ b/src/instructions/deregister_point_modifier.rs
+@@ -6,7 +6,7 @@ use carbon_core::deserialize::ArrangeAccounts;
+ use carbon_core::deserialize::CarbonDeserialize;
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq, Eq, Hash)]
+ pub struct DeregisterPointModifier {
+     pub key_index: u16,
+ }
+diff --git a/src/instructions/increment_level.rs b/src/instructions/increment_level.rs
+index a441324..966697d 100644
+--- a/src/instructions/increment_level.rs
++++ b/src/instructions/increment_level.rs
+@@ -7,7 +7,7 @@ use carbon_core::deserialize::CarbonDeserialize;
+ use crate::types::IncrementLevelInput;
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq, Eq, Hash)]
+ pub struct IncrementLevel {
+     pub input: IncrementLevelInput,
+ }
+diff --git a/src/instructions/increment_level_beyond_threshold.rs b/src/instructions/increment_level_beyond_threshold.rs
+index cd99974..aaa6795 100644
+--- a/src/instructions/increment_level_beyond_threshold.rs
++++ b/src/instructions/increment_level_beyond_threshold.rs
+@@ -6,7 +6,7 @@ use carbon_core::deserialize::ArrangeAccounts;
+ use carbon_core::deserialize::CarbonDeserialize;
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq, Eq, Hash)]
+ pub struct IncrementLevelBeyondThreshold {
+ }
+ 
+diff --git a/src/instructions/increment_points.rs b/src/instructions/increment_points.rs
+index dc6d880..62efee0 100644
+--- a/src/instructions/increment_points.rs
++++ b/src/instructions/increment_points.rs
+@@ -7,7 +7,7 @@ use carbon_core::deserialize::CarbonDeserialize;
+ use crate::types::IncrementPointsInput;
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq, Eq, Hash)]
+ pub struct IncrementPoints {
+     pub input: IncrementPointsInput,
+ }
 diff --git a/src/instructions/mod.rs b/src/instructions/mod.rs
-index 6652ba0..b603541 100644
+index 6652ba0..68ac3d8 100644
 --- a/src/instructions/mod.rs
 +++ b/src/instructions/mod.rs
-@@ -34,7 +34,7 @@ pub use self::spend_points::*;
+@@ -33,8 +33,8 @@ pub use self::remove_point_category_level::*;
+ pub use self::spend_points::*;
  pub use self::update_point_category::*;
  
- #[derive(Debug, Clone, PartialEq)]
+-#[derive(Debug, Clone, PartialEq)]
 -#[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
++#[derive(Debug, Clone, PartialEq, Eq, Hash)]
 +#[cfg_attr(feature = "serde", derive(carbon_core::InstructionType, serde::Serialize, serde::Deserialize))]
  #[cfg_attr(feature = "serde", serde(tag = "type", content = "data"))]
  pub enum PointsInstruction {
      AddPointCategoryLevel(AddPointCategoryLevel),
+diff --git a/src/instructions/register_point_modifier.rs b/src/instructions/register_point_modifier.rs
+index 6c3339f..e515c3d 100644
+--- a/src/instructions/register_point_modifier.rs
++++ b/src/instructions/register_point_modifier.rs
+@@ -6,7 +6,7 @@ use carbon_core::deserialize::ArrangeAccounts;
+ use carbon_core::deserialize::CarbonDeserialize;
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq, Eq, Hash)]
+ pub struct RegisterPointModifier {
+     pub can_increment: bool,
+     pub can_decrement: bool,
+diff --git a/src/instructions/remove_point_category_level.rs b/src/instructions/remove_point_category_level.rs
+index c0a44b2..ad33fc6 100644
+--- a/src/instructions/remove_point_category_level.rs
++++ b/src/instructions/remove_point_category_level.rs
+@@ -7,7 +7,7 @@ use carbon_core::deserialize::CarbonDeserialize;
+ use crate::types::RemovePointCategoryLevelInput;
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq, Eq, Hash)]
+ pub struct RemovePointCategoryLevel {
+     pub input: RemovePointCategoryLevelInput,
+ }
+diff --git a/src/instructions/spend_points.rs b/src/instructions/spend_points.rs
+index 30ac152..3f502c8 100644
+--- a/src/instructions/spend_points.rs
++++ b/src/instructions/spend_points.rs
+@@ -6,7 +6,7 @@ use carbon_core::deserialize::ArrangeAccounts;
+ use carbon_core::deserialize::CarbonDeserialize;
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq, Eq, Hash)]
+ pub struct SpendPoints {
+     pub points_amount: u64,
+     pub key_index: u16,
+diff --git a/src/instructions/update_point_category.rs b/src/instructions/update_point_category.rs
+index b0a8aa4..5017ed7 100644
+--- a/src/instructions/update_point_category.rs
++++ b/src/instructions/update_point_category.rs
+@@ -7,7 +7,7 @@ use carbon_core::deserialize::CarbonDeserialize;
+ use crate::types::UpdatePointCategoryInput;
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq, Eq, Hash)]
+ pub struct UpdatePointCategory {
+     pub input: UpdatePointCategoryInput,
+ }
+diff --git a/src/types/add_point_category_level_input.rs b/src/types/add_point_category_level_input.rs
+index fddd01d..ea437d0 100644
+--- a/src/types/add_point_category_level_input.rs
++++ b/src/types/add_point_category_level_input.rs
+@@ -3,7 +3,7 @@ use carbon_core::borsh;
+ /// Struct for data add points category level
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq, Eq, Hash)]
+ pub struct AddPointCategoryLevelInput {
+     /// the level
+     pub level: u16,
+diff --git a/src/types/create_point_category_input.rs b/src/types/create_point_category_input.rs
+index 16f41bb..7dc38fb 100644
+--- a/src/types/create_point_category_input.rs
++++ b/src/types/create_point_category_input.rs
+@@ -4,7 +4,7 @@ use crate::types::LicenseType;
+ /// Struct for data input to create a points category
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq, Eq, Hash)]
+ pub struct CreatePointCategoryInput {
+     /// token_required
+     pub license: LicenseType,
+diff --git a/src/types/decrement_level_input.rs b/src/types/decrement_level_input.rs
+index 74fe6d0..58887dd 100644
+--- a/src/types/decrement_level_input.rs
++++ b/src/types/decrement_level_input.rs
+@@ -3,7 +3,7 @@ use carbon_core::borsh;
+ /// Struct for data input to decrement a user points account level
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq, Eq, Hash)]
+ pub struct DecrementLevelInput {
+     /// the index of the level to decrement to
+     pub decrement_to_level_index: u16,
+diff --git a/src/types/increment_level_input.rs b/src/types/increment_level_input.rs
+index c3f51b2..77af6d2 100644
+--- a/src/types/increment_level_input.rs
++++ b/src/types/increment_level_input.rs
+@@ -3,7 +3,7 @@ use carbon_core::borsh;
+ /// Struct for data input to increment a user points account level
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq, Eq, Hash)]
+ pub struct IncrementLevelInput {
+     /// the index of the user's desired level
+     pub next_level_index: u16,
+diff --git a/src/types/increment_points_input.rs b/src/types/increment_points_input.rs
+index 50b4608..2e109c6 100644
+--- a/src/types/increment_points_input.rs
++++ b/src/types/increment_points_input.rs
+@@ -3,7 +3,7 @@ use carbon_core::borsh;
+ /// Input data to increment points
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq, Eq, Hash)]
+ pub struct IncrementPointsInput {
+     /// the amount of points to increment
+     pub points: u64,
+diff --git a/src/types/license_type.rs b/src/types/license_type.rs
+index 3a248a6..a490c6d 100644
+--- a/src/types/license_type.rs
++++ b/src/types/license_type.rs
+@@ -3,7 +3,7 @@ use carbon_core::borsh;
+ /// The type of license to use for the category
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq, Eq, Hash)]
+ pub enum LicenseType {
+     None,
+     Burn {
+diff --git a/src/types/optional_non_system_pubkey.rs b/src/types/optional_non_system_pubkey.rs
+index e1b0bca..a616cc2 100644
+--- a/src/types/optional_non_system_pubkey.rs
++++ b/src/types/optional_non_system_pubkey.rs
+@@ -4,7 +4,7 @@ use solana_pubkey::Pubkey;
+ /// A pubkey sized option that is none if set to the system program.
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq, Eq, Hash)]
+ pub struct OptionalNonSystemPubkey {
+     pub key: Pubkey,
+ }
+diff --git a/src/types/points_level.rs b/src/types/points_level.rs
+index ac27515..cc6758a 100644
+--- a/src/types/points_level.rs
++++ b/src/types/points_level.rs
+@@ -4,7 +4,7 @@ use solana_pubkey::Pubkey;
+ /// Defines an individual points level
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq, Eq, Hash)]
+ pub struct PointsLevel {
+     /// the level
+     pub level: u16,
+diff --git a/src/types/points_level_license_type.rs b/src/types/points_level_license_type.rs
+index e1ac45b..b6cb538 100644
+--- a/src/types/points_level_license_type.rs
++++ b/src/types/points_level_license_type.rs
+@@ -7,7 +7,7 @@ use carbon_core::borsh;
+ /// 3. Vault: requires a license and transfers tokens to vault
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq, Eq, Hash)]
+ pub enum PointsLevelLicenseType {
+     None,
+     Burn,
+diff --git a/src/types/remove_point_category_level_input.rs b/src/types/remove_point_category_level_input.rs
+index 3bcf919..0017aa6 100644
+--- a/src/types/remove_point_category_level_input.rs
++++ b/src/types/remove_point_category_level_input.rs
+@@ -3,7 +3,7 @@ use carbon_core::borsh;
+ /// Struct for data input to remove points category level
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq, Eq, Hash)]
+ pub struct RemovePointCategoryLevelInput {
+     /// the index of the level in the array
+     pub level_index: u16,
+diff --git a/src/types/update_point_category_input.rs b/src/types/update_point_category_input.rs
+index 7c31490..bafd781 100644
+--- a/src/types/update_point_category_input.rs
++++ b/src/types/update_point_category_input.rs
+@@ -4,7 +4,7 @@ use crate::types::LicenseType;
+ /// Struct for data input to Update point categories
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq, Eq, Hash)]
+ pub struct UpdatePointCategoryInput {
+     /// point limit
+     pub point_limit: Option<u64>,

@@ -3,7 +3,7 @@ use carbon_core::borsh;
 /// Represents different types of locations that a `Resource` might be found
 
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
-#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq)]
+#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq, Eq, Hash)]
 pub enum LocationType {
     Planet,
 }

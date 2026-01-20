@@ -4,7 +4,7 @@ use solana_pubkey::Pubkey;
 /// A pubkey sized option that is none if set to the system program.
 
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
-#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq)]
+#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq, Eq, Hash)]
 pub struct OptionalNonSystemPubkey {
     pub key: Pubkey,
 }

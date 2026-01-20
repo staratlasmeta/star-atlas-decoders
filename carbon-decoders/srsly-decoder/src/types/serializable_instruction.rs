@@ -5,7 +5,7 @@ use solana_pubkey::Pubkey;
 /// The data needed execute an instruction on Solana.
 
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
-#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq)]
+#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq, Eq, Hash)]
 pub struct SerializableInstruction {
     /// Pubkey of the instruction processor that executes this instruction
     pub program_id: Pubkey,

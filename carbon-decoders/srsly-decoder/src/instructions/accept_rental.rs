@@ -8,7 +8,7 @@ use carbon_core::deserialize::CarbonDeserialize;
 /// Allows a borrower to accept a rental by providing funds and specifying duration.
 
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
-#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq)]
+#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq, Eq, Hash)]
 pub struct AcceptRental {
     pub amount: u64,
     pub duration: u64,

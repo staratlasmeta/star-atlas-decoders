@@ -4,7 +4,7 @@ use solana_pubkey::Pubkey;
 /// Represents a member's status in a role
 
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
-#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq)]
+#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq, Eq, Hash)]
 pub struct RoleMembership {
     /// The member or role key associated with this membership
     pub key: Pubkey,

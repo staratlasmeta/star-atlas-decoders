@@ -30,7 +30,7 @@ pub use self::remove_store_items::*;
 pub use self::start_redemption::*;
 pub use self::update_redemption_epoch::*;
 
-#[derive(Debug, Clone, PartialEq)]
+#[derive(Debug, Clone, PartialEq, Eq, Hash)]
 #[cfg_attr(
     feature = "serde",
     derive(carbon_core::InstructionType, serde::Serialize, serde::Deserialize)

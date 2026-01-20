@@ -3,7 +3,7 @@ use carbon_core::borsh;
 /// Represents different types a `Planet` could be
 
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
-#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq)]
+#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq, Eq, Hash)]
 pub enum PlanetType {
     Terrestrial,
     Volcanic,

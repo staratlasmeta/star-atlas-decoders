@@ -46,7 +46,7 @@ pub use self::take_bid_wns::*;
 pub use self::tcomp_noop::*;
 pub use self::withdraw_fees::*;
 
-#[derive(Debug, Clone, PartialEq)]
+#[derive(Debug, Clone, PartialEq, Eq, Hash)]
 #[cfg_attr(
     feature = "serde",
     derive(carbon_core::InstructionType, serde::Serialize, serde::Deserialize)

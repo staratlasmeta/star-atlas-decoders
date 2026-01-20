@@ -4,7 +4,7 @@ use solana_pubkey::Pubkey;
 /// Information associated with `Starbase` levels
 
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
-#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq)]
+#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq, Eq, Hash)]
 pub struct StarbaseLevelInfo {
     /// The crafting recipe required to upgrade a `Starbase` to this level
     pub recipe_for_upgrade: Pubkey,

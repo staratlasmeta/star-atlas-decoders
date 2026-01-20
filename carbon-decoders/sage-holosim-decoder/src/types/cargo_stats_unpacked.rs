@@ -3,7 +3,7 @@ use carbon_core::borsh;
 /// Unpacked version of [`CargoStats`]
 
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
-#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq)]
+#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq, Eq, Hash)]
 pub struct CargoStatsUnpacked {
     /// the capacity of the ship's cargo hold
     pub cargo_capacity: u32,

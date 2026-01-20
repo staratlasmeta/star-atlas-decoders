@@ -3,7 +3,7 @@ use carbon_core::borsh;
 /// Input for `StartRedemption`
 
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
-#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq)]
+#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq, Eq, Hash)]
 pub struct StartRedemptionInput {
     /// The number of points to submit
     pub points: u64,

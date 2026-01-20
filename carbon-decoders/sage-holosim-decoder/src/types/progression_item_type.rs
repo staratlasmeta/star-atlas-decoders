@@ -3,7 +3,7 @@ use carbon_core::borsh;
 /// The different types of progression items
 
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
-#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq)]
+#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq, Eq, Hash)]
 pub enum ProgressionItemType {
     Subwarp,
     Warp,

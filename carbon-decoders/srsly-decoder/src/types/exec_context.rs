@@ -4,7 +4,7 @@ use carbon_core::borsh;
 /// The execution context of a particular transaction thread.
 
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
-#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq)]
+#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq, Eq, Hash)]
 pub struct ExecContext {
     /// Index of the next instruction to be executed.
     pub exec_index: u64,

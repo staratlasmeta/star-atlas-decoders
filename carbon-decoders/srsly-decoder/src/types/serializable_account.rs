@@ -4,7 +4,7 @@ use solana_pubkey::Pubkey;
 /// Account metadata needed to execute an instruction on Solana.
 
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
-#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq)]
+#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq, Eq, Hash)]
 pub struct SerializableAccount {
     /// An account's public key
     pub pubkey: Pubkey,

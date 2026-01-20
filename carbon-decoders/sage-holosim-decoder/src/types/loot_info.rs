@@ -4,7 +4,7 @@ use solana_pubkey::Pubkey;
 /// Represents loot at a location
 
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
-#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq)]
+#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq, Eq, Hash)]
 pub struct LootInfo {
     /// the time the exclusivity lock expires
     pub exclusivity_unlock_time: i64,

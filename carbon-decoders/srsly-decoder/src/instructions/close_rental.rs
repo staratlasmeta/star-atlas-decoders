@@ -8,7 +8,7 @@ use carbon_core::deserialize::CarbonDeserialize;
 /// Closes a rental after its duration has ended, removes it from the contract.
 
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
-#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq)]
+#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq, Eq, Hash)]
 pub struct CloseRental {}
 
 #[derive(Debug, Clone, PartialEq)]

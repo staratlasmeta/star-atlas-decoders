@@ -42,7 +42,7 @@ pub use self::update_currency_royalty::*;
 pub use self::update_currency_vault::*;
 pub use self::update_royalty_tier::*;
 
-#[derive(Debug, Clone, PartialEq)]
+#[derive(Debug, Clone, PartialEq, Eq, Hash)]
 #[cfg_attr(
     feature = "serde",
     derive(carbon_core::InstructionType, serde::Serialize, serde::Deserialize)

@@ -12,7 +12,7 @@ use carbon_core::deserialize::CarbonDeserialize;
 /// linearly proportional to the amount of votes given.
 
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
-#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq)]
+#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq, Eq, Hash)]
 pub struct NewEscrow {
     pub bump: u8,
 }

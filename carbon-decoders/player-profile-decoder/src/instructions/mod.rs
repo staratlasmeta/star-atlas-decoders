@@ -38,7 +38,7 @@ pub use self::set_role_authorizer::*;
 pub use self::set_role_name::*;
 pub use self::set_role_not_accepting_members::*;
 
-#[derive(Debug, Clone, PartialEq)]
+#[derive(Debug, Clone, PartialEq, Eq, Hash)]
 #[cfg_attr(
     feature = "serde",
     derive(carbon_core::InstructionType, serde::Serialize, serde::Deserialize)

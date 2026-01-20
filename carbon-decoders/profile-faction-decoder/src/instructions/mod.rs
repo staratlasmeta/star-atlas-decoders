@@ -6,7 +6,7 @@ pub mod choose_faction;
 
 pub use self::choose_faction::*;
 
-#[derive(Debug, Clone, PartialEq)]
+#[derive(Debug, Clone, PartialEq, Eq, Hash)]
 #[cfg_attr(
     feature = "serde",
     derive(carbon_core::InstructionType, serde::Serialize, serde::Deserialize)

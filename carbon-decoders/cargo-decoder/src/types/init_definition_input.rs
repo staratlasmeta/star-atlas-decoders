@@ -3,7 +3,7 @@ use carbon_core::borsh;
 /// Struct for data input for [`InitDefinition`]
 
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
-#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq)]
+#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq, Eq, Hash)]
 pub struct InitDefinitionInput {
     /// the count of stats the definition has
     pub cargo_stats: u16,

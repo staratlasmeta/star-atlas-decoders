@@ -8,7 +8,7 @@ use carbon_core::deserialize::CarbonDeserialize;
 /// Creates a new [LockerWhitelistEntry] to whitelist program from CPI.
 
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
-#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq)]
+#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq, Eq, Hash)]
 pub struct ApproveProgramLockPrivilege {
     pub bump: u8,
 }

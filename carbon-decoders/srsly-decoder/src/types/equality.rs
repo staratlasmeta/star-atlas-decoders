@@ -3,7 +3,7 @@ use carbon_core::borsh;
 /// Operators for describing how to compare two values to one another.
 
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
-#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq)]
+#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq, Eq, Hash)]
 pub enum Equality {
     GreaterThanOrEqual,
     LessThanOrEqual,

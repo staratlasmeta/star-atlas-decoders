@@ -8,7 +8,7 @@ use carbon_core::deserialize::CarbonDeserialize;
 /// Casts a vote.
 
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
-#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq)]
+#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq, Eq, Hash)]
 pub struct CastVote {
     pub side: u8,
 }

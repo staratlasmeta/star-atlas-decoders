@@ -4,7 +4,7 @@ use solana_pubkey::Pubkey;
 /// Variables for the Crafting program
 
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
-#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq)]
+#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq, Eq, Hash)]
 pub struct Crafting {
     /// The crafting domain account
     pub domain: Pubkey,

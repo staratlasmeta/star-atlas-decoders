@@ -3,7 +3,7 @@ use carbon_core::borsh;
 /// Ship counts for a fleet.
 
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
-#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq)]
+#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq, Eq, Hash)]
 pub struct ShipCounts {
     /// The total number of ships in the fleet.
     pub total: u32,

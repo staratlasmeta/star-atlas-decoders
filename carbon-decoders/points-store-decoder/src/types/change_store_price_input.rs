@@ -3,7 +3,7 @@ use carbon_core::borsh;
 /// Input to [`ChangeStorePrice`]
 
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
-#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq)]
+#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq, Eq, Hash)]
 pub struct ChangeStorePriceInput {
     /// The price for the store
     pub new_price: u64,

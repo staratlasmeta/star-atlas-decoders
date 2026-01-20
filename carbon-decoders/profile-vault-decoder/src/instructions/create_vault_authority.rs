@@ -7,7 +7,7 @@ use carbon_core::deserialize::CarbonDeserialize;
 use solana_pubkey::Pubkey;
 
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
-#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq)]
+#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq, Eq, Hash)]
 pub struct CreateVaultAuthority {
     pub vault_seed: Pubkey,
     pub key_index: u16,

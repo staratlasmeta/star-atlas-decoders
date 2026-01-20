@@ -4,7 +4,7 @@ use solana_pubkey::Pubkey;
 /// Connection between sectors
 
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
-#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq)]
+#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq, Eq, Hash)]
 pub struct SectorConnection {
     /// The sector connected to
     pub connection_sector: Pubkey,

@@ -11,6 +11,8 @@ use carbon_core::deserialize::ArrangeAccounts;
     carbon_core::borsh::BorshSerialize,
     carbon_core::borsh::BorshDeserialize,
     PartialEq,
+    Eq,
+    Hash,
 )]
 pub enum CpiEvent {
     ApproveLockPrivilegeEvent(events::approve_lock_privilege_event::ApproveLockPrivilegeEventEvent),

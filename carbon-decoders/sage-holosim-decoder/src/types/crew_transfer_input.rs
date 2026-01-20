@@ -3,7 +3,7 @@ use carbon_core::borsh;
 /// Struct for data input for crew cNFT transfer
 
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
-#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq)]
+#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq, Eq, Hash)]
 pub struct CrewTransferInput {
     /// The crew cNFT data hash
     pub data_hash: [u8; 32],

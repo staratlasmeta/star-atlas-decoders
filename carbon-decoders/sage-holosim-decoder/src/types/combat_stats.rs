@@ -3,7 +3,7 @@ use carbon_core::borsh;
 /// A ship's combat stats
 
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
-#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq)]
+#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq, Eq, Hash)]
 pub struct CombatStats {
     /// Action points
     pub ap: u32,

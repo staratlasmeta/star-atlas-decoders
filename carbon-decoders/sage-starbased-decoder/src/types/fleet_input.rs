@@ -5,7 +5,7 @@ use carbon_core::borsh;
 /// Struct for data input to Update fleet settings
 
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
-#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq)]
+#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq, Eq, Hash)]
 pub struct FleetInput {
     /// `Starbase` Level Info array
     pub starbase_level_info_array: Option<Vec<StarbaseLevelInfoArrayInput>>,

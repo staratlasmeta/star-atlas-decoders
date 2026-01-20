@@ -3,7 +3,7 @@ use carbon_core::borsh;
 /// Struct for data input to Register Star
 
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
-#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq)]
+#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq, Eq, Hash)]
 pub struct RegisterStarInput {
     /// `Star` name
     #[cfg_attr(feature = "serde", serde(with = "serde_big_array::BigArray"))]

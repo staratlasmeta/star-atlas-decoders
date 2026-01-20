@@ -1,13 +1,340 @@
+diff --git a/src/instructions/add_redemption_epoch.rs b/src/instructions/add_redemption_epoch.rs
+index f3ff014..4631d10 100644
+--- a/src/instructions/add_redemption_epoch.rs
++++ b/src/instructions/add_redemption_epoch.rs
+@@ -7,7 +7,7 @@ use carbon_core::deserialize::CarbonDeserialize;
+ use crate::types::AddRedemptionEpochInput;
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq, Eq, Hash)]
+ pub struct AddRedemptionEpoch {
+     pub input: AddRedemptionEpochInput,
+ }
+diff --git a/src/instructions/buy.rs b/src/instructions/buy.rs
+index 9aa74b3..f4adacb 100644
+--- a/src/instructions/buy.rs
++++ b/src/instructions/buy.rs
+@@ -6,7 +6,7 @@ use carbon_core::deserialize::ArrangeAccounts;
+ use carbon_core::deserialize::CarbonDeserialize;
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq, Eq, Hash)]
+ pub struct Buy {
+     pub amount: u64,
+     pub key_index: u16,
+diff --git a/src/instructions/change_store_price.rs b/src/instructions/change_store_price.rs
+index 2f78c14..c6e5c81 100644
+--- a/src/instructions/change_store_price.rs
++++ b/src/instructions/change_store_price.rs
+@@ -7,7 +7,7 @@ use carbon_core::deserialize::CarbonDeserialize;
+ use crate::types::ChangeStorePriceInputUnpacked;
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq, Eq, Hash)]
+ pub struct ChangeStorePrice {
+     pub input: ChangeStorePriceInputUnpacked,
+ }
+diff --git a/src/instructions/claim_tokens.rs b/src/instructions/claim_tokens.rs
+index a21eaf2..1c40555 100644
+--- a/src/instructions/claim_tokens.rs
++++ b/src/instructions/claim_tokens.rs
+@@ -7,7 +7,7 @@ use carbon_core::deserialize::CarbonDeserialize;
+ use crate::types::ClaimTokensInput;
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq, Eq, Hash)]
+ pub struct ClaimTokens {
+     pub input: ClaimTokensInput,
+ }
+diff --git a/src/instructions/close_redemption_config.rs b/src/instructions/close_redemption_config.rs
+index 5665218..72bcebf 100644
+--- a/src/instructions/close_redemption_config.rs
++++ b/src/instructions/close_redemption_config.rs
+@@ -6,7 +6,7 @@ use carbon_core::deserialize::ArrangeAccounts;
+ use carbon_core::deserialize::CarbonDeserialize;
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq, Eq, Hash)]
+ pub struct CloseRedemptionConfig {
+     pub key_index: u16,
+ }
+diff --git a/src/instructions/close_store.rs b/src/instructions/close_store.rs
+index 3d4aab2..3db18b6 100644
+--- a/src/instructions/close_store.rs
++++ b/src/instructions/close_store.rs
+@@ -6,7 +6,7 @@ use carbon_core::deserialize::ArrangeAccounts;
+ use carbon_core::deserialize::CarbonDeserialize;
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq, Eq, Hash)]
+ pub struct CloseStore {
+     pub key_index: u16,
+ }
+diff --git a/src/instructions/contribute_to_redemption.rs b/src/instructions/contribute_to_redemption.rs
+index 018a1b6..bac4515 100644
+--- a/src/instructions/contribute_to_redemption.rs
++++ b/src/instructions/contribute_to_redemption.rs
+@@ -7,7 +7,7 @@ use carbon_core::deserialize::CarbonDeserialize;
+ use crate::types::ContributeToRedemptionInput;
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq, Eq, Hash)]
+ pub struct ContributeToRedemption {
+     pub input: ContributeToRedemptionInput,
+ }
+diff --git a/src/instructions/create_points_store.rs b/src/instructions/create_points_store.rs
+index 304d748..2b3d959 100644
+--- a/src/instructions/create_points_store.rs
++++ b/src/instructions/create_points_store.rs
+@@ -7,7 +7,7 @@ use carbon_core::deserialize::CarbonDeserialize;
+ use crate::types::CreatePointsStoreInputUnpacked;
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq, Eq, Hash)]
+ pub struct CreatePointsStore {
+     pub input: CreatePointsStoreInputUnpacked,
+ }
+diff --git a/src/instructions/create_redemption_config.rs b/src/instructions/create_redemption_config.rs
+index 13133d3..1d9225a 100644
+--- a/src/instructions/create_redemption_config.rs
++++ b/src/instructions/create_redemption_config.rs
+@@ -7,7 +7,7 @@ use carbon_core::deserialize::CarbonDeserialize;
+ use crate::types::CreateRedemptionConfigInput;
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq, Eq, Hash)]
+ pub struct CreateRedemptionConfig {
+     pub input: CreateRedemptionConfigInput,
+ }
 diff --git a/src/instructions/mod.rs b/src/instructions/mod.rs
-index c258c51..02c8048 100644
+index c258c51..0351f93 100644
 --- a/src/instructions/mod.rs
 +++ b/src/instructions/mod.rs
-@@ -32,7 +32,7 @@ pub use self::start_redemption::*;
+@@ -31,8 +31,8 @@ pub use self::remove_store_items::*;
+ pub use self::start_redemption::*;
  pub use self::update_redemption_epoch::*;
  
- #[derive(Debug, Clone, PartialEq)]
+-#[derive(Debug, Clone, PartialEq)]
 -#[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
++#[derive(Debug, Clone, PartialEq, Eq, Hash)]
 +#[cfg_attr(feature = "serde", derive(carbon_core::InstructionType, serde::Serialize, serde::Deserialize))]
  #[cfg_attr(feature = "serde", serde(tag = "type", content = "data"))]
  pub enum PointsStoreInstruction {
      AddRedemptionEpoch(AddRedemptionEpoch),
+diff --git a/src/instructions/remove_redemption_epoch.rs b/src/instructions/remove_redemption_epoch.rs
+index 34b0e78..6e35317 100644
+--- a/src/instructions/remove_redemption_epoch.rs
++++ b/src/instructions/remove_redemption_epoch.rs
+@@ -7,7 +7,7 @@ use carbon_core::deserialize::CarbonDeserialize;
+ use crate::types::RemoveRedemptionEpochInput;
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq, Eq, Hash)]
+ pub struct RemoveRedemptionEpoch {
+     pub input: RemoveRedemptionEpochInput,
+ }
+diff --git a/src/instructions/remove_store_items.rs b/src/instructions/remove_store_items.rs
+index 7a292a2..37d11f8 100644
+--- a/src/instructions/remove_store_items.rs
++++ b/src/instructions/remove_store_items.rs
+@@ -6,7 +6,7 @@ use carbon_core::deserialize::ArrangeAccounts;
+ use carbon_core::deserialize::CarbonDeserialize;
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq, Eq, Hash)]
+ pub struct RemoveStoreItems {
+     pub amount: u64,
+     pub key_index: u16,
+diff --git a/src/instructions/start_redemption.rs b/src/instructions/start_redemption.rs
+index 3d13b3b..bd72208 100644
+--- a/src/instructions/start_redemption.rs
++++ b/src/instructions/start_redemption.rs
+@@ -7,7 +7,7 @@ use carbon_core::deserialize::CarbonDeserialize;
+ use crate::types::StartRedemptionInput;
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq, Eq, Hash)]
+ pub struct StartRedemption {
+     pub input: StartRedemptionInput,
+ }
+diff --git a/src/instructions/update_redemption_epoch.rs b/src/instructions/update_redemption_epoch.rs
+index 5032296..b646deb 100644
+--- a/src/instructions/update_redemption_epoch.rs
++++ b/src/instructions/update_redemption_epoch.rs
+@@ -7,7 +7,7 @@ use carbon_core::deserialize::CarbonDeserialize;
+ use crate::types::UpdateRedemptionEpochInput;
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq, Eq, Hash)]
+ pub struct UpdateRedemptionEpoch {
+     pub input: UpdateRedemptionEpochInput,
+ }
+diff --git a/src/types/add_redemption_epoch_input.rs b/src/types/add_redemption_epoch_input.rs
+index 5f6e9fc..622a896 100644
+--- a/src/types/add_redemption_epoch_input.rs
++++ b/src/types/add_redemption_epoch_input.rs
+@@ -3,7 +3,7 @@ use carbon_core::borsh;
+ /// Input for `AddRedemptionEpoch`
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq, Eq, Hash)]
+ pub struct AddRedemptionEpochInput {
+     /// The total tokens that can redeemed for this epoch
+     pub total_tokens: u64,
+diff --git a/src/types/change_store_price_input.rs b/src/types/change_store_price_input.rs
+index e57d010..e221a6e 100644
+--- a/src/types/change_store_price_input.rs
++++ b/src/types/change_store_price_input.rs
+@@ -3,7 +3,7 @@ use carbon_core::borsh;
+ /// Input to [`ChangeStorePrice`]
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq, Eq, Hash)]
+ pub struct ChangeStorePriceInput {
+     /// The price for the store
+     pub new_price: u64,
+diff --git a/src/types/change_store_price_input_unpacked.rs b/src/types/change_store_price_input_unpacked.rs
+index 64915a9..c571262 100644
+--- a/src/types/change_store_price_input_unpacked.rs
++++ b/src/types/change_store_price_input_unpacked.rs
+@@ -3,7 +3,7 @@ use carbon_core::borsh;
+ /// Unpacked version of [`ChangeStorePriceInput`]
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq, Eq, Hash)]
+ pub struct ChangeStorePriceInputUnpacked {
+     /// The price for the store
+     pub new_price: u64,
+diff --git a/src/types/claim_tokens_input.rs b/src/types/claim_tokens_input.rs
+index 99be97f..9ff2fed 100644
+--- a/src/types/claim_tokens_input.rs
++++ b/src/types/claim_tokens_input.rs
+@@ -3,7 +3,7 @@ use carbon_core::borsh;
+ /// Input for `ClaimTokens`
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq, Eq, Hash)]
+ pub struct ClaimTokensInput {
+     /// the index of the epoch in the `RedemptionConfig` account
+     pub epoch_index: u16,
+diff --git a/src/types/contribute_to_redemption_input.rs b/src/types/contribute_to_redemption_input.rs
+index eed7afc..c01d857 100644
+--- a/src/types/contribute_to_redemption_input.rs
++++ b/src/types/contribute_to_redemption_input.rs
+@@ -3,7 +3,7 @@ use carbon_core::borsh;
+ /// Input for `StartRedemption`
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq, Eq, Hash)]
+ pub struct ContributeToRedemptionInput {
+     /// The number of points to submit
+     pub points: u64,
+diff --git a/src/types/create_points_store_input.rs b/src/types/create_points_store_input.rs
+index c4c0c60..f0b54f8 100644
+--- a/src/types/create_points_store_input.rs
++++ b/src/types/create_points_store_input.rs
+@@ -3,7 +3,7 @@ use carbon_core::borsh;
+ /// Input to [`CreatePointsStore`]
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq, Eq, Hash)]
+ pub struct CreatePointsStoreInput {
+     /// The price for the store
+     pub price: u64,
+diff --git a/src/types/create_points_store_input_unpacked.rs b/src/types/create_points_store_input_unpacked.rs
+index e64f147..2825f6b 100644
+--- a/src/types/create_points_store_input_unpacked.rs
++++ b/src/types/create_points_store_input_unpacked.rs
+@@ -3,7 +3,7 @@ use carbon_core::borsh;
+ /// Unpacked version of [`CreatePointsStoreInput`]
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq, Eq, Hash)]
+ pub struct CreatePointsStoreInputUnpacked {
+     /// The price for the store
+     pub price: u64,
+diff --git a/src/types/create_redemption_config_input.rs b/src/types/create_redemption_config_input.rs
+index b120538..8b675d6 100644
+--- a/src/types/create_redemption_config_input.rs
++++ b/src/types/create_redemption_config_input.rs
+@@ -3,7 +3,7 @@ use carbon_core::borsh;
+ /// Input for `CreateRedemptionConfig`
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq, Eq, Hash)]
+ pub struct CreateRedemptionConfigInput {
+     /// the faction that uses this `RedemptionConfig
+     pub faction: u8,
+diff --git a/src/types/redemption_epoch.rs b/src/types/redemption_epoch.rs
+index e6ef7de..2283ca6 100644
+--- a/src/types/redemption_epoch.rs
++++ b/src/types/redemption_epoch.rs
+@@ -3,7 +3,7 @@ use carbon_core::borsh;
+ /// Represents token redemptions for a 24-hour period
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq, Eq, Hash)]
+ pub struct RedemptionEpoch {
+     /// The total points submitted by all users to be redeemed for this epoch
+     pub total_points: u64,
+diff --git a/src/types/remove_redemption_epoch_input.rs b/src/types/remove_redemption_epoch_input.rs
+index b2393df..9552db5 100644
+--- a/src/types/remove_redemption_epoch_input.rs
++++ b/src/types/remove_redemption_epoch_input.rs
+@@ -3,7 +3,7 @@ use carbon_core::borsh;
+ /// Input for `RemoveRedemptionEpoch`
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq, Eq, Hash)]
+ pub struct RemoveRedemptionEpochInput {
+     /// The index of epoch in the `RedemptionConfig` epoch array
+     pub epoch_index: u16,
+diff --git a/src/types/start_redemption_input.rs b/src/types/start_redemption_input.rs
+index 6b0d78c..a0153bc 100644
+--- a/src/types/start_redemption_input.rs
++++ b/src/types/start_redemption_input.rs
+@@ -3,7 +3,7 @@ use carbon_core::borsh;
+ /// Input for `StartRedemption`
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq, Eq, Hash)]
+ pub struct StartRedemptionInput {
+     /// The number of points to submit
+     pub points: u64,
+diff --git a/src/types/update_redemption_epoch_input.rs b/src/types/update_redemption_epoch_input.rs
+index 73fe556..ba74f10 100644
+--- a/src/types/update_redemption_epoch_input.rs
++++ b/src/types/update_redemption_epoch_input.rs
+@@ -3,7 +3,7 @@ use carbon_core::borsh;
+ /// Input for `UpdateRedemptionEpoch`
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq, Eq, Hash)]
+ pub struct UpdateRedemptionEpochInput {
+     /// The total tokens that can redeemed for this epoch
+     pub total_tokens: u64,

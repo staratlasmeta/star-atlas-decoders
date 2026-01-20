@@ -3,7 +3,7 @@ use carbon_core::borsh;
 /// Data input for RegisterProgressionConfig
 
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
-#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq)]
+#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq, Eq, Hash)]
 pub struct RegisterProgressionConfigInput {
     /// the daily limit for Loyalty Points (LP)
     pub daily_lp_limit: Option<u64>,

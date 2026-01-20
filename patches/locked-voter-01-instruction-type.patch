@@ -1,13 +1,392 @@
+diff --git a/src/events/approve_lock_privilege_event.rs b/src/events/approve_lock_privilege_event.rs
+index ab5e0e1..74bd644 100644
+--- a/src/events/approve_lock_privilege_event.rs
++++ b/src/events/approve_lock_privilege_event.rs
+@@ -5,7 +5,7 @@ use carbon_core::deserialize::CarbonDeserialize;
+ use solana_pubkey::Pubkey;
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq, Eq, Hash)]
+ pub struct ApproveLockPrivilegeEventEvent {
+     pub locker: Pubkey,
+     pub program_id: Pubkey,
+diff --git a/src/events/exit_escrow_event.rs b/src/events/exit_escrow_event.rs
+index e543a37..f0d3f33 100644
+--- a/src/events/exit_escrow_event.rs
++++ b/src/events/exit_escrow_event.rs
+@@ -5,7 +5,7 @@ use carbon_core::deserialize::CarbonDeserialize;
+ use solana_pubkey::Pubkey;
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq, Eq, Hash)]
+ pub struct ExitEscrowEventEvent {
+     pub escrow_owner: Pubkey,
+     pub locker: Pubkey,
+diff --git a/src/events/lock_event.rs b/src/events/lock_event.rs
+index 92c0f2c..f5afe2c 100644
+--- a/src/events/lock_event.rs
++++ b/src/events/lock_event.rs
+@@ -5,7 +5,7 @@ use carbon_core::deserialize::CarbonDeserialize;
+ use solana_pubkey::Pubkey;
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq, Eq, Hash)]
+ pub struct LockEventEvent {
+     pub locker: Pubkey,
+     pub escrow_owner: Pubkey,
+diff --git a/src/events/locker_set_params_event.rs b/src/events/locker_set_params_event.rs
+index 3e9b7ee..892b470 100644
+--- a/src/events/locker_set_params_event.rs
++++ b/src/events/locker_set_params_event.rs
+@@ -6,7 +6,7 @@ use crate::types::LockerParams;
+ use solana_pubkey::Pubkey;
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq, Eq, Hash)]
+ pub struct LockerSetParamsEventEvent {
+     pub locker: Pubkey,
+     pub prev_params: LockerParams,
+diff --git a/src/events/new_escrow_event.rs b/src/events/new_escrow_event.rs
+index ecad544..067a15e 100644
+--- a/src/events/new_escrow_event.rs
++++ b/src/events/new_escrow_event.rs
+@@ -5,7 +5,7 @@ use carbon_core::deserialize::CarbonDeserialize;
+ use solana_pubkey::Pubkey;
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq, Eq, Hash)]
+ pub struct NewEscrowEventEvent {
+     pub escrow: Pubkey,
+     pub escrow_owner: Pubkey,
+diff --git a/src/events/new_locker_event.rs b/src/events/new_locker_event.rs
+index 639e869..db750fe 100644
+--- a/src/events/new_locker_event.rs
++++ b/src/events/new_locker_event.rs
+@@ -6,7 +6,7 @@ use crate::types::LockerParams;
+ use solana_pubkey::Pubkey;
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq, Eq, Hash)]
+ pub struct NewLockerEventEvent {
+     pub governor: Pubkey,
+     pub locker: Pubkey,
+diff --git a/src/events/revoke_lock_privilege_event.rs b/src/events/revoke_lock_privilege_event.rs
+index 1d6987e..4ada622 100644
+--- a/src/events/revoke_lock_privilege_event.rs
++++ b/src/events/revoke_lock_privilege_event.rs
+@@ -5,7 +5,7 @@ use carbon_core::deserialize::CarbonDeserialize;
+ use solana_pubkey::Pubkey;
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq, Eq, Hash)]
+ pub struct RevokeLockPrivilegeEventEvent {
+     pub locker: Pubkey,
+     pub program_id: Pubkey,
+diff --git a/src/events/set_vote_delegate_event.rs b/src/events/set_vote_delegate_event.rs
+index 28da11b..5bbe24b 100644
+--- a/src/events/set_vote_delegate_event.rs
++++ b/src/events/set_vote_delegate_event.rs
+@@ -5,7 +5,7 @@ use carbon_core::deserialize::CarbonDeserialize;
+ use solana_pubkey::Pubkey;
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq, Eq, Hash)]
+ pub struct SetVoteDelegateEventEvent {
+     pub escrow_owner: Pubkey,
+     pub old_delegate: Pubkey,
+diff --git a/src/instructions/activate_proposal.rs b/src/instructions/activate_proposal.rs
+index 92006c4..49cd7e7 100644
+--- a/src/instructions/activate_proposal.rs
++++ b/src/instructions/activate_proposal.rs
+@@ -8,7 +8,7 @@ use carbon_core::deserialize::CarbonDeserialize;
+ /// Activates a proposal.
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq, Eq, Hash)]
+ pub struct ActivateProposal {
+ }
+ 
+diff --git a/src/instructions/approve_program_lock_privilege.rs b/src/instructions/approve_program_lock_privilege.rs
+index 2ba6425..5398866 100644
+--- a/src/instructions/approve_program_lock_privilege.rs
++++ b/src/instructions/approve_program_lock_privilege.rs
+@@ -8,7 +8,7 @@ use carbon_core::deserialize::CarbonDeserialize;
+ /// Creates a new [LockerWhitelistEntry] to whitelist program from CPI.
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq, Eq, Hash)]
+ pub struct ApproveProgramLockPrivilege {
+     pub bump: u8,
+ }
+diff --git a/src/instructions/cast_vote.rs b/src/instructions/cast_vote.rs
+index 75a4b0f..6956525 100644
+--- a/src/instructions/cast_vote.rs
++++ b/src/instructions/cast_vote.rs
+@@ -8,7 +8,7 @@ use carbon_core::deserialize::CarbonDeserialize;
+ /// Casts a vote.
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq, Eq, Hash)]
+ pub struct CastVote {
+     pub side: u8,
+ }
+diff --git a/src/instructions/cpi_event.rs b/src/instructions/cpi_event.rs
+index ff15ad9..238c11d 100644
+--- a/src/instructions/cpi_event.rs
++++ b/src/instructions/cpi_event.rs
+@@ -5,7 +5,7 @@ use carbon_core::deserialize::ArrangeAccounts;
+ pub use super::super::events;
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, carbon_core::borsh::BorshSerialize, carbon_core::borsh::BorshDeserialize, PartialEq)]
++#[derive(Debug, Clone, carbon_core::borsh::BorshSerialize, carbon_core::borsh::BorshDeserialize, PartialEq, Eq, Hash)]
+ pub enum CpiEvent {
+     ApproveLockPrivilegeEvent(events::approve_lock_privilege_event::ApproveLockPrivilegeEventEvent),
+     ExitEscrowEvent(events::exit_escrow_event::ExitEscrowEventEvent),
+diff --git a/src/instructions/exit.rs b/src/instructions/exit.rs
+index 901c29c..c569ac8 100644
+--- a/src/instructions/exit.rs
++++ b/src/instructions/exit.rs
+@@ -9,7 +9,7 @@ use carbon_core::deserialize::CarbonDeserialize;
+ /// Exits the DAO; i.e., withdraws all staked tokens in an [Escrow] if the [Escrow] is unlocked.
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq, Eq, Hash)]
+ pub struct Exit {
+ }
+ 
+diff --git a/src/instructions/lock.rs b/src/instructions/lock.rs
+index b3456bf..5f3b3a0 100644
+--- a/src/instructions/lock.rs
++++ b/src/instructions/lock.rs
+@@ -10,7 +10,7 @@ use carbon_core::deserialize::CarbonDeserialize;
+ /// This version of the instruction is deprecated.
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq, Eq, Hash)]
+ pub struct Lock {
+     pub amount: u64,
+     pub duration: i64,
+diff --git a/src/instructions/lock_with_whitelist_entry.rs b/src/instructions/lock_with_whitelist_entry.rs
+index 85df59d..aba69c3 100644
+--- a/src/instructions/lock_with_whitelist_entry.rs
++++ b/src/instructions/lock_with_whitelist_entry.rs
+@@ -9,7 +9,7 @@ use carbon_core::deserialize::CarbonDeserialize;
+ /// Stakes `amount` tokens into the [Escrow] via CPI by using the provided [LockerWhitelistEntry].
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq, Eq, Hash)]
+ pub struct LockWithWhitelistEntry {
+     pub amount: u64,
+     pub duration: i64,
 diff --git a/src/instructions/mod.rs b/src/instructions/mod.rs
-index 3aca8e2..2831695 100644
+index 3aca8e2..60611d9 100644
 --- a/src/instructions/mod.rs
 +++ b/src/instructions/mod.rs
-@@ -30,7 +30,7 @@ pub use self::set_vote_delegate::*;
+@@ -29,8 +29,8 @@ pub use self::set_locker_params::*;
+ pub use self::set_vote_delegate::*;
  pub use self::cpi_event::*;
  
- #[derive(Debug, Clone, PartialEq)]
+-#[derive(Debug, Clone, PartialEq)]
 -#[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
++#[derive(Debug, Clone, PartialEq, Eq, Hash)]
 +#[cfg_attr(feature = "serde", derive(carbon_core::InstructionType, serde::Serialize, serde::Deserialize))]
  #[cfg_attr(feature = "serde", serde(tag = "type", content = "data"))]
  pub enum LockedVoterInstruction {
      ActivateProposal(ActivateProposal),
+diff --git a/src/instructions/new_escrow.rs b/src/instructions/new_escrow.rs
+index 06a06ee..b6b61b8 100644
+--- a/src/instructions/new_escrow.rs
++++ b/src/instructions/new_escrow.rs
+@@ -12,7 +12,7 @@ use carbon_core::deserialize::CarbonDeserialize;
+ /// linearly proportional to the amount of votes given.
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq, Eq, Hash)]
+ pub struct NewEscrow {
+     pub bump: u8,
+ }
+diff --git a/src/instructions/new_locker.rs b/src/instructions/new_locker.rs
+index 2dfe0d8..d28934e 100644
+--- a/src/instructions/new_locker.rs
++++ b/src/instructions/new_locker.rs
+@@ -9,7 +9,7 @@ use crate::types::LockerParams;
+ /// Creates a new [Locker].
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq, Eq, Hash)]
+ pub struct NewLocker {
+     pub bump: u8,
+     pub params: LockerParams,
+diff --git a/src/instructions/revoke_program_lock_privilege.rs b/src/instructions/revoke_program_lock_privilege.rs
+index 9739a7d..cf4fa13 100644
+--- a/src/instructions/revoke_program_lock_privilege.rs
++++ b/src/instructions/revoke_program_lock_privilege.rs
+@@ -8,7 +8,7 @@ use carbon_core::deserialize::CarbonDeserialize;
+ /// Close a [LockerWhitelistEntry] revoking program's CPI privilege.
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq, Eq, Hash)]
+ pub struct RevokeProgramLockPrivilege {
+ }
+ 
+diff --git a/src/instructions/set_locker_params.rs b/src/instructions/set_locker_params.rs
+index 97b9d19..a18373f 100644
+--- a/src/instructions/set_locker_params.rs
++++ b/src/instructions/set_locker_params.rs
+@@ -9,7 +9,7 @@ use crate::types::LockerParams;
+ /// Set locker params.
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq, Eq, Hash)]
+ pub struct SetLockerParams {
+     pub params: LockerParams,
+ }
+diff --git a/src/instructions/set_vote_delegate.rs b/src/instructions/set_vote_delegate.rs
+index c4835af..483297a 100644
+--- a/src/instructions/set_vote_delegate.rs
++++ b/src/instructions/set_vote_delegate.rs
+@@ -9,7 +9,7 @@ use solana_pubkey::Pubkey;
+ /// Delegate escrow vote.
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq, Eq, Hash)]
+ pub struct SetVoteDelegate {
+     pub new_delegate: Pubkey,
+ }
+diff --git a/src/types/approve_lock_privilege_event.rs b/src/types/approve_lock_privilege_event.rs
+index e93c885..300b153 100644
+--- a/src/types/approve_lock_privilege_event.rs
++++ b/src/types/approve_lock_privilege_event.rs
+@@ -3,7 +3,7 @@ use carbon_core::borsh;
+ use solana_pubkey::Pubkey;
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq, Eq, Hash)]
+ pub struct ApproveLockPrivilegeEvent {
+     pub locker: Pubkey,
+     pub program_id: Pubkey,
+diff --git a/src/types/exit_escrow_event.rs b/src/types/exit_escrow_event.rs
+index 106f3b1..022de21 100644
+--- a/src/types/exit_escrow_event.rs
++++ b/src/types/exit_escrow_event.rs
+@@ -3,7 +3,7 @@ use carbon_core::borsh;
+ use solana_pubkey::Pubkey;
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq, Eq, Hash)]
+ pub struct ExitEscrowEvent {
+     pub escrow_owner: Pubkey,
+     pub locker: Pubkey,
+diff --git a/src/types/lock_event.rs b/src/types/lock_event.rs
+index 25f70d4..c2244a1 100644
+--- a/src/types/lock_event.rs
++++ b/src/types/lock_event.rs
+@@ -3,7 +3,7 @@ use carbon_core::borsh;
+ use solana_pubkey::Pubkey;
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq, Eq, Hash)]
+ pub struct LockEvent {
+     pub locker: Pubkey,
+     pub escrow_owner: Pubkey,
+diff --git a/src/types/locker_params.rs b/src/types/locker_params.rs
+index 0f7f948..0a50ce3 100644
+--- a/src/types/locker_params.rs
++++ b/src/types/locker_params.rs
+@@ -3,7 +3,7 @@ use carbon_core::borsh;
+ /// Contains parameters for the [Locker].
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq, Eq, Hash)]
+ pub struct LockerParams {
+     /// Whether or not the locking whitelist system is enabled.
+     pub whitelist_enabled: bool,
+diff --git a/src/types/locker_set_params_event.rs b/src/types/locker_set_params_event.rs
+index 79bbcd0..daf5506 100644
+--- a/src/types/locker_set_params_event.rs
++++ b/src/types/locker_set_params_event.rs
+@@ -4,7 +4,7 @@ use crate::types::LockerParams;
+ use solana_pubkey::Pubkey;
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq, Eq, Hash)]
+ pub struct LockerSetParamsEvent {
+     pub locker: Pubkey,
+     pub prev_params: LockerParams,
+diff --git a/src/types/new_escrow_event.rs b/src/types/new_escrow_event.rs
+index dbfed38..edc7335 100644
+--- a/src/types/new_escrow_event.rs
++++ b/src/types/new_escrow_event.rs
+@@ -3,7 +3,7 @@ use carbon_core::borsh;
+ use solana_pubkey::Pubkey;
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq, Eq, Hash)]
+ pub struct NewEscrowEvent {
+     pub escrow: Pubkey,
+     pub escrow_owner: Pubkey,
+diff --git a/src/types/new_locker_event.rs b/src/types/new_locker_event.rs
+index 60b6e66..fbd49c7 100644
+--- a/src/types/new_locker_event.rs
++++ b/src/types/new_locker_event.rs
+@@ -4,7 +4,7 @@ use crate::types::LockerParams;
+ use solana_pubkey::Pubkey;
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq, Eq, Hash)]
+ pub struct NewLockerEvent {
+     pub governor: Pubkey,
+     pub locker: Pubkey,
+diff --git a/src/types/revoke_lock_privilege_event.rs b/src/types/revoke_lock_privilege_event.rs
+index 6ccd8f3..239a11c 100644
+--- a/src/types/revoke_lock_privilege_event.rs
++++ b/src/types/revoke_lock_privilege_event.rs
+@@ -3,7 +3,7 @@ use carbon_core::borsh;
+ use solana_pubkey::Pubkey;
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq, Eq, Hash)]
+ pub struct RevokeLockPrivilegeEvent {
+     pub locker: Pubkey,
+     pub program_id: Pubkey,
+diff --git a/src/types/set_vote_delegate_event.rs b/src/types/set_vote_delegate_event.rs
+index 0db97d3..4aee1dd 100644
+--- a/src/types/set_vote_delegate_event.rs
++++ b/src/types/set_vote_delegate_event.rs
+@@ -3,7 +3,7 @@ use carbon_core::borsh;
+ use solana_pubkey::Pubkey;
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq, Eq, Hash)]
+ pub struct SetVoteDelegateEvent {
+     pub escrow_owner: Pubkey,
+     pub old_delegate: Pubkey,

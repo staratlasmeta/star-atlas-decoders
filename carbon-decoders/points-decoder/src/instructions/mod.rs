@@ -32,7 +32,7 @@ pub use self::remove_point_category_level::*;
 pub use self::spend_points::*;
 pub use self::update_point_category::*;
 
-#[derive(Debug, Clone, PartialEq)]
+#[derive(Debug, Clone, PartialEq, Eq, Hash)]
 #[cfg_attr(
     feature = "serde",
     derive(carbon_core::InstructionType, serde::Serialize, serde::Deserialize)

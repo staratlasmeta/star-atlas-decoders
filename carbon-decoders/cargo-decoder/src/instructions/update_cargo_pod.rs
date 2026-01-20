@@ -10,7 +10,7 @@ use carbon_core::deserialize::CarbonDeserialize;
 /// Permissionless function.
 
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
-#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq)]
+#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq, Eq, Hash)]
 pub struct UpdateCargoPod {}
 
 #[derive(Debug, Clone, PartialEq)]

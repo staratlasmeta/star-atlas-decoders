@@ -4,7 +4,7 @@ use carbon_core::borsh;
 /// Struct for data input to Update Starbase Level Settings
 
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
-#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq)]
+#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq, Eq, Hash)]
 pub struct StarbaseLevelInfoArrayInput {
     /// The level of the `Starbase`.
     pub level: u8,

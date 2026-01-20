@@ -28,7 +28,7 @@ pub use self::revoke_program_lock_privilege::*;
 pub use self::set_locker_params::*;
 pub use self::set_vote_delegate::*;
 
-#[derive(Debug, Clone, PartialEq)]
+#[derive(Debug, Clone, PartialEq, Eq, Hash)]
 #[cfg_attr(
     feature = "serde",
     derive(carbon_core::InstructionType, serde::Serialize, serde::Deserialize)

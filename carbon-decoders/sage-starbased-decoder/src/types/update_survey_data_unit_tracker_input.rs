@@ -3,7 +3,7 @@ use carbon_core::borsh;
 /// Struct for data input to Update SurveyDataUnitTracker
 
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
-#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq)]
+#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq, Eq, Hash)]
 pub struct UpdateSurveyDataUnitTrackerInput {
     /// The valid coordinates range
     /// e.g. a value of [-50, 50] means that coordinates from [-50, -50] to [50, 50] are valid for SDU scanning

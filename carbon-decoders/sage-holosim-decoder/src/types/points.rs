@@ -4,7 +4,7 @@ use carbon_core::borsh;
 /// Variables for the Points program
 
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
-#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq)]
+#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq, Eq, Hash)]
 pub struct Points {
     /// Represents the points category & modifier to use for Loyalty Points (LP)
     pub lp_category: SagePointsCategory,

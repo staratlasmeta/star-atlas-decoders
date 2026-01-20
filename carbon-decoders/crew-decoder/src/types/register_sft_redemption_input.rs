@@ -4,7 +4,7 @@ use carbon_core::borsh;
 /// for the `register_sft_redemption` function in the Crew program.
 
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
-#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq)]
+#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq, Eq, Hash)]
 pub struct RegisterSftRedemptionInput {
     /// The number of cNFTs being received in exchange for the SFT
     pub redemption_amount: u32,

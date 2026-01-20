@@ -3,7 +3,7 @@ use carbon_core::borsh;
 /// Represents token redemptions for a 24-hour period
 
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
-#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq)]
+#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq, Eq, Hash)]
 pub struct RedemptionEpoch {
     /// The total points submitted by all users to be redeemed for this epoch
     pub total_points: u64,

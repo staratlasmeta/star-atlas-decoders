@@ -4,7 +4,7 @@ use carbon_core::borsh;
 /// Struct for data input to Update point categories
 
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
-#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq)]
+#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq, Eq, Hash)]
 pub struct UpdatePointCategoryInput {
     /// point limit
     pub point_limit: Option<u64>,

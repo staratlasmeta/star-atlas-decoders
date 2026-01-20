@@ -3,7 +3,7 @@ use carbon_core::borsh;
 /// Struct for data input for that has `key_index`
 
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
-#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq)]
+#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq, Eq, Hash)]
 pub struct ForcedDisbandFleetInput {
     /// Index of `FleetShipsInfo` in remaining data of `FleetShips`
     pub fleet_ship_info_index: u32,

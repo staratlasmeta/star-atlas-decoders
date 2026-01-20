@@ -3,7 +3,7 @@ use carbon_core::borsh;
 /// Struct for data input to managing Game accounts
 
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
-#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq)]
+#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq, Eq, Hash)]
 pub struct ManageGameInput {
     /// the index of the key in the sector permissions profile
     pub key_index: u16,

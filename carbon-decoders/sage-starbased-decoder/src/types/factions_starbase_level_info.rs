@@ -4,7 +4,7 @@ use carbon_core::borsh;
 /// `Starbase` levels discriminated by faction
 
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
-#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq)]
+#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq, Eq, Hash)]
 pub struct FactionsStarbaseLevelInfo {
     /// Mud Starbase Levels Info
     pub mud: [StarbaseLevelInfo; 7],

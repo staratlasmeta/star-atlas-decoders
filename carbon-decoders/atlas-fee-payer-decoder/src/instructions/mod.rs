@@ -18,7 +18,7 @@ pub use self::post_transaction_no_vault::*;
 pub use self::pre_transaction::*;
 pub use self::set_fee_payer_rates::*;
 
-#[derive(Debug, Clone, PartialEq)]
+#[derive(Debug, Clone, PartialEq, Eq, Hash)]
 #[cfg_attr(
     feature = "serde",
     derive(carbon_core::InstructionType, serde::Serialize, serde::Deserialize)

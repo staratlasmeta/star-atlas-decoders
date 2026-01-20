@@ -18,7 +18,7 @@ pub use self::register_pack_type::*;
 pub use self::register_sft_redemption::*;
 pub use self::update_pack_tiers::*;
 
-#[derive(Debug, Clone, PartialEq)]
+#[derive(Debug, Clone, PartialEq, Eq, Hash)]
 #[cfg_attr(
     feature = "serde",
     derive(carbon_core::InstructionType, serde::Serialize, serde::Deserialize)

@@ -4,7 +4,7 @@ use solana_pubkey::Pubkey;
 /// The [`RecipeInputsOutputs`] struct.
 
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
-#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq)]
+#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq, Eq, Hash)]
 pub struct RecipeInputsOutputs {
     /// Amount of Input/Output required/produced.
     pub amount: u64,

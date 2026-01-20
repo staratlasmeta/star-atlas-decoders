@@ -3,7 +3,7 @@ use carbon_core::borsh;
 /// Input for `UpdateRedemptionEpoch`
 
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
-#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq)]
+#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq, Eq, Hash)]
 pub struct UpdateRedemptionEpochInput {
     /// The total tokens that can redeemed for this epoch
     pub total_tokens: u64,

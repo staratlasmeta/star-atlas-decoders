@@ -66,7 +66,7 @@ pub use self::update_domain::*;
 pub use self::update_recipe::*;
 pub use self::update_recipe_category::*;
 
-#[derive(Debug, Clone, PartialEq)]
+#[derive(Debug, Clone, PartialEq, Eq, Hash)]
 #[cfg_attr(
     feature = "serde",
     derive(carbon_core::InstructionType, serde::Serialize, serde::Deserialize)

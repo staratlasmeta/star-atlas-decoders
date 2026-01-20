@@ -3,7 +3,7 @@ use carbon_core::borsh;
 /// Struct for data input for `AddShipEscrow`
 
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
-#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq)]
+#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq, Eq, Hash)]
 pub struct AddShipEscrowInput {
     /// Amount of `Ship` tokens to transfer to escrow
     pub ship_amount: u64,

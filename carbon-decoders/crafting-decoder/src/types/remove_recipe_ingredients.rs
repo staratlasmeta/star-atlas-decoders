@@ -3,7 +3,7 @@ use carbon_core::borsh;
 /// used as input struct when removing recipe ingredients
 
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
-#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq)]
+#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq, Eq, Hash)]
 pub struct RemoveRecipeIngredients {
     /// the index of the key in the crafting permissions profile
     pub key_index: u16,

@@ -38,7 +38,7 @@ pub use self::update_cargo_pod::*;
 pub use self::update_definition::*;
 pub use self::update_pod_token_account::*;
 
-#[derive(Debug, Clone, PartialEq)]
+#[derive(Debug, Clone, PartialEq, Eq, Hash)]
 #[cfg_attr(
     feature = "serde",
     derive(carbon_core::InstructionType, serde::Serialize, serde::Deserialize)

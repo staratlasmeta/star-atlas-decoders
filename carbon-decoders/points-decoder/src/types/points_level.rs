@@ -4,7 +4,7 @@ use solana_pubkey::Pubkey;
 /// Defines an individual points level
 
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
-#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq)]
+#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq, Eq, Hash)]
 pub struct PointsLevel {
     /// the level
     pub level: u16,

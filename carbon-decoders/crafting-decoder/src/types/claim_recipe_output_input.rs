@@ -3,7 +3,7 @@ use carbon_core::borsh;
 /// Struct for data input to claim an output
 
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
-#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq)]
+#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq, Eq, Hash)]
 pub struct ClaimRecipeOutputInput {
     /// the index of the recipe output
     pub ingredient_index: u16,

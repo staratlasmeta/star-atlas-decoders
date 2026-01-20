@@ -4,7 +4,7 @@ use carbon_core::borsh;
 /// for the `update_pack_tiers` function in the Crew program.
 
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
-#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq)]
+#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq, Eq, Hash)]
 pub struct UpdatePackTiersInput {
     /// the index of the authorizing key in the crew permissions profile
     pub key_index: u16,

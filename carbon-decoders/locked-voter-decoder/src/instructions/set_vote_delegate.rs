@@ -9,7 +9,7 @@ use solana_pubkey::Pubkey;
 /// Delegate escrow vote.
 
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
-#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq)]
+#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq, Eq, Hash)]
 pub struct SetVoteDelegate {
     pub new_delegate: Pubkey,
 }

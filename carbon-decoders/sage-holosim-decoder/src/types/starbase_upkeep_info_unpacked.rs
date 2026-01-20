@@ -3,7 +3,7 @@ use carbon_core::borsh;
 /// Unpacked version of [`StarbaseUpkeepInfo`]
 
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
-#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq)]
+#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq, Eq, Hash)]
 pub struct StarbaseUpkeepInfoUnpacked {
     /// The maximum amount of ammo that can be committed upkeep by players
     /// If 0 (zero) then ammo upkeep is disabled

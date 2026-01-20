@@ -3,7 +3,7 @@ use carbon_core::borsh;
 /// Input data to increment points
 
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
-#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq)]
+#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq, Eq, Hash)]
 pub struct IncrementPointsInput {
     /// the amount of points to increment
     pub points: u64,

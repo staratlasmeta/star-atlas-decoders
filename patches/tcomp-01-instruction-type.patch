@@ -1,13 +1,496 @@
+diff --git a/src/instructions/bid.rs b/src/instructions/bid.rs
+index 455a046..90cd968 100644
+--- a/src/instructions/bid.rs
++++ b/src/instructions/bid.rs
+@@ -9,7 +9,7 @@ use crate::types::Target;
+ use solana_pubkey::Pubkey;
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq, Eq, Hash)]
+ pub struct Bid {
+     pub bid_id: Pubkey,
+     pub target: Target,
+diff --git a/src/instructions/buy.rs b/src/instructions/buy.rs
+index 348e765..c60e78e 100644
+--- a/src/instructions/buy.rs
++++ b/src/instructions/buy.rs
+@@ -6,7 +6,7 @@ use carbon_core::deserialize::ArrangeAccounts;
+ use carbon_core::deserialize::CarbonDeserialize;
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq, Eq, Hash)]
+ pub struct Buy {
+     pub nonce: u64,
+     pub index: u32,
+diff --git a/src/instructions/buy_core.rs b/src/instructions/buy_core.rs
+index 90cfadb..7927da6 100644
+--- a/src/instructions/buy_core.rs
++++ b/src/instructions/buy_core.rs
+@@ -6,7 +6,7 @@ use carbon_core::deserialize::ArrangeAccounts;
+ use carbon_core::deserialize::CarbonDeserialize;
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq, Eq, Hash)]
+ pub struct BuyCore {
+     pub max_amount: u64,
+ }
+diff --git a/src/instructions/buy_spl.rs b/src/instructions/buy_spl.rs
+index c92e5a0..6428025 100644
+--- a/src/instructions/buy_spl.rs
++++ b/src/instructions/buy_spl.rs
+@@ -6,7 +6,7 @@ use carbon_core::deserialize::ArrangeAccounts;
+ use carbon_core::deserialize::CarbonDeserialize;
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq, Eq, Hash)]
+ pub struct BuySpl {
+     pub nonce: u64,
+     pub index: u32,
+diff --git a/src/instructions/cancel_bid.rs b/src/instructions/cancel_bid.rs
+index c73c113..274b9a5 100644
+--- a/src/instructions/cancel_bid.rs
++++ b/src/instructions/cancel_bid.rs
+@@ -6,7 +6,7 @@ use carbon_core::deserialize::ArrangeAccounts;
+ use carbon_core::deserialize::CarbonDeserialize;
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq, Eq, Hash)]
+ pub struct CancelBid {
+ }
+ 
+diff --git a/src/instructions/close_expired_bid.rs b/src/instructions/close_expired_bid.rs
+index 36e7c98..27306c3 100644
+--- a/src/instructions/close_expired_bid.rs
++++ b/src/instructions/close_expired_bid.rs
+@@ -6,7 +6,7 @@ use carbon_core::deserialize::ArrangeAccounts;
+ use carbon_core::deserialize::CarbonDeserialize;
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq, Eq, Hash)]
+ pub struct CloseExpiredBid {
+ }
+ 
+diff --git a/src/instructions/close_expired_listing.rs b/src/instructions/close_expired_listing.rs
+index 1a1244c..bd98fb4 100644
+--- a/src/instructions/close_expired_listing.rs
++++ b/src/instructions/close_expired_listing.rs
+@@ -6,7 +6,7 @@ use carbon_core::deserialize::ArrangeAccounts;
+ use carbon_core::deserialize::CarbonDeserialize;
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq, Eq, Hash)]
+ pub struct CloseExpiredListing {
+     pub nonce: u64,
+     pub index: u32,
+diff --git a/src/instructions/close_expired_listing_core.rs b/src/instructions/close_expired_listing_core.rs
+index 4db39d1..88ababe 100644
+--- a/src/instructions/close_expired_listing_core.rs
++++ b/src/instructions/close_expired_listing_core.rs
+@@ -6,7 +6,7 @@ use carbon_core::deserialize::ArrangeAccounts;
+ use carbon_core::deserialize::CarbonDeserialize;
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq, Eq, Hash)]
+ pub struct CloseExpiredListingCore {
+ }
+ 
+diff --git a/src/instructions/delist.rs b/src/instructions/delist.rs
+index 392505d..c0c9dd6 100644
+--- a/src/instructions/delist.rs
++++ b/src/instructions/delist.rs
+@@ -6,7 +6,7 @@ use carbon_core::deserialize::ArrangeAccounts;
+ use carbon_core::deserialize::CarbonDeserialize;
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq, Eq, Hash)]
+ pub struct Delist {
+     pub nonce: u64,
+     pub index: u32,
+diff --git a/src/instructions/delist_core.rs b/src/instructions/delist_core.rs
+index ef22768..1478f26 100644
+--- a/src/instructions/delist_core.rs
++++ b/src/instructions/delist_core.rs
+@@ -6,7 +6,7 @@ use carbon_core::deserialize::ArrangeAccounts;
+ use carbon_core::deserialize::CarbonDeserialize;
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq, Eq, Hash)]
+ pub struct DelistCore {
+ }
+ 
+diff --git a/src/instructions/edit.rs b/src/instructions/edit.rs
+index 7d0d88e..30924d4 100644
+--- a/src/instructions/edit.rs
++++ b/src/instructions/edit.rs
+@@ -7,7 +7,7 @@ use carbon_core::deserialize::CarbonDeserialize;
+ use solana_pubkey::Pubkey;
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq, Eq, Hash)]
+ pub struct Edit {
+     pub amount: u64,
+     pub expire_in_sec: Option<u64>,
+diff --git a/src/instructions/list.rs b/src/instructions/list.rs
+index 126e154..5992c4f 100644
+--- a/src/instructions/list.rs
++++ b/src/instructions/list.rs
+@@ -7,7 +7,7 @@ use carbon_core::deserialize::CarbonDeserialize;
+ use solana_pubkey::Pubkey;
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq, Eq, Hash)]
+ pub struct List {
+     pub nonce: u64,
+     pub index: u32,
+diff --git a/src/instructions/list_core.rs b/src/instructions/list_core.rs
+index c60d829..4817a4f 100644
+--- a/src/instructions/list_core.rs
++++ b/src/instructions/list_core.rs
+@@ -7,7 +7,7 @@ use carbon_core::deserialize::CarbonDeserialize;
+ use solana_pubkey::Pubkey;
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq, Eq, Hash)]
+ pub struct ListCore {
+     pub amount: u64,
+     pub expire_in_sec: Option<u64>,
 diff --git a/src/instructions/mod.rs b/src/instructions/mod.rs
-index 82ef02f..72d0b5d 100644
+index 82ef02f..d7cf379 100644
 --- a/src/instructions/mod.rs
 +++ b/src/instructions/mod.rs
-@@ -48,7 +48,7 @@ pub use self::tcomp_noop::*;
+@@ -47,8 +47,8 @@ pub use self::take_bid_wns::*;
+ pub use self::tcomp_noop::*;
  pub use self::withdraw_fees::*;
  
- #[derive(Debug, Clone, PartialEq)]
+-#[derive(Debug, Clone, PartialEq)]
 -#[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
++#[derive(Debug, Clone, PartialEq, Eq, Hash)]
 +#[cfg_attr(feature = "serde", derive(carbon_core::InstructionType, serde::Serialize, serde::Deserialize))]
  #[cfg_attr(feature = "serde", serde(tag = "type", content = "data"))]
  pub enum TcompInstruction {
      Bid(Bid),
+diff --git a/src/instructions/take_bid_core.rs b/src/instructions/take_bid_core.rs
+index 5fe1da0..766b36d 100644
+--- a/src/instructions/take_bid_core.rs
++++ b/src/instructions/take_bid_core.rs
+@@ -6,7 +6,7 @@ use carbon_core::deserialize::ArrangeAccounts;
+ use carbon_core::deserialize::CarbonDeserialize;
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq, Eq, Hash)]
+ pub struct TakeBidCore {
+     pub min_amount: u64,
+ }
+diff --git a/src/instructions/take_bid_full_meta.rs b/src/instructions/take_bid_full_meta.rs
+index 3193e45..6e1182e 100644
+--- a/src/instructions/take_bid_full_meta.rs
++++ b/src/instructions/take_bid_full_meta.rs
+@@ -7,7 +7,7 @@ use carbon_core::deserialize::CarbonDeserialize;
+ use crate::types::TMetadataArgs;
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq, Eq, Hash)]
+ pub struct TakeBidFullMeta {
+     pub nonce: u64,
+     pub index: u32,
+diff --git a/src/instructions/take_bid_legacy.rs b/src/instructions/take_bid_legacy.rs
+index 800caa4..9088b2f 100644
+--- a/src/instructions/take_bid_legacy.rs
++++ b/src/instructions/take_bid_legacy.rs
+@@ -7,7 +7,7 @@ use carbon_core::deserialize::CarbonDeserialize;
+ use crate::types::AuthorizationDataLocal;
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq, Eq, Hash)]
+ pub struct TakeBidLegacy {
+     pub min_amount: u64,
+     pub optional_royalty_pct: Option<u16>,
+diff --git a/src/instructions/take_bid_meta_hash.rs b/src/instructions/take_bid_meta_hash.rs
+index 52653f4..3f8e5f6 100644
+--- a/src/instructions/take_bid_meta_hash.rs
++++ b/src/instructions/take_bid_meta_hash.rs
+@@ -6,7 +6,7 @@ use carbon_core::deserialize::ArrangeAccounts;
+ use carbon_core::deserialize::CarbonDeserialize;
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq, Eq, Hash)]
+ pub struct TakeBidMetaHash {
+     pub nonce: u64,
+     pub index: u32,
+diff --git a/src/instructions/take_bid_t22.rs b/src/instructions/take_bid_t22.rs
+index cb4db9a..587f327 100644
+--- a/src/instructions/take_bid_t22.rs
++++ b/src/instructions/take_bid_t22.rs
+@@ -6,7 +6,7 @@ use carbon_core::deserialize::ArrangeAccounts;
+ use carbon_core::deserialize::CarbonDeserialize;
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq, Eq, Hash)]
+ pub struct TakeBidT22 {
+     pub min_amount: u64,
+ }
+diff --git a/src/instructions/take_bid_wns.rs b/src/instructions/take_bid_wns.rs
+index 4c7cb7d..4df47ba 100644
+--- a/src/instructions/take_bid_wns.rs
++++ b/src/instructions/take_bid_wns.rs
+@@ -6,7 +6,7 @@ use carbon_core::deserialize::ArrangeAccounts;
+ use carbon_core::deserialize::CarbonDeserialize;
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq, Eq, Hash)]
+ pub struct TakeBidWns {
+     pub min_amount: u64,
+ }
+diff --git a/src/instructions/tcomp_noop.rs b/src/instructions/tcomp_noop.rs
+index acf4655..96ec4a8 100644
+--- a/src/instructions/tcomp_noop.rs
++++ b/src/instructions/tcomp_noop.rs
+@@ -7,7 +7,7 @@ use carbon_core::deserialize::CarbonDeserialize;
+ use crate::types::TcompEvent;
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq, Eq, Hash)]
+ pub struct TcompNoop {
+     pub event: TcompEvent,
+ }
+diff --git a/src/instructions/withdraw_fees.rs b/src/instructions/withdraw_fees.rs
+index b8bad21..93f6a2b 100644
+--- a/src/instructions/withdraw_fees.rs
++++ b/src/instructions/withdraw_fees.rs
+@@ -6,7 +6,7 @@ use carbon_core::deserialize::ArrangeAccounts;
+ use carbon_core::deserialize::CarbonDeserialize;
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq, Eq, Hash)]
+ pub struct WithdrawFees {
+     pub amount: u64,
+ }
+diff --git a/src/types/authorization_data_local.rs b/src/types/authorization_data_local.rs
+index 665e7ba..16c14e5 100644
+--- a/src/types/authorization_data_local.rs
++++ b/src/types/authorization_data_local.rs
+@@ -3,7 +3,7 @@ use carbon_core::borsh;
+ use crate::types::TaggedPayload;
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq, Eq, Hash)]
+ pub struct AuthorizationDataLocal {
+     pub payload: Vec<TaggedPayload>,
+ }
+diff --git a/src/types/field.rs b/src/types/field.rs
+index 056dfe2..570bc91 100644
+--- a/src/types/field.rs
++++ b/src/types/field.rs
+@@ -2,7 +2,7 @@
+ use carbon_core::borsh;
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq, Eq, Hash)]
+ pub enum Field {
+     Name,
+ }
+diff --git a/src/types/make_event.rs b/src/types/make_event.rs
+index bf655e4..0155870 100644
+--- a/src/types/make_event.rs
++++ b/src/types/make_event.rs
+@@ -5,7 +5,7 @@ use crate::types::Target;
+ use solana_pubkey::Pubkey;
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq, Eq, Hash)]
+ pub struct MakeEvent {
+     pub maker: Pubkey,
+     pub bid_id: Option<Pubkey>,
+diff --git a/src/types/payload_type_local.rs b/src/types/payload_type_local.rs
+index 8344f8b..3883520 100644
+--- a/src/types/payload_type_local.rs
++++ b/src/types/payload_type_local.rs
+@@ -5,7 +5,7 @@ use crate::types::SeedsVecLocal;
+ use solana_pubkey::Pubkey;
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq, Eq, Hash)]
+ pub enum PayloadTypeLocal {
+     Pubkey(Pubkey),
+     Seeds(SeedsVecLocal),
+diff --git a/src/types/proof_info_local.rs b/src/types/proof_info_local.rs
+index d5d964a..958814b 100644
+--- a/src/types/proof_info_local.rs
++++ b/src/types/proof_info_local.rs
+@@ -2,7 +2,7 @@
+ use carbon_core::borsh;
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq, Eq, Hash)]
+ pub struct ProofInfoLocal {
+     /// The merkle proof.
+     pub proof: Vec<[u8; 32]>,
+diff --git a/src/types/seeds_vec_local.rs b/src/types/seeds_vec_local.rs
+index 7c54465..2b2f6f3 100644
+--- a/src/types/seeds_vec_local.rs
++++ b/src/types/seeds_vec_local.rs
+@@ -2,7 +2,7 @@
+ use carbon_core::borsh;
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq, Eq, Hash)]
+ pub struct SeedsVecLocal {
+     /// The vector of derivation seeds.
+     pub seeds: Vec<Vec<u8>>,
+diff --git a/src/types/t_collection.rs b/src/types/t_collection.rs
+index 660019b..d55aec5 100644
+--- a/src/types/t_collection.rs
++++ b/src/types/t_collection.rs
+@@ -3,7 +3,7 @@ use carbon_core::borsh;
+ use solana_pubkey::Pubkey;
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq, Eq, Hash)]
+ pub struct TCollection {
+     pub verified: bool,
+     pub key: Pubkey,
+diff --git a/src/types/t_metadata_args.rs b/src/types/t_metadata_args.rs
+index 7921290..08a3c45 100644
+--- a/src/types/t_metadata_args.rs
++++ b/src/types/t_metadata_args.rs
+@@ -6,7 +6,7 @@ use crate::types::TTokenStandard;
+ use crate::types::TUses;
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq, Eq, Hash)]
+ pub struct TMetadataArgs {
+     /// The name of the asset
+     pub name: String,
+diff --git a/src/types/t_token_program_version.rs b/src/types/t_token_program_version.rs
+index e9bec55..4379131 100644
+--- a/src/types/t_token_program_version.rs
++++ b/src/types/t_token_program_version.rs
+@@ -2,7 +2,7 @@
+ use carbon_core::borsh;
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq, Eq, Hash)]
+ pub enum TTokenProgramVersion {
+     Original,
+     Token2022,
+diff --git a/src/types/t_token_standard.rs b/src/types/t_token_standard.rs
+index 897e73c..ce3c07f 100644
+--- a/src/types/t_token_standard.rs
++++ b/src/types/t_token_standard.rs
+@@ -2,7 +2,7 @@
+ use carbon_core::borsh;
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq, Eq, Hash)]
+ pub enum TTokenStandard {
+     NonFungible,
+     FungibleAsset,
+diff --git a/src/types/t_use_method.rs b/src/types/t_use_method.rs
+index 46aa599..972b2fb 100644
+--- a/src/types/t_use_method.rs
++++ b/src/types/t_use_method.rs
+@@ -2,7 +2,7 @@
+ use carbon_core::borsh;
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq, Eq, Hash)]
+ pub enum TUseMethod {
+     Burn,
+     Multiple,
+diff --git a/src/types/t_uses.rs b/src/types/t_uses.rs
+index c4f0550..28ba7b9 100644
+--- a/src/types/t_uses.rs
++++ b/src/types/t_uses.rs
+@@ -3,7 +3,7 @@ use carbon_core::borsh;
+ use crate::types::TUseMethod;
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq, Eq, Hash)]
+ pub struct TUses {
+     pub use_method: TUseMethod,
+     pub remaining: u64,
+diff --git a/src/types/tagged_payload.rs b/src/types/tagged_payload.rs
+index 78dfa2d..ecc35f4 100644
+--- a/src/types/tagged_payload.rs
++++ b/src/types/tagged_payload.rs
+@@ -3,7 +3,7 @@ use carbon_core::borsh;
+ use crate::types::PayloadTypeLocal;
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq, Eq, Hash)]
+ pub struct TaggedPayload {
+     pub name: String,
+     pub payload: PayloadTypeLocal,
+diff --git a/src/types/take_event.rs b/src/types/take_event.rs
+index 6429837..6987777 100644
+--- a/src/types/take_event.rs
++++ b/src/types/take_event.rs
+@@ -5,7 +5,7 @@ use crate::types::Target;
+ use solana_pubkey::Pubkey;
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq, Eq, Hash)]
+ pub struct TakeEvent {
+     pub taker: Pubkey,
+     pub bid_id: Option<Pubkey>,
+diff --git a/src/types/target.rs b/src/types/target.rs
+index 50b375a..896a2bf 100644
+--- a/src/types/target.rs
++++ b/src/types/target.rs
+@@ -2,7 +2,7 @@
+ use carbon_core::borsh;
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq, Eq, Hash)]
+ pub enum Target {
+     AssetId,
+     Whitelist,
+diff --git a/src/types/tcomp_event.rs b/src/types/tcomp_event.rs
+index 79af7e3..14b4f16 100644
+--- a/src/types/tcomp_event.rs
++++ b/src/types/tcomp_event.rs
+@@ -4,7 +4,7 @@ use crate::types::MakeEvent;
+ use crate::types::TakeEvent;
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq, Eq, Hash)]
+ pub enum TcompEvent {
+     Maker(MakeEvent),
+     Taker(TakeEvent),

@@ -3,7 +3,7 @@ use carbon_core::borsh;
 /// used as input struct when registering a Recipe
 
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
-#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq)]
+#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq, Eq, Hash)]
 pub struct RegisterRecipeInput {
     /// the recipe duration (seconds)
     pub duration: i64,

@@ -218,7 +218,7 @@ pub use self::withdraw_cargo_from_fleet::*;
 pub use self::withdraw_cargo_from_game::*;
 pub use self::withdraw_crafting_ingredient::*;
 
-#[derive(Debug, Clone, PartialEq)]
+#[derive(Debug, Clone, PartialEq, Eq, Hash)]
 #[cfg_attr(
     feature = "serde",
     derive(carbon_core::InstructionType, serde::Serialize, serde::Deserialize)

@@ -3,7 +3,7 @@ use carbon_core::borsh;
 /// The event which allowed a particular transaction thread to be triggered.
 
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
-#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq)]
+#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq, Eq, Hash)]
 pub enum TriggerContext {
     Account {
         /// The account's data hash.

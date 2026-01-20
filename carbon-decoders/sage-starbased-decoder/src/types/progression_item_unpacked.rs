@@ -3,7 +3,7 @@ use carbon_core::borsh;
 /// Unpacked version of [`ProgressionItem`]
 
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
-#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq)]
+#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq, Eq, Hash)]
 pub struct ProgressionItemUnpacked {
     /// The progression points value
     pub value: u32,

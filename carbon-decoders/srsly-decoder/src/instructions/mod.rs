@@ -18,7 +18,7 @@ pub use self::create_contract::*;
 pub use self::pay_rental::*;
 pub use self::reset_rental::*;
 
-#[derive(Debug, Clone, PartialEq)]
+#[derive(Debug, Clone, PartialEq, Eq, Hash)]
 #[cfg_attr(
     feature = "serde",
     derive(carbon_core::InstructionType, serde::Serialize, serde::Deserialize)

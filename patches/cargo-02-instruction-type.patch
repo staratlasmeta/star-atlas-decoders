@@ -1,13 +1,288 @@
+diff --git a/src/instructions/add_cargo.rs b/src/instructions/add_cargo.rs
+index fbb520d..26eb4eb 100644
+--- a/src/instructions/add_cargo.rs
++++ b/src/instructions/add_cargo.rs
+@@ -9,7 +9,7 @@ use carbon_core::deserialize::CarbonDeserialize;
+ /// Requires the authority to sign.
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq, Eq, Hash)]
+ pub struct AddCargo {
+     pub cargo_amount: u64,
+ }
+diff --git a/src/instructions/close_cargo_pod.rs b/src/instructions/close_cargo_pod.rs
+index 698a922..359491b 100644
+--- a/src/instructions/close_cargo_pod.rs
++++ b/src/instructions/close_cargo_pod.rs
+@@ -9,7 +9,7 @@ use carbon_core::deserialize::CarbonDeserialize;
+ /// Requires the authority to sign.
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq, Eq, Hash)]
+ pub struct CloseCargoPod {
+ }
+ 
+diff --git a/src/instructions/close_token_account.rs b/src/instructions/close_token_account.rs
+index 2a1133c..cb0012e 100644
+--- a/src/instructions/close_token_account.rs
++++ b/src/instructions/close_token_account.rs
+@@ -9,7 +9,7 @@ use carbon_core::deserialize::CarbonDeserialize;
+ /// Requires the authority to sign.
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq, Eq, Hash)]
+ pub struct CloseTokenAccount {
+ }
+ 
+diff --git a/src/instructions/consume_cargo.rs b/src/instructions/consume_cargo.rs
+index 82426a5..1fdbc3a 100644
+--- a/src/instructions/consume_cargo.rs
++++ b/src/instructions/consume_cargo.rs
+@@ -9,7 +9,7 @@ use carbon_core::deserialize::CarbonDeserialize;
+ /// Requires the authority to sign.
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq, Eq, Hash)]
+ pub struct ConsumeCargo {
+     pub cargo_amount: u64,
+ }
+diff --git a/src/instructions/init_cargo_pod.rs b/src/instructions/init_cargo_pod.rs
+index 15dfaac..1f7ada7 100644
+--- a/src/instructions/init_cargo_pod.rs
++++ b/src/instructions/init_cargo_pod.rs
+@@ -8,7 +8,7 @@ use carbon_core::deserialize::CarbonDeserialize;
+ /// Inits a new [`CargoPod`](state::CargoPod) account for the given [`CargoStatsDefinition`](state::CargoStatsDefinition) and authority.
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq, Eq, Hash)]
+ pub struct InitCargoPod {
+     pub pod_seeds: [u8; 32],
+ }
+diff --git a/src/instructions/init_cargo_type.rs b/src/instructions/init_cargo_type.rs
+index 746f31c..17a3f5f 100644
+--- a/src/instructions/init_cargo_type.rs
++++ b/src/instructions/init_cargo_type.rs
+@@ -9,7 +9,7 @@ use crate::types::InitCargoTypeInput;
+ /// Inits a new [`CargoType`](state::CargoType) account for the given [`CargoStatsDefinition`](state::CargoStatsDefinition).
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq, Eq, Hash)]
+ pub struct InitCargoType {
+     pub input: InitCargoTypeInput,
+ }
+diff --git a/src/instructions/init_cargo_type_for_next_seq_id.rs b/src/instructions/init_cargo_type_for_next_seq_id.rs
+index 0e92909..821a4b7 100644
+--- a/src/instructions/init_cargo_type_for_next_seq_id.rs
++++ b/src/instructions/init_cargo_type_for_next_seq_id.rs
+@@ -9,7 +9,7 @@ use crate::types::InitCargoTypeInput;
+ /// Creates a new cargo type for the next `seq_id`.
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq, Eq, Hash)]
+ pub struct InitCargoTypeForNextSeqId {
+     pub input: InitCargoTypeInput,
+ }
+diff --git a/src/instructions/init_cargo_type_from_old_cargo_type.rs b/src/instructions/init_cargo_type_from_old_cargo_type.rs
+index 268a379..dd99344 100644
+--- a/src/instructions/init_cargo_type_from_old_cargo_type.rs
++++ b/src/instructions/init_cargo_type_from_old_cargo_type.rs
+@@ -9,7 +9,7 @@ use crate::types::InitCargoTypeFromOldCargoTypeInput;
+ /// Creates a new cargo type for the next `seq_id` from a given cargo type.
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq, Eq, Hash)]
+ pub struct InitCargoTypeFromOldCargoType {
+     pub input: InitCargoTypeFromOldCargoTypeInput,
+ }
+diff --git a/src/instructions/init_definition.rs b/src/instructions/init_definition.rs
+index c0fe236..bf30055 100644
+--- a/src/instructions/init_definition.rs
++++ b/src/instructions/init_definition.rs
+@@ -9,7 +9,7 @@ use crate::types::InitDefinitionInput;
+ /// Inits a [`CargoStatsDefinition`](state::CargoStatsDefinition) account.
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq, Eq, Hash)]
+ pub struct InitDefinition {
+     pub input: InitDefinitionInput,
+ }
+diff --git a/src/instructions/legitimize_cargo.rs b/src/instructions/legitimize_cargo.rs
+index d03b4c8..8ea2c3b 100644
+--- a/src/instructions/legitimize_cargo.rs
++++ b/src/instructions/legitimize_cargo.rs
+@@ -9,7 +9,7 @@ use carbon_core::deserialize::CarbonDeserialize;
+ /// Requires the authority to sign.
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq, Eq, Hash)]
+ pub struct LegitimizeCargo {
+     pub cargo_amount: u64,
+ }
+diff --git a/src/instructions/mint_to.rs b/src/instructions/mint_to.rs
+index df864ae..f7e5f35 100644
+--- a/src/instructions/mint_to.rs
++++ b/src/instructions/mint_to.rs
+@@ -9,7 +9,7 @@ use carbon_core::deserialize::CarbonDeserialize;
+ /// Requires the authority to sign.
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq, Eq, Hash)]
+ pub struct MintTo {
+     pub mint_amount: u64,
+ }
 diff --git a/src/instructions/mod.rs b/src/instructions/mod.rs
-index c19fabe..1df0fc4 100644
+index c19fabe..89df477 100644
 --- a/src/instructions/mod.rs
 +++ b/src/instructions/mod.rs
-@@ -40,7 +40,7 @@ pub use self::update_definition::*;
+@@ -39,8 +39,8 @@ pub use self::update_cargo_pod::*;
+ pub use self::update_definition::*;
  pub use self::update_pod_token_account::*;
  
- #[derive(Debug, Clone, PartialEq)]
+-#[derive(Debug, Clone, PartialEq)]
 -#[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
++#[derive(Debug, Clone, PartialEq, Eq, Hash)]
 +#[cfg_attr(feature = "serde", derive(carbon_core::InstructionType, serde::Serialize, serde::Deserialize))]
  #[cfg_attr(feature = "serde", serde(tag = "type", content = "data"))]
  pub enum CargoInstruction {
      AddCargo(AddCargo),
+diff --git a/src/instructions/remove_cargo.rs b/src/instructions/remove_cargo.rs
+index e95db14..3060f2d 100644
+--- a/src/instructions/remove_cargo.rs
++++ b/src/instructions/remove_cargo.rs
+@@ -9,7 +9,7 @@ use carbon_core::deserialize::CarbonDeserialize;
+ /// Requires the authority to sign.
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq, Eq, Hash)]
+ pub struct RemoveCargo {
+     pub cargo_amount: u64,
+ }
+diff --git a/src/instructions/transfer_authority.rs b/src/instructions/transfer_authority.rs
+index 0d48350..5bde0cf 100644
+--- a/src/instructions/transfer_authority.rs
++++ b/src/instructions/transfer_authority.rs
+@@ -9,7 +9,7 @@ use carbon_core::deserialize::CarbonDeserialize;
+ /// Requires both authorities to sign.
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq, Eq, Hash)]
+ pub struct TransferAuthority {
+ }
+ 
+diff --git a/src/instructions/transfer_cargo.rs b/src/instructions/transfer_cargo.rs
+index ea2c3b7..0c23f1a 100644
+--- a/src/instructions/transfer_cargo.rs
++++ b/src/instructions/transfer_cargo.rs
+@@ -9,7 +9,7 @@ use carbon_core::deserialize::CarbonDeserialize;
+ /// Requires both authorities to sign.
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq, Eq, Hash)]
+ pub struct TransferCargo {
+     pub cargo_amount: u64,
+ }
+diff --git a/src/instructions/update_cargo_pod.rs b/src/instructions/update_cargo_pod.rs
+index 2b7467f..5b76dd5 100644
+--- a/src/instructions/update_cargo_pod.rs
++++ b/src/instructions/update_cargo_pod.rs
+@@ -10,7 +10,7 @@ use carbon_core::deserialize::CarbonDeserialize;
+ /// Permissionless function.
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq, Eq, Hash)]
+ pub struct UpdateCargoPod {
+ }
+ 
+diff --git a/src/instructions/update_definition.rs b/src/instructions/update_definition.rs
+index 5cc1a2f..2430bb4 100644
+--- a/src/instructions/update_definition.rs
++++ b/src/instructions/update_definition.rs
+@@ -10,7 +10,7 @@ use crate::types::UpdateDefinitionInput;
+ /// Will advance the `seq_id` unless `rollback` is set to true.
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq, Eq, Hash)]
+ pub struct UpdateDefinition {
+     pub input: UpdateDefinitionInput,
+ }
+diff --git a/src/instructions/update_pod_token_account.rs b/src/instructions/update_pod_token_account.rs
+index cb9c4ee..d1fe761 100644
+--- a/src/instructions/update_pod_token_account.rs
++++ b/src/instructions/update_pod_token_account.rs
+@@ -10,7 +10,7 @@ use carbon_core::deserialize::CarbonDeserialize;
+ /// Permissionless function.
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq, Eq, Hash)]
+ pub struct UpdatePodTokenAccount {
+ }
+ 
+diff --git a/src/types/init_cargo_type_from_old_cargo_type_input.rs b/src/types/init_cargo_type_from_old_cargo_type_input.rs
+index 4418e5d..6b38827 100644
+--- a/src/types/init_cargo_type_from_old_cargo_type_input.rs
++++ b/src/types/init_cargo_type_from_old_cargo_type_input.rs
+@@ -3,7 +3,7 @@ use carbon_core::borsh;
+ /// Struct for data input for this IX
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq, Eq, Hash)]
+ pub struct InitCargoTypeFromOldCargoTypeInput {
+     /// the index of the key in the cargo permissions profile
+     pub key_index: u16,
+diff --git a/src/types/init_cargo_type_input.rs b/src/types/init_cargo_type_input.rs
+index 5868732..ace08b8 100644
+--- a/src/types/init_cargo_type_input.rs
++++ b/src/types/init_cargo_type_input.rs
+@@ -3,7 +3,7 @@ use carbon_core::borsh;
+ /// Struct for data input for this IX
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq, Eq, Hash)]
+ pub struct InitCargoTypeInput {
+     /// the index of the key in the cargo permissions profile
+     pub key_index: u16,
+diff --git a/src/types/init_definition_input.rs b/src/types/init_definition_input.rs
+index 3757a58..f31fba9 100644
+--- a/src/types/init_definition_input.rs
++++ b/src/types/init_definition_input.rs
+@@ -3,7 +3,7 @@ use carbon_core::borsh;
+ /// Struct for data input for [`InitDefinition`]
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq, Eq, Hash)]
+ pub struct InitDefinitionInput {
+     /// the count of stats the definition has
+     pub cargo_stats: u16,
+diff --git a/src/types/update_definition_input.rs b/src/types/update_definition_input.rs
+index 7b32cca..e7f1a5a 100644
+--- a/src/types/update_definition_input.rs
++++ b/src/types/update_definition_input.rs
+@@ -3,7 +3,7 @@ use carbon_core::borsh;
+ /// Struct for data input for this IX
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq, Eq, Hash)]
+ pub struct UpdateDefinitionInput {
+     /// the index of the key in the cargo permissions profile
+     pub key_index: u16,

@@ -9,7 +9,7 @@ use carbon_core::deserialize::CarbonDeserialize;
 /// Creates a new [Locker].
 
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
-#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq)]
+#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq, Eq, Hash)]
 pub struct NewLocker {
     pub bump: u8,
     pub params: LockerParams,

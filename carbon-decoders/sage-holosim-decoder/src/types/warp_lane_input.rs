@@ -3,7 +3,7 @@ use carbon_core::borsh;
 /// Struct for data input to initialize a `WarpLane`
 
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
-#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq)]
+#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq, Eq, Hash)]
 pub struct WarpLaneInput {
     /// The index of the key in the player profile
     pub key_index: u16,

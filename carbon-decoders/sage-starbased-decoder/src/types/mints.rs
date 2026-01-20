@@ -4,7 +4,7 @@ use solana_pubkey::Pubkey;
 /// Token mints
 
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
-#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq)]
+#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq, Eq, Hash)]
 pub struct Mints {
     /// ATLAS token mint
     pub atlas: Pubkey,

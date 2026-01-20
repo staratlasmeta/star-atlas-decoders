@@ -3,7 +3,7 @@ use carbon_core::borsh;
 /// Struct for data input to initialize an `SubwarpMovement`
 
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
-#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq)]
+#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq, Eq, Hash)]
 pub struct StartSubwarpInput {
     /// The destination coordinates
     pub to_sector: [i64; 2],

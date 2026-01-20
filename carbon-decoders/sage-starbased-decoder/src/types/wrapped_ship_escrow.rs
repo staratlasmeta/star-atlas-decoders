@@ -4,7 +4,7 @@ use solana_pubkey::Pubkey;
 /// Wrapped `Ship` escrow info
 
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
-#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq)]
+#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq, Eq, Hash)]
 pub struct WrappedShipEscrow {
     /// The `Ship` account address
     pub ship: Pubkey,
