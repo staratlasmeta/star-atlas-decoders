@@ -1,0 +1,13 @@
+diff --git a/src/instructions/mod.rs b/src/instructions/mod.rs
+index c19fabe..1df0fc4 100644
+--- a/src/instructions/mod.rs
++++ b/src/instructions/mod.rs
+@@ -40,7 +40,7 @@ pub use self::update_definition::*;
+ pub use self::update_pod_token_account::*;
+ 
+ #[derive(Debug, Clone, PartialEq)]
+-#[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
++#[cfg_attr(feature = "serde", derive(carbon_core::InstructionType, serde::Serialize, serde::Deserialize))]
+ #[cfg_attr(feature = "serde", serde(tag = "type", content = "data"))]
+ pub enum CargoInstruction {
+     AddCargo(AddCargo),

@@ -2,12 +2,6 @@
 use crate::PROGRAM_ID;
 use crate::PlayerProfileDecoder;
 
-#[cfg(feature = "postgres")]
-pub mod postgres;
-
-#[cfg(feature = "graphql")]
-pub mod graphql;
-
 pub mod player_name;
 pub mod profile;
 pub mod profile_role_membership;

@@ -1,0 +1,13 @@
+diff --git a/src/instructions/mod.rs b/src/instructions/mod.rs
+index 33503de..70bb894 100644
+--- a/src/instructions/mod.rs
++++ b/src/instructions/mod.rs
+@@ -44,7 +44,7 @@ pub use self::update_currency_vault::*;
+ pub use self::update_royalty_tier::*;
+ 
+ #[derive(Debug, Clone, PartialEq)]
+-#[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
++#[cfg_attr(feature = "serde", derive(carbon_core::InstructionType, serde::Serialize, serde::Deserialize))]
+ #[cfg_attr(feature = "serde", serde(tag = "type", content = "data"))]
+ pub enum MarketplaceInstruction {
+     AddFeeExemption(AddFeeExemption),

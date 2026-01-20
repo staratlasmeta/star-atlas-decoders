@@ -1,0 +1,13 @@
+diff --git a/src/instructions/mod.rs b/src/instructions/mod.rs
+index e07fbee..a9cfcda 100644
+--- a/src/instructions/mod.rs
++++ b/src/instructions/mod.rs
+@@ -12,7 +12,7 @@ pub use self::create_vault_authority::*;
+ pub use self::drain_vault::*;
+ 
+ #[derive(Debug, Clone, PartialEq)]
+-#[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
++#[cfg_attr(feature = "serde", derive(carbon_core::InstructionType, serde::Serialize, serde::Deserialize))]
+ #[cfg_attr(feature = "serde", serde(tag = "type", content = "data"))]
+ pub enum ProfileVaultInstruction {
+     CloseVault(CloseVault),

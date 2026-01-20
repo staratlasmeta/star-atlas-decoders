@@ -1,0 +1,13 @@
+diff --git a/src/instructions/mod.rs b/src/instructions/mod.rs
+index 4ee86f1..dae2562 100644
+--- a/src/instructions/mod.rs
++++ b/src/instructions/mod.rs
+@@ -240,7 +240,7 @@ pub use self::withdraw_crafting_ingredient::*;
+ pub use self::cpi_event::*;
+ 
+ #[derive(Debug, Clone, PartialEq)]
+-#[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
++#[cfg_attr(feature = "serde", derive(carbon_core::InstructionType, serde::Serialize, serde::Deserialize))]
+ #[cfg_attr(feature = "serde", serde(tag = "type", content = "data"))]
+ pub enum SageInstruction {
+     ActivateGameState(ActivateGameState),

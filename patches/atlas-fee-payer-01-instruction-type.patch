@@ -1,0 +1,13 @@
+diff --git a/src/instructions/mod.rs b/src/instructions/mod.rs
+index 3f4456c..068fe7b 100644
+--- a/src/instructions/mod.rs
++++ b/src/instructions/mod.rs
+@@ -20,7 +20,7 @@ pub use self::pre_transaction::*;
+ pub use self::set_fee_payer_rates::*;
+ 
+ #[derive(Debug, Clone, PartialEq)]
+-#[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
++#[cfg_attr(feature = "serde", derive(carbon_core::InstructionType, serde::Serialize, serde::Deserialize))]
+ #[cfg_attr(feature = "serde", serde(tag = "type", content = "data"))]
+ pub enum AtlasFeePayerInstruction {
+     CloseFeePayer(CloseFeePayer),

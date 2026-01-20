@@ -2,12 +2,6 @@
 use crate::PROGRAM_ID;
 use crate::ProfileFactionDecoder;
 
-#[cfg(feature = "postgres")]
-pub mod postgres;
-
-#[cfg(feature = "graphql")]
-pub mod graphql;
-
 pub mod profile_faction_account;
 
 #[derive(Debug, Clone, PartialEq)]

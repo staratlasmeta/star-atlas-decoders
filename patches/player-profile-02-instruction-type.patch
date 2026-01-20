@@ -1,0 +1,13 @@
+diff --git a/src/instructions/mod.rs b/src/instructions/mod.rs
+index c1637e5..b3f5353 100644
+--- a/src/instructions/mod.rs
++++ b/src/instructions/mod.rs
+@@ -40,7 +40,7 @@ pub use self::set_role_name::*;
+ pub use self::set_role_not_accepting_members::*;
+ 
+ #[derive(Debug, Clone, PartialEq)]
+-#[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
++#[cfg_attr(feature = "serde", derive(carbon_core::InstructionType, serde::Serialize, serde::Deserialize))]
+ #[cfg_attr(feature = "serde", serde(tag = "type", content = "data"))]
+ pub enum PlayerProfileInstruction {
+     AcceptRoleInvitation(AcceptRoleInvitation),

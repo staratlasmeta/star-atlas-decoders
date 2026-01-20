@@ -1,0 +1,13 @@
+diff --git a/src/instructions/mod.rs b/src/instructions/mod.rs
+index 3aca8e2..2831695 100644
+--- a/src/instructions/mod.rs
++++ b/src/instructions/mod.rs
+@@ -30,7 +30,7 @@ pub use self::set_vote_delegate::*;
+ pub use self::cpi_event::*;
+ 
+ #[derive(Debug, Clone, PartialEq)]
+-#[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
++#[cfg_attr(feature = "serde", derive(carbon_core::InstructionType, serde::Serialize, serde::Deserialize))]
+ #[cfg_attr(feature = "serde", serde(tag = "type", content = "data"))]
+ pub enum LockedVoterInstruction {
+     ActivateProposal(ActivateProposal),

@@ -312,10 +312,10 @@ _init-git decoder_name:
     @echo ".DS_Store" >> ./dist/{{decoder_name}}/.gitignore
     cd ./dist/{{decoder_name}} && git init -q && git add . && git commit -q -m "Initial generated state"
 
-# Create a patch from current changes
+# Create a patch from current changes (staged and unstaged)
 _create-patch decoder_name patch_name:
     @echo "Creating patch from changes in {{decoder_name}}..."
-    cd ./dist/{{decoder_name}} && git diff > ../../patches/{{decoder_name}}-{{patch_name}}.patch
+    cd ./dist/{{decoder_name}} && git add -A && git diff HEAD > ../../patches/{{decoder_name}}-{{patch_name}}.patch
     @echo "✅ Patch saved to patches/{{decoder_name}}-{{patch_name}}.patch"
     @echo "Patch size: $(wc -l < patches/{{decoder_name}}-{{patch_name}}.patch) lines"
 
@@ -330,10 +330,10 @@ _generate-decoder decoder_name:
 
     if [ "$SOURCE" = "mainnet" ]; then
         echo "Fetching IDL from mainnet for $PROGRAM_ID..."
-        npx @sevenlabs-hq/carbon-cli parse -i "$PROGRAM_ID" -u https://api.mainnet-beta.solana.com -o ./dist/{{decoder_name}} -c -s anchor
+        npx @sevenlabs-hq/carbon-cli parse -i "$PROGRAM_ID" -u https://api.mainnet-beta.solana.com -o ./dist/{{decoder_name}} -c -s anchor --with-postgres false --with-graphql false --with-serde true
     elif [ "$SOURCE" = "local" ]; then
         echo "Generating decoder from local IDL for $PROGRAM_ID..."
-        npx @sevenlabs-hq/carbon-cli parse -i ./idl/${PROGRAM_ID}-idl.json --program-id "$PROGRAM_ID" -o ./dist/{{decoder_name}} -c -s anchor
+        npx @sevenlabs-hq/carbon-cli parse -i ./idl/${PROGRAM_ID}-idl.json --program-id "$PROGRAM_ID" -o ./dist/{{decoder_name}} -c -s anchor --with-postgres false --with-graphql false --with-serde true
     else
         echo "Error: Unknown source type '$SOURCE'" >&2
         exit 1

@@ -1,0 +1,13 @@
+diff --git a/src/instructions/mod.rs b/src/instructions/mod.rs
+index 6652ba0..b603541 100644
+--- a/src/instructions/mod.rs
++++ b/src/instructions/mod.rs
+@@ -34,7 +34,7 @@ pub use self::spend_points::*;
+ pub use self::update_point_category::*;
+ 
+ #[derive(Debug, Clone, PartialEq)]
+-#[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
++#[cfg_attr(feature = "serde", derive(carbon_core::InstructionType, serde::Serialize, serde::Deserialize))]
+ #[cfg_attr(feature = "serde", serde(tag = "type", content = "data"))]
+ pub enum PointsInstruction {
+     AddPointCategoryLevel(AddPointCategoryLevel),

@@ -5,7 +5,5 @@ pub const PROGRAM_ID: Pubkey =
     solana_pubkey::Pubkey::from_str_const("SAGE2HAwep459SNq61LHvjxPk4pLPEJLoMETef7f7EE");
 
 pub mod accounts;
-#[cfg(feature = "graphql")]
-pub mod graphql;
 pub mod instructions;
 pub mod types;

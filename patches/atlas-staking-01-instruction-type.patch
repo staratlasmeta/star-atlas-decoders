@@ -1,0 +1,13 @@
+diff --git a/src/instructions/mod.rs b/src/instructions/mod.rs
+index add6efc..a4f79da 100644
+--- a/src/instructions/mod.rs
++++ b/src/instructions/mod.rs
+@@ -28,7 +28,7 @@ pub use self::update_reward_multiplier::*;
+ pub use self::withdraw_tokens::*;
+ 
+ #[derive(Debug, Clone, PartialEq)]
+-#[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
++#[cfg_attr(feature = "serde", derive(carbon_core::InstructionType, serde::Serialize, serde::Deserialize))]
+ #[cfg_attr(feature = "serde", serde(tag = "type", content = "data"))]
+ pub enum AtlasStakingInstruction {
+     CancelUnstake(CancelUnstake),

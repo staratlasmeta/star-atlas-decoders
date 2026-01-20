@@ -1,0 +1,13 @@
+diff --git a/src/instructions/mod.rs b/src/instructions/mod.rs
+index c258c51..02c8048 100644
+--- a/src/instructions/mod.rs
++++ b/src/instructions/mod.rs
+@@ -32,7 +32,7 @@ pub use self::start_redemption::*;
+ pub use self::update_redemption_epoch::*;
+ 
+ #[derive(Debug, Clone, PartialEq)]
+-#[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
++#[cfg_attr(feature = "serde", derive(carbon_core::InstructionType, serde::Serialize, serde::Deserialize))]
+ #[cfg_attr(feature = "serde", serde(tag = "type", content = "data"))]
+ pub enum PointsStoreInstruction {
+     AddRedemptionEpoch(AddRedemptionEpoch),

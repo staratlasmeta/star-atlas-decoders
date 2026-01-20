@@ -2,12 +2,6 @@
 use crate::AtlasStakingDecoder;
 use crate::PROGRAM_ID;
 
-#[cfg(feature = "postgres")]
-pub mod postgres;
-
-#[cfg(feature = "graphql")]
-pub mod graphql;
-
 pub mod registered_stake;
 pub mod staking_account;
 pub mod staking_vars;

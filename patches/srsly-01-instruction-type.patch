@@ -1,0 +1,13 @@
+diff --git a/src/instructions/mod.rs b/src/instructions/mod.rs
+index ec4da78..51e2e97 100644
+--- a/src/instructions/mod.rs
++++ b/src/instructions/mod.rs
+@@ -20,7 +20,7 @@ pub use self::pay_rental::*;
+ pub use self::reset_rental::*;
+ 
+ #[derive(Debug, Clone, PartialEq)]
+-#[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
++#[cfg_attr(feature = "serde", derive(carbon_core::InstructionType, serde::Serialize, serde::Deserialize))]
+ #[cfg_attr(feature = "serde", serde(tag = "type", content = "data"))]
+ pub enum SrslyInstruction {
+     AcceptRental(AcceptRental),

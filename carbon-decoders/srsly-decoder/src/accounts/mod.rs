@@ -2,12 +2,6 @@
 use crate::PROGRAM_ID;
 use crate::SrslyDecoder;
 
-#[cfg(feature = "postgres")]
-pub mod postgres;
-
-#[cfg(feature = "graphql")]
-pub mod graphql;
-
 pub mod contract_state;
 pub mod fleet;
 pub mod rental_state;

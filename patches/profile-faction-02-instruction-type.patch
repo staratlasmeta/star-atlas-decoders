@@ -1,0 +1,13 @@
+diff --git a/src/instructions/mod.rs b/src/instructions/mod.rs
+index b211445..904515b 100644
+--- a/src/instructions/mod.rs
++++ b/src/instructions/mod.rs
+@@ -8,7 +8,7 @@ pub mod choose_faction;
+ pub use self::choose_faction::*;
+ 
+ #[derive(Debug, Clone, PartialEq)]
+-#[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
++#[cfg_attr(feature = "serde", derive(carbon_core::InstructionType, serde::Serialize, serde::Deserialize))]
+ #[cfg_attr(feature = "serde", serde(tag = "type", content = "data"))]
+ pub enum ProfileFactionInstruction {
+     ChooseFaction(ChooseFaction),

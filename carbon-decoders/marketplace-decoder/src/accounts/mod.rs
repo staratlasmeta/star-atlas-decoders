@@ -2,12 +2,6 @@
 use crate::MarketplaceDecoder;
 use crate::PROGRAM_ID;
 
-#[cfg(feature = "postgres")]
-pub mod postgres;
-
-#[cfg(feature = "graphql")]
-pub mod graphql;
-
 pub mod atlas_rate_account;
 pub mod fee_reduction;
 pub mod market_vars;
