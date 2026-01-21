@@ -62,6 +62,9 @@ use carbon_points_store_decoder::{PointsStoreDecoder, accounts::PointsStoreAccou
 #[cfg(feature = "profile-faction")]
 use carbon_profile_faction_decoder::{ProfileFactionDecoder, accounts::ProfileFactionAccount};
 
+#[cfg(feature = "score")]
+use carbon_score_decoder::{ScoreDecoder, accounts::ScoreAccount};
+
 // ============================================================
 // AccountTypeIdentifier implementations
 // ============================================================
@@ -128,6 +131,9 @@ impl_type_identifier!(PointsStoreAccount => PointsStore, RedemptionConfig, UserR
 
 #[cfg(feature = "profile-faction")]
 impl_type_identifier!(ProfileFactionAccount => ProfileFactionAccount);
+
+#[cfg(feature = "score")]
+impl_type_identifier!(ScoreAccount => ScoreVars, ScoreVarsShip, ShipStaking);
 
 // ============================================================
 // Main entry point
@@ -215,6 +221,7 @@ fn run_analysis(ctx: &AnalysisContext) -> Result<()> {
         ProfileFactionDecoder,
         ProfileFactionAccount
     );
+    run_decoder_analysis!(ctx, "score", ScoreDecoder, ScoreAccount);
 
     Ok(())
 }

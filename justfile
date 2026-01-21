@@ -5,7 +5,7 @@
 # ============================================================================
 
 # List of all decoders (space-separated)
-ALL_DECODERS := "sage-starbased sage-holosim atlas-staking locked-voter marketplace atlas-fee-payer cargo crafting crew profile-vault srsly tcomp player-profile points points-store profile-faction"
+ALL_DECODERS := "sage-starbased sage-holosim atlas-staking locked-voter marketplace atlas-fee-payer cargo crafting crew profile-vault srsly tcomp player-profile points points-store profile-faction score"
 
 # Program IDs
 ATLAS_FEE_PAYER_PROGRAM_ID := "APR1MEny25pKupwn72oVqMH4qpDouArsX8zX4VwwfoXD"
@@ -24,6 +24,7 @@ TENSOR_TCOMP_PROGRAM_ID := "TCMPhJdwDryooaGtiocG1u3xcYbRpiJzb283XfCZsDp"
 ATLAS_STAKING_PROGRAM_ID := "ATLocKpzDbTokxgvnLew3d7drZkEzLzDpzwgrgWKDbmc"
 LOCKED_VOTER_PROGRAM_ID := "Lock7kBijGCQLEFAmXcengzXKA88iDNQPriQ7TbgeyG"
 MARKETPLACE_PROGRAM_ID := "traderDnaR5w6Tcoi3NFm53i48FTDNbGjBSZwWXDRrg"
+SCORE_PROGRAM_ID := "FLEET1qqzpexyaDpqb2DGsSzE2sDCizewCg9WjrA6DBW"
 
 # Descriptions
 ATLAS_FEE_PAYER_DESC := "Rust decoder for Star Atlas ATLAS fee payer program on Solana"
@@ -42,6 +43,7 @@ SAGE_HOLOSIM_DESC := "Rust decoder for Star Atlas SAGE Holosim program on Solana
 ATLAS_STAKING_DESC := "Rust decoder for Star Atlas ATLAS staking program on Solana"
 LOCKED_VOTER_DESC := "Rust decoder for Star Atlas Locked Voter governance program on Solana"
 MARKETPLACE_DESC := "Rust decoder for Star Atlas Galactic Marketplace program on Solana"
+SCORE_DESC := "Rust decoder for Star Atlas Score program on Solana"
 
 # IDL Sources: "mainnet" or "local"
 ATLAS_FEE_PAYER_SOURCE := "mainnet"
@@ -60,6 +62,7 @@ SAGE_HOLOSIM_SOURCE := "local"
 ATLAS_STAKING_SOURCE := "mainnet"
 LOCKED_VOTER_SOURCE := "mainnet"
 MARKETPLACE_SOURCE := "local"
+SCORE_SOURCE := "mainnet"
 
 # Carbon-cli generated names (what carbon-cli names the directory)
 SAGE_STARBASED_GENERATED_NAME := "sage-decoder"
@@ -78,6 +81,7 @@ PROFILE_FACTION_GENERATED_NAME := "profile-faction-decoder"
 PROFILE_VAULT_GENERATED_NAME := "profile-vault-decoder"
 SRSLY_GENERATED_NAME := "srsly-decoder"
 TCOMP_GENERATED_NAME := "tcomp-decoder"
+SCORE_GENERATED_NAME := "score-decoder"
 
 # ============================================================================
 # OS DETECTION FOR CROSS-PLATFORM COMPATIBILITY
@@ -119,6 +123,7 @@ _get-program-id decoder_name:
         profile-vault) echo "{{PROFILE_VAULT_PROGRAM_ID}}" ;;
         srsly) echo "{{SRSLY_PROGRAM_ID}}" ;;
         tcomp) echo "{{TENSOR_TCOMP_PROGRAM_ID}}" ;;
+        score) echo "{{SCORE_PROGRAM_ID}}" ;;
         *) echo "Unknown decoder: {{decoder_name}}" >&2; exit 1 ;;
     esac
 
@@ -142,6 +147,7 @@ _get-description decoder_name:
         profile-vault) echo "{{PROFILE_VAULT_DESC}}" ;;
         srsly) echo "{{SRSLY_DESC}}" ;;
         tcomp) echo "{{TCOMP_DESC}}" ;;
+        score) echo "{{SCORE_DESC}}" ;;
         *) echo "Unknown decoder: {{decoder_name}}" >&2; exit 1 ;;
     esac
 
@@ -165,6 +171,7 @@ _get-source decoder_name:
         profile-vault) echo "{{PROFILE_VAULT_SOURCE}}" ;;
         srsly) echo "{{SRSLY_SOURCE}}" ;;
         tcomp) echo "{{TCOMP_SOURCE}}" ;;
+        score) echo "{{SCORE_SOURCE}}" ;;
         *) echo "Unknown decoder: {{decoder_name}}" >&2; exit 1 ;;
     esac
 
@@ -188,6 +195,7 @@ _get-generated-name decoder_name:
         profile-vault) echo "{{PROFILE_VAULT_GENERATED_NAME}}" ;;
         srsly) echo "{{SRSLY_GENERATED_NAME}}" ;;
         tcomp) echo "{{TCOMP_GENERATED_NAME}}" ;;
+        score) echo "{{SCORE_GENERATED_NAME}}" ;;
         *) echo "Unknown decoder: {{decoder_name}}" >&2; exit 1 ;;
     esac
 
@@ -533,6 +541,15 @@ apply-patches-profile-faction: (apply-patches "profile-faction")
 create-patch-profile-faction patch_name: (create-patch "profile-faction" patch_name)
 publish-profile-faction: (publish "profile-faction")
 all-profile-faction: (all "profile-faction")
+
+# Score
+generate-score: (generate "score")
+build-score: (build "score")
+clean-score: (clean "score")
+apply-patches-score: (apply-patches "score")
+create-patch-score patch_name: (create-patch "score" patch_name)
+publish-score: (publish "score")
+all-score: (all "score")
 
 # ============================================================================
 # UTILITY COMMANDS

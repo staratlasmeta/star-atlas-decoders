@@ -21,6 +21,7 @@ player-profile = ["dep:carbon-player-profile-decoder"]
 points = ["dep:carbon-points-decoder"]
 points-store = ["dep:carbon-points-store-decoder"]
 profile-faction = ["dep:carbon-profile-faction-decoder"]
+score = ["dep:carbon-score-decoder"]
 
 [dependencies]
 # Carbon decoders (optional, enabled by features)
@@ -40,6 +41,7 @@ carbon-player-profile-decoder = { path = "../../carbon-decoders/player-profile-d
 carbon-points-decoder = { path = "../../carbon-decoders/points-decoder", optional = true, features = ["serde"] }
 carbon-points-store-decoder = { path = "../../carbon-decoders/points-store-decoder", optional = true, features = ["serde"] }
 carbon-profile-faction-decoder = { path = "../../carbon-decoders/profile-faction-decoder", optional = true, features = ["serde"] }
+carbon-score-decoder = { path = "../../carbon-decoders/score-decoder", optional = true, features = ["serde"] }
 
 # Carbon core
 carbon-core = "0.12"

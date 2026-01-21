@@ -741,6 +741,26 @@ dependencies = [
 ]
 
 [[package]]
+name = "carbon-score-decoder"
+version = "0.12.1"
+dependencies = [
+ "async-trait",
+ "base64",
+ "borsh",
+ "carbon-core",
+ "carbon-test-utils",
+ "juniper",
+ "serde",
+ "serde-big-array",
+ "serde_json",
+ "solana-account",
+ "solana-instruction",
+ "solana-pubkey 3.0.0",
+ "sqlx",
+ "sqlx_migrator",
+]
+
+[[package]]
 name = "carbon-srsly-decoder"
 version = "0.12.1"
 dependencies = [

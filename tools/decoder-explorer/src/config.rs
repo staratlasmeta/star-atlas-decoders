@@ -52,6 +52,9 @@ use carbon_points_store_decoder::PROGRAM_ID as DEFAULT_PROGRAM_ID;
 #[cfg(feature = "profile-faction")]
 use carbon_profile_faction_decoder::PROGRAM_ID as DEFAULT_PROGRAM_ID;
 
+#[cfg(feature = "score")]
+use carbon_score_decoder::PROGRAM_ID as DEFAULT_PROGRAM_ID;
+
 #[derive(Debug, Deserialize)]
 pub struct Config {
     pub rpc_url: String,
