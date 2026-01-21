@@ -5,7 +5,7 @@
 # ============================================================================
 
 # List of all decoders (space-separated)
-ALL_DECODERS := "sage-starbased sage-holosim atlas-staking locked-voter marketplace atlas-fee-payer cargo crafting crew profile-vault srsly tcomp player-profile points points-store profile-faction score claim-stake proxy-rewarder"
+ALL_DECODERS := "sage-starbased sage-holosim atlas-staking locked-voter marketplace atlas-fee-payer cargo crafting crew profile-vault srsly tcomp player-profile points points-store profile-faction score claim-stake proxy-rewarder snapshots"
 
 # Program IDs
 ATLAS_FEE_PAYER_PROGRAM_ID := "APR1MEny25pKupwn72oVqMH4qpDouArsX8zX4VwwfoXD"
@@ -27,6 +27,7 @@ MARKETPLACE_PROGRAM_ID := "traderDnaR5w6Tcoi3NFm53i48FTDNbGjBSZwWXDRrg"
 SCORE_PROGRAM_ID := "FLEET1qqzpexyaDpqb2DGsSzE2sDCizewCg9WjrA6DBW"
 CLAIM_STAKE_PROGRAM_ID := "STAKEr4Bh8sbBMoAVmTDBRqouPzgdocVrvtjmhJhd65"
 PROXY_REWARDER_PROGRAM_ID := "gateVwTnKyFrE8nxUUgfzoZTPKgJQZUbLsEidpG4Dp2"
+SNAPSHOTS_PROGRAM_ID := "snapNQkxsiqDWdbNfz8KVB7e3NPzLwtHHA6WV8kKgUc"
 
 # Descriptions
 ATLAS_FEE_PAYER_DESC := "Rust decoder for Star Atlas ATLAS fee payer program on Solana"
@@ -48,6 +49,7 @@ MARKETPLACE_DESC := "Rust decoder for Star Atlas Galactic Marketplace program on
 SCORE_DESC := "Rust decoder for Star Atlas Score program on Solana"
 CLAIM_STAKE_DESC := "Rust decoder for Star Atlas Claim Stake program on Solana"
 PROXY_REWARDER_DESC := "Rust decoder for Star Atlas Proxy Rewarder program on Solana"
+SNAPSHOTS_DESC := "Rust decoder for Star Atlas Snapshots program on Solana"
 
 # IDL Sources: "mainnet" or "local"
 ATLAS_FEE_PAYER_SOURCE := "mainnet"
@@ -69,6 +71,7 @@ MARKETPLACE_SOURCE := "local"
 SCORE_SOURCE := "mainnet"
 CLAIM_STAKE_SOURCE := "mainnet"
 PROXY_REWARDER_SOURCE := "mainnet"
+SNAPSHOTS_SOURCE := "mainnet"
 
 # Carbon-cli generated names (what carbon-cli names the directory)
 SAGE_STARBASED_GENERATED_NAME := "sage-decoder"
@@ -90,6 +93,7 @@ TCOMP_GENERATED_NAME := "tcomp-decoder"
 SCORE_GENERATED_NAME := "score-decoder"
 CLAIM_STAKE_GENERATED_NAME := "claim-stake-decoder"
 PROXY_REWARDER_GENERATED_NAME := "proxy-rewarder-decoder"
+SNAPSHOTS_GENERATED_NAME := "snapshots-decoder"
 
 # ============================================================================
 # OS DETECTION FOR CROSS-PLATFORM COMPATIBILITY
@@ -134,6 +138,7 @@ _get-program-id decoder_name:
         score) echo "{{SCORE_PROGRAM_ID}}" ;;
         claim-stake) echo "{{CLAIM_STAKE_PROGRAM_ID}}" ;;
         proxy-rewarder) echo "{{PROXY_REWARDER_PROGRAM_ID}}" ;;
+        snapshots) echo "{{SNAPSHOTS_PROGRAM_ID}}" ;;
         *) echo "Unknown decoder: {{decoder_name}}" >&2; exit 1 ;;
     esac
 
@@ -160,6 +165,7 @@ _get-description decoder_name:
         score) echo "{{SCORE_DESC}}" ;;
         claim-stake) echo "{{CLAIM_STAKE_DESC}}" ;;
         proxy-rewarder) echo "{{PROXY_REWARDER_DESC}}" ;;
+        snapshots) echo "{{SNAPSHOTS_DESC}}" ;;
         *) echo "Unknown decoder: {{decoder_name}}" >&2; exit 1 ;;
     esac
 
@@ -186,6 +192,7 @@ _get-source decoder_name:
         score) echo "{{SCORE_SOURCE}}" ;;
         claim-stake) echo "{{CLAIM_STAKE_SOURCE}}" ;;
         proxy-rewarder) echo "{{PROXY_REWARDER_SOURCE}}" ;;
+        snapshots) echo "{{SNAPSHOTS_SOURCE}}" ;;
         *) echo "Unknown decoder: {{decoder_name}}" >&2; exit 1 ;;
     esac
 
@@ -212,6 +219,7 @@ _get-generated-name decoder_name:
         score) echo "{{SCORE_GENERATED_NAME}}" ;;
         claim-stake) echo "{{CLAIM_STAKE_GENERATED_NAME}}" ;;
         proxy-rewarder) echo "{{PROXY_REWARDER_GENERATED_NAME}}" ;;
+        snapshots) echo "{{SNAPSHOTS_GENERATED_NAME}}" ;;
         *) echo "Unknown decoder: {{decoder_name}}" >&2; exit 1 ;;
     esac
 
@@ -584,6 +592,15 @@ apply-patches-proxy-rewarder: (apply-patches "proxy-rewarder")
 create-patch-proxy-rewarder patch_name: (create-patch "proxy-rewarder" patch_name)
 publish-proxy-rewarder: (publish "proxy-rewarder")
 all-proxy-rewarder: (all "proxy-rewarder")
+
+# Snapshots
+generate-snapshots: (generate "snapshots")
+build-snapshots: (build "snapshots")
+clean-snapshots: (clean "snapshots")
+apply-patches-snapshots: (apply-patches "snapshots")
+create-patch-snapshots patch_name: (create-patch "snapshots" patch_name)
+publish-snapshots: (publish "snapshots")
+all-snapshots: (all "snapshots")
 
 # ============================================================================
 # UTILITY COMMANDS

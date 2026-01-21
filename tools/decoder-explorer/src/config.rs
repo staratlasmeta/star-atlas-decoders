@@ -61,6 +61,9 @@ use carbon_claim_stake_decoder::PROGRAM_ID as DEFAULT_PROGRAM_ID;
 #[cfg(feature = "proxy-rewarder")]
 use carbon_proxy_rewarder_decoder::PROGRAM_ID as DEFAULT_PROGRAM_ID;
 
+#[cfg(feature = "snapshots")]
+use carbon_snapshots_decoder::PROGRAM_ID as DEFAULT_PROGRAM_ID;
+
 #[derive(Debug, Deserialize)]
 pub struct Config {
     pub rpc_url: String,

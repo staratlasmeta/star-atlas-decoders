@@ -661,7 +661,7 @@ dependencies = [
 
 [[package]]
 name = "carbon-proxy-rewarder-decoder"
-version = "0.1.0"
+version = "0.12.1"
 dependencies = [
  "borsh",
  "carbon-core",
@@ -704,6 +704,20 @@ dependencies = [
 [[package]]
 name = "carbon-score-decoder"
 version = "0.12.1"
+dependencies = [
+ "borsh",
+ "carbon-core",
+ "serde",
+ "serde-big-array",
+ "serde_json",
+ "solana-account",
+ "solana-instruction",
+ "solana-pubkey 3.0.0",
+]
+
+[[package]]
+name = "carbon-snapshots-decoder"
+version = "0.1.0"
 dependencies = [
  "borsh",
  "carbon-core",
@@ -1075,6 +1089,7 @@ dependencies = [
  "carbon-sage-holosim-decoder",
  "carbon-sage-starbased-decoder",
  "carbon-score-decoder",
+ "carbon-snapshots-decoder",
  "carbon-srsly-decoder",
  "carbon-tcomp-decoder",
  "dotenvy",
