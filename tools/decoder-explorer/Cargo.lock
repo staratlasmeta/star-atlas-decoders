@@ -468,6 +468,20 @@ dependencies = [
 ]
 
 [[package]]
+name = "carbon-claim-stake-decoder"
+version = "0.1.0"
+dependencies = [
+ "borsh",
+ "carbon-core",
+ "serde",
+ "serde-big-array",
+ "serde_json",
+ "solana-account",
+ "solana-instruction",
+ "solana-pubkey 3.0.0",
+]
+
+[[package]]
 name = "carbon-core"
 version = "0.12.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -1032,6 +1046,7 @@ dependencies = [
  "carbon-atlas-fee-payer-decoder",
  "carbon-atlas-staking-decoder",
  "carbon-cargo-decoder",
+ "carbon-claim-stake-decoder",
  "carbon-core",
  "carbon-crafting-decoder",
  "carbon-crew-decoder",

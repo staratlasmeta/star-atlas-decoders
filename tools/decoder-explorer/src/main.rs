@@ -65,6 +65,9 @@ use carbon_profile_faction_decoder::{ProfileFactionDecoder, accounts::ProfileFac
 #[cfg(feature = "score")]
 use carbon_score_decoder::{ScoreDecoder, accounts::ScoreAccount};
 
+#[cfg(feature = "claim-stake")]
+use carbon_claim_stake_decoder::{ClaimStakeDecoder, accounts::ClaimStakeAccount};
+
 // ============================================================
 // AccountTypeIdentifier implementations
 // ============================================================
@@ -134,6 +137,9 @@ impl_type_identifier!(ProfileFactionAccount => ProfileFactionAccount);
 
 #[cfg(feature = "score")]
 impl_type_identifier!(ScoreAccount => ScoreVars, ScoreVarsShip, ShipStaking);
+
+#[cfg(feature = "claim-stake")]
+impl_type_identifier!(ClaimStakeAccount => ClaimStakeVar, ClaimStaking, GlobalVars);
 
 // ============================================================
 // Main entry point
@@ -222,6 +228,7 @@ fn run_analysis(ctx: &AnalysisContext) -> Result<()> {
         ProfileFactionAccount
     );
     run_decoder_analysis!(ctx, "score", ScoreDecoder, ScoreAccount);
+    run_decoder_analysis!(ctx, "claim-stake", ClaimStakeDecoder, ClaimStakeAccount);
 
     Ok(())
 }

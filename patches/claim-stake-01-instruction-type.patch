@@ -1,0 +1,145 @@
+diff --git a/src/instructions/mod.rs b/src/instructions/mod.rs
+index dd19399..718677f 100644
+--- a/src/instructions/mod.rs
++++ b/src/instructions/mod.rs
+@@ -21,8 +21,8 @@ pub use self::process_settle::*;
+ pub use self::process_update_claim_stake_vars::*;
+ pub use self::process_withdraw_claim_stakes::*;
+ 
+-#[derive(Debug, Clone, PartialEq)]
+-#[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
++#[derive(Debug, Clone, PartialEq, Eq, Hash)]
++#[cfg_attr(feature = "serde", derive(carbon_core::InstructionType, serde::Serialize, serde::Deserialize))]
+ #[cfg_attr(feature = "serde", serde(tag = "type", content = "data"))]
+ pub enum ClaimStakeInstruction {
+     ProcessHarvest(ProcessHarvest),
+diff --git a/src/instructions/process_harvest.rs b/src/instructions/process_harvest.rs
+index c259505..2ebbf73 100644
+--- a/src/instructions/process_harvest.rs
++++ b/src/instructions/process_harvest.rs
+@@ -6,7 +6,7 @@ use carbon_core::deserialize::ArrangeAccounts;
+ use carbon_core::deserialize::CarbonDeserialize;
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq, Eq, Hash)]
+ pub struct ProcessHarvest {
+ }
+ 
+diff --git a/src/instructions/process_initial_deposit.rs b/src/instructions/process_initial_deposit.rs
+index 87cf96c..9a2e938 100644
+--- a/src/instructions/process_initial_deposit.rs
++++ b/src/instructions/process_initial_deposit.rs
+@@ -6,7 +6,7 @@ use carbon_core::deserialize::ArrangeAccounts;
+ use carbon_core::deserialize::CarbonDeserialize;
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq, Eq, Hash)]
+ pub struct ProcessInitialDeposit {
+     pub claim_stake_quantity: u64,
+ }
+diff --git a/src/instructions/process_initialize.rs b/src/instructions/process_initialize.rs
+index fd9898c..96d5ace 100644
+--- a/src/instructions/process_initialize.rs
++++ b/src/instructions/process_initialize.rs
+@@ -6,7 +6,7 @@ use carbon_core::deserialize::ArrangeAccounts;
+ use carbon_core::deserialize::CarbonDeserialize;
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq, Eq, Hash)]
+ pub struct ProcessInitialize {
+ }
+ 
+diff --git a/src/instructions/process_partial_deposit.rs b/src/instructions/process_partial_deposit.rs
+index d952449..6a17733 100644
+--- a/src/instructions/process_partial_deposit.rs
++++ b/src/instructions/process_partial_deposit.rs
+@@ -6,7 +6,7 @@ use carbon_core::deserialize::ArrangeAccounts;
+ use carbon_core::deserialize::CarbonDeserialize;
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq, Eq, Hash)]
+ pub struct ProcessPartialDeposit {
+     pub claim_stake_quantity: u64,
+ }
+diff --git a/src/instructions/process_register_claim_stake.rs b/src/instructions/process_register_claim_stake.rs
+index ecfd6a4..4325a16 100644
+--- a/src/instructions/process_register_claim_stake.rs
++++ b/src/instructions/process_register_claim_stake.rs
+@@ -8,7 +8,7 @@ use crate::types::MaxReserveValuesInputUnpacked;
+ use crate::types::RewardRateValuesInputUnpacked;
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq, Eq, Hash)]
+ pub struct ProcessRegisterClaimStake {
+     pub reward_rate_per_second: RewardRateValuesInputUnpacked,
+     pub claim_stake_max_reserves: MaxReserveValuesInputUnpacked,
+diff --git a/src/instructions/process_settle.rs b/src/instructions/process_settle.rs
+index 5066bef..d3f1ab0 100644
+--- a/src/instructions/process_settle.rs
++++ b/src/instructions/process_settle.rs
+@@ -6,7 +6,7 @@ use carbon_core::deserialize::ArrangeAccounts;
+ use carbon_core::deserialize::CarbonDeserialize;
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq, Eq, Hash)]
+ pub struct ProcessSettle {
+ }
+ 
+diff --git a/src/instructions/process_update_claim_stake_vars.rs b/src/instructions/process_update_claim_stake_vars.rs
+index bd8f4c9..b74b552 100644
+--- a/src/instructions/process_update_claim_stake_vars.rs
++++ b/src/instructions/process_update_claim_stake_vars.rs
+@@ -8,7 +8,7 @@ use crate::types::MaxReserveValuesInputUnpacked;
+ use crate::types::RewardRateValuesInputUnpacked;
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq, Eq, Hash)]
+ pub struct ProcessUpdateClaimStakeVars {
+     pub reward_rate_values: RewardRateValuesInputUnpacked,
+     pub max_reserve_values: MaxReserveValuesInputUnpacked,
+diff --git a/src/instructions/process_withdraw_claim_stakes.rs b/src/instructions/process_withdraw_claim_stakes.rs
+index 9b4cf53..0f9a702 100644
+--- a/src/instructions/process_withdraw_claim_stakes.rs
++++ b/src/instructions/process_withdraw_claim_stakes.rs
+@@ -6,7 +6,7 @@ use carbon_core::deserialize::ArrangeAccounts;
+ use carbon_core::deserialize::CarbonDeserialize;
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq, Eq, Hash)]
+ pub struct ProcessWithdrawClaimStakes {
+ }
+ 
+diff --git a/src/types/max_reserve_values_input_unpacked.rs b/src/types/max_reserve_values_input_unpacked.rs
+index 0ace497..1855aa0 100644
+--- a/src/types/max_reserve_values_input_unpacked.rs
++++ b/src/types/max_reserve_values_input_unpacked.rs
+@@ -3,7 +3,7 @@ use carbon_core::borsh;
+ /// Unpacked version of [`MaxReserveValuesInput`]
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq, Eq, Hash)]
+ pub struct MaxReserveValuesInputUnpacked {
+     pub fuel: u64,
+     pub arms: u64,
+diff --git a/src/types/reward_rate_values_input_unpacked.rs b/src/types/reward_rate_values_input_unpacked.rs
+index 1f88961..198dbfe 100644
+--- a/src/types/reward_rate_values_input_unpacked.rs
++++ b/src/types/reward_rate_values_input_unpacked.rs
+@@ -3,7 +3,7 @@ use carbon_core::borsh;
+ /// Unpacked version of [`RewardRateValuesInput`]
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq, Eq, Hash)]
+ pub struct RewardRateValuesInputUnpacked {
+     pub fuel: u64,
+     pub arms: u64,

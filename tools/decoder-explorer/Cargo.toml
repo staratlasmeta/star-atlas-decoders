@@ -22,6 +22,7 @@ points = ["dep:carbon-points-decoder"]
 points-store = ["dep:carbon-points-store-decoder"]
 profile-faction = ["dep:carbon-profile-faction-decoder"]
 score = ["dep:carbon-score-decoder"]
+claim-stake = ["dep:carbon-claim-stake-decoder"]
 
 [dependencies]
 # Carbon decoders (optional, enabled by features)
@@ -42,6 +43,7 @@ carbon-points-decoder = { path = "../../carbon-decoders/points-decoder", optiona
 carbon-points-store-decoder = { path = "../../carbon-decoders/points-store-decoder", optional = true, features = ["serde"] }
 carbon-profile-faction-decoder = { path = "../../carbon-decoders/profile-faction-decoder", optional = true, features = ["serde"] }
 carbon-score-decoder = { path = "../../carbon-decoders/score-decoder", optional = true, features = ["serde"] }
+carbon-claim-stake-decoder = { path = "../../carbon-decoders/claim-stake-decoder", optional = true, features = ["serde"] }
 
 # Carbon core
 carbon-core = "0.12"
