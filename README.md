@@ -58,6 +58,18 @@
   <a href="https://crates.io/crates/carbon-profile-faction-decoder">
     <img src="https://img.shields.io/crates/v/carbon-profile-faction-decoder?logo=rust&label=profile-faction" />
   </a>
+  <a href="https://crates.io/crates/carbon-score-decoder">
+    <img src="https://img.shields.io/crates/v/carbon-score-decoder?logo=rust&label=score" />
+  </a>
+  <a href="https://crates.io/crates/carbon-claim-stake-decoder">
+    <img src="https://img.shields.io/crates/v/carbon-claim-stake-decoder?logo=rust&label=claim-stake" />
+  </a>
+  <a href="https://crates.io/crates/carbon-proxy-rewarder-decoder">
+    <img src="https://img.shields.io/crates/v/carbon-proxy-rewarder-decoder?logo=rust&label=proxy-rewarder" />
+  </a>
+  <a href="https://crates.io/crates/carbon-snapshots-decoder">
+    <img src="https://img.shields.io/crates/v/carbon-snapshots-decoder?logo=rust&label=snapshots" />
+  </a>
 </p>
 
 Rust decoders for Star Atlas Solana programs, generated from IDLs using Carbon CLI with custom patches for complex account deserialization.
@@ -131,6 +143,22 @@ This project generates and maintains Rust decoders for Star Atlas programs on So
 - **profile-faction**: Profile Faction program (`pFACSRuobDmvfMKq1bAzwj27t6d2GJhSCHb1VcfnRmq`)
   - Player faction affiliation management for Star Atlas universe
   - Custom patches for type-safe faction handling
+
+- **score**: SCORE Fleet Staking program (`FLEET1qqzpexyaDpqb2DGsSzE2sDCizewCg9WjrA6DBW`)
+  - Legacy fleet staking system for Star Atlas ships
+  - Minimal patches for serialization support
+
+- **claim-stake**: Claim Stake program (`STAKEr4Bh8sbBMoAVmTDBRqouPzgdocVrvtjmhJhd65`)
+  - Staking and claim management for Star Atlas rewards
+  - Minimal patches for serialization support
+
+- **proxy-rewarder**: Proxy Rewarder program (`gateVwTnKyFrE8nxUUgfzoZTPKgJQZUbLsEidpG4Dp2`)
+  - Proxy-based reward distribution for locked token holders
+  - Minimal patches for serialization support
+
+- **snapshots**: Snapshots program (`snapNQkxsiqDWdbNfz8KVB7e3NPzLwtHHA6WV8kKgUc`)
+  - Historical state snapshots for escrow and locker accounts
+  - Minimal patches for serialization support
 
 ## Prerequisites
 
