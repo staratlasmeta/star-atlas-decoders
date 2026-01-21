@@ -68,6 +68,9 @@ use carbon_score_decoder::{ScoreDecoder, accounts::ScoreAccount};
 #[cfg(feature = "claim-stake")]
 use carbon_claim_stake_decoder::{ClaimStakeDecoder, accounts::ClaimStakeAccount};
 
+#[cfg(feature = "proxy-rewarder")]
+use carbon_proxy_rewarder_decoder::{ProxyRewarderDecoder, accounts::ProxyRewarderAccount};
+
 // ============================================================
 // AccountTypeIdentifier implementations
 // ============================================================
@@ -140,6 +143,9 @@ impl_type_identifier!(ScoreAccount => ScoreVars, ScoreVarsShip, ShipStaking);
 
 #[cfg(feature = "claim-stake")]
 impl_type_identifier!(ClaimStakeAccount => ClaimStakeVar, ClaimStaking, GlobalVars);
+
+#[cfg(feature = "proxy-rewarder")]
+impl_type_identifier!(ProxyRewarderAccount => Proxy, ProxyEscrow, RegisteredLocker, TreasuryAuthority);
 
 // ============================================================
 // Main entry point
@@ -229,6 +235,7 @@ fn run_analysis(ctx: &AnalysisContext) -> Result<()> {
     );
     run_decoder_analysis!(ctx, "score", ScoreDecoder, ScoreAccount);
     run_decoder_analysis!(ctx, "claim-stake", ClaimStakeDecoder, ClaimStakeAccount);
+    run_decoder_analysis!(ctx, "proxy-rewarder", ProxyRewarderDecoder, ProxyRewarderAccount);
 
     Ok(())
 }
