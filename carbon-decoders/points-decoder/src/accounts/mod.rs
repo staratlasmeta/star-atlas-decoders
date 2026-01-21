@@ -2,12 +2,6 @@
 use crate::PROGRAM_ID;
 use crate::PointsDecoder;
 
-#[cfg(feature = "postgres")]
-pub mod postgres;
-
-#[cfg(feature = "graphql")]
-pub mod graphql;
-
 pub mod point_category;
 pub mod points_modifier;
 pub mod user_points_account;

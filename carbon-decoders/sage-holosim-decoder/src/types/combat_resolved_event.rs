@@ -2,7 +2,7 @@
 use carbon_core::borsh;
 
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
-#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq)]
+#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq, Eq, Hash)]
 pub struct CombatResolvedEvent {
     pub combat_id: [u8; 32],
     pub winner: u8,

@@ -3,7 +3,7 @@ use carbon_core::borsh;
 /// A royalty tier which defines a discount rate for a given staked amount of tokens
 
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
-#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq)]
+#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq, Eq, Hash)]
 pub struct RoyaltyTier {
     pub stake_amount: u64,
     pub discount: u64,

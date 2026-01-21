@@ -3,7 +3,7 @@ use carbon_core::borsh;
 /// Contains parameters for the [Locker].
 
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
-#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq)]
+#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq, Eq, Hash)]
 pub struct LockerParams {
     /// Whether or not the locking whitelist system is enabled.
     pub whitelist_enabled: bool,

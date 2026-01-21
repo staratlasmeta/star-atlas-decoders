@@ -3,7 +3,7 @@ use carbon_core::borsh;
 /// Unpacked version of [`MovementStats`]
 
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
-#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq)]
+#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq, Eq, Hash)]
 pub struct MovementStatsUnpacked {
     /// the amount of distance that the ship can cover in one second while sub-warping
     pub subwarp_speed: u32,

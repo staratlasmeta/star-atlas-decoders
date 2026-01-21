@@ -1,0 +1,158 @@
+diff --git a/src/instructions/cancel_unstake.rs b/src/instructions/cancel_unstake.rs
+index d740f09..fcee073 100644
+--- a/src/instructions/cancel_unstake.rs
++++ b/src/instructions/cancel_unstake.rs
+@@ -6,7 +6,7 @@ use carbon_core::deserialize::ArrangeAccounts;
+ use carbon_core::deserialize::CarbonDeserialize;
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq, Eq, Hash)]
+ pub struct CancelUnstake {
+ }
+ 
+diff --git a/src/instructions/create_staking_account.rs b/src/instructions/create_staking_account.rs
+index 0c9b4b2..1ca118c 100644
+--- a/src/instructions/create_staking_account.rs
++++ b/src/instructions/create_staking_account.rs
+@@ -6,7 +6,7 @@ use carbon_core::deserialize::ArrangeAccounts;
+ use carbon_core::deserialize::CarbonDeserialize;
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq, Eq, Hash)]
+ pub struct CreateStakingAccount {
+ }
+ 
+diff --git a/src/instructions/harvest.rs b/src/instructions/harvest.rs
+index ac7a33f..6012195 100644
+--- a/src/instructions/harvest.rs
++++ b/src/instructions/harvest.rs
+@@ -6,7 +6,7 @@ use carbon_core::deserialize::ArrangeAccounts;
+ use carbon_core::deserialize::CarbonDeserialize;
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq, Eq, Hash)]
+ pub struct Harvest {
+ }
+ 
+diff --git a/src/instructions/initialize_staking.rs b/src/instructions/initialize_staking.rs
+index 0232091..04699cc 100644
+--- a/src/instructions/initialize_staking.rs
++++ b/src/instructions/initialize_staking.rs
+@@ -6,7 +6,7 @@ use carbon_core::deserialize::ArrangeAccounts;
+ use carbon_core::deserialize::CarbonDeserialize;
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq, Eq, Hash)]
+ pub struct InitializeStaking {
+ }
+ 
+diff --git a/src/instructions/mod.rs b/src/instructions/mod.rs
+index add6efc..9f60215 100644
+--- a/src/instructions/mod.rs
++++ b/src/instructions/mod.rs
+@@ -27,8 +27,8 @@ pub use self::update_cooldown_period::*;
+ pub use self::update_reward_multiplier::*;
+ pub use self::withdraw_tokens::*;
+ 
+-#[derive(Debug, Clone, PartialEq)]
+-#[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
++#[derive(Debug, Clone, PartialEq, Eq, Hash)]
++#[cfg_attr(feature = "serde", derive(carbon_core::InstructionType, serde::Serialize, serde::Deserialize))]
+ #[cfg_attr(feature = "serde", serde(tag = "type", content = "data"))]
+ pub enum AtlasStakingInstruction {
+     CancelUnstake(CancelUnstake),
+diff --git a/src/instructions/register_stake.rs b/src/instructions/register_stake.rs
+index f3997d7..20b003d 100644
+--- a/src/instructions/register_stake.rs
++++ b/src/instructions/register_stake.rs
+@@ -6,7 +6,7 @@ use carbon_core::deserialize::ArrangeAccounts;
+ use carbon_core::deserialize::CarbonDeserialize;
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq, Eq, Hash)]
+ pub struct RegisterStake {
+     pub reward_multiplier: u64,
+     pub cooldown_period: u64,
+diff --git a/src/instructions/settle.rs b/src/instructions/settle.rs
+index 6cc5e77..6cd776c 100644
+--- a/src/instructions/settle.rs
++++ b/src/instructions/settle.rs
+@@ -6,7 +6,7 @@ use carbon_core::deserialize::ArrangeAccounts;
+ use carbon_core::deserialize::CarbonDeserialize;
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq, Eq, Hash)]
+ pub struct Settle {
+     pub updated_staking_period: u16,
+ }
+diff --git a/src/instructions/stake_tokens.rs b/src/instructions/stake_tokens.rs
+index 795c024..567f0ad 100644
+--- a/src/instructions/stake_tokens.rs
++++ b/src/instructions/stake_tokens.rs
+@@ -6,7 +6,7 @@ use carbon_core::deserialize::ArrangeAccounts;
+ use carbon_core::deserialize::CarbonDeserialize;
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq, Eq, Hash)]
+ pub struct StakeTokens {
+     pub stake_amount: u64,
+ }
+diff --git a/src/instructions/unstake_tokens.rs b/src/instructions/unstake_tokens.rs
+index bce23f9..5be0d73 100644
+--- a/src/instructions/unstake_tokens.rs
++++ b/src/instructions/unstake_tokens.rs
+@@ -6,7 +6,7 @@ use carbon_core::deserialize::ArrangeAccounts;
+ use carbon_core::deserialize::CarbonDeserialize;
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq, Eq, Hash)]
+ pub struct UnstakeTokens {
+ }
+ 
+diff --git a/src/instructions/update_cooldown_period.rs b/src/instructions/update_cooldown_period.rs
+index 700ac9d..bea7029 100644
+--- a/src/instructions/update_cooldown_period.rs
++++ b/src/instructions/update_cooldown_period.rs
+@@ -6,7 +6,7 @@ use carbon_core::deserialize::ArrangeAccounts;
+ use carbon_core::deserialize::CarbonDeserialize;
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq, Eq, Hash)]
+ pub struct UpdateCooldownPeriod {
+     pub cooldown_period: u64,
+ }
+diff --git a/src/instructions/update_reward_multiplier.rs b/src/instructions/update_reward_multiplier.rs
+index be1f9c3..2a192d0 100644
+--- a/src/instructions/update_reward_multiplier.rs
++++ b/src/instructions/update_reward_multiplier.rs
+@@ -6,7 +6,7 @@ use carbon_core::deserialize::ArrangeAccounts;
+ use carbon_core::deserialize::CarbonDeserialize;
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq, Eq, Hash)]
+ pub struct UpdateRewardMultiplier {
+     pub reward_multiplier: u64,
+     pub new_staking_period: u16,
+diff --git a/src/instructions/withdraw_tokens.rs b/src/instructions/withdraw_tokens.rs
+index 4f8e52e..c06d45b 100644
+--- a/src/instructions/withdraw_tokens.rs
++++ b/src/instructions/withdraw_tokens.rs
+@@ -6,7 +6,7 @@ use carbon_core::deserialize::ArrangeAccounts;
+ use carbon_core::deserialize::CarbonDeserialize;
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq, Eq, Hash)]
+ pub struct WithdrawTokens {
+ }
+ 

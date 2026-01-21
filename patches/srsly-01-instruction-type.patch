@@ -1,0 +1,223 @@
+diff --git a/src/instructions/accept_rental.rs b/src/instructions/accept_rental.rs
+index b0342a2..9161834 100644
+--- a/src/instructions/accept_rental.rs
++++ b/src/instructions/accept_rental.rs
+@@ -8,7 +8,7 @@ use carbon_core::deserialize::CarbonDeserialize;
+ /// Allows a borrower to accept a rental by providing funds and specifying duration.
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq, Eq, Hash)]
+ pub struct AcceptRental {
+     pub amount: u64,
+     pub duration: u64,
+diff --git a/src/instructions/cancel_rental.rs b/src/instructions/cancel_rental.rs
+index 13cb89a..355966a 100644
+--- a/src/instructions/cancel_rental.rs
++++ b/src/instructions/cancel_rental.rs
+@@ -8,7 +8,7 @@ use carbon_core::deserialize::CarbonDeserialize;
+ /// Cancels an ongoing rental before its scheduled end, marking it as canceled for repayment logic.
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq, Eq, Hash)]
+ pub struct CancelRental {
+ }
+ 
+diff --git a/src/instructions/close_contract.rs b/src/instructions/close_contract.rs
+index 6b79419..b955199 100644
+--- a/src/instructions/close_contract.rs
++++ b/src/instructions/close_contract.rs
+@@ -8,7 +8,7 @@ use carbon_core::deserialize::CarbonDeserialize;
+ /// Closes an existing rental contract, preventing further rentals.
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq, Eq, Hash)]
+ pub struct CloseContract {
+ }
+ 
+diff --git a/src/instructions/close_rental.rs b/src/instructions/close_rental.rs
+index 913efd9..1fc717c 100644
+--- a/src/instructions/close_rental.rs
++++ b/src/instructions/close_rental.rs
+@@ -8,7 +8,7 @@ use carbon_core::deserialize::CarbonDeserialize;
+ /// Closes a rental after its duration has ended, removes it from the contract.
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq, Eq, Hash)]
+ pub struct CloseRental {
+ }
+ 
+diff --git a/src/instructions/create_contract.rs b/src/instructions/create_contract.rs
+index 7001565..9df0474 100644
+--- a/src/instructions/create_contract.rs
++++ b/src/instructions/create_contract.rs
+@@ -8,7 +8,7 @@ use carbon_core::deserialize::CarbonDeserialize;
+ /// Creates a new rental contract, defining the rental terms such as rate, duration, and payment frequency.
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq, Eq, Hash)]
+ pub struct CreateContract {
+     pub rate: u64,
+     pub duration_min: u64,
+diff --git a/src/instructions/mod.rs b/src/instructions/mod.rs
+index ec4da78..14a653d 100644
+--- a/src/instructions/mod.rs
++++ b/src/instructions/mod.rs
+@@ -19,8 +19,8 @@ pub use self::create_contract::*;
+ pub use self::pay_rental::*;
+ pub use self::reset_rental::*;
+ 
+-#[derive(Debug, Clone, PartialEq)]
+-#[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
++#[derive(Debug, Clone, PartialEq, Eq, Hash)]
++#[cfg_attr(feature = "serde", derive(carbon_core::InstructionType, serde::Serialize, serde::Deserialize))]
+ #[cfg_attr(feature = "serde", serde(tag = "type", content = "data"))]
+ pub enum SrslyInstruction {
+     AcceptRental(AcceptRental),
+diff --git a/src/instructions/pay_rental.rs b/src/instructions/pay_rental.rs
+index 1e64b99..19deef8 100644
+--- a/src/instructions/pay_rental.rs
++++ b/src/instructions/pay_rental.rs
+@@ -8,7 +8,7 @@ use carbon_core::deserialize::CarbonDeserialize;
+ /// Handles recurring rental payments via an automated thread.
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq, Eq, Hash)]
+ pub struct PayRental {
+ }
+ 
+diff --git a/src/instructions/reset_rental.rs b/src/instructions/reset_rental.rs
+index 779d0f8..feb4dc4 100644
+--- a/src/instructions/reset_rental.rs
++++ b/src/instructions/reset_rental.rs
+@@ -8,7 +8,7 @@ use carbon_core::deserialize::CarbonDeserialize;
+ /// Resets a rental in the event of an early cancellation or contract ending.
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq, Eq, Hash)]
+ pub struct ResetRental {
+ }
+ 
+diff --git a/src/types/clock_data.rs b/src/types/clock_data.rs
+index 3d3a2ff..e4b7eca 100644
+--- a/src/types/clock_data.rs
++++ b/src/types/clock_data.rs
+@@ -3,7 +3,7 @@ use carbon_core::borsh;
+ /// The clock object, representing a specific moment in time recorded by a Solana cluster.
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq, Eq, Hash)]
+ pub struct ClockData {
+     /// The current slot.
+     pub slot: u64,
+diff --git a/src/types/equality.rs b/src/types/equality.rs
+index 3793ab8..8ec70e5 100644
+--- a/src/types/equality.rs
++++ b/src/types/equality.rs
+@@ -3,7 +3,7 @@ use carbon_core::borsh;
+ /// Operators for describing how to compare two values to one another.
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq, Eq, Hash)]
+ pub enum Equality {
+     GreaterThanOrEqual,
+     LessThanOrEqual,
+diff --git a/src/types/exec_context.rs b/src/types/exec_context.rs
+index eb70dff..4280f40 100644
+--- a/src/types/exec_context.rs
++++ b/src/types/exec_context.rs
+@@ -4,7 +4,7 @@ use crate::types::TriggerContext;
+ /// The execution context of a particular transaction thread.
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq, Eq, Hash)]
+ pub struct ExecContext {
+     /// Index of the next instruction to be executed.
+     pub exec_index: u64,
+diff --git a/src/types/payment_frequency.rs b/src/types/payment_frequency.rs
+index a5fc5c1..11ac176 100644
+--- a/src/types/payment_frequency.rs
++++ b/src/types/payment_frequency.rs
+@@ -2,7 +2,7 @@
+ use carbon_core::borsh;
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq, Eq, Hash)]
+ pub enum PaymentFrequency {
+     Decasecond,
+     Minute,
+diff --git a/src/types/serializable_account.rs b/src/types/serializable_account.rs
+index 749d91d..a1fb5b4 100644
+--- a/src/types/serializable_account.rs
++++ b/src/types/serializable_account.rs
+@@ -4,7 +4,7 @@ use solana_pubkey::Pubkey;
+ /// Account metadata needed to execute an instruction on Solana.
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq, Eq, Hash)]
+ pub struct SerializableAccount {
+     /// An account's public key
+     pub pubkey: Pubkey,
+diff --git a/src/types/serializable_instruction.rs b/src/types/serializable_instruction.rs
+index 9f568dd..eba72c1 100644
+--- a/src/types/serializable_instruction.rs
++++ b/src/types/serializable_instruction.rs
+@@ -5,7 +5,7 @@ use solana_pubkey::Pubkey;
+ /// The data needed execute an instruction on Solana.
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq, Eq, Hash)]
+ pub struct SerializableInstruction {
+     /// Pubkey of the instruction processor that executes this instruction
+     pub program_id: Pubkey,
+diff --git a/src/types/thread_response.rs b/src/types/thread_response.rs
+index f8e7dce..6f3197e 100644
+--- a/src/types/thread_response.rs
++++ b/src/types/thread_response.rs
+@@ -6,7 +6,7 @@ use solana_pubkey::Pubkey;
+ /// A response value target programs can return to update the thread.
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq, Eq, Hash)]
+ pub struct ThreadResponse {
+     /// If set, the thread will automatically close and return lamports to the provided address.
+     /// If dynamic_instruction is also set, close_to will take precedence and the dynamic instruction will not be executed.
+diff --git a/src/types/trigger.rs b/src/types/trigger.rs
+index d0dab21..828b69e 100644
+--- a/src/types/trigger.rs
++++ b/src/types/trigger.rs
+@@ -5,7 +5,7 @@ use solana_pubkey::Pubkey;
+ /// The triggering conditions of a thread.
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq, Eq, Hash)]
+ pub enum Trigger {
+     Account {
+     /// The address of the account to monitor.
+diff --git a/src/types/trigger_context.rs b/src/types/trigger_context.rs
+index facc067..9d82bf6 100644
+--- a/src/types/trigger_context.rs
++++ b/src/types/trigger_context.rs
+@@ -3,7 +3,7 @@ use carbon_core::borsh;
+ /// The event which allowed a particular transaction thread to be triggered.
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq, Eq, Hash)]
+ pub enum TriggerContext {
+     Account {
+     /// The account's data hash.

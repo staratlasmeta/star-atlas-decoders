@@ -1,0 +1,3434 @@
+diff --git a/src/events/battle_log.rs b/src/events/battle_log.rs
+index a9cac0c..f65344f 100644
+--- a/src/events/battle_log.rs
++++ b/src/events/battle_log.rs
+@@ -5,7 +5,7 @@ use carbon_core::deserialize::CarbonDeserialize;
+ use solana_pubkey::Pubkey;
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq, Eq, Hash)]
+ pub struct BattleLogEvent {
+     pub combat_id: [u8; 32],
+     pub attacker_fleet: Pubkey,
+diff --git a/src/events/combat_initiated_event.rs b/src/events/combat_initiated_event.rs
+index 3fe8d9c..0acef31 100644
+--- a/src/events/combat_initiated_event.rs
++++ b/src/events/combat_initiated_event.rs
+@@ -5,7 +5,7 @@ use carbon_core::deserialize::CarbonDeserialize;
+ use solana_pubkey::Pubkey;
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq, Eq, Hash)]
+ pub struct CombatInitiatedEventEvent {
+     pub attacker_fleet: Pubkey,
+     pub defender_fleet: Pubkey,
+diff --git a/src/events/combat_log_event.rs b/src/events/combat_log_event.rs
+index d5f1fc8..0e58709 100644
+--- a/src/events/combat_log_event.rs
++++ b/src/events/combat_log_event.rs
+@@ -6,7 +6,7 @@ use crate::types::CombatParticipant;
+ use solana_pubkey::Pubkey;
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq, Eq, Hash)]
+ pub struct CombatLogEventEvent {
+     pub combat_type: u8,
+     pub combat_id: [u8; 32],
+diff --git a/src/events/combat_loot_drop_event.rs b/src/events/combat_loot_drop_event.rs
+index a8a3c98..e09bf4e 100644
+--- a/src/events/combat_loot_drop_event.rs
++++ b/src/events/combat_loot_drop_event.rs
+@@ -5,7 +5,7 @@ use carbon_core::deserialize::CarbonDeserialize;
+ use solana_pubkey::Pubkey;
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq, Eq, Hash)]
+ pub struct CombatLootDropEventEvent {
+     pub combat_id: [u8; 32],
+     pub destroyed_fleet: Pubkey,
+diff --git a/src/events/combat_participant.rs b/src/events/combat_participant.rs
+index 318e059..fe9aa39 100644
+--- a/src/events/combat_participant.rs
++++ b/src/events/combat_participant.rs
+@@ -5,7 +5,7 @@ use carbon_core::deserialize::CarbonDeserialize;
+ use solana_pubkey::Pubkey;
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq, Eq, Hash)]
+ pub struct CombatParticipantEvent {
+     pub fleet_key: Pubkey,
+     #[cfg_attr(feature = "serde", serde(with = "serde_big_array::BigArray"))]
+diff --git a/src/events/combat_resolved_event.rs b/src/events/combat_resolved_event.rs
+index 3c0ac8b..cbf1984 100644
+--- a/src/events/combat_resolved_event.rs
++++ b/src/events/combat_resolved_event.rs
+@@ -4,7 +4,7 @@ use carbon_core::borsh;
+ use carbon_core::deserialize::CarbonDeserialize;
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq, Eq, Hash)]
+ pub struct CombatResolvedEventEvent {
+     pub combat_id: [u8; 32],
+     pub winner: u8,
+diff --git a/src/events/starbase_combat_event.rs b/src/events/starbase_combat_event.rs
+index 83d1779..5f9f709 100644
+--- a/src/events/starbase_combat_event.rs
++++ b/src/events/starbase_combat_event.rs
+@@ -5,7 +5,7 @@ use carbon_core::deserialize::CarbonDeserialize;
+ use solana_pubkey::Pubkey;
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq, Eq, Hash)]
+ pub struct StarbaseCombatEventEvent {
+     pub attacker_fleet: Pubkey,
+     pub target_starbase: Pubkey,
+diff --git a/src/instructions/activate_game_state.rs b/src/instructions/activate_game_state.rs
+index 02a552d..3eda809 100644
+--- a/src/instructions/activate_game_state.rs
++++ b/src/instructions/activate_game_state.rs
+@@ -7,7 +7,7 @@ use carbon_core::deserialize::CarbonDeserialize;
+ use crate::types::ManageGameInput;
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq, Eq, Hash)]
+ pub struct ActivateGameState {
+     pub input: ManageGameInput,
+ }
+diff --git a/src/instructions/add_connection.rs b/src/instructions/add_connection.rs
+index 2869735..6b3543d 100644
+--- a/src/instructions/add_connection.rs
++++ b/src/instructions/add_connection.rs
+@@ -6,7 +6,7 @@ use carbon_core::deserialize::ArrangeAccounts;
+ use carbon_core::deserialize::CarbonDeserialize;
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq, Eq, Hash)]
+ pub struct AddConnection {
+     pub sub_coordinates1: [i64; 2],
+     pub flags1: u8,
+diff --git a/src/instructions/add_crew_to_game.rs b/src/instructions/add_crew_to_game.rs
+index d515ecd..6018496 100644
+--- a/src/instructions/add_crew_to_game.rs
++++ b/src/instructions/add_crew_to_game.rs
+@@ -7,7 +7,7 @@ use carbon_core::deserialize::CarbonDeserialize;
+ use crate::types::AddCrewInput;
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq, Eq, Hash)]
+ pub struct AddCrewToGame {
+     pub input: AddCrewInput,
+ }
+diff --git a/src/instructions/add_rental.rs b/src/instructions/add_rental.rs
+index 82c8902..b1ec68e 100644
+--- a/src/instructions/add_rental.rs
++++ b/src/instructions/add_rental.rs
+@@ -6,7 +6,7 @@ use carbon_core::deserialize::ArrangeAccounts;
+ use carbon_core::deserialize::CarbonDeserialize;
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq, Eq, Hash)]
+ pub struct AddRental {
+     pub owner_key_index: u16,
+ }
+diff --git a/src/instructions/add_ship_escrow.rs b/src/instructions/add_ship_escrow.rs
+index 374e400..6d00e08 100644
+--- a/src/instructions/add_ship_escrow.rs
++++ b/src/instructions/add_ship_escrow.rs
+@@ -7,7 +7,7 @@ use carbon_core::deserialize::CarbonDeserialize;
+ use crate::types::AddShipEscrowInput;
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq, Eq, Hash)]
+ pub struct AddShipEscrow {
+     pub input: AddShipEscrowInput,
+ }
+diff --git a/src/instructions/add_ship_to_fleet.rs b/src/instructions/add_ship_to_fleet.rs
+index 4b312b4..1a0e298 100644
+--- a/src/instructions/add_ship_to_fleet.rs
++++ b/src/instructions/add_ship_to_fleet.rs
+@@ -7,7 +7,7 @@ use carbon_core::deserialize::CarbonDeserialize;
+ use crate::types::AddShipToFleetInput;
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq, Eq, Hash)]
+ pub struct AddShipToFleet {
+     pub input: AddShipToFleetInput,
+ }
+diff --git a/src/instructions/attack_fleet.rs b/src/instructions/attack_fleet.rs
+index c73f567..a9fe178 100644
+--- a/src/instructions/attack_fleet.rs
++++ b/src/instructions/attack_fleet.rs
+@@ -7,7 +7,7 @@ use carbon_core::deserialize::CarbonDeserialize;
+ use crate::types::AttackFleetInput;
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq, Eq, Hash)]
+ pub struct AttackFleet {
+     pub input: AttackFleetInput,
+ }
+diff --git a/src/instructions/attack_starbase.rs b/src/instructions/attack_starbase.rs
+index 49d6007..f5e743a 100644
+--- a/src/instructions/attack_starbase.rs
++++ b/src/instructions/attack_starbase.rs
+@@ -7,7 +7,7 @@ use carbon_core::deserialize::CarbonDeserialize;
+ use crate::types::AttackStarbaseInput;
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq, Eq, Hash)]
+ pub struct AttackStarbase {
+     pub input: AttackStarbaseInput,
+ }
+diff --git a/src/instructions/burn_crafting_consumables.rs b/src/instructions/burn_crafting_consumables.rs
+index 90d2933..966d970 100644
+--- a/src/instructions/burn_crafting_consumables.rs
++++ b/src/instructions/burn_crafting_consumables.rs
+@@ -7,7 +7,7 @@ use carbon_core::deserialize::CarbonDeserialize;
+ use crate::types::IngredientIndexInput;
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq, Eq, Hash)]
+ pub struct BurnCraftingConsumables {
+     pub input: IngredientIndexInput,
+ }
+diff --git a/src/instructions/cancel_crafting_process.rs b/src/instructions/cancel_crafting_process.rs
+index 1f2e86f..1ff2b11 100644
+--- a/src/instructions/cancel_crafting_process.rs
++++ b/src/instructions/cancel_crafting_process.rs
+@@ -7,7 +7,7 @@ use carbon_core::deserialize::CarbonDeserialize;
+ use crate::types::KeyIndexInput;
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq, Eq, Hash)]
+ pub struct CancelCraftingProcess {
+     pub input: KeyIndexInput,
+ }
+diff --git a/src/instructions/change_rental.rs b/src/instructions/change_rental.rs
+index 6878127..f55896e 100644
+--- a/src/instructions/change_rental.rs
++++ b/src/instructions/change_rental.rs
+@@ -6,7 +6,7 @@ use carbon_core::deserialize::ArrangeAccounts;
+ use carbon_core::deserialize::CarbonDeserialize;
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq, Eq, Hash)]
+ pub struct ChangeRental {
+ }
+ 
+diff --git a/src/instructions/claim_crafting_non_consumables.rs b/src/instructions/claim_crafting_non_consumables.rs
+index 7f9b1cd..ebe3847 100644
+--- a/src/instructions/claim_crafting_non_consumables.rs
++++ b/src/instructions/claim_crafting_non_consumables.rs
+@@ -7,7 +7,7 @@ use carbon_core::deserialize::CarbonDeserialize;
+ use crate::types::IngredientIndexInput;
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq, Eq, Hash)]
+ pub struct ClaimCraftingNonConsumables {
+     pub input: IngredientIndexInput,
+ }
+diff --git a/src/instructions/claim_crafting_outputs.rs b/src/instructions/claim_crafting_outputs.rs
+index c29e5b4..bb8eb15 100644
+--- a/src/instructions/claim_crafting_outputs.rs
++++ b/src/instructions/claim_crafting_outputs.rs
+@@ -7,7 +7,7 @@ use carbon_core::deserialize::CarbonDeserialize;
+ use crate::types::IngredientIndexInput;
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq, Eq, Hash)]
+ pub struct ClaimCraftingOutputs {
+     pub input: IngredientIndexInput,
+ }
+diff --git a/src/instructions/close_crafting_process.rs b/src/instructions/close_crafting_process.rs
+index 1422428..87beef0 100644
+--- a/src/instructions/close_crafting_process.rs
++++ b/src/instructions/close_crafting_process.rs
+@@ -7,7 +7,7 @@ use carbon_core::deserialize::CarbonDeserialize;
+ use crate::types::KeyIndexInput;
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq, Eq, Hash)]
+ pub struct CloseCraftingProcess {
+     pub input: KeyIndexInput,
+ }
+diff --git a/src/instructions/close_disbanded_fleet.rs b/src/instructions/close_disbanded_fleet.rs
+index 91cdad8..f045f12 100644
+--- a/src/instructions/close_disbanded_fleet.rs
++++ b/src/instructions/close_disbanded_fleet.rs
+@@ -7,7 +7,7 @@ use carbon_core::deserialize::CarbonDeserialize;
+ use crate::types::CloseDisbandedFleetInput;
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq, Eq, Hash)]
+ pub struct CloseDisbandedFleet {
+     pub input: CloseDisbandedFleetInput,
+ }
+diff --git a/src/instructions/close_fleet_cargo_pod_token_account.rs b/src/instructions/close_fleet_cargo_pod_token_account.rs
+index f7b9167..313b002 100644
+--- a/src/instructions/close_fleet_cargo_pod_token_account.rs
++++ b/src/instructions/close_fleet_cargo_pod_token_account.rs
+@@ -7,7 +7,7 @@ use carbon_core::deserialize::CarbonDeserialize;
+ use crate::types::KeyIndexInput;
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq, Eq, Hash)]
+ pub struct CloseFleetCargoPodTokenAccount {
+     pub input: KeyIndexInput,
+ }
+diff --git a/src/instructions/close_player_crew_record.rs b/src/instructions/close_player_crew_record.rs
+index d4153a1..172154b 100644
+--- a/src/instructions/close_player_crew_record.rs
++++ b/src/instructions/close_player_crew_record.rs
+@@ -7,7 +7,7 @@ use carbon_core::deserialize::CarbonDeserialize;
+ use crate::types::KeyIndexInput;
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq, Eq, Hash)]
+ pub struct ClosePlayerCrewRecord {
+     pub input: KeyIndexInput,
+ }
+diff --git a/src/instructions/close_starbase_cargo_token_account.rs b/src/instructions/close_starbase_cargo_token_account.rs
+index d442f1d..45ac620 100644
+--- a/src/instructions/close_starbase_cargo_token_account.rs
++++ b/src/instructions/close_starbase_cargo_token_account.rs
+@@ -7,7 +7,7 @@ use carbon_core::deserialize::CarbonDeserialize;
+ use crate::types::KeyIndexInput;
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq, Eq, Hash)]
+ pub struct CloseStarbaseCargoTokenAccount {
+     pub input: KeyIndexInput,
+ }
+diff --git a/src/instructions/close_upgrade_process.rs b/src/instructions/close_upgrade_process.rs
+index ba46130..a5ebb30 100644
+--- a/src/instructions/close_upgrade_process.rs
++++ b/src/instructions/close_upgrade_process.rs
+@@ -7,7 +7,7 @@ use carbon_core::deserialize::CarbonDeserialize;
+ use crate::types::KeyIndexInput;
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq, Eq, Hash)]
+ pub struct CloseUpgradeProcess {
+     pub input: KeyIndexInput,
+ }
+diff --git a/src/instructions/complete_starbase_upgrade.rs b/src/instructions/complete_starbase_upgrade.rs
+index df52596..6ea5453 100644
+--- a/src/instructions/complete_starbase_upgrade.rs
++++ b/src/instructions/complete_starbase_upgrade.rs
+@@ -7,7 +7,7 @@ use carbon_core::deserialize::CarbonDeserialize;
+ use crate::types::KeyIndexInput;
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq, Eq, Hash)]
+ pub struct CompleteStarbaseUpgrade {
+     pub input: KeyIndexInput,
+ }
+diff --git a/src/instructions/copy_game_state.rs b/src/instructions/copy_game_state.rs
+index ab1a2d3..051b283 100644
+--- a/src/instructions/copy_game_state.rs
++++ b/src/instructions/copy_game_state.rs
+@@ -7,7 +7,7 @@ use carbon_core::deserialize::CarbonDeserialize;
+ use crate::types::ManageGameInput;
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq, Eq, Hash)]
+ pub struct CopyGameState {
+     pub input: ManageGameInput,
+ }
+diff --git a/src/instructions/cpi_event.rs b/src/instructions/cpi_event.rs
+index 50c531f..99c1168 100644
+--- a/src/instructions/cpi_event.rs
++++ b/src/instructions/cpi_event.rs
+@@ -5,7 +5,7 @@ use carbon_core::deserialize::ArrangeAccounts;
+ pub use super::super::events;
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, carbon_core::borsh::BorshSerialize, carbon_core::borsh::BorshDeserialize, PartialEq)]
++#[derive(Debug, Clone, carbon_core::borsh::BorshSerialize, carbon_core::borsh::BorshDeserialize, PartialEq, Eq, Hash)]
+ pub enum CpiEvent {
+     BattleLog(events::battle_log::BattleLogEvent),
+     CombatInitiatedEvent(events::combat_initiated_event::CombatInitiatedEventEvent),
+diff --git a/src/instructions/create_cargo_pod.rs b/src/instructions/create_cargo_pod.rs
+index 3914d2b..9d33ef5 100644
+--- a/src/instructions/create_cargo_pod.rs
++++ b/src/instructions/create_cargo_pod.rs
+@@ -7,7 +7,7 @@ use carbon_core::deserialize::CarbonDeserialize;
+ use crate::types::StarbaseCreateCargoPodInput;
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq, Eq, Hash)]
+ pub struct CreateCargoPod {
+     pub input: StarbaseCreateCargoPodInput,
+ }
+diff --git a/src/instructions/create_certificate_mint.rs b/src/instructions/create_certificate_mint.rs
+index 79ee81e..eca8f84 100644
+--- a/src/instructions/create_certificate_mint.rs
++++ b/src/instructions/create_certificate_mint.rs
+@@ -6,7 +6,7 @@ use carbon_core::deserialize::ArrangeAccounts;
+ use carbon_core::deserialize::CarbonDeserialize;
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq, Eq, Hash)]
+ pub struct CreateCertificateMint {
+ }
+ 
+diff --git a/src/instructions/create_crafting_process.rs b/src/instructions/create_crafting_process.rs
+index bf1f47a..537fa51 100644
+--- a/src/instructions/create_crafting_process.rs
++++ b/src/instructions/create_crafting_process.rs
+@@ -7,7 +7,7 @@ use carbon_core::deserialize::CarbonDeserialize;
+ use crate::types::StarbaseCreateCraftingProcessInput;
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq, Eq, Hash)]
+ pub struct CreateCraftingProcess {
+     pub input: StarbaseCreateCraftingProcessInput,
+ }
+diff --git a/src/instructions/create_fleet.rs b/src/instructions/create_fleet.rs
+index 5071c81..c825318 100644
+--- a/src/instructions/create_fleet.rs
++++ b/src/instructions/create_fleet.rs
+@@ -7,7 +7,7 @@ use carbon_core::deserialize::CarbonDeserialize;
+ use crate::types::CreateFleetInput;
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq, Eq, Hash)]
+ pub struct CreateFleet {
+     pub input: CreateFleetInput,
+ }
+diff --git a/src/instructions/create_starbase_upgrade_resource_process.rs b/src/instructions/create_starbase_upgrade_resource_process.rs
+index 744862e..9ce8a51 100644
+--- a/src/instructions/create_starbase_upgrade_resource_process.rs
++++ b/src/instructions/create_starbase_upgrade_resource_process.rs
+@@ -7,7 +7,7 @@ use carbon_core::deserialize::CarbonDeserialize;
+ use crate::types::StarbaseCreateCraftingProcessInput;
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq, Eq, Hash)]
+ pub struct CreateStarbaseUpgradeResourceProcess {
+     pub input: StarbaseCreateCraftingProcessInput,
+ }
+diff --git a/src/instructions/deposit_cargo_to_fleet.rs b/src/instructions/deposit_cargo_to_fleet.rs
+index 46457d9..ddb7442 100644
+--- a/src/instructions/deposit_cargo_to_fleet.rs
++++ b/src/instructions/deposit_cargo_to_fleet.rs
+@@ -7,7 +7,7 @@ use carbon_core::deserialize::CarbonDeserialize;
+ use crate::types::DepositCargoToFleetInput;
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq, Eq, Hash)]
+ pub struct DepositCargoToFleet {
+     pub input: DepositCargoToFleetInput,
+ }
+diff --git a/src/instructions/deposit_cargo_to_game.rs b/src/instructions/deposit_cargo_to_game.rs
+index b8b4567..7c02241 100644
+--- a/src/instructions/deposit_cargo_to_game.rs
++++ b/src/instructions/deposit_cargo_to_game.rs
+@@ -7,7 +7,7 @@ use carbon_core::deserialize::CarbonDeserialize;
+ use crate::types::CargoToGameInput;
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq, Eq, Hash)]
+ pub struct DepositCargoToGame {
+     pub input: CargoToGameInput,
+ }
+diff --git a/src/instructions/deposit_crafting_ingredient.rs b/src/instructions/deposit_crafting_ingredient.rs
+index 0201c48..48eac87 100644
+--- a/src/instructions/deposit_crafting_ingredient.rs
++++ b/src/instructions/deposit_crafting_ingredient.rs
+@@ -7,7 +7,7 @@ use carbon_core::deserialize::CarbonDeserialize;
+ use crate::types::StarbaseDepositCraftingIngredientInput;
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq, Eq, Hash)]
+ pub struct DepositCraftingIngredient {
+     pub input: StarbaseDepositCraftingIngredientInput,
+ }
+diff --git a/src/instructions/deposit_starbase_upkeep_resource.rs b/src/instructions/deposit_starbase_upkeep_resource.rs
+index 1fcf89a..1f92671 100644
+--- a/src/instructions/deposit_starbase_upkeep_resource.rs
++++ b/src/instructions/deposit_starbase_upkeep_resource.rs
+@@ -7,7 +7,7 @@ use carbon_core::deserialize::CarbonDeserialize;
+ use crate::types::DepositStarbaseUpkeepResourceInput;
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq, Eq, Hash)]
+ pub struct DepositStarbaseUpkeepResource {
+     pub input: DepositStarbaseUpkeepResourceInput,
+ }
+diff --git a/src/instructions/deregister_combat_config.rs b/src/instructions/deregister_combat_config.rs
+index 27bbc80..407182b 100644
+--- a/src/instructions/deregister_combat_config.rs
++++ b/src/instructions/deregister_combat_config.rs
+@@ -7,7 +7,7 @@ use carbon_core::deserialize::CarbonDeserialize;
+ use crate::types::KeyIndexInput;
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq, Eq, Hash)]
+ pub struct DeregisterCombatConfig {
+     pub input: KeyIndexInput,
+ }
+diff --git a/src/instructions/deregister_mine_item.rs b/src/instructions/deregister_mine_item.rs
+index 545662f..33b7536 100644
+--- a/src/instructions/deregister_mine_item.rs
++++ b/src/instructions/deregister_mine_item.rs
+@@ -7,7 +7,7 @@ use carbon_core::deserialize::CarbonDeserialize;
+ use crate::types::KeyIndexInput;
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq, Eq, Hash)]
+ pub struct DeregisterMineItem {
+     pub input: KeyIndexInput,
+ }
+diff --git a/src/instructions/deregister_progression_config.rs b/src/instructions/deregister_progression_config.rs
+index 6c0bd9b..318660d 100644
+--- a/src/instructions/deregister_progression_config.rs
++++ b/src/instructions/deregister_progression_config.rs
+@@ -7,7 +7,7 @@ use carbon_core::deserialize::CarbonDeserialize;
+ use crate::types::KeyIndexInput;
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq, Eq, Hash)]
+ pub struct DeregisterProgressionConfig {
+     pub input: KeyIndexInput,
+ }
+diff --git a/src/instructions/deregister_resource.rs b/src/instructions/deregister_resource.rs
+index c15576c..08833f9 100644
+--- a/src/instructions/deregister_resource.rs
++++ b/src/instructions/deregister_resource.rs
+@@ -7,7 +7,7 @@ use carbon_core::deserialize::CarbonDeserialize;
+ use crate::types::KeyIndexInput;
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq, Eq, Hash)]
+ pub struct DeregisterResource {
+     pub input: KeyIndexInput,
+ }
+diff --git a/src/instructions/deregister_starbase.rs b/src/instructions/deregister_starbase.rs
+index 7173bf2..a382fb2 100644
+--- a/src/instructions/deregister_starbase.rs
++++ b/src/instructions/deregister_starbase.rs
+@@ -7,7 +7,7 @@ use carbon_core::deserialize::CarbonDeserialize;
+ use crate::types::KeyIndexInput;
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq, Eq, Hash)]
+ pub struct DeregisterStarbase {
+     pub input: KeyIndexInput,
+ }
+diff --git a/src/instructions/deregister_survey_data_unit_tracker.rs b/src/instructions/deregister_survey_data_unit_tracker.rs
+index 4bc0fbf..f5443d5 100644
+--- a/src/instructions/deregister_survey_data_unit_tracker.rs
++++ b/src/instructions/deregister_survey_data_unit_tracker.rs
+@@ -7,7 +7,7 @@ use carbon_core::deserialize::CarbonDeserialize;
+ use crate::types::DeregisterSurveyDataUnitTrackerInput;
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq, Eq, Hash)]
+ pub struct DeregisterSurveyDataUnitTracker {
+     pub input: DeregisterSurveyDataUnitTrackerInput,
+ }
+diff --git a/src/instructions/dev_add_crew_to_game.rs b/src/instructions/dev_add_crew_to_game.rs
+index 22a3640..44bba16 100644
+--- a/src/instructions/dev_add_crew_to_game.rs
++++ b/src/instructions/dev_add_crew_to_game.rs
+@@ -7,7 +7,7 @@ use carbon_core::deserialize::CarbonDeserialize;
+ use crate::types::DevAddCrewInput;
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq, Eq, Hash)]
+ pub struct DevAddCrewToGame {
+     pub input: DevAddCrewInput,
+ }
+diff --git a/src/instructions/dev_deposit_cargo_to_game.rs b/src/instructions/dev_deposit_cargo_to_game.rs
+index b16aeb8..c4dce9a 100644
+--- a/src/instructions/dev_deposit_cargo_to_game.rs
++++ b/src/instructions/dev_deposit_cargo_to_game.rs
+@@ -7,7 +7,7 @@ use carbon_core::deserialize::CarbonDeserialize;
+ use crate::types::CargoToGameInput;
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq, Eq, Hash)]
+ pub struct DevDepositCargoToGame {
+     pub input: CargoToGameInput,
+ }
+diff --git a/src/instructions/disband_fleet.rs b/src/instructions/disband_fleet.rs
+index d32d86b..a6b81aa 100644
+--- a/src/instructions/disband_fleet.rs
++++ b/src/instructions/disband_fleet.rs
+@@ -7,7 +7,7 @@ use carbon_core::deserialize::CarbonDeserialize;
+ use crate::types::DisbandFleetInput;
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq, Eq, Hash)]
+ pub struct DisbandFleet {
+     pub input: DisbandFleetInput,
+ }
+diff --git a/src/instructions/disbanded_fleet_to_escrow.rs b/src/instructions/disbanded_fleet_to_escrow.rs
+index 38a48f8..8f702e8 100644
+--- a/src/instructions/disbanded_fleet_to_escrow.rs
++++ b/src/instructions/disbanded_fleet_to_escrow.rs
+@@ -7,7 +7,7 @@ use carbon_core::deserialize::CarbonDeserialize;
+ use crate::types::DisbandedFleetToEscrowInput;
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq, Eq, Hash)]
+ pub struct DisbandedFleetToEscrow {
+     pub input: DisbandedFleetToEscrowInput,
+ }
+diff --git a/src/instructions/discover_sector.rs b/src/instructions/discover_sector.rs
+index 67fd111..5742742 100644
+--- a/src/instructions/discover_sector.rs
++++ b/src/instructions/discover_sector.rs
+@@ -7,7 +7,7 @@ use carbon_core::deserialize::CarbonDeserialize;
+ use crate::types::DiscoverSectorInput;
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq, Eq, Hash)]
+ pub struct DiscoverSector {
+     pub input: DiscoverSectorInput,
+ }
+diff --git a/src/instructions/drain_mine_item_bank.rs b/src/instructions/drain_mine_item_bank.rs
+index 7e768c4..b67f86f 100644
+--- a/src/instructions/drain_mine_item_bank.rs
++++ b/src/instructions/drain_mine_item_bank.rs
+@@ -7,7 +7,7 @@ use carbon_core::deserialize::CarbonDeserialize;
+ use crate::types::KeyIndexInput;
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq, Eq, Hash)]
+ pub struct DrainMineItemBank {
+     pub input: KeyIndexInput,
+ }
+diff --git a/src/instructions/drain_survey_data_units_bank.rs b/src/instructions/drain_survey_data_units_bank.rs
+index 92068d9..9167024 100644
+--- a/src/instructions/drain_survey_data_units_bank.rs
++++ b/src/instructions/drain_survey_data_units_bank.rs
+@@ -7,7 +7,7 @@ use carbon_core::deserialize::CarbonDeserialize;
+ use crate::types::KeyIndexInput;
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq, Eq, Hash)]
+ pub struct DrainSurveyDataUnitsBank {
+     pub input: KeyIndexInput,
+ }
+diff --git a/src/instructions/fleet_state_handler.rs b/src/instructions/fleet_state_handler.rs
+index d8169dc..feabb04 100644
+--- a/src/instructions/fleet_state_handler.rs
++++ b/src/instructions/fleet_state_handler.rs
+@@ -6,7 +6,7 @@ use carbon_core::deserialize::ArrangeAccounts;
+ use carbon_core::deserialize::CarbonDeserialize;
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq, Eq, Hash)]
+ pub struct FleetStateHandler {
+ }
+ 
+diff --git a/src/instructions/force_disband_fleet.rs b/src/instructions/force_disband_fleet.rs
+index 6ea19bc..0b1a595 100644
+--- a/src/instructions/force_disband_fleet.rs
++++ b/src/instructions/force_disband_fleet.rs
+@@ -7,7 +7,7 @@ use carbon_core::deserialize::CarbonDeserialize;
+ use crate::types::ForcedDisbandFleetInput;
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq, Eq, Hash)]
+ pub struct ForceDisbandFleet {
+     pub input: ForcedDisbandFleetInput,
+ }
+diff --git a/src/instructions/force_drop_fleet_cargo.rs b/src/instructions/force_drop_fleet_cargo.rs
+index cb24756..b40d9d0 100644
+--- a/src/instructions/force_drop_fleet_cargo.rs
++++ b/src/instructions/force_drop_fleet_cargo.rs
+@@ -6,7 +6,7 @@ use carbon_core::deserialize::ArrangeAccounts;
+ use carbon_core::deserialize::CarbonDeserialize;
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq, Eq, Hash)]
+ pub struct ForceDropFleetCargo {
+ }
+ 
+diff --git a/src/instructions/idle_to_loading_bay.rs b/src/instructions/idle_to_loading_bay.rs
+index 5786d3a..05459be 100644
+--- a/src/instructions/idle_to_loading_bay.rs
++++ b/src/instructions/idle_to_loading_bay.rs
+@@ -6,7 +6,7 @@ use carbon_core::deserialize::ArrangeAccounts;
+ use carbon_core::deserialize::CarbonDeserialize;
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq, Eq, Hash)]
+ pub struct IdleToLoadingBay {
+     pub key_index: u16,
+ }
+diff --git a/src/instructions/idle_to_respawn.rs b/src/instructions/idle_to_respawn.rs
+index fc7234d..c18d3b5 100644
+--- a/src/instructions/idle_to_respawn.rs
++++ b/src/instructions/idle_to_respawn.rs
+@@ -7,7 +7,7 @@ use carbon_core::deserialize::CarbonDeserialize;
+ use crate::types::IdleToRespawnInput;
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq, Eq, Hash)]
+ pub struct IdleToRespawn {
+     pub input: IdleToRespawnInput,
+ }
+diff --git a/src/instructions/init_game.rs b/src/instructions/init_game.rs
+index 89f6bc6..904fce8 100644
+--- a/src/instructions/init_game.rs
++++ b/src/instructions/init_game.rs
+@@ -6,7 +6,7 @@ use carbon_core::deserialize::ArrangeAccounts;
+ use carbon_core::deserialize::CarbonDeserialize;
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq, Eq, Hash)]
+ pub struct InitGame {
+ }
+ 
+diff --git a/src/instructions/init_game_state.rs b/src/instructions/init_game_state.rs
+index 0dfca5a..e93bdcd 100644
+--- a/src/instructions/init_game_state.rs
++++ b/src/instructions/init_game_state.rs
+@@ -7,7 +7,7 @@ use carbon_core::deserialize::CarbonDeserialize;
+ use crate::types::InitGameStateInput;
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq, Eq, Hash)]
+ pub struct InitGameState {
+     pub input: InitGameStateInput,
+ }
+diff --git a/src/instructions/invalidate_rental.rs b/src/instructions/invalidate_rental.rs
+index 56234e9..91e4bb9 100644
+--- a/src/instructions/invalidate_rental.rs
++++ b/src/instructions/invalidate_rental.rs
+@@ -6,7 +6,7 @@ use carbon_core::deserialize::ArrangeAccounts;
+ use carbon_core::deserialize::CarbonDeserialize;
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq, Eq, Hash)]
+ pub struct InvalidateRental {
+     pub remove_invalidator: bool,
+ }
+diff --git a/src/instructions/invalidate_ship.rs b/src/instructions/invalidate_ship.rs
+index 0d130ad..6b88e21 100644
+--- a/src/instructions/invalidate_ship.rs
++++ b/src/instructions/invalidate_ship.rs
+@@ -6,7 +6,7 @@ use carbon_core::deserialize::ArrangeAccounts;
+ use carbon_core::deserialize::CarbonDeserialize;
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq, Eq, Hash)]
+ pub struct InvalidateShip {
+     pub key_index: u16,
+ }
+diff --git a/src/instructions/load_fleet_crew.rs b/src/instructions/load_fleet_crew.rs
+index 81c04f6..22e9fb7 100644
+--- a/src/instructions/load_fleet_crew.rs
++++ b/src/instructions/load_fleet_crew.rs
+@@ -7,7 +7,7 @@ use carbon_core::deserialize::CarbonDeserialize;
+ use crate::types::FleetCrewInput;
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq, Eq, Hash)]
+ pub struct LoadFleetCrew {
+     pub input: FleetCrewInput,
+ }
+diff --git a/src/instructions/loading_bay_to_idle.rs b/src/instructions/loading_bay_to_idle.rs
+index b879dcf..e118d82 100644
+--- a/src/instructions/loading_bay_to_idle.rs
++++ b/src/instructions/loading_bay_to_idle.rs
+@@ -6,7 +6,7 @@ use carbon_core::deserialize::ArrangeAccounts;
+ use carbon_core::deserialize::CarbonDeserialize;
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq, Eq, Hash)]
+ pub struct LoadingBayToIdle {
+     pub key_index: u16,
+ }
+diff --git a/src/instructions/mine_asteroid_to_respawn.rs b/src/instructions/mine_asteroid_to_respawn.rs
+index 53c1d98..5d69f26 100644
+--- a/src/instructions/mine_asteroid_to_respawn.rs
++++ b/src/instructions/mine_asteroid_to_respawn.rs
+@@ -7,7 +7,7 @@ use carbon_core::deserialize::CarbonDeserialize;
+ use crate::types::MineAsteroidToRespawnInput;
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq, Eq, Hash)]
+ pub struct MineAsteroidToRespawn {
+     pub input: MineAsteroidToRespawnInput,
+ }
+diff --git a/src/instructions/mint_certificate.rs b/src/instructions/mint_certificate.rs
+index 24779fd..4be3f90 100644
+--- a/src/instructions/mint_certificate.rs
++++ b/src/instructions/mint_certificate.rs
+@@ -6,7 +6,7 @@ use carbon_core::deserialize::ArrangeAccounts;
+ use carbon_core::deserialize::CarbonDeserialize;
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq, Eq, Hash)]
+ pub struct MintCertificate {
+     pub key_index: u16,
+     pub amount: u64,
+diff --git a/src/instructions/mint_crew_to_game.rs b/src/instructions/mint_crew_to_game.rs
+index 2d9b139..c23a4a8 100644
+--- a/src/instructions/mint_crew_to_game.rs
++++ b/src/instructions/mint_crew_to_game.rs
+@@ -6,7 +6,7 @@ use carbon_core::deserialize::ArrangeAccounts;
+ use carbon_core::deserialize::CarbonDeserialize;
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq, Eq, Hash)]
+ pub struct MintCrewToGame {
+ }
+ 
+diff --git a/src/instructions/mod.rs b/src/instructions/mod.rs
+index 4ee86f1..c678ec0 100644
+--- a/src/instructions/mod.rs
++++ b/src/instructions/mod.rs
+@@ -239,8 +239,8 @@ pub use self::withdraw_cargo_from_game::*;
+ pub use self::withdraw_crafting_ingredient::*;
+ pub use self::cpi_event::*;
+ 
+-#[derive(Debug, Clone, PartialEq)]
+-#[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
++#[derive(Debug, Clone, PartialEq, Eq, Hash)]
++#[cfg_attr(feature = "serde", derive(carbon_core::InstructionType, serde::Serialize, serde::Deserialize))]
+ #[cfg_attr(feature = "serde", serde(tag = "type", content = "data"))]
+ pub enum SageInstruction {
+     ActivateGameState(ActivateGameState),
+diff --git a/src/instructions/redeem_certificate.rs b/src/instructions/redeem_certificate.rs
+index 361c936..47dd25a 100644
+--- a/src/instructions/redeem_certificate.rs
++++ b/src/instructions/redeem_certificate.rs
+@@ -6,7 +6,7 @@ use carbon_core::deserialize::ArrangeAccounts;
+ use carbon_core::deserialize::CarbonDeserialize;
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq, Eq, Hash)]
+ pub struct RedeemCertificate {
+     pub key_index: u16,
+     pub amount: u64,
+diff --git a/src/instructions/register_combat_config.rs b/src/instructions/register_combat_config.rs
+index a953f32..7150530 100644
+--- a/src/instructions/register_combat_config.rs
++++ b/src/instructions/register_combat_config.rs
+@@ -7,7 +7,7 @@ use carbon_core::deserialize::CarbonDeserialize;
+ use crate::types::RegisterCombatConfigInput;
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq, Eq, Hash)]
+ pub struct RegisterCombatConfig {
+     pub input: RegisterCombatConfigInput,
+ }
+diff --git a/src/instructions/register_mine_item.rs b/src/instructions/register_mine_item.rs
+index 5d347ae..0ed9406 100644
+--- a/src/instructions/register_mine_item.rs
++++ b/src/instructions/register_mine_item.rs
+@@ -7,7 +7,7 @@ use carbon_core::deserialize::CarbonDeserialize;
+ use crate::types::RegisterMineItemInput;
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq, Eq, Hash)]
+ pub struct RegisterMineItem {
+     pub input: RegisterMineItemInput,
+ }
+diff --git a/src/instructions/register_planet.rs b/src/instructions/register_planet.rs
+index 07bd995..055613b 100644
+--- a/src/instructions/register_planet.rs
++++ b/src/instructions/register_planet.rs
+@@ -7,7 +7,7 @@ use carbon_core::deserialize::CarbonDeserialize;
+ use crate::types::RegisterPlanetInput;
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq, Eq, Hash)]
+ pub struct RegisterPlanet {
+     pub input: RegisterPlanetInput,
+ }
+diff --git a/src/instructions/register_progression_config.rs b/src/instructions/register_progression_config.rs
+index 6307b4d..2c268f8 100644
+--- a/src/instructions/register_progression_config.rs
++++ b/src/instructions/register_progression_config.rs
+@@ -7,7 +7,7 @@ use carbon_core::deserialize::CarbonDeserialize;
+ use crate::types::RegisterProgressionConfigInput;
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq, Eq, Hash)]
+ pub struct RegisterProgressionConfig {
+     pub input: RegisterProgressionConfigInput,
+ }
+diff --git a/src/instructions/register_resource.rs b/src/instructions/register_resource.rs
+index 731f11f..483742b 100644
+--- a/src/instructions/register_resource.rs
++++ b/src/instructions/register_resource.rs
+@@ -7,7 +7,7 @@ use carbon_core::deserialize::CarbonDeserialize;
+ use crate::types::RegisterResourceInput;
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq, Eq, Hash)]
+ pub struct RegisterResource {
+     pub input: RegisterResourceInput,
+ }
+diff --git a/src/instructions/register_sage_crew_config.rs b/src/instructions/register_sage_crew_config.rs
+index 1ff17c9..0b6ea4f 100644
+--- a/src/instructions/register_sage_crew_config.rs
++++ b/src/instructions/register_sage_crew_config.rs
+@@ -7,7 +7,7 @@ use carbon_core::deserialize::CarbonDeserialize;
+ use crate::types::KeyIndexInput;
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq, Eq, Hash)]
+ pub struct RegisterSageCrewConfig {
+     pub input: KeyIndexInput,
+ }
+diff --git a/src/instructions/register_sage_player_profile.rs b/src/instructions/register_sage_player_profile.rs
+index b373f3c..68613e6 100644
+--- a/src/instructions/register_sage_player_profile.rs
++++ b/src/instructions/register_sage_player_profile.rs
+@@ -6,7 +6,7 @@ use carbon_core::deserialize::ArrangeAccounts;
+ use carbon_core::deserialize::CarbonDeserialize;
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq, Eq, Hash)]
+ pub struct RegisterSagePlayerProfile {
+ }
+ 
+diff --git a/src/instructions/register_sage_point_modifier.rs b/src/instructions/register_sage_point_modifier.rs
+index c925926..ab7d346 100644
+--- a/src/instructions/register_sage_point_modifier.rs
++++ b/src/instructions/register_sage_point_modifier.rs
+@@ -7,7 +7,7 @@ use carbon_core::deserialize::CarbonDeserialize;
+ use crate::types::RegisterSagePointsModifierInput;
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq, Eq, Hash)]
+ pub struct RegisterSagePointModifier {
+     pub input: RegisterSagePointsModifierInput,
+ }
+diff --git a/src/instructions/register_sector.rs b/src/instructions/register_sector.rs
+index 1937e30..6498c01 100644
+--- a/src/instructions/register_sector.rs
++++ b/src/instructions/register_sector.rs
+@@ -6,7 +6,7 @@ use carbon_core::deserialize::ArrangeAccounts;
+ use carbon_core::deserialize::CarbonDeserialize;
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq, Eq, Hash)]
+ pub struct RegisterSector {
+     pub coordinates: [i64; 2],
+     #[cfg_attr(feature = "serde", serde(with = "serde_big_array::BigArray"))]
+diff --git a/src/instructions/register_ship.rs b/src/instructions/register_ship.rs
+index ab8c7a2..0b22762 100644
+--- a/src/instructions/register_ship.rs
++++ b/src/instructions/register_ship.rs
+@@ -7,7 +7,7 @@ use carbon_core::deserialize::CarbonDeserialize;
+ use crate::types::RegisterShipInput;
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq, Eq, Hash)]
+ pub struct RegisterShip {
+     pub input: RegisterShipInput,
+ }
+diff --git a/src/instructions/register_star.rs b/src/instructions/register_star.rs
+index 6e62e4d..c94a01b 100644
+--- a/src/instructions/register_star.rs
++++ b/src/instructions/register_star.rs
+@@ -7,7 +7,7 @@ use carbon_core::deserialize::CarbonDeserialize;
+ use crate::types::RegisterStarInput;
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq, Eq, Hash)]
+ pub struct RegisterStar {
+     pub input: RegisterStarInput,
+ }
+diff --git a/src/instructions/register_starbase.rs b/src/instructions/register_starbase.rs
+index 0e8a21d..b7bb47b 100644
+--- a/src/instructions/register_starbase.rs
++++ b/src/instructions/register_starbase.rs
+@@ -7,7 +7,7 @@ use carbon_core::deserialize::CarbonDeserialize;
+ use crate::types::RegisterStarbaseInputUnpacked;
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq, Eq, Hash)]
+ pub struct RegisterStarbase {
+     pub input: RegisterStarbaseInputUnpacked,
+ }
+diff --git a/src/instructions/register_starbase_player.rs b/src/instructions/register_starbase_player.rs
+index e91b093..5d0d7af 100644
+--- a/src/instructions/register_starbase_player.rs
++++ b/src/instructions/register_starbase_player.rs
+@@ -6,7 +6,7 @@ use carbon_core::deserialize::ArrangeAccounts;
+ use carbon_core::deserialize::CarbonDeserialize;
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq, Eq, Hash)]
+ pub struct RegisterStarbasePlayer {
+ }
+ 
+diff --git a/src/instructions/register_survey_data_unit_tracker.rs b/src/instructions/register_survey_data_unit_tracker.rs
+index bddf3fd..6fe7584 100644
+--- a/src/instructions/register_survey_data_unit_tracker.rs
++++ b/src/instructions/register_survey_data_unit_tracker.rs
+@@ -7,7 +7,7 @@ use carbon_core::deserialize::CarbonDeserialize;
+ use crate::types::RegisterSurveyDataUnitTrackerInput;
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq, Eq, Hash)]
+ pub struct RegisterSurveyDataUnitTracker {
+     pub input: RegisterSurveyDataUnitTrackerInput,
+ }
+diff --git a/src/instructions/reload_fleet_ability_power.rs b/src/instructions/reload_fleet_ability_power.rs
+index 0c07166..a59a629 100644
+--- a/src/instructions/reload_fleet_ability_power.rs
++++ b/src/instructions/reload_fleet_ability_power.rs
+@@ -7,7 +7,7 @@ use carbon_core::deserialize::CarbonDeserialize;
+ use crate::types::ReloadInput;
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq, Eq, Hash)]
+ pub struct ReloadFleetAbilityPower {
+     pub input: ReloadInput,
+ }
+diff --git a/src/instructions/remove_cargo_pod.rs b/src/instructions/remove_cargo_pod.rs
+index f6ac084..cac7632 100644
+--- a/src/instructions/remove_cargo_pod.rs
++++ b/src/instructions/remove_cargo_pod.rs
+@@ -7,7 +7,7 @@ use carbon_core::deserialize::CarbonDeserialize;
+ use crate::types::StarbaseRemoveCargoPodInput;
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq, Eq, Hash)]
+ pub struct RemoveCargoPod {
+     pub input: StarbaseRemoveCargoPodInput,
+ }
+diff --git a/src/instructions/remove_connection.rs b/src/instructions/remove_connection.rs
+index b8fc084..b6e5024 100644
+--- a/src/instructions/remove_connection.rs
++++ b/src/instructions/remove_connection.rs
+@@ -6,7 +6,7 @@ use carbon_core::deserialize::ArrangeAccounts;
+ use carbon_core::deserialize::CarbonDeserialize;
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq, Eq, Hash)]
+ pub struct RemoveConnection {
+     pub sector1_index: u16,
+     pub sector2_index: u16,
+diff --git a/src/instructions/remove_crew_from_game.rs b/src/instructions/remove_crew_from_game.rs
+index 18cca18..a9ad6e3 100644
+--- a/src/instructions/remove_crew_from_game.rs
++++ b/src/instructions/remove_crew_from_game.rs
+@@ -7,7 +7,7 @@ use carbon_core::deserialize::CarbonDeserialize;
+ use crate::types::RemoveCrewInput;
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq, Eq, Hash)]
+ pub struct RemoveCrewFromGame {
+     pub input: RemoveCrewInput,
+ }
+diff --git a/src/instructions/remove_invalid_ship_escrow.rs b/src/instructions/remove_invalid_ship_escrow.rs
+index 68a113d..53543cc 100644
+--- a/src/instructions/remove_invalid_ship_escrow.rs
++++ b/src/instructions/remove_invalid_ship_escrow.rs
+@@ -7,7 +7,7 @@ use carbon_core::deserialize::CarbonDeserialize;
+ use crate::types::RemoveShipEscrowInput;
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq, Eq, Hash)]
+ pub struct RemoveInvalidShipEscrow {
+     pub input: RemoveShipEscrowInput,
+ }
+diff --git a/src/instructions/remove_ship_escrow.rs b/src/instructions/remove_ship_escrow.rs
+index 058ea80..4af7baa 100644
+--- a/src/instructions/remove_ship_escrow.rs
++++ b/src/instructions/remove_ship_escrow.rs
+@@ -7,7 +7,7 @@ use carbon_core::deserialize::CarbonDeserialize;
+ use crate::types::RemoveShipEscrowInput;
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq, Eq, Hash)]
+ pub struct RemoveShipEscrow {
+     pub input: RemoveShipEscrowInput,
+ }
+diff --git a/src/instructions/repair_docked_fleet.rs b/src/instructions/repair_docked_fleet.rs
+index 425f905..f61c0fa 100644
+--- a/src/instructions/repair_docked_fleet.rs
++++ b/src/instructions/repair_docked_fleet.rs
+@@ -7,7 +7,7 @@ use carbon_core::deserialize::CarbonDeserialize;
+ use crate::types::RepairFleetInput;
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq, Eq, Hash)]
+ pub struct RepairDockedFleet {
+     pub input: RepairFleetInput,
+ }
+diff --git a/src/instructions/repair_idle_fleet.rs b/src/instructions/repair_idle_fleet.rs
+index 79ac933..02bd6b9 100644
+--- a/src/instructions/repair_idle_fleet.rs
++++ b/src/instructions/repair_idle_fleet.rs
+@@ -7,7 +7,7 @@ use carbon_core::deserialize::CarbonDeserialize;
+ use crate::types::RepairFleetInput;
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq, Eq, Hash)]
+ pub struct RepairIdleFleet {
+     pub input: RepairFleetInput,
+ }
+diff --git a/src/instructions/repair_starbase.rs b/src/instructions/repair_starbase.rs
+index 5ddd1be..bb9c402 100644
+--- a/src/instructions/repair_starbase.rs
++++ b/src/instructions/repair_starbase.rs
+@@ -7,7 +7,7 @@ use carbon_core::deserialize::CarbonDeserialize;
+ use crate::types::RepairStarbaseInput;
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq, Eq, Hash)]
+ pub struct RepairStarbase {
+     pub input: RepairStarbaseInput,
+ }
+diff --git a/src/instructions/respawn_to_loading_bay.rs b/src/instructions/respawn_to_loading_bay.rs
+index 86e1998..1ccf2c4 100644
+--- a/src/instructions/respawn_to_loading_bay.rs
++++ b/src/instructions/respawn_to_loading_bay.rs
+@@ -7,7 +7,7 @@ use carbon_core::deserialize::CarbonDeserialize;
+ use crate::types::RespawnToLoadingBayInput;
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq, Eq, Hash)]
+ pub struct RespawnToLoadingBay {
+     pub input: RespawnToLoadingBayInput,
+ }
+diff --git a/src/instructions/retrieve_loot.rs b/src/instructions/retrieve_loot.rs
+index 442423a..3af1a6b 100644
+--- a/src/instructions/retrieve_loot.rs
++++ b/src/instructions/retrieve_loot.rs
+@@ -7,7 +7,7 @@ use carbon_core::deserialize::CarbonDeserialize;
+ use crate::types::RetrieveLootInput;
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq, Eq, Hash)]
+ pub struct RetrieveLoot {
+     pub input: RetrieveLootInput,
+ }
+diff --git a/src/instructions/scan_for_survey_data_units.rs b/src/instructions/scan_for_survey_data_units.rs
+index ce71202..9870667 100644
+--- a/src/instructions/scan_for_survey_data_units.rs
++++ b/src/instructions/scan_for_survey_data_units.rs
+@@ -7,7 +7,7 @@ use carbon_core::deserialize::CarbonDeserialize;
+ use crate::types::ScanForSurveyDataUnitsInput;
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq, Eq, Hash)]
+ pub struct ScanForSurveyDataUnits {
+     pub input: ScanForSurveyDataUnitsInput,
+ }
+diff --git a/src/instructions/set_next_ship.rs b/src/instructions/set_next_ship.rs
+index 311b485..a61beb4 100644
+--- a/src/instructions/set_next_ship.rs
++++ b/src/instructions/set_next_ship.rs
+@@ -6,7 +6,7 @@ use carbon_core::deserialize::ArrangeAccounts;
+ use carbon_core::deserialize::CarbonDeserialize;
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq, Eq, Hash)]
+ pub struct SetNextShip {
+     pub key_index: u16,
+ }
+diff --git a/src/instructions/start_crafting_process.rs b/src/instructions/start_crafting_process.rs
+index c3763fd..99c6257 100644
+--- a/src/instructions/start_crafting_process.rs
++++ b/src/instructions/start_crafting_process.rs
+@@ -7,7 +7,7 @@ use carbon_core::deserialize::CarbonDeserialize;
+ use crate::types::KeyIndexInput;
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq, Eq, Hash)]
+ pub struct StartCraftingProcess {
+     pub input: KeyIndexInput,
+ }
+diff --git a/src/instructions/start_mining_asteroid.rs b/src/instructions/start_mining_asteroid.rs
+index e1e47eb..79be07f 100644
+--- a/src/instructions/start_mining_asteroid.rs
++++ b/src/instructions/start_mining_asteroid.rs
+@@ -7,7 +7,7 @@ use carbon_core::deserialize::CarbonDeserialize;
+ use crate::types::KeyIndexInput;
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq, Eq, Hash)]
+ pub struct StartMiningAsteroid {
+     pub input: KeyIndexInput,
+ }
+diff --git a/src/instructions/start_starbase_upgrade.rs b/src/instructions/start_starbase_upgrade.rs
+index 5c4ccd0..8068dd6 100644
+--- a/src/instructions/start_starbase_upgrade.rs
++++ b/src/instructions/start_starbase_upgrade.rs
+@@ -7,7 +7,7 @@ use carbon_core::deserialize::CarbonDeserialize;
+ use crate::types::KeyIndexInput;
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq, Eq, Hash)]
+ pub struct StartStarbaseUpgrade {
+     pub input: KeyIndexInput,
+ }
+diff --git a/src/instructions/start_subwarp.rs b/src/instructions/start_subwarp.rs
+index 12766fc..51dddae 100644
+--- a/src/instructions/start_subwarp.rs
++++ b/src/instructions/start_subwarp.rs
+@@ -7,7 +7,7 @@ use carbon_core::deserialize::CarbonDeserialize;
+ use crate::types::StartSubwarpInput;
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq, Eq, Hash)]
+ pub struct StartSubwarp {
+     pub input: StartSubwarpInput,
+ }
+diff --git a/src/instructions/stop_crafting_process.rs b/src/instructions/stop_crafting_process.rs
+index 3e12aab..b3ef68c 100644
+--- a/src/instructions/stop_crafting_process.rs
++++ b/src/instructions/stop_crafting_process.rs
+@@ -7,7 +7,7 @@ use carbon_core::deserialize::CarbonDeserialize;
+ use crate::types::KeyIndexInput;
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq, Eq, Hash)]
+ pub struct StopCraftingProcess {
+     pub input: KeyIndexInput,
+ }
+diff --git a/src/instructions/stop_mining_asteroid.rs b/src/instructions/stop_mining_asteroid.rs
+index 534ae37..2302a95 100644
+--- a/src/instructions/stop_mining_asteroid.rs
++++ b/src/instructions/stop_mining_asteroid.rs
+@@ -7,7 +7,7 @@ use carbon_core::deserialize::CarbonDeserialize;
+ use crate::types::StopMiningAsteroidInput;
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq, Eq, Hash)]
+ pub struct StopMiningAsteroid {
+     pub input: StopMiningAsteroidInput,
+ }
+diff --git a/src/instructions/stop_subwarp.rs b/src/instructions/stop_subwarp.rs
+index 48d7252..9f26f74 100644
+--- a/src/instructions/stop_subwarp.rs
++++ b/src/instructions/stop_subwarp.rs
+@@ -7,7 +7,7 @@ use carbon_core::deserialize::CarbonDeserialize;
+ use crate::types::StopSubwarpInput;
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq, Eq, Hash)]
+ pub struct StopSubwarp {
+     pub input: StopSubwarpInput,
+ }
+diff --git a/src/instructions/submit_starbase_upgrade_resource.rs b/src/instructions/submit_starbase_upgrade_resource.rs
+index 4e4c5df..a6e275a 100644
+--- a/src/instructions/submit_starbase_upgrade_resource.rs
++++ b/src/instructions/submit_starbase_upgrade_resource.rs
+@@ -7,7 +7,7 @@ use carbon_core::deserialize::CarbonDeserialize;
+ use crate::types::SubmitStarbaseUpgradeResourceInput;
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq, Eq, Hash)]
+ pub struct SubmitStarbaseUpgradeResource {
+     pub input: SubmitStarbaseUpgradeResourceInput,
+ }
+diff --git a/src/instructions/sync_starbase_player.rs b/src/instructions/sync_starbase_player.rs
+index 31ce04b..dc8fba2 100644
+--- a/src/instructions/sync_starbase_player.rs
++++ b/src/instructions/sync_starbase_player.rs
+@@ -6,7 +6,7 @@ use carbon_core::deserialize::ArrangeAccounts;
+ use carbon_core::deserialize::CarbonDeserialize;
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq, Eq, Hash)]
+ pub struct SyncStarbasePlayer {
+ }
+ 
+diff --git a/src/instructions/sync_starbase_upgrade_ingredients.rs b/src/instructions/sync_starbase_upgrade_ingredients.rs
+index 1283541..96732e1 100644
+--- a/src/instructions/sync_starbase_upgrade_ingredients.rs
++++ b/src/instructions/sync_starbase_upgrade_ingredients.rs
+@@ -7,7 +7,7 @@ use carbon_core::deserialize::CarbonDeserialize;
+ use crate::types::KeyIndexInput;
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq, Eq, Hash)]
+ pub struct SyncStarbaseUpgradeIngredients {
+     pub input: KeyIndexInput,
+ }
+diff --git a/src/instructions/transfer_cargo_at_starbase.rs b/src/instructions/transfer_cargo_at_starbase.rs
+index 615064d..2e0f8be 100644
+--- a/src/instructions/transfer_cargo_at_starbase.rs
++++ b/src/instructions/transfer_cargo_at_starbase.rs
+@@ -7,7 +7,7 @@ use carbon_core::deserialize::CarbonDeserialize;
+ use crate::types::StarbaseTransferCargoInput;
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq, Eq, Hash)]
+ pub struct TransferCargoAtStarbase {
+     pub input: StarbaseTransferCargoInput,
+ }
+diff --git a/src/instructions/transfer_cargo_within_fleet.rs b/src/instructions/transfer_cargo_within_fleet.rs
+index 07659b4..6409fe9 100644
+--- a/src/instructions/transfer_cargo_within_fleet.rs
++++ b/src/instructions/transfer_cargo_within_fleet.rs
+@@ -7,7 +7,7 @@ use carbon_core::deserialize::CarbonDeserialize;
+ use crate::types::TransferCargoWithinFleetInput;
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq, Eq, Hash)]
+ pub struct TransferCargoWithinFleet {
+     pub input: TransferCargoWithinFleetInput,
+ }
+diff --git a/src/instructions/unload_fleet_crew.rs b/src/instructions/unload_fleet_crew.rs
+index e304d2c..10cfe94 100644
+--- a/src/instructions/unload_fleet_crew.rs
++++ b/src/instructions/unload_fleet_crew.rs
+@@ -7,7 +7,7 @@ use carbon_core::deserialize::CarbonDeserialize;
+ use crate::types::FleetCrewInput;
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq, Eq, Hash)]
+ pub struct UnloadFleetCrew {
+     pub input: FleetCrewInput,
+ }
+diff --git a/src/instructions/update_combat_config.rs b/src/instructions/update_combat_config.rs
+index 6119d43..3098484 100644
+--- a/src/instructions/update_combat_config.rs
++++ b/src/instructions/update_combat_config.rs
+@@ -7,7 +7,7 @@ use carbon_core::deserialize::CarbonDeserialize;
+ use crate::types::UpdateCombatConfigInput;
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq, Eq, Hash)]
+ pub struct UpdateCombatConfig {
+     pub input: UpdateCombatConfigInput,
+ }
+diff --git a/src/instructions/update_game.rs b/src/instructions/update_game.rs
+index ef456df..88dad0c 100644
+--- a/src/instructions/update_game.rs
++++ b/src/instructions/update_game.rs
+@@ -7,7 +7,7 @@ use carbon_core::deserialize::CarbonDeserialize;
+ use crate::types::UpdateGameInput;
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq, Eq, Hash)]
+ pub struct UpdateGame {
+     pub input: UpdateGameInput,
+ }
+diff --git a/src/instructions/update_game_state.rs b/src/instructions/update_game_state.rs
+index 7c26a3c..fb9a001 100644
+--- a/src/instructions/update_game_state.rs
++++ b/src/instructions/update_game_state.rs
+@@ -7,7 +7,7 @@ use carbon_core::deserialize::CarbonDeserialize;
+ use crate::types::UpdateGameStateInput;
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq, Eq, Hash)]
+ pub struct UpdateGameState {
+     pub input: UpdateGameStateInput,
+ }
+diff --git a/src/instructions/update_mine_item.rs b/src/instructions/update_mine_item.rs
+index d875810..9be7dc1 100644
+--- a/src/instructions/update_mine_item.rs
++++ b/src/instructions/update_mine_item.rs
+@@ -7,7 +7,7 @@ use carbon_core::deserialize::CarbonDeserialize;
+ use crate::types::UpdateMineItemInput;
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq, Eq, Hash)]
+ pub struct UpdateMineItem {
+     pub input: UpdateMineItemInput,
+ }
+diff --git a/src/instructions/update_planet.rs b/src/instructions/update_planet.rs
+index 47dd2e0..fbb59d3 100644
+--- a/src/instructions/update_planet.rs
++++ b/src/instructions/update_planet.rs
+@@ -7,7 +7,7 @@ use carbon_core::deserialize::CarbonDeserialize;
+ use crate::types::UpdatePlanetInput;
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq, Eq, Hash)]
+ pub struct UpdatePlanet {
+     pub input: UpdatePlanetInput,
+ }
+diff --git a/src/instructions/update_progression_config.rs b/src/instructions/update_progression_config.rs
+index 29b412f..2a905aa 100644
+--- a/src/instructions/update_progression_config.rs
++++ b/src/instructions/update_progression_config.rs
+@@ -7,7 +7,7 @@ use carbon_core::deserialize::CarbonDeserialize;
+ use crate::types::UpdateProgressionConfigInput;
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq, Eq, Hash)]
+ pub struct UpdateProgressionConfig {
+     pub input: UpdateProgressionConfigInput,
+ }
+diff --git a/src/instructions/update_resource.rs b/src/instructions/update_resource.rs
+index a2725ac..c81912b 100644
+--- a/src/instructions/update_resource.rs
++++ b/src/instructions/update_resource.rs
+@@ -7,7 +7,7 @@ use carbon_core::deserialize::CarbonDeserialize;
+ use crate::types::UpdateResourceInput;
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq, Eq, Hash)]
+ pub struct UpdateResource {
+     pub input: UpdateResourceInput,
+ }
+diff --git a/src/instructions/update_ship.rs b/src/instructions/update_ship.rs
+index ab40cfd..63cf01c 100644
+--- a/src/instructions/update_ship.rs
++++ b/src/instructions/update_ship.rs
+@@ -7,7 +7,7 @@ use carbon_core::deserialize::CarbonDeserialize;
+ use crate::types::UpdateShipInput;
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq, Eq, Hash)]
+ pub struct UpdateShip {
+     pub input: UpdateShipInput,
+ }
+diff --git a/src/instructions/update_ship_escrow.rs b/src/instructions/update_ship_escrow.rs
+index 12df7c9..6ef8ddd 100644
+--- a/src/instructions/update_ship_escrow.rs
++++ b/src/instructions/update_ship_escrow.rs
+@@ -7,7 +7,7 @@ use carbon_core::deserialize::CarbonDeserialize;
+ use crate::types::UpdateShipEscrowInput;
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq, Eq, Hash)]
+ pub struct UpdateShipEscrow {
+     pub input: UpdateShipEscrowInput,
+ }
+diff --git a/src/instructions/update_ship_in_fleet.rs b/src/instructions/update_ship_in_fleet.rs
+index 4189d88..00bab9b 100644
+--- a/src/instructions/update_ship_in_fleet.rs
++++ b/src/instructions/update_ship_in_fleet.rs
+@@ -7,7 +7,7 @@ use carbon_core::deserialize::CarbonDeserialize;
+ use crate::types::UpdateShipFleetInput;
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq, Eq, Hash)]
+ pub struct UpdateShipInFleet {
+     pub input: UpdateShipFleetInput,
+ }
+diff --git a/src/instructions/update_star.rs b/src/instructions/update_star.rs
+index 5b1076b..05a2f62 100644
+--- a/src/instructions/update_star.rs
++++ b/src/instructions/update_star.rs
+@@ -7,7 +7,7 @@ use carbon_core::deserialize::CarbonDeserialize;
+ use crate::types::UpdateStarInput;
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq, Eq, Hash)]
+ pub struct UpdateStar {
+     pub input: UpdateStarInput,
+ }
+diff --git a/src/instructions/update_starbase.rs b/src/instructions/update_starbase.rs
+index 95beb9e..3cb39ec 100644
+--- a/src/instructions/update_starbase.rs
++++ b/src/instructions/update_starbase.rs
+@@ -7,7 +7,7 @@ use carbon_core::deserialize::CarbonDeserialize;
+ use crate::types::UpdateStarbaseInput;
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq, Eq, Hash)]
+ pub struct UpdateStarbase {
+     pub input: UpdateStarbaseInput,
+ }
+diff --git a/src/instructions/update_survey_data_unit_tracker.rs b/src/instructions/update_survey_data_unit_tracker.rs
+index 4c91a34..bfb392e 100644
+--- a/src/instructions/update_survey_data_unit_tracker.rs
++++ b/src/instructions/update_survey_data_unit_tracker.rs
+@@ -7,7 +7,7 @@ use carbon_core::deserialize::CarbonDeserialize;
+ use crate::types::UpdateSurveyDataUnitTrackerInput;
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq, Eq, Hash)]
+ pub struct UpdateSurveyDataUnitTracker {
+     pub input: UpdateSurveyDataUnitTrackerInput,
+ }
+diff --git a/src/instructions/warp_lane.rs b/src/instructions/warp_lane.rs
+index 08140d7..f48cdcf 100644
+--- a/src/instructions/warp_lane.rs
++++ b/src/instructions/warp_lane.rs
+@@ -7,7 +7,7 @@ use carbon_core::deserialize::CarbonDeserialize;
+ use crate::types::WarpLaneInput;
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq, Eq, Hash)]
+ pub struct WarpLane {
+     pub input: WarpLaneInput,
+ }
+diff --git a/src/instructions/warp_to_coordinate.rs b/src/instructions/warp_to_coordinate.rs
+index e1f0247..3041567 100644
+--- a/src/instructions/warp_to_coordinate.rs
++++ b/src/instructions/warp_to_coordinate.rs
+@@ -7,7 +7,7 @@ use carbon_core::deserialize::CarbonDeserialize;
+ use crate::types::WarpToCoordinateInput;
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq, Eq, Hash)]
+ pub struct WarpToCoordinate {
+     pub input: WarpToCoordinateInput,
+ }
+diff --git a/src/instructions/withdraw_cargo_from_fleet.rs b/src/instructions/withdraw_cargo_from_fleet.rs
+index 533581e..6a7835a 100644
+--- a/src/instructions/withdraw_cargo_from_fleet.rs
++++ b/src/instructions/withdraw_cargo_from_fleet.rs
+@@ -7,7 +7,7 @@ use carbon_core::deserialize::CarbonDeserialize;
+ use crate::types::WithdrawCargoFromFleetInput;
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq, Eq, Hash)]
+ pub struct WithdrawCargoFromFleet {
+     pub input: WithdrawCargoFromFleetInput,
+ }
+diff --git a/src/instructions/withdraw_cargo_from_game.rs b/src/instructions/withdraw_cargo_from_game.rs
+index 79738ae..97e862a 100644
+--- a/src/instructions/withdraw_cargo_from_game.rs
++++ b/src/instructions/withdraw_cargo_from_game.rs
+@@ -7,7 +7,7 @@ use carbon_core::deserialize::CarbonDeserialize;
+ use crate::types::CargoToGameInput;
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq, Eq, Hash)]
+ pub struct WithdrawCargoFromGame {
+     pub input: CargoToGameInput,
+ }
+diff --git a/src/instructions/withdraw_crafting_ingredient.rs b/src/instructions/withdraw_crafting_ingredient.rs
+index 754842d..c203651 100644
+--- a/src/instructions/withdraw_crafting_ingredient.rs
++++ b/src/instructions/withdraw_crafting_ingredient.rs
+@@ -7,7 +7,7 @@ use carbon_core::deserialize::CarbonDeserialize;
+ use crate::types::StarbaseWithdrawCraftingIngredientInput;
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq, Eq, Hash)]
+ pub struct WithdrawCraftingIngredient {
+     pub input: StarbaseWithdrawCraftingIngredientInput,
+ }
+diff --git a/src/types/add_crew_input.rs b/src/types/add_crew_input.rs
+index b63503b..4bdc8cd 100644
+--- a/src/types/add_crew_input.rs
++++ b/src/types/add_crew_input.rs
+@@ -4,7 +4,7 @@ use crate::types::CrewTransferInput;
+ /// Struct for data input for `AddCrew`
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq, Eq, Hash)]
+ pub struct AddCrewInput {
+     /// inputs required to transfer crew cNFTs
+     pub items: Vec<CrewTransferInput>,
+diff --git a/src/types/add_ship_escrow_input.rs b/src/types/add_ship_escrow_input.rs
+index 961b269..b699aa9 100644
+--- a/src/types/add_ship_escrow_input.rs
++++ b/src/types/add_ship_escrow_input.rs
+@@ -3,7 +3,7 @@ use carbon_core::borsh;
+ /// Struct for data input for `AddShipEscrow`
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq, Eq, Hash)]
+ pub struct AddShipEscrowInput {
+     /// Amount of `Ship` tokens to transfer to escrow
+     pub ship_amount: u64,
+diff --git a/src/types/add_ship_to_fleet_input.rs b/src/types/add_ship_to_fleet_input.rs
+index fe4ea7e..de5218d 100644
+--- a/src/types/add_ship_to_fleet_input.rs
++++ b/src/types/add_ship_to_fleet_input.rs
+@@ -3,7 +3,7 @@ use carbon_core::borsh;
+ /// Struct for data input for that has `key_index`
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq, Eq, Hash)]
+ pub struct AddShipToFleetInput {
+     /// Number of ships to add to the fleet
+     pub ship_amount: u8,
+diff --git a/src/types/attack_fleet_input.rs b/src/types/attack_fleet_input.rs
+index 5f5d469..812080d 100644
+--- a/src/types/attack_fleet_input.rs
++++ b/src/types/attack_fleet_input.rs
+@@ -3,7 +3,7 @@ use carbon_core::borsh;
+ /// Struct for data input to `AttackFleet`
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq, Eq, Hash)]
+ pub struct AttackFleetInput {
+     /// the index of the key in the player profile
+     pub key_index: u16,
+diff --git a/src/types/attack_starbase_input.rs b/src/types/attack_starbase_input.rs
+index 9e2fa0b..b3f9ca9 100644
+--- a/src/types/attack_starbase_input.rs
++++ b/src/types/attack_starbase_input.rs
+@@ -3,7 +3,7 @@ use carbon_core::borsh;
+ /// Struct for data input to `AttackStarbase`
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq, Eq, Hash)]
+ pub struct AttackStarbaseInput {
+     /// the index of the key in the player profile
+     pub key_index: u16,
+diff --git a/src/types/battle_log.rs b/src/types/battle_log.rs
+index 3e1531c..16d0d42 100644
+--- a/src/types/battle_log.rs
++++ b/src/types/battle_log.rs
+@@ -3,7 +3,7 @@ use carbon_core::borsh;
+ use solana_pubkey::Pubkey;
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq, Eq, Hash)]
+ pub struct BattleLog {
+     pub combat_id: [u8; 32],
+     pub attacker_fleet: Pubkey,
+diff --git a/src/types/cargo.rs b/src/types/cargo.rs
+index ec033d1..2332051 100644
+--- a/src/types/cargo.rs
++++ b/src/types/cargo.rs
+@@ -4,7 +4,7 @@ use solana_pubkey::Pubkey;
+ /// Variables for the Cargo program
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq, Eq, Hash)]
+ pub struct Cargo {
+     /// The cargo stats definition account
+     pub stats_definition: Pubkey,
+diff --git a/src/types/cargo_stats.rs b/src/types/cargo_stats.rs
+index 5d160da..c811970 100644
+--- a/src/types/cargo_stats.rs
++++ b/src/types/cargo_stats.rs
+@@ -3,7 +3,7 @@ use carbon_core::borsh;
+ /// A ship's cargo stats
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq, Eq, Hash)]
+ pub struct CargoStats {
+     /// the capacity of the ship's cargo hold
+     pub cargo_capacity: u32,
+diff --git a/src/types/cargo_stats_unpacked.rs b/src/types/cargo_stats_unpacked.rs
+index e555bd6..aad3753 100644
+--- a/src/types/cargo_stats_unpacked.rs
++++ b/src/types/cargo_stats_unpacked.rs
+@@ -3,7 +3,7 @@ use carbon_core::borsh;
+ /// Unpacked version of [`CargoStats`]
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq, Eq, Hash)]
+ pub struct CargoStatsUnpacked {
+     /// the capacity of the ship's cargo hold
+     pub cargo_capacity: u32,
+diff --git a/src/types/cargo_to_game_input.rs b/src/types/cargo_to_game_input.rs
+index f3574b2..200f8a0 100644
+--- a/src/types/cargo_to_game_input.rs
++++ b/src/types/cargo_to_game_input.rs
+@@ -3,7 +3,7 @@ use carbon_core::borsh;
+ /// Struct for data input to `DepositCargoToGame`
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq, Eq, Hash)]
+ pub struct CargoToGameInput {
+     /// cargo amount
+     pub amount: u64,
+diff --git a/src/types/close_disbanded_fleet_input.rs b/src/types/close_disbanded_fleet_input.rs
+index a2dc211..65ddba6 100644
+--- a/src/types/close_disbanded_fleet_input.rs
++++ b/src/types/close_disbanded_fleet_input.rs
+@@ -3,7 +3,7 @@ use carbon_core::borsh;
+ /// Struct for data input for that has `key_index`
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq, Eq, Hash)]
+ pub struct CloseDisbandedFleetInput {
+     /// the index of the key in the player profile
+     pub key_index: u16,
+diff --git a/src/types/combat_initiated_event.rs b/src/types/combat_initiated_event.rs
+index 5bf3568..9ddf268 100644
+--- a/src/types/combat_initiated_event.rs
++++ b/src/types/combat_initiated_event.rs
+@@ -3,7 +3,7 @@ use carbon_core::borsh;
+ use solana_pubkey::Pubkey;
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq, Eq, Hash)]
+ pub struct CombatInitiatedEvent {
+     pub attacker_fleet: Pubkey,
+     pub defender_fleet: Pubkey,
+diff --git a/src/types/combat_log_event.rs b/src/types/combat_log_event.rs
+index 7f63539..40c6329 100644
+--- a/src/types/combat_log_event.rs
++++ b/src/types/combat_log_event.rs
+@@ -4,7 +4,7 @@ use crate::types::CombatParticipant;
+ use solana_pubkey::Pubkey;
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq, Eq, Hash)]
+ pub struct CombatLogEvent {
+     pub combat_type: u8,
+     pub combat_id: [u8; 32],
+diff --git a/src/types/combat_loot_drop_event.rs b/src/types/combat_loot_drop_event.rs
+index 644ada4..1b2537b 100644
+--- a/src/types/combat_loot_drop_event.rs
++++ b/src/types/combat_loot_drop_event.rs
+@@ -3,7 +3,7 @@ use carbon_core::borsh;
+ use solana_pubkey::Pubkey;
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq, Eq, Hash)]
+ pub struct CombatLootDropEvent {
+     pub combat_id: [u8; 32],
+     pub destroyed_fleet: Pubkey,
+diff --git a/src/types/combat_participant.rs b/src/types/combat_participant.rs
+index 4707a30..f6465f0 100644
+--- a/src/types/combat_participant.rs
++++ b/src/types/combat_participant.rs
+@@ -3,7 +3,7 @@ use carbon_core::borsh;
+ use solana_pubkey::Pubkey;
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq, Eq, Hash)]
+ pub struct CombatParticipant {
+     pub fleet_key: Pubkey,
+     #[cfg_attr(feature = "serde", serde(with = "serde_big_array::BigArray"))]
+diff --git a/src/types/combat_resolved_event.rs b/src/types/combat_resolved_event.rs
+index 37cee87..0d5d195 100644
+--- a/src/types/combat_resolved_event.rs
++++ b/src/types/combat_resolved_event.rs
+@@ -2,7 +2,7 @@
+ use carbon_core::borsh;
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq, Eq, Hash)]
+ pub struct CombatResolvedEvent {
+     pub combat_id: [u8; 32],
+     pub winner: u8,
+diff --git a/src/types/combat_stats.rs b/src/types/combat_stats.rs
+index 6fffd71..5d04138 100644
+--- a/src/types/combat_stats.rs
++++ b/src/types/combat_stats.rs
+@@ -3,7 +3,7 @@ use carbon_core::borsh;
+ /// A ship's combat stats
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq, Eq, Hash)]
+ pub struct CombatStats {
+     /// Action points
+     pub ap: u32,
+diff --git a/src/types/combat_stats_unpacked.rs b/src/types/combat_stats_unpacked.rs
+index 04e8946..5a848d3 100644
+--- a/src/types/combat_stats_unpacked.rs
++++ b/src/types/combat_stats_unpacked.rs
+@@ -3,7 +3,7 @@ use carbon_core::borsh;
+ /// Unpacked version of [`CombatStats`]
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq, Eq, Hash)]
+ pub struct CombatStatsUnpacked {
+     /// Action points
+     pub ap: u32,
+diff --git a/src/types/crafting.rs b/src/types/crafting.rs
+index 20f5589..942b791 100644
+--- a/src/types/crafting.rs
++++ b/src/types/crafting.rs
+@@ -4,7 +4,7 @@ use solana_pubkey::Pubkey;
+ /// Variables for the Crafting program
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq, Eq, Hash)]
+ pub struct Crafting {
+     /// The crafting domain account
+     pub domain: Pubkey,
+diff --git a/src/types/crafting_instance_type.rs b/src/types/crafting_instance_type.rs
+index 728c425..928f924 100644
+--- a/src/types/crafting_instance_type.rs
++++ b/src/types/crafting_instance_type.rs
+@@ -3,7 +3,7 @@ use carbon_core::borsh;
+ /// Represents the type of `CraftingInstance`
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq, Eq, Hash)]
+ pub enum CraftingInstanceType {
+     StarbaseCrafting,
+     StarbaseUpgradeMaterial,
+diff --git a/src/types/create_fleet_input.rs b/src/types/create_fleet_input.rs
+index 17d2c77..9c434ed 100644
+--- a/src/types/create_fleet_input.rs
++++ b/src/types/create_fleet_input.rs
+@@ -3,7 +3,7 @@ use carbon_core::borsh;
+ /// Struct for data input for that has `key_index`
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq, Eq, Hash)]
+ pub struct CreateFleetInput {
+     /// Number of ships to add to the fleet
+     pub ship_amount: u8,
+diff --git a/src/types/crew_transfer_input.rs b/src/types/crew_transfer_input.rs
+index de45cc8..3a02258 100644
+--- a/src/types/crew_transfer_input.rs
++++ b/src/types/crew_transfer_input.rs
+@@ -3,7 +3,7 @@ use carbon_core::borsh;
+ /// Struct for data input for crew cNFT transfer
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq, Eq, Hash)]
+ pub struct CrewTransferInput {
+     /// The crew cNFT data hash
+     pub data_hash: [u8; 32],
+diff --git a/src/types/deposit_cargo_to_fleet_input.rs b/src/types/deposit_cargo_to_fleet_input.rs
+index 8f4ad1f..d2f17fe 100644
+--- a/src/types/deposit_cargo_to_fleet_input.rs
++++ b/src/types/deposit_cargo_to_fleet_input.rs
+@@ -3,7 +3,7 @@ use carbon_core::borsh;
+ /// Struct for data input to `DepositCargoToFleet`
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq, Eq, Hash)]
+ pub struct DepositCargoToFleetInput {
+     /// cargo amount
+     pub amount: u64,
+diff --git a/src/types/deposit_starbase_upkeep_resource_input.rs b/src/types/deposit_starbase_upkeep_resource_input.rs
+index 268d4c5..0c03c94 100644
+--- a/src/types/deposit_starbase_upkeep_resource_input.rs
++++ b/src/types/deposit_starbase_upkeep_resource_input.rs
+@@ -3,7 +3,7 @@ use carbon_core::borsh;
+ /// Submit starbase upkeep resource inputs
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq, Eq, Hash)]
+ pub struct DepositStarbaseUpkeepResourceInput {
+     /// the index of the points program permissions in the player profile
+     pub points_program_permissions_key_index: u16,
+diff --git a/src/types/deregister_survey_data_unit_tracker_input.rs b/src/types/deregister_survey_data_unit_tracker_input.rs
+index b29e63f..d0d3373 100644
+--- a/src/types/deregister_survey_data_unit_tracker_input.rs
++++ b/src/types/deregister_survey_data_unit_tracker_input.rs
+@@ -3,7 +3,7 @@ use carbon_core::borsh;
+ /// Struct for data input that has `key_index`
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq, Eq, Hash)]
+ pub struct DeregisterSurveyDataUnitTrackerInput {
+     /// the index of the key in the sector permissions profile
+     pub key_index: u16,
+diff --git a/src/types/dev_add_crew_input.rs b/src/types/dev_add_crew_input.rs
+index 54e3049..2118f97 100644
+--- a/src/types/dev_add_crew_input.rs
++++ b/src/types/dev_add_crew_input.rs
+@@ -3,7 +3,7 @@ use carbon_core::borsh;
+ /// Struct for data input to Dev Add Crew
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq, Eq, Hash)]
+ pub struct DevAddCrewInput {
+     /// The index of the key in the permissions profile
+     pub key_index: u16,
+diff --git a/src/types/disband_fleet_input.rs b/src/types/disband_fleet_input.rs
+index abb6ed6..0650e23 100644
+--- a/src/types/disband_fleet_input.rs
++++ b/src/types/disband_fleet_input.rs
+@@ -3,7 +3,7 @@ use carbon_core::borsh;
+ /// Struct for data input for that has `key_index`
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq, Eq, Hash)]
+ pub struct DisbandFleetInput {
+     /// the index of the key in the player profile
+     pub key_index: u16,
+diff --git a/src/types/disbanded_fleet_to_escrow_input.rs b/src/types/disbanded_fleet_to_escrow_input.rs
+index 3a628f0..f705b28 100644
+--- a/src/types/disbanded_fleet_to_escrow_input.rs
++++ b/src/types/disbanded_fleet_to_escrow_input.rs
+@@ -3,7 +3,7 @@ use carbon_core::borsh;
+ /// Struct for data input for that has `key_index`
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq, Eq, Hash)]
+ pub struct DisbandedFleetToEscrowInput {
+     /// Number of ships to add to the fleet
+     pub ship_amount: u16,
+diff --git a/src/types/discover_sector_input.rs b/src/types/discover_sector_input.rs
+index 452484a..9427929 100644
+--- a/src/types/discover_sector_input.rs
++++ b/src/types/discover_sector_input.rs
+@@ -3,7 +3,7 @@ use carbon_core::borsh;
+ /// Struct for data input for `DiscoverSector`
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq, Eq, Hash)]
+ pub struct DiscoverSectorInput {
+     /// The coordinates of the new `Sector`
+     pub coordinates: [i64; 2],
+diff --git a/src/types/factions_starbase_level_info.rs b/src/types/factions_starbase_level_info.rs
+index d89a0b5..2af8b3c 100644
+--- a/src/types/factions_starbase_level_info.rs
++++ b/src/types/factions_starbase_level_info.rs
+@@ -4,7 +4,7 @@ use crate::types::StarbaseLevelInfo;
+ /// `Starbase` levels discriminated by faction
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq, Eq, Hash)]
+ pub struct FactionsStarbaseLevelInfo {
+     /// Mud Starbase Levels Info
+     pub mud: [StarbaseLevelInfo; 7],
+diff --git a/src/types/fleet_crew_input.rs b/src/types/fleet_crew_input.rs
+index 5736467..6608386 100644
+--- a/src/types/fleet_crew_input.rs
++++ b/src/types/fleet_crew_input.rs
+@@ -3,7 +3,7 @@ use carbon_core::borsh;
+ /// Struct for data input to `FleetCrew`
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq, Eq, Hash)]
+ pub struct FleetCrewInput {
+     /// passenger count
+     pub count: u16,
+diff --git a/src/types/fleet_info.rs b/src/types/fleet_info.rs
+index a6f8c5e..c9b5c45 100644
+--- a/src/types/fleet_info.rs
++++ b/src/types/fleet_info.rs
+@@ -5,7 +5,7 @@ use crate::types::StarbaseUpkeepLevels;
+ /// Variables for the Fleet program
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq, Eq, Hash)]
+ pub struct FleetInfo {
+     /// `Starbase` levels discriminated by faction
+     pub starbase_levels: FactionsStarbaseLevelInfo,
+diff --git a/src/types/fleet_input.rs b/src/types/fleet_input.rs
+index 26ec128..2c02da4 100644
+--- a/src/types/fleet_input.rs
++++ b/src/types/fleet_input.rs
+@@ -5,7 +5,7 @@ use crate::types::StarbaseUpkeepInfoArrayInput;
+ /// Struct for data input to Update fleet settings
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq, Eq, Hash)]
+ pub struct FleetInput {
+     /// `Starbase` Level Info array
+     pub starbase_level_info_array: Option<Vec<StarbaseLevelInfoArrayInput>>,
+diff --git a/src/types/fleet_ships_info.rs b/src/types/fleet_ships_info.rs
+index dd919f1..42ec8de 100644
+--- a/src/types/fleet_ships_info.rs
++++ b/src/types/fleet_ships_info.rs
+@@ -4,7 +4,7 @@ use solana_pubkey::Pubkey;
+ /// Struct that represents info on a single ship type in a fleet
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq, Eq, Hash)]
+ pub struct FleetShipsInfo {
+     /// The `Ship` account address
+     pub ship: Pubkey,
+diff --git a/src/types/forced_disband_fleet_input.rs b/src/types/forced_disband_fleet_input.rs
+index 62e9933..2fc031b 100644
+--- a/src/types/forced_disband_fleet_input.rs
++++ b/src/types/forced_disband_fleet_input.rs
+@@ -3,7 +3,7 @@ use carbon_core::borsh;
+ /// Struct for data input for that has `key_index`
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq, Eq, Hash)]
+ pub struct ForcedDisbandFleetInput {
+     /// Index of `FleetShipsInfo` in remaining data of `FleetShips`
+     pub fleet_ship_info_index: u32,
+diff --git a/src/types/idle.rs b/src/types/idle.rs
+index 20fbac6..fab1c86 100644
+--- a/src/types/idle.rs
++++ b/src/types/idle.rs
+@@ -3,7 +3,7 @@ use carbon_core::borsh;
+ /// The data for the [`FleetStateData::Idle`](crate::state_machine::FleetStateData::Idle) state
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq, Eq, Hash)]
+ pub struct Idle {
+     /// The star system the fleet is in
+     pub sector: [i64; 2],
+diff --git a/src/types/idle_to_respawn_input.rs b/src/types/idle_to_respawn_input.rs
+index 2e62e87..02c9cf5 100644
+--- a/src/types/idle_to_respawn_input.rs
++++ b/src/types/idle_to_respawn_input.rs
+@@ -3,7 +3,7 @@ use carbon_core::borsh;
+ /// Struct for data input to initialize an `IdleToRespawn` Ix
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq, Eq, Hash)]
+ pub struct IdleToRespawnInput {
+     /// index of the key in the player profile
+     pub key_index: u16,
+diff --git a/src/types/ingredient_index_input.rs b/src/types/ingredient_index_input.rs
+index ee3fdbb..8c42817 100644
+--- a/src/types/ingredient_index_input.rs
++++ b/src/types/ingredient_index_input.rs
+@@ -3,7 +3,7 @@ use carbon_core::borsh;
+ /// Struct for data input that has `key_index`
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq, Eq, Hash)]
+ pub struct IngredientIndexInput {
+     /// the index of the recipe output
+     pub ingredient_index: u16,
+diff --git a/src/types/init_game_state_input.rs b/src/types/init_game_state_input.rs
+index 1f25ab2..4f9ac5f 100644
+--- a/src/types/init_game_state_input.rs
++++ b/src/types/init_game_state_input.rs
+@@ -3,7 +3,7 @@ use carbon_core::borsh;
+ /// Struct for data input to `InitGameState`
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq, Eq, Hash)]
+ pub struct InitGameStateInput {
+     /// the index of the key in the sector permissions profile
+     pub key_index: u16,
+diff --git a/src/types/key_index_input.rs b/src/types/key_index_input.rs
+index 39d24ca..05cd6ca 100644
+--- a/src/types/key_index_input.rs
++++ b/src/types/key_index_input.rs
+@@ -3,7 +3,7 @@ use carbon_core::borsh;
+ /// Struct for data input that has `key_index`
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq, Eq, Hash)]
+ pub struct KeyIndexInput {
+     /// the index of the key in the sector permissions profile
+     pub key_index: u16,
+diff --git a/src/types/location_type.rs b/src/types/location_type.rs
+index e8c6bcb..904b4b4 100644
+--- a/src/types/location_type.rs
++++ b/src/types/location_type.rs
+@@ -3,7 +3,7 @@ use carbon_core::borsh;
+ /// Represents different types of locations that a `Resource` might be found
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq, Eq, Hash)]
+ pub enum LocationType {
+     Planet,
+ }
+diff --git a/src/types/loot_info.rs b/src/types/loot_info.rs
+index 8b6a3cb..52712a0 100644
+--- a/src/types/loot_info.rs
++++ b/src/types/loot_info.rs
+@@ -4,7 +4,7 @@ use solana_pubkey::Pubkey;
+ /// Represents loot at a location
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq, Eq, Hash)]
+ pub struct LootInfo {
+     /// the time the exclusivity lock expires
+     pub exclusivity_unlock_time: i64,
+diff --git a/src/types/loot_info_unpacked.rs b/src/types/loot_info_unpacked.rs
+index 73d09f9..36d38aa 100644
+--- a/src/types/loot_info_unpacked.rs
++++ b/src/types/loot_info_unpacked.rs
+@@ -4,7 +4,7 @@ use solana_pubkey::Pubkey;
+ /// Unpacked version of [`LootInfo`]
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq, Eq, Hash)]
+ pub struct LootInfoUnpacked {
+     /// the time the exclusivity lock expires
+     pub exclusivity_unlock_time: i64,
+diff --git a/src/types/manage_game_input.rs b/src/types/manage_game_input.rs
+index 9d346ca..a128e77 100644
+--- a/src/types/manage_game_input.rs
++++ b/src/types/manage_game_input.rs
+@@ -3,7 +3,7 @@ use carbon_core::borsh;
+ /// Struct for data input to managing Game accounts
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq, Eq, Hash)]
+ pub struct ManageGameInput {
+     /// the index of the key in the sector permissions profile
+     pub key_index: u16,
+diff --git a/src/types/mine_asteroid.rs b/src/types/mine_asteroid.rs
+index d3d6f39..422b104 100644
+--- a/src/types/mine_asteroid.rs
++++ b/src/types/mine_asteroid.rs
+@@ -4,7 +4,7 @@ use solana_pubkey::Pubkey;
+ /// The data for the [`FleetStateData::MineAsteroid`](crate::state_machine::FleetStateData::MineAsteroid) state
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq, Eq, Hash)]
+ pub struct MineAsteroid {
+     /// The `Asteroid` the `Fleet` is mining (Must be an asteroid belt)
+     pub asteroid: Pubkey,
+diff --git a/src/types/mine_asteroid_to_respawn_input.rs b/src/types/mine_asteroid_to_respawn_input.rs
+index 5716aaa..34b5d98 100644
+--- a/src/types/mine_asteroid_to_respawn_input.rs
++++ b/src/types/mine_asteroid_to_respawn_input.rs
+@@ -3,7 +3,7 @@ use carbon_core::borsh;
+ /// Struct for data input for `MineAsteroidToRespawnInput`
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq, Eq, Hash)]
+ pub struct MineAsteroidToRespawnInput {
+     /// the index of the key in the player profile
+     pub key_index: u16,
+diff --git a/src/types/mints.rs b/src/types/mints.rs
+index a049f0f..83d9ee4 100644
+--- a/src/types/mints.rs
++++ b/src/types/mints.rs
+@@ -4,7 +4,7 @@ use solana_pubkey::Pubkey;
+ /// Token mints
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq, Eq, Hash)]
+ pub struct Mints {
+     /// ATLAS token mint
+     pub atlas: Pubkey,
+diff --git a/src/types/misc_stats.rs b/src/types/misc_stats.rs
+index 1856f85..44e7cbe 100644
+--- a/src/types/misc_stats.rs
++++ b/src/types/misc_stats.rs
+@@ -3,7 +3,7 @@ use carbon_core::borsh;
+ /// A ship's miscellaneous stats
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq, Eq, Hash)]
+ pub struct MiscStats {
+     /// Number of crew required to operate the ship
+     pub required_crew: u16,
+diff --git a/src/types/misc_stats_unpacked.rs b/src/types/misc_stats_unpacked.rs
+index 8cf43f1..f25b990 100644
+--- a/src/types/misc_stats_unpacked.rs
++++ b/src/types/misc_stats_unpacked.rs
+@@ -3,7 +3,7 @@ use carbon_core::borsh;
+ /// Unpacked version of [`MiscStats`]
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq, Eq, Hash)]
+ pub struct MiscStatsUnpacked {
+     /// Number of crew required to operate the ship
+     pub required_crew: u16,
+diff --git a/src/types/misc_variables.rs b/src/types/misc_variables.rs
+index d3acd3a..a79266d 100644
+--- a/src/types/misc_variables.rs
++++ b/src/types/misc_variables.rs
+@@ -3,7 +3,7 @@ use carbon_core::borsh;
+ /// Miscellaneous game state variables
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq, Eq, Hash)]
+ pub struct MiscVariables {
+     /// Percentage by which the "warp lane" movement type reduces warp fuel cost
+     pub warp_lane_fuel_cost_reduction: i16,
+diff --git a/src/types/misc_variables_input.rs b/src/types/misc_variables_input.rs
+index 2f23818..dc8ab0f 100644
+--- a/src/types/misc_variables_input.rs
++++ b/src/types/misc_variables_input.rs
+@@ -3,7 +3,7 @@ use carbon_core::borsh;
+ /// Struct for data input to update miscellaneous settings
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq, Eq, Hash)]
+ pub struct MiscVariablesInput {
+     /// Percentage by which the "warp lane" movement type reduces warp fuel cost
+     pub warp_lane_fuel_cost_reduction: Option<i16>,
+diff --git a/src/types/move_subwarp.rs b/src/types/move_subwarp.rs
+index 2c034d9..2fbeef0 100644
+--- a/src/types/move_subwarp.rs
++++ b/src/types/move_subwarp.rs
+@@ -3,7 +3,7 @@ use carbon_core::borsh;
+ /// The data for the [`FleetStateData::MoveSubwarp`] state
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq, Eq, Hash)]
+ pub struct MoveSubwarp {
+     /// The sector the fleet is coming from
+     pub from_sector: [i64; 2],
+diff --git a/src/types/move_warp.rs b/src/types/move_warp.rs
+index 9a6b1d1..d29d78a 100644
+--- a/src/types/move_warp.rs
++++ b/src/types/move_warp.rs
+@@ -3,7 +3,7 @@ use carbon_core::borsh;
+ /// The data for the [`FleetStateData::MoveWarp`] state
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq, Eq, Hash)]
+ pub struct MoveWarp {
+     /// The star system the fleet is coming from
+     pub from_sector: [i64; 2],
+diff --git a/src/types/movement_stats.rs b/src/types/movement_stats.rs
+index eca002d..f6090bf 100644
+--- a/src/types/movement_stats.rs
++++ b/src/types/movement_stats.rs
+@@ -3,7 +3,7 @@ use carbon_core::borsh;
+ /// A ship's movement stats
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq, Eq, Hash)]
+ pub struct MovementStats {
+     /// the amount of distance that the ship can cover in one second while sub-warping
+     pub subwarp_speed: u32,
+diff --git a/src/types/movement_stats_unpacked.rs b/src/types/movement_stats_unpacked.rs
+index 93671ca..639bf23 100644
+--- a/src/types/movement_stats_unpacked.rs
++++ b/src/types/movement_stats_unpacked.rs
+@@ -3,7 +3,7 @@ use carbon_core::borsh;
+ /// Unpacked version of [`MovementStats`]
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq, Eq, Hash)]
+ pub struct MovementStatsUnpacked {
+     /// the amount of distance that the ship can cover in one second while sub-warping
+     pub subwarp_speed: u32,
+diff --git a/src/types/optional_non_system_pubkey.rs b/src/types/optional_non_system_pubkey.rs
+index e1b0bca..a616cc2 100644
+--- a/src/types/optional_non_system_pubkey.rs
++++ b/src/types/optional_non_system_pubkey.rs
+@@ -4,7 +4,7 @@ use solana_pubkey::Pubkey;
+ /// A pubkey sized option that is none if set to the system program.
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq, Eq, Hash)]
+ pub struct OptionalNonSystemPubkey {
+     pub key: Pubkey,
+ }
+diff --git a/src/types/planet_type.rs b/src/types/planet_type.rs
+index 32cf8f5..1138923 100644
+--- a/src/types/planet_type.rs
++++ b/src/types/planet_type.rs
+@@ -3,7 +3,7 @@ use carbon_core::borsh;
+ /// Represents different types a `Planet` could be
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq, Eq, Hash)]
+ pub enum PlanetType {
+     Terrestrial,
+     Volcanic,
+diff --git a/src/types/points.rs b/src/types/points.rs
+index 15c1910..9eea148 100644
+--- a/src/types/points.rs
++++ b/src/types/points.rs
+@@ -4,7 +4,7 @@ use crate::types::SagePointsCategory;
+ /// Variables for the Points program
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq, Eq, Hash)]
+ pub struct Points {
+     /// Represents the points category & modifier to use for Loyalty Points (LP)
+     pub lp_category: SagePointsCategory,
+diff --git a/src/types/progression_item.rs b/src/types/progression_item.rs
+index a5b8796..0277080 100644
+--- a/src/types/progression_item.rs
++++ b/src/types/progression_item.rs
+@@ -3,7 +3,7 @@ use carbon_core::borsh;
+ /// Progression Item
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq, Eq, Hash)]
+ pub struct ProgressionItem {
+     /// The progression points value
+     pub value: u32,
+diff --git a/src/types/progression_item_input.rs b/src/types/progression_item_input.rs
+index 615f4ea..7654f6c 100644
+--- a/src/types/progression_item_input.rs
++++ b/src/types/progression_item_input.rs
+@@ -4,7 +4,7 @@ use crate::types::ProgressionItem;
+ /// Progression Item for Data Input
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq, Eq, Hash)]
+ pub struct ProgressionItemInput {
+     /// The type of progression item
+     pub item_type: u8,
+diff --git a/src/types/progression_item_input_unpacked.rs b/src/types/progression_item_input_unpacked.rs
+index c067a2e..5bc3d66 100644
+--- a/src/types/progression_item_input_unpacked.rs
++++ b/src/types/progression_item_input_unpacked.rs
+@@ -4,7 +4,7 @@ use crate::types::ProgressionItem;
+ /// Unpacked version of [`ProgressionItemInput`]
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq, Eq, Hash)]
+ pub struct ProgressionItemInputUnpacked {
+     /// The type of progression item
+     pub item_type: u8,
+diff --git a/src/types/progression_item_type.rs b/src/types/progression_item_type.rs
+index 5206c04..72682be 100644
+--- a/src/types/progression_item_type.rs
++++ b/src/types/progression_item_type.rs
+@@ -3,7 +3,7 @@ use carbon_core::borsh;
+ /// The different types of progression items
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq, Eq, Hash)]
+ pub enum ProgressionItemType {
+     Subwarp,
+     Warp,
+diff --git a/src/types/progression_item_unpacked.rs b/src/types/progression_item_unpacked.rs
+index def420d..7228ddf 100644
+--- a/src/types/progression_item_unpacked.rs
++++ b/src/types/progression_item_unpacked.rs
+@@ -3,7 +3,7 @@ use carbon_core::borsh;
+ /// Unpacked version of [`ProgressionItem`]
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq, Eq, Hash)]
+ pub struct ProgressionItemUnpacked {
+     /// The progression points value
+     pub value: u32,
+diff --git a/src/types/register_combat_config_input.rs b/src/types/register_combat_config_input.rs
+index ead508f..dbc4977 100644
+--- a/src/types/register_combat_config_input.rs
++++ b/src/types/register_combat_config_input.rs
+@@ -3,7 +3,7 @@ use carbon_core::borsh;
+ /// Data input for RegisterCombatConfig
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq, Eq, Hash)]
+ pub struct RegisterCombatConfigInput {
+     /// amount of time when the last-hitter of a fleet will have exclusive access to loot
+     pub loot_exclusivity_time: u16,
+diff --git a/src/types/register_mine_item_input.rs b/src/types/register_mine_item_input.rs
+index 76b2867..1827358 100644
+--- a/src/types/register_mine_item_input.rs
++++ b/src/types/register_mine_item_input.rs
+@@ -3,7 +3,7 @@ use carbon_core::borsh;
+ /// Struct for data input to Register a Resource
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq, Eq, Hash)]
+ pub struct RegisterMineItemInput {
+     /// The name of the `MineItem`
+     #[cfg_attr(feature = "serde", serde(with = "serde_big_array::BigArray"))]
+diff --git a/src/types/register_planet_input.rs b/src/types/register_planet_input.rs
+index 5addd9a..9252bd4 100644
+--- a/src/types/register_planet_input.rs
++++ b/src/types/register_planet_input.rs
+@@ -3,7 +3,7 @@ use carbon_core::borsh;
+ /// Struct for data input to Register Planet
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq, Eq, Hash)]
+ pub struct RegisterPlanetInput {
+     /// `Planet` name
+     #[cfg_attr(feature = "serde", serde(with = "serde_big_array::BigArray"))]
+diff --git a/src/types/register_progression_config_input.rs b/src/types/register_progression_config_input.rs
+index 12f20f1..5e48dbf 100644
+--- a/src/types/register_progression_config_input.rs
++++ b/src/types/register_progression_config_input.rs
+@@ -3,7 +3,7 @@ use carbon_core::borsh;
+ /// Data input for RegisterProgressionConfig
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq, Eq, Hash)]
+ pub struct RegisterProgressionConfigInput {
+     /// the daily limit for Loyalty Points (LP)
+     pub daily_lp_limit: Option<u64>,
+diff --git a/src/types/register_resource_input.rs b/src/types/register_resource_input.rs
+index 247da12..15bb113 100644
+--- a/src/types/register_resource_input.rs
++++ b/src/types/register_resource_input.rs
+@@ -3,7 +3,7 @@ use carbon_core::borsh;
+ /// Struct for data input to Register a Resource
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq, Eq, Hash)]
+ pub struct RegisterResourceInput {
+     /// `Resource` location type
+     pub location_type: u8,
+diff --git a/src/types/register_sage_points_modifier_input.rs b/src/types/register_sage_points_modifier_input.rs
+index 54b914b..783b7e8 100644
+--- a/src/types/register_sage_points_modifier_input.rs
++++ b/src/types/register_sage_points_modifier_input.rs
+@@ -3,7 +3,7 @@ use carbon_core::borsh;
+ /// Struct for data input to register a points modifier for SAGE program
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq, Eq, Hash)]
+ pub struct RegisterSagePointsModifierInput {
+     /// The points category type of the modifier
+     pub points_category_type: u8,
+diff --git a/src/types/register_ship_input.rs b/src/types/register_ship_input.rs
+index b1a64a1..2b4495d 100644
+--- a/src/types/register_ship_input.rs
++++ b/src/types/register_ship_input.rs
+@@ -5,7 +5,7 @@ use crate::types::SizeClass;
+ /// Struct for data input to Register Ship
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq, Eq, Hash)]
+ pub struct RegisterShipInput {
+     /// The `Ship` name/label
+     #[cfg_attr(feature = "serde", serde(with = "serde_big_array::BigArray"))]
+diff --git a/src/types/register_star_input.rs b/src/types/register_star_input.rs
+index 962d357..7c3a9d3 100644
+--- a/src/types/register_star_input.rs
++++ b/src/types/register_star_input.rs
+@@ -3,7 +3,7 @@ use carbon_core::borsh;
+ /// Struct for data input to Register Star
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq, Eq, Hash)]
+ pub struct RegisterStarInput {
+     /// `Star` name
+     #[cfg_attr(feature = "serde", serde(with = "serde_big_array::BigArray"))]
+diff --git a/src/types/register_starbase_input.rs b/src/types/register_starbase_input.rs
+index a6656b9..99737d7 100644
+--- a/src/types/register_starbase_input.rs
++++ b/src/types/register_starbase_input.rs
+@@ -3,7 +3,7 @@ use carbon_core::borsh;
+ /// Struct for data input to Register `Starbase`
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq, Eq, Hash)]
+ pub struct RegisterStarbaseInput {
+     /// `Starbase` name
+     #[cfg_attr(feature = "serde", serde(with = "serde_big_array::BigArray"))]
+diff --git a/src/types/register_starbase_input_unpacked.rs b/src/types/register_starbase_input_unpacked.rs
+index 647f0ec..9fc41c3 100644
+--- a/src/types/register_starbase_input_unpacked.rs
++++ b/src/types/register_starbase_input_unpacked.rs
+@@ -3,7 +3,7 @@ use carbon_core::borsh;
+ /// Unpacked version of [`RegisterStarbaseInput`]
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq, Eq, Hash)]
+ pub struct RegisterStarbaseInputUnpacked {
+     /// `Starbase` name
+     #[cfg_attr(feature = "serde", serde(with = "serde_big_array::BigArray"))]
+diff --git a/src/types/register_survey_data_unit_tracker_input.rs b/src/types/register_survey_data_unit_tracker_input.rs
+index 78b4f40..cb4eca7 100644
+--- a/src/types/register_survey_data_unit_tracker_input.rs
++++ b/src/types/register_survey_data_unit_tracker_input.rs
+@@ -3,7 +3,7 @@ use carbon_core::borsh;
+ /// Struct for data input to Register SurveyDataUnitTracker
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq, Eq, Hash)]
+ pub struct RegisterSurveyDataUnitTrackerInput {
+     /// The valid coordinates range
+     /// e.g. a value of [-50, 50] means that coordinates from [-50, -50] to [50, 50] are valid for SDU scanning
+diff --git a/src/types/reload_input.rs b/src/types/reload_input.rs
+index c30c576..e9b5c1d 100644
+--- a/src/types/reload_input.rs
++++ b/src/types/reload_input.rs
+@@ -3,7 +3,7 @@ use carbon_core::borsh;
+ /// Struct for data input to `Reload`
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq, Eq, Hash)]
+ pub struct ReloadInput {
+     /// the index of the key in the player profile
+     pub key_index: u16,
+diff --git a/src/types/remove_crew_input.rs b/src/types/remove_crew_input.rs
+index 6a7dd65..29ff20b 100644
+--- a/src/types/remove_crew_input.rs
++++ b/src/types/remove_crew_input.rs
+@@ -4,7 +4,7 @@ use crate::types::CrewTransferInput;
+ /// Accounts for Struct for data input for `RemoveCrew`
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq, Eq, Hash)]
+ pub struct RemoveCrewInput {
+     /// inputs required to transfer crew cNFTs
+     pub items: Vec<CrewTransferInput>,
+diff --git a/src/types/remove_ship_escrow_input.rs b/src/types/remove_ship_escrow_input.rs
+index afba1ae..feb8029 100644
+--- a/src/types/remove_ship_escrow_input.rs
++++ b/src/types/remove_ship_escrow_input.rs
+@@ -3,7 +3,7 @@ use carbon_core::borsh;
+ /// Struct for data input for `RemoveShipEscrow`
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq, Eq, Hash)]
+ pub struct RemoveShipEscrowInput {
+     /// Amount of `Ship` tokens to transfer from escrow
+     pub ship_amount: u64,
+diff --git a/src/types/repair_fleet_input.rs b/src/types/repair_fleet_input.rs
+index f8abf6f..3ac7707 100644
+--- a/src/types/repair_fleet_input.rs
++++ b/src/types/repair_fleet_input.rs
+@@ -3,7 +3,7 @@ use carbon_core::borsh;
+ /// Struct for data input to repair a fleet
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq, Eq, Hash)]
+ pub struct RepairFleetInput {
+     /// the amount of HP to repair; if unset all missing HP is repaired
+     pub amount: Option<u32>,
+diff --git a/src/types/repair_starbase_input.rs b/src/types/repair_starbase_input.rs
+index 609dd1f..45b67c2 100644
+--- a/src/types/repair_starbase_input.rs
++++ b/src/types/repair_starbase_input.rs
+@@ -3,7 +3,7 @@ use carbon_core::borsh;
+ /// Struct for data input to `RepairStarbase`
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq, Eq, Hash)]
+ pub struct RepairStarbaseInput {
+     /// the index of the key in the player profile
+     pub key_index: u16,
+diff --git a/src/types/respawn.rs b/src/types/respawn.rs
+index 8244195..35602f6 100644
+--- a/src/types/respawn.rs
++++ b/src/types/respawn.rs
+@@ -3,7 +3,7 @@ use carbon_core::borsh;
+ /// The data for the [`FleetStateData::Respawn`](crate::state_machine::FleetStateData::Respawn) state
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq, Eq, Hash)]
+ pub struct Respawn {
+     /// The star system the fleet was in when it entered the `Respawn` state
+     pub sector: [i64; 2],
+diff --git a/src/types/respawn_to_loading_bay_input.rs b/src/types/respawn_to_loading_bay_input.rs
+index c43f5d5..721ff5b 100644
+--- a/src/types/respawn_to_loading_bay_input.rs
++++ b/src/types/respawn_to_loading_bay_input.rs
+@@ -3,7 +3,7 @@ use carbon_core::borsh;
+ /// Struct for data input to `RespawnToLoadingBay`
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq, Eq, Hash)]
+ pub struct RespawnToLoadingBayInput {
+     /// the index of the key in the player profile
+     pub key_index: u16,
+diff --git a/src/types/retrieve_loot_input.rs b/src/types/retrieve_loot_input.rs
+index 90eb857..7692678 100644
+--- a/src/types/retrieve_loot_input.rs
++++ b/src/types/retrieve_loot_input.rs
+@@ -3,7 +3,7 @@ use carbon_core::borsh;
+ /// Struct for data input to retrieve loot
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq, Eq, Hash)]
+ pub struct RetrieveLootInput {
+     /// the index of the key in the player profile
+     pub key_index: u16,
+diff --git a/src/types/risk_zone_data.rs b/src/types/risk_zone_data.rs
+index 10f33f1..011e7ee 100644
+--- a/src/types/risk_zone_data.rs
++++ b/src/types/risk_zone_data.rs
+@@ -3,7 +3,7 @@ use carbon_core::borsh;
+ /// `RiskZone` center and radius
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq, Eq, Hash)]
+ pub struct RiskZoneData {
+     /// Risk zone center
+     pub center: [i64; 2],
+diff --git a/src/types/risk_zone_data_unpacked.rs b/src/types/risk_zone_data_unpacked.rs
+index 3620226..e055560 100644
+--- a/src/types/risk_zone_data_unpacked.rs
++++ b/src/types/risk_zone_data_unpacked.rs
+@@ -3,7 +3,7 @@ use carbon_core::borsh;
+ /// Unpacked version of [`RiskZoneData`]
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq, Eq, Hash)]
+ pub struct RiskZoneDataUnpacked {
+     /// Risk zone center
+     pub center: [i64; 2],
+diff --git a/src/types/risk_zones_data.rs b/src/types/risk_zones_data.rs
+index 35d167d..31a562c 100644
+--- a/src/types/risk_zones_data.rs
++++ b/src/types/risk_zones_data.rs
+@@ -4,7 +4,7 @@ use crate::types::RiskZoneData;
+ /// [`RiskZoneData`] for [`RiskZones`]
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq, Eq, Hash)]
+ pub struct RiskZonesData {
+     /// Mud security zone
+     pub mud_security_zone: RiskZoneData,
+diff --git a/src/types/risk_zones_data_unpacked.rs b/src/types/risk_zones_data_unpacked.rs
+index 686cb68..499de88 100644
+--- a/src/types/risk_zones_data_unpacked.rs
++++ b/src/types/risk_zones_data_unpacked.rs
+@@ -4,7 +4,7 @@ use crate::types::RiskZoneData;
+ /// Unpacked version of [`RiskZonesData`]
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq, Eq, Hash)]
+ pub struct RiskZonesDataUnpacked {
+     /// Mud security zone
+     pub mud_security_zone: RiskZoneData,
+diff --git a/src/types/sage_points_category.rs b/src/types/sage_points_category.rs
+index 265d935..72297e2 100644
+--- a/src/types/sage_points_category.rs
++++ b/src/types/sage_points_category.rs
+@@ -4,7 +4,7 @@ use solana_pubkey::Pubkey;
+ /// Represents a points category & modifier as defined in the Points program
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq, Eq, Hash)]
+ pub struct SagePointsCategory {
+     /// The points category
+     pub category: Pubkey,
+diff --git a/src/types/scan_for_survey_data_units_input.rs b/src/types/scan_for_survey_data_units_input.rs
+index 7e5893f..313354c 100644
+--- a/src/types/scan_for_survey_data_units_input.rs
++++ b/src/types/scan_for_survey_data_units_input.rs
+@@ -3,7 +3,7 @@ use carbon_core::borsh;
+ /// Struct for data input to Scan For Survey Data Units
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq, Eq, Hash)]
+ pub struct ScanForSurveyDataUnitsInput {
+     /// The index of the key in the player profile
+     pub key_index: u16,
+diff --git a/src/types/sector_connection.rs b/src/types/sector_connection.rs
+index afb85c4..a57a81c 100644
+--- a/src/types/sector_connection.rs
++++ b/src/types/sector_connection.rs
+@@ -4,7 +4,7 @@ use solana_pubkey::Pubkey;
+ /// Connection between sectors
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq, Eq, Hash)]
+ pub struct SectorConnection {
+     /// The sector connected to
+     pub connection_sector: Pubkey,
+diff --git a/src/types/sector_ring.rs b/src/types/sector_ring.rs
+index 3c3811d..4928abd 100644
+--- a/src/types/sector_ring.rs
++++ b/src/types/sector_ring.rs
+@@ -3,7 +3,7 @@ use carbon_core::borsh;
+ /// Represents the orbital position of a `Planet` in the `Sector`
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq, Eq, Hash)]
+ pub enum SectorRing {
+     Inner,
+     Mid,
+diff --git a/src/types/ship_counts.rs b/src/types/ship_counts.rs
+index 8d05822..f76c738 100644
+--- a/src/types/ship_counts.rs
++++ b/src/types/ship_counts.rs
+@@ -3,7 +3,7 @@ use carbon_core::borsh;
+ /// Ship counts for a fleet.
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq, Eq, Hash)]
+ pub struct ShipCounts {
+     /// The total number of ships in the fleet.
+     pub total: u32,
+diff --git a/src/types/ship_counts_unpacked.rs b/src/types/ship_counts_unpacked.rs
+index df2a0d7..47c9bf3 100644
+--- a/src/types/ship_counts_unpacked.rs
++++ b/src/types/ship_counts_unpacked.rs
+@@ -3,7 +3,7 @@ use carbon_core::borsh;
+ /// Unpacked version of [`ShipCounts`]
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq, Eq, Hash)]
+ pub struct ShipCountsUnpacked {
+     /// The total number of ships in the fleet.
+     pub total: u32,
+diff --git a/src/types/ship_sizes.rs b/src/types/ship_sizes.rs
+index f25d60b..d749ec9 100644
+--- a/src/types/ship_sizes.rs
++++ b/src/types/ship_sizes.rs
+@@ -3,7 +3,7 @@ use carbon_core::borsh;
+ /// Ship sizes.
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq, Eq, Hash)]
+ pub struct ShipSizes {
+     /// The size of xx small ships
+     pub xx_small: u8,
+diff --git a/src/types/ship_stats.rs b/src/types/ship_stats.rs
+index e84d233..8d297e3 100644
+--- a/src/types/ship_stats.rs
++++ b/src/types/ship_stats.rs
+@@ -7,7 +7,7 @@ use crate::types::MovementStats;
+ /// A ship's stats
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq, Eq, Hash)]
+ pub struct ShipStats {
+     /// Movement stats for the ship
+     pub movement_stats: MovementStats,
+diff --git a/src/types/ship_stats_unpacked.rs b/src/types/ship_stats_unpacked.rs
+index 3d0082f..7aea71c 100644
+--- a/src/types/ship_stats_unpacked.rs
++++ b/src/types/ship_stats_unpacked.rs
+@@ -7,7 +7,7 @@ use crate::types::MovementStats;
+ /// Unpacked version of [`ShipStats`]
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq, Eq, Hash)]
+ pub struct ShipStatsUnpacked {
+     /// Movement stats for the ship
+     pub movement_stats: MovementStats,
+diff --git a/src/types/size_class.rs b/src/types/size_class.rs
+index 1f51435..11e34f8 100644
+--- a/src/types/size_class.rs
++++ b/src/types/size_class.rs
+@@ -3,7 +3,7 @@ use carbon_core::borsh;
+ /// Represents different types of Ships
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq, Eq, Hash)]
+ pub enum SizeClass {
+     XxSmall,
+     XSmall,
+diff --git a/src/types/star_type.rs b/src/types/star_type.rs
+index ff841c0..a2a8523 100644
+--- a/src/types/star_type.rs
++++ b/src/types/star_type.rs
+@@ -3,7 +3,7 @@ use carbon_core::borsh;
+ /// Represents different types of Stars
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq, Eq, Hash)]
+ pub enum StarType {
+     WhiteDwarf,
+     RedDwarf,
+diff --git a/src/types/starbase_combat_event.rs b/src/types/starbase_combat_event.rs
+index 66e5f04..b758e5f 100644
+--- a/src/types/starbase_combat_event.rs
++++ b/src/types/starbase_combat_event.rs
+@@ -3,7 +3,7 @@ use carbon_core::borsh;
+ use solana_pubkey::Pubkey;
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq, Eq, Hash)]
+ pub struct StarbaseCombatEvent {
+     pub attacker_fleet: Pubkey,
+     pub target_starbase: Pubkey,
+diff --git a/src/types/starbase_create_cargo_pod_input.rs b/src/types/starbase_create_cargo_pod_input.rs
+index 22c0f12..d13222a 100644
+--- a/src/types/starbase_create_cargo_pod_input.rs
++++ b/src/types/starbase_create_cargo_pod_input.rs
+@@ -3,7 +3,7 @@ use carbon_core::borsh;
+ /// Struct for data input to `StarbaseCreateCargoPod`
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq, Eq, Hash)]
+ pub struct StarbaseCreateCargoPodInput {
+     /// cargo pod seeds
+     pub pod_seeds: [u8; 32],
+diff --git a/src/types/starbase_create_crafting_process_input.rs b/src/types/starbase_create_crafting_process_input.rs
+index 822c677..16a844c 100644
+--- a/src/types/starbase_create_crafting_process_input.rs
++++ b/src/types/starbase_create_crafting_process_input.rs
+@@ -3,7 +3,7 @@ use carbon_core::borsh;
+ /// Struct for data input to create a `CraftingProcess`
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq, Eq, Hash)]
+ pub struct StarbaseCreateCraftingProcessInput {
+     /// crafting id
+     pub crafting_id: u64,
+diff --git a/src/types/starbase_deposit_crafting_ingredient_input.rs b/src/types/starbase_deposit_crafting_ingredient_input.rs
+index 0c6761f..43be343 100644
+--- a/src/types/starbase_deposit_crafting_ingredient_input.rs
++++ b/src/types/starbase_deposit_crafting_ingredient_input.rs
+@@ -3,7 +3,7 @@ use carbon_core::borsh;
+ /// Struct for data input to deposit an ingredient
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq, Eq, Hash)]
+ pub struct StarbaseDepositCraftingIngredientInput {
+     /// the amount of ingredient to deposit
+     pub amount: u64,
+diff --git a/src/types/starbase_level_info.rs b/src/types/starbase_level_info.rs
+index 2690c4c..d0e753a 100644
+--- a/src/types/starbase_level_info.rs
++++ b/src/types/starbase_level_info.rs
+@@ -4,7 +4,7 @@ use solana_pubkey::Pubkey;
+ /// Information associated with `Starbase` levels
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq, Eq, Hash)]
+ pub struct StarbaseLevelInfo {
+     /// The crafting recipe required to upgrade a `Starbase` to this level
+     pub recipe_for_upgrade: Pubkey,
+diff --git a/src/types/starbase_level_info_array_input.rs b/src/types/starbase_level_info_array_input.rs
+index f168e12..1031869 100644
+--- a/src/types/starbase_level_info_array_input.rs
++++ b/src/types/starbase_level_info_array_input.rs
+@@ -4,7 +4,7 @@ use crate::types::SectorRing;
+ /// Struct for data input to Update Starbase Level Settings
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq, Eq, Hash)]
+ pub struct StarbaseLevelInfoArrayInput {
+     /// The level of the `Starbase`.
+     pub level: u8,
+diff --git a/src/types/starbase_level_info_unpacked.rs b/src/types/starbase_level_info_unpacked.rs
+index 71af2ab..38c9474 100644
+--- a/src/types/starbase_level_info_unpacked.rs
++++ b/src/types/starbase_level_info_unpacked.rs
+@@ -4,7 +4,7 @@ use solana_pubkey::Pubkey;
+ /// Unpacked version of [`StarbaseLevelInfo`]
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq, Eq, Hash)]
+ pub struct StarbaseLevelInfoUnpacked {
+     /// The crafting recipe required to upgrade a `Starbase` to this level
+     pub recipe_for_upgrade: Pubkey,
+diff --git a/src/types/starbase_loading_bay.rs b/src/types/starbase_loading_bay.rs
+index 52b58d8..62bbbad 100644
+--- a/src/types/starbase_loading_bay.rs
++++ b/src/types/starbase_loading_bay.rs
+@@ -4,7 +4,7 @@ use solana_pubkey::Pubkey;
+ /// The data for the [`FleetStateData::StarbaseLoadingBay`] state
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq, Eq, Hash)]
+ pub struct StarbaseLoadingBay {
+     /// The `Starbase` is in the loading bay of
+     pub starbase: Pubkey,
+diff --git a/src/types/starbase_remove_cargo_pod_input.rs b/src/types/starbase_remove_cargo_pod_input.rs
+index 519e88d..ae5bb3b 100644
+--- a/src/types/starbase_remove_cargo_pod_input.rs
++++ b/src/types/starbase_remove_cargo_pod_input.rs
+@@ -3,7 +3,7 @@ use carbon_core::borsh;
+ /// Struct for data input to `StarbaseRemoveCargoPod`
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq, Eq, Hash)]
+ pub struct StarbaseRemoveCargoPodInput {
+     /// the index of the key in the player profile
+     pub key_index: u16,
+diff --git a/src/types/starbase_state.rs b/src/types/starbase_state.rs
+index 8cfc324..6e74424 100644
+--- a/src/types/starbase_state.rs
++++ b/src/types/starbase_state.rs
+@@ -3,7 +3,7 @@ use carbon_core::borsh;
+ /// The state of a `Starbase`.
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq, Eq, Hash)]
+ pub enum StarbaseState {
+     Active,
+     Destroyed,
+diff --git a/src/types/starbase_transfer_cargo_input.rs b/src/types/starbase_transfer_cargo_input.rs
+index e01f737..923a4b7 100644
+--- a/src/types/starbase_transfer_cargo_input.rs
++++ b/src/types/starbase_transfer_cargo_input.rs
+@@ -3,7 +3,7 @@ use carbon_core::borsh;
+ /// Struct for data input to `DepositCargoToGame`
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq, Eq, Hash)]
+ pub struct StarbaseTransferCargoInput {
+     /// cargo amount
+     pub amount: u64,
+diff --git a/src/types/starbase_upgrade_state.rs b/src/types/starbase_upgrade_state.rs
+index 438f859..40df347 100644
+--- a/src/types/starbase_upgrade_state.rs
++++ b/src/types/starbase_upgrade_state.rs
+@@ -3,7 +3,7 @@ use carbon_core::borsh;
+ /// The state of a `Starbase`.
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq, Eq, Hash)]
+ pub enum StarbaseUpgradeState {
+     NotStarted,
+     Started,
+diff --git a/src/types/starbase_upkeep_info.rs b/src/types/starbase_upkeep_info.rs
+index d90826f..db172cf 100644
+--- a/src/types/starbase_upkeep_info.rs
++++ b/src/types/starbase_upkeep_info.rs
+@@ -3,7 +3,7 @@ use carbon_core::borsh;
+ /// Information associated with `Starbase` upkeep
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq, Eq, Hash)]
+ pub struct StarbaseUpkeepInfo {
+     /// The maximum amount of ammo that can be committed upkeep by players
+     /// If 0 (zero) then ammo upkeep is disabled
+diff --git a/src/types/starbase_upkeep_info_array_input.rs b/src/types/starbase_upkeep_info_array_input.rs
+index 5a03a27..37a98ce 100644
+--- a/src/types/starbase_upkeep_info_array_input.rs
++++ b/src/types/starbase_upkeep_info_array_input.rs
+@@ -4,7 +4,7 @@ use crate::types::StarbaseUpkeepInfoUnpacked;
+ /// Struct for data input to Update Starbase Upkeep Settings
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq, Eq, Hash)]
+ pub struct StarbaseUpkeepInfoArrayInput {
+     /// The level of the `Starbase`.
+     pub level: u8,
+diff --git a/src/types/starbase_upkeep_info_unpacked.rs b/src/types/starbase_upkeep_info_unpacked.rs
+index 76b31eb..927cec4 100644
+--- a/src/types/starbase_upkeep_info_unpacked.rs
++++ b/src/types/starbase_upkeep_info_unpacked.rs
+@@ -3,7 +3,7 @@ use carbon_core::borsh;
+ /// Unpacked version of [`StarbaseUpkeepInfo`]
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq, Eq, Hash)]
+ pub struct StarbaseUpkeepInfoUnpacked {
+     /// The maximum amount of ammo that can be committed upkeep by players
+     /// If 0 (zero) then ammo upkeep is disabled
+diff --git a/src/types/starbase_upkeep_levels.rs b/src/types/starbase_upkeep_levels.rs
+index 0a813f2..d880c8a 100644
+--- a/src/types/starbase_upkeep_levels.rs
++++ b/src/types/starbase_upkeep_levels.rs
+@@ -4,7 +4,7 @@ use crate::types::StarbaseUpkeepInfo;
+ /// Information on `Starbase` upkeep by level
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq, Eq, Hash)]
+ pub struct StarbaseUpkeepLevels {
+     /// Upkeep info. for a level 0 `Starbase`
+     pub level0: StarbaseUpkeepInfo,
+diff --git a/src/types/starbase_upkeep_levels_unpacked.rs b/src/types/starbase_upkeep_levels_unpacked.rs
+index eeb5fe9..53f8d67 100644
+--- a/src/types/starbase_upkeep_levels_unpacked.rs
++++ b/src/types/starbase_upkeep_levels_unpacked.rs
+@@ -4,7 +4,7 @@ use crate::types::StarbaseUpkeepInfo;
+ /// Unpacked version of [`StarbaseUpkeepLevels`]
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq, Eq, Hash)]
+ pub struct StarbaseUpkeepLevelsUnpacked {
+     /// Upkeep info. for a level 0 `Starbase`
+     pub level0: StarbaseUpkeepInfo,
+diff --git a/src/types/starbase_withdraw_crafting_ingredient_input.rs b/src/types/starbase_withdraw_crafting_ingredient_input.rs
+index 1a250a0..c45d440 100644
+--- a/src/types/starbase_withdraw_crafting_ingredient_input.rs
++++ b/src/types/starbase_withdraw_crafting_ingredient_input.rs
+@@ -3,7 +3,7 @@ use carbon_core::borsh;
+ /// Struct for data input to withdraw an ingredient
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq, Eq, Hash)]
+ pub struct StarbaseWithdrawCraftingIngredientInput {
+     /// the amount of ingredient to withdraw
+     pub amount: u64,
+diff --git a/src/types/start_subwarp_input.rs b/src/types/start_subwarp_input.rs
+index f23da13..be46e2c 100644
+--- a/src/types/start_subwarp_input.rs
++++ b/src/types/start_subwarp_input.rs
+@@ -3,7 +3,7 @@ use carbon_core::borsh;
+ /// Struct for data input to initialize an `SubwarpMovement`
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq, Eq, Hash)]
+ pub struct StartSubwarpInput {
+     /// The destination coordinates
+     pub to_sector: [i64; 2],
+diff --git a/src/types/stop_mining_asteroid_input.rs b/src/types/stop_mining_asteroid_input.rs
+index 4ecf52d..78a7776 100644
+--- a/src/types/stop_mining_asteroid_input.rs
++++ b/src/types/stop_mining_asteroid_input.rs
+@@ -3,7 +3,7 @@ use carbon_core::borsh;
+ /// Struct for data input for `StopMiningAsteroidInput`
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq, Eq, Hash)]
+ pub struct StopMiningAsteroidInput {
+     /// the index of the key in the player profile
+     pub key_index: u16,
+diff --git a/src/types/stop_subwarp_input.rs b/src/types/stop_subwarp_input.rs
+index 32a1017..a5b29ec 100644
+--- a/src/types/stop_subwarp_input.rs
++++ b/src/types/stop_subwarp_input.rs
+@@ -3,7 +3,7 @@ use carbon_core::borsh;
+ /// Struct for data input to stop an `SubwarpMovement`
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq, Eq, Hash)]
+ pub struct StopSubwarpInput {
+     /// The index of the key in the player profile
+     pub key_index: u16,
+diff --git a/src/types/submit_starbase_upgrade_resource_input.rs b/src/types/submit_starbase_upgrade_resource_input.rs
+index 68b7167..a31f01b 100644
+--- a/src/types/submit_starbase_upgrade_resource_input.rs
++++ b/src/types/submit_starbase_upgrade_resource_input.rs
+@@ -3,7 +3,7 @@ use carbon_core::borsh;
+ /// Submit starbase upgrade resource inputs
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq, Eq, Hash)]
+ pub struct SubmitStarbaseUpgradeResourceInput {
+     /// the index of the point program permissions in the player profile
+     pub points_program_permissions_key_index: u16,
+diff --git a/src/types/transfer_cargo_within_fleet_input.rs b/src/types/transfer_cargo_within_fleet_input.rs
+index 7ef9b2e..5f4ba11 100644
+--- a/src/types/transfer_cargo_within_fleet_input.rs
++++ b/src/types/transfer_cargo_within_fleet_input.rs
+@@ -3,7 +3,7 @@ use carbon_core::borsh;
+ /// Struct for data input to `TransferCargoWithinFleet`
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq, Eq, Hash)]
+ pub struct TransferCargoWithinFleetInput {
+     /// cargo amount
+     pub amount: u64,
+diff --git a/src/types/update_combat_config_input.rs b/src/types/update_combat_config_input.rs
+index 57fcc31..958cd3f 100644
+--- a/src/types/update_combat_config_input.rs
++++ b/src/types/update_combat_config_input.rs
+@@ -3,7 +3,7 @@ use carbon_core::borsh;
+ /// Struct for data input for `UpdateCombatConfig`
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq, Eq, Hash)]
+ pub struct UpdateCombatConfigInput {
+     /// the index of the key in the permissions profile
+     pub key_index: u16,
+diff --git a/src/types/update_game_input.rs b/src/types/update_game_input.rs
+index aa691ee..0d09d6c 100644
+--- a/src/types/update_game_input.rs
++++ b/src/types/update_game_input.rs
+@@ -4,7 +4,7 @@ use crate::types::RiskZonesDataUnpacked;
+ /// Struct for data input to Update instruction
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq, Eq, Hash)]
+ pub struct UpdateGameInput {
+     /// Cargo settings
+     pub cargo: u8,
+diff --git a/src/types/update_game_state_input.rs b/src/types/update_game_state_input.rs
+index f787004..82c20f6 100644
+--- a/src/types/update_game_state_input.rs
++++ b/src/types/update_game_state_input.rs
+@@ -5,7 +5,7 @@ use crate::types::MiscVariablesInput;
+ /// Struct for data input to Update instruction
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq, Eq, Hash)]
+ pub struct UpdateGameStateInput {
+     /// Fleet settings
+     pub fleet: Option<FleetInput>,
+diff --git a/src/types/update_mine_item_input.rs b/src/types/update_mine_item_input.rs
+index 107da73..df725d2 100644
+--- a/src/types/update_mine_item_input.rs
++++ b/src/types/update_mine_item_input.rs
+@@ -3,7 +3,7 @@ use carbon_core::borsh;
+ /// Struct for data input to Register a Resource
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq, Eq, Hash)]
+ pub struct UpdateMineItemInput {
+     /// The name of the `MineItem`
+     pub name: Option<[u8; 64]>,
+diff --git a/src/types/update_planet_input.rs b/src/types/update_planet_input.rs
+index e265910..a266730 100644
+--- a/src/types/update_planet_input.rs
++++ b/src/types/update_planet_input.rs
+@@ -3,7 +3,7 @@ use carbon_core::borsh;
+ /// Struct for data input to Update Planet
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq, Eq, Hash)]
+ pub struct UpdatePlanetInput {
+     /// `Planet` name
+     pub name: Option<[u8; 64]>,
+diff --git a/src/types/update_progression_config_input.rs b/src/types/update_progression_config_input.rs
+index 6d6dcfa..5e4f002 100644
+--- a/src/types/update_progression_config_input.rs
++++ b/src/types/update_progression_config_input.rs
+@@ -4,7 +4,7 @@ use crate::types::ProgressionItemInputUnpacked;
+ /// Struct for data input for `UpdateProgressionConfig`
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq, Eq, Hash)]
+ pub struct UpdateProgressionConfigInput {
+     /// the index of the key in the permissions profile
+     pub key_index: u16,
+diff --git a/src/types/update_resource_input.rs b/src/types/update_resource_input.rs
+index 7991969..4e11d76 100644
+--- a/src/types/update_resource_input.rs
++++ b/src/types/update_resource_input.rs
+@@ -3,7 +3,7 @@ use carbon_core::borsh;
+ /// Struct for data input to Update Resource
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq, Eq, Hash)]
+ pub struct UpdateResourceInput {
+     /// `Resource` richness
+     pub system_richness: Option<u16>,
+diff --git a/src/types/update_ship_escrow_input.rs b/src/types/update_ship_escrow_input.rs
+index e854d7a..4d52df2 100644
+--- a/src/types/update_ship_escrow_input.rs
++++ b/src/types/update_ship_escrow_input.rs
+@@ -3,7 +3,7 @@ use carbon_core::borsh;
+ /// Struct for data input for `UpdateShipEscrow`
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq, Eq, Hash)]
+ pub struct UpdateShipEscrowInput {
+     /// Index of `WrappedShipEscrow` in remaining data of `StarbasePlayer`
+     pub ship_escrow_index: u32,
+diff --git a/src/types/update_ship_fleet_input.rs b/src/types/update_ship_fleet_input.rs
+index fbb107d..b0d8900 100644
+--- a/src/types/update_ship_fleet_input.rs
++++ b/src/types/update_ship_fleet_input.rs
+@@ -3,7 +3,7 @@ use carbon_core::borsh;
+ /// Struct for data input for that has `key_index`
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq, Eq, Hash)]
+ pub struct UpdateShipFleetInput {
+     /// Number of ships to add to the fleet
+     pub ship_amount: u16,
+diff --git a/src/types/update_ship_input.rs b/src/types/update_ship_input.rs
+index 0c3c124..e3b7eae 100644
+--- a/src/types/update_ship_input.rs
++++ b/src/types/update_ship_input.rs
+@@ -5,7 +5,7 @@ use crate::types::SizeClass;
+ /// Struct for data input to Update Ship
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq, Eq, Hash)]
+ pub struct UpdateShipInput {
+     /// The `Ship` name/label
+     #[cfg_attr(feature = "serde", serde(with = "serde_big_array::BigArray"))]
+diff --git a/src/types/update_star_input.rs b/src/types/update_star_input.rs
+index 63f33b5..f32da25 100644
+--- a/src/types/update_star_input.rs
++++ b/src/types/update_star_input.rs
+@@ -3,7 +3,7 @@ use carbon_core::borsh;
+ /// Struct for data input to Update Star
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq, Eq, Hash)]
+ pub struct UpdateStarInput {
+     /// `Star` name
+     pub name: Option<[u8; 64]>,
+diff --git a/src/types/update_starbase_input.rs b/src/types/update_starbase_input.rs
+index 45cee6a..6cc912b 100644
+--- a/src/types/update_starbase_input.rs
++++ b/src/types/update_starbase_input.rs
+@@ -3,7 +3,7 @@ use carbon_core::borsh;
+ /// Struct for data input to Update `Starbase`
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq, Eq, Hash)]
+ pub struct UpdateStarbaseInput {
+     /// `Starbase` name
+     pub name: Option<[u8; 64]>,
+diff --git a/src/types/update_survey_data_unit_tracker_input.rs b/src/types/update_survey_data_unit_tracker_input.rs
+index 528c0f7..855a0ad 100644
+--- a/src/types/update_survey_data_unit_tracker_input.rs
++++ b/src/types/update_survey_data_unit_tracker_input.rs
+@@ -3,7 +3,7 @@ use carbon_core::borsh;
+ /// Struct for data input to Update SurveyDataUnitTracker
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq, Eq, Hash)]
+ pub struct UpdateSurveyDataUnitTrackerInput {
+     /// The valid coordinates range
+     /// e.g. a value of [-50, 50] means that coordinates from [-50, -50] to [50, 50] are valid for SDU scanning
+diff --git a/src/types/upkeep_resource_type.rs b/src/types/upkeep_resource_type.rs
+index 03bf0d3..64205db 100644
+--- a/src/types/upkeep_resource_type.rs
++++ b/src/types/upkeep_resource_type.rs
+@@ -3,7 +3,7 @@ use carbon_core::borsh;
+ /// The different types of upkeep resources
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq, Eq, Hash)]
+ pub enum UpkeepResourceType {
+     Ammo,
+     Food,
+diff --git a/src/types/vaults.rs b/src/types/vaults.rs
+index b0e5fd6..0c98fee 100644
+--- a/src/types/vaults.rs
++++ b/src/types/vaults.rs
+@@ -4,7 +4,7 @@ use solana_pubkey::Pubkey;
+ /// Token vaults
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq, Eq, Hash)]
+ pub struct Vaults {
+     /// ATLAS token mint
+     pub atlas: Pubkey,
+diff --git a/src/types/warp_lane_input.rs b/src/types/warp_lane_input.rs
+index a7e89a8..75224d3 100644
+--- a/src/types/warp_lane_input.rs
++++ b/src/types/warp_lane_input.rs
+@@ -3,7 +3,7 @@ use carbon_core::borsh;
+ /// Struct for data input to initialize a `WarpLane`
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq, Eq, Hash)]
+ pub struct WarpLaneInput {
+     /// The index of the key in the player profile
+     pub key_index: u16,
+diff --git a/src/types/warp_to_coordinate_input.rs b/src/types/warp_to_coordinate_input.rs
+index 58885d5..e120f6f 100644
+--- a/src/types/warp_to_coordinate_input.rs
++++ b/src/types/warp_to_coordinate_input.rs
+@@ -3,7 +3,7 @@ use carbon_core::borsh;
+ /// Struct for data input to initialize a `WarpToCoordinate`
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq, Eq, Hash)]
+ pub struct WarpToCoordinateInput {
+     /// The index of the key in the player profile
+     pub key_index: u16,
+diff --git a/src/types/withdraw_cargo_from_fleet_input.rs b/src/types/withdraw_cargo_from_fleet_input.rs
+index 5ec5537..5635e18 100644
+--- a/src/types/withdraw_cargo_from_fleet_input.rs
++++ b/src/types/withdraw_cargo_from_fleet_input.rs
+@@ -3,7 +3,7 @@ use carbon_core::borsh;
+ /// Struct for data input to `WithdrawCargoFromFleet`
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq, Eq, Hash)]
+ pub struct WithdrawCargoFromFleetInput {
+     /// cargo amount
+     pub amount: u64,
+diff --git a/src/types/wrapped_ship_escrow.rs b/src/types/wrapped_ship_escrow.rs
+index 7a7dd1f..4bd6e3f 100644
+--- a/src/types/wrapped_ship_escrow.rs
++++ b/src/types/wrapped_ship_escrow.rs
+@@ -4,7 +4,7 @@ use solana_pubkey::Pubkey;
+ /// Wrapped `Ship` escrow info
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq, Eq, Hash)]
+ pub struct WrappedShipEscrow {
+     /// The `Ship` account address
+     pub ship: Pubkey,

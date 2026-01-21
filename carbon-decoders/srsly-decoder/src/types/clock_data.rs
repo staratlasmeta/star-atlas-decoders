@@ -3,7 +3,7 @@ use carbon_core::borsh;
 /// The clock object, representing a specific moment in time recorded by a Solana cluster.
 
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
-#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq)]
+#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq, Eq, Hash)]
 pub struct ClockData {
     /// The current slot.
     pub slot: u64,

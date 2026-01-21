@@ -4,7 +4,7 @@ use carbon_core::borsh;
 /// Struct for data input to Register a `CraftingFacility`
 
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
-#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq)]
+#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq, Eq, Hash)]
 pub struct RegisterCraftingFacilityInput {
     /// `CraftingFacility` location type
     pub location_type: LocationType,

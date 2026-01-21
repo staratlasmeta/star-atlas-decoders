@@ -52,6 +52,18 @@ use carbon_points_store_decoder::PROGRAM_ID as DEFAULT_PROGRAM_ID;
 #[cfg(feature = "profile-faction")]
 use carbon_profile_faction_decoder::PROGRAM_ID as DEFAULT_PROGRAM_ID;
 
+#[cfg(feature = "score")]
+use carbon_score_decoder::PROGRAM_ID as DEFAULT_PROGRAM_ID;
+
+#[cfg(feature = "claim-stake")]
+use carbon_claim_stake_decoder::PROGRAM_ID as DEFAULT_PROGRAM_ID;
+
+#[cfg(feature = "proxy-rewarder")]
+use carbon_proxy_rewarder_decoder::PROGRAM_ID as DEFAULT_PROGRAM_ID;
+
+#[cfg(feature = "snapshots")]
+use carbon_snapshots_decoder::PROGRAM_ID as DEFAULT_PROGRAM_ID;
+
 #[derive(Debug, Deserialize)]
 pub struct Config {
     pub rpc_url: String,

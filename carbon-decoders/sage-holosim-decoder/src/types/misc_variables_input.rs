@@ -3,7 +3,7 @@ use carbon_core::borsh;
 /// Struct for data input to update miscellaneous settings
 
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
-#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq)]
+#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq, Eq, Hash)]
 pub struct MiscVariablesInput {
     /// Percentage by which the "warp lane" movement type reduces warp fuel cost
     pub warp_lane_fuel_cost_reduction: Option<i16>,

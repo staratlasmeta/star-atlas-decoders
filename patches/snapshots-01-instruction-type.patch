@@ -1,0 +1,54 @@
+diff --git a/src/instructions/create_escrow_history.rs b/src/instructions/create_escrow_history.rs
+index 8837793..66603ec 100644
+--- a/src/instructions/create_escrow_history.rs
++++ b/src/instructions/create_escrow_history.rs
+@@ -8,7 +8,7 @@ use carbon_core::deserialize::CarbonDeserialize;
+ /// Creates a [EscrowHistory].
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq, Eq, Hash)]
+ pub struct CreateEscrowHistory {
+     pub era: u16,
+ }
+diff --git a/src/instructions/create_locker_history.rs b/src/instructions/create_locker_history.rs
+index 1793664..e0a4603 100644
+--- a/src/instructions/create_locker_history.rs
++++ b/src/instructions/create_locker_history.rs
+@@ -8,7 +8,7 @@ use carbon_core::deserialize::CarbonDeserialize;
+ /// Creates a [LockerHistory].
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq, Eq, Hash)]
+ pub struct CreateLockerHistory {
+     pub era: u16,
+ }
+diff --git a/src/instructions/mod.rs b/src/instructions/mod.rs
+index edbb364..4560faa 100644
+--- a/src/instructions/mod.rs
++++ b/src/instructions/mod.rs
+@@ -11,8 +11,8 @@ pub use self::create_escrow_history::*;
+ pub use self::create_locker_history::*;
+ pub use self::sync::*;
+ 
+-#[derive(Debug, Clone, PartialEq)]
+-#[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
++#[derive(Debug, Clone, PartialEq, Eq, Hash)]
++#[cfg_attr(feature = "serde", derive(carbon_core::InstructionType, serde::Serialize, serde::Deserialize))]
+ #[cfg_attr(feature = "serde", serde(tag = "type", content = "data"))]
+ pub enum SnapshotsInstruction {
+     CreateEscrowHistory(CreateEscrowHistory),
+diff --git a/src/instructions/sync.rs b/src/instructions/sync.rs
+index 955d4f1..fabb602 100644
+--- a/src/instructions/sync.rs
++++ b/src/instructions/sync.rs
+@@ -8,7 +8,7 @@ use carbon_core::deserialize::CarbonDeserialize;
+ /// Synchronize an [locked_voter::Escrow] with the [LockerHistory]/[EscrowHistory].
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq, Eq, Hash)]
+ pub struct Sync {
+ }
+ 

@@ -3,7 +3,7 @@ use carbon_core::borsh;
 /// Represents potential membership statuses for a player with a role
 
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
-#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq)]
+#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq, Eq, Hash)]
 pub enum MemberStatus {
     Inactive,
     Active,

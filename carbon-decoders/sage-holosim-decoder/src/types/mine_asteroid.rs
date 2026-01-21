@@ -4,7 +4,7 @@ use solana_pubkey::Pubkey;
 /// The data for the [`FleetStateData::MineAsteroid`](crate::state_machine::FleetStateData::MineAsteroid) state
 
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
-#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq)]
+#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq, Eq, Hash)]
 pub struct MineAsteroid {
     /// The `Asteroid` the `Fleet` is mining (Must be an asteroid belt)
     pub asteroid: Pubkey,

@@ -8,7 +8,7 @@ use carbon_core::deserialize::CarbonDeserialize;
 /// Resets a rental in the event of an early cancellation or contract ending.
 
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
-#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq)]
+#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq, Eq, Hash)]
 pub struct ResetRental {}
 
 #[derive(Debug, Clone, PartialEq)]

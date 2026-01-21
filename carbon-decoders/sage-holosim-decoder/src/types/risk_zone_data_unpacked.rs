@@ -3,7 +3,7 @@ use carbon_core::borsh;
 /// Unpacked version of [`RiskZoneData`]
 
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
-#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq)]
+#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq, Eq, Hash)]
 pub struct RiskZoneDataUnpacked {
     /// Risk zone center
     pub center: [i64; 2],

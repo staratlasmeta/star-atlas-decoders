@@ -3,7 +3,7 @@ use carbon_core::borsh;
 /// Input to [`CreatePointsStore`]
 
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
-#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq)]
+#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq, Eq, Hash)]
 pub struct CreatePointsStoreInput {
     /// The price for the store
     pub price: u64,

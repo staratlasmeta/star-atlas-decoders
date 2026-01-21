@@ -5,7 +5,7 @@
 # ============================================================================
 
 # List of all decoders (space-separated)
-ALL_DECODERS := "sage-starbased sage-holosim atlas-staking locked-voter marketplace atlas-fee-payer cargo crafting crew profile-vault srsly tcomp player-profile points points-store profile-faction"
+ALL_DECODERS := "sage-starbased sage-holosim atlas-staking locked-voter marketplace atlas-fee-payer cargo crafting crew profile-vault srsly tcomp player-profile points points-store profile-faction score claim-stake proxy-rewarder snapshots"
 
 # Program IDs
 ATLAS_FEE_PAYER_PROGRAM_ID := "APR1MEny25pKupwn72oVqMH4qpDouArsX8zX4VwwfoXD"
@@ -24,6 +24,10 @@ TENSOR_TCOMP_PROGRAM_ID := "TCMPhJdwDryooaGtiocG1u3xcYbRpiJzb283XfCZsDp"
 ATLAS_STAKING_PROGRAM_ID := "ATLocKpzDbTokxgvnLew3d7drZkEzLzDpzwgrgWKDbmc"
 LOCKED_VOTER_PROGRAM_ID := "Lock7kBijGCQLEFAmXcengzXKA88iDNQPriQ7TbgeyG"
 MARKETPLACE_PROGRAM_ID := "traderDnaR5w6Tcoi3NFm53i48FTDNbGjBSZwWXDRrg"
+SCORE_PROGRAM_ID := "FLEET1qqzpexyaDpqb2DGsSzE2sDCizewCg9WjrA6DBW"
+CLAIM_STAKE_PROGRAM_ID := "STAKEr4Bh8sbBMoAVmTDBRqouPzgdocVrvtjmhJhd65"
+PROXY_REWARDER_PROGRAM_ID := "gateVwTnKyFrE8nxUUgfzoZTPKgJQZUbLsEidpG4Dp2"
+SNAPSHOTS_PROGRAM_ID := "snapNQkxsiqDWdbNfz8KVB7e3NPzLwtHHA6WV8kKgUc"
 
 # Descriptions
 ATLAS_FEE_PAYER_DESC := "Rust decoder for Star Atlas ATLAS fee payer program on Solana"
@@ -42,6 +46,10 @@ SAGE_HOLOSIM_DESC := "Rust decoder for Star Atlas SAGE Holosim program on Solana
 ATLAS_STAKING_DESC := "Rust decoder for Star Atlas ATLAS staking program on Solana"
 LOCKED_VOTER_DESC := "Rust decoder for Star Atlas Locked Voter governance program on Solana"
 MARKETPLACE_DESC := "Rust decoder for Star Atlas Galactic Marketplace program on Solana"
+SCORE_DESC := "Rust decoder for Star Atlas Score program on Solana"
+CLAIM_STAKE_DESC := "Rust decoder for Star Atlas Claim Stake program on Solana"
+PROXY_REWARDER_DESC := "Rust decoder for Star Atlas Proxy Rewarder program on Solana"
+SNAPSHOTS_DESC := "Rust decoder for Star Atlas Snapshots program on Solana"
 
 # IDL Sources: "mainnet" or "local"
 ATLAS_FEE_PAYER_SOURCE := "mainnet"
@@ -60,6 +68,10 @@ SAGE_HOLOSIM_SOURCE := "local"
 ATLAS_STAKING_SOURCE := "mainnet"
 LOCKED_VOTER_SOURCE := "mainnet"
 MARKETPLACE_SOURCE := "local"
+SCORE_SOURCE := "mainnet"
+CLAIM_STAKE_SOURCE := "mainnet"
+PROXY_REWARDER_SOURCE := "mainnet"
+SNAPSHOTS_SOURCE := "mainnet"
 
 # Carbon-cli generated names (what carbon-cli names the directory)
 SAGE_STARBASED_GENERATED_NAME := "sage-decoder"
@@ -78,6 +90,10 @@ PROFILE_FACTION_GENERATED_NAME := "profile-faction-decoder"
 PROFILE_VAULT_GENERATED_NAME := "profile-vault-decoder"
 SRSLY_GENERATED_NAME := "srsly-decoder"
 TCOMP_GENERATED_NAME := "tcomp-decoder"
+SCORE_GENERATED_NAME := "score-decoder"
+CLAIM_STAKE_GENERATED_NAME := "claim-stake-decoder"
+PROXY_REWARDER_GENERATED_NAME := "proxy-rewarder-decoder"
+SNAPSHOTS_GENERATED_NAME := "snapshots-decoder"
 
 # ============================================================================
 # OS DETECTION FOR CROSS-PLATFORM COMPATIBILITY
@@ -119,6 +135,10 @@ _get-program-id decoder_name:
         profile-vault) echo "{{PROFILE_VAULT_PROGRAM_ID}}" ;;
         srsly) echo "{{SRSLY_PROGRAM_ID}}" ;;
         tcomp) echo "{{TENSOR_TCOMP_PROGRAM_ID}}" ;;
+        score) echo "{{SCORE_PROGRAM_ID}}" ;;
+        claim-stake) echo "{{CLAIM_STAKE_PROGRAM_ID}}" ;;
+        proxy-rewarder) echo "{{PROXY_REWARDER_PROGRAM_ID}}" ;;
+        snapshots) echo "{{SNAPSHOTS_PROGRAM_ID}}" ;;
         *) echo "Unknown decoder: {{decoder_name}}" >&2; exit 1 ;;
     esac
 
@@ -142,6 +162,10 @@ _get-description decoder_name:
         profile-vault) echo "{{PROFILE_VAULT_DESC}}" ;;
         srsly) echo "{{SRSLY_DESC}}" ;;
         tcomp) echo "{{TCOMP_DESC}}" ;;
+        score) echo "{{SCORE_DESC}}" ;;
+        claim-stake) echo "{{CLAIM_STAKE_DESC}}" ;;
+        proxy-rewarder) echo "{{PROXY_REWARDER_DESC}}" ;;
+        snapshots) echo "{{SNAPSHOTS_DESC}}" ;;
         *) echo "Unknown decoder: {{decoder_name}}" >&2; exit 1 ;;
     esac
 
@@ -165,6 +189,10 @@ _get-source decoder_name:
         profile-vault) echo "{{PROFILE_VAULT_SOURCE}}" ;;
         srsly) echo "{{SRSLY_SOURCE}}" ;;
         tcomp) echo "{{TCOMP_SOURCE}}" ;;
+        score) echo "{{SCORE_SOURCE}}" ;;
+        claim-stake) echo "{{CLAIM_STAKE_SOURCE}}" ;;
+        proxy-rewarder) echo "{{PROXY_REWARDER_SOURCE}}" ;;
+        snapshots) echo "{{SNAPSHOTS_SOURCE}}" ;;
         *) echo "Unknown decoder: {{decoder_name}}" >&2; exit 1 ;;
     esac
 
@@ -188,6 +216,10 @@ _get-generated-name decoder_name:
         profile-vault) echo "{{PROFILE_VAULT_GENERATED_NAME}}" ;;
         srsly) echo "{{SRSLY_GENERATED_NAME}}" ;;
         tcomp) echo "{{TCOMP_GENERATED_NAME}}" ;;
+        score) echo "{{SCORE_GENERATED_NAME}}" ;;
+        claim-stake) echo "{{CLAIM_STAKE_GENERATED_NAME}}" ;;
+        proxy-rewarder) echo "{{PROXY_REWARDER_GENERATED_NAME}}" ;;
+        snapshots) echo "{{SNAPSHOTS_GENERATED_NAME}}" ;;
         *) echo "Unknown decoder: {{decoder_name}}" >&2; exit 1 ;;
     esac
 
@@ -312,10 +344,10 @@ _init-git decoder_name:
     @echo ".DS_Store" >> ./dist/{{decoder_name}}/.gitignore
     cd ./dist/{{decoder_name}} && git init -q && git add . && git commit -q -m "Initial generated state"
 
-# Create a patch from current changes
+# Create a patch from current changes (staged and unstaged)
 _create-patch decoder_name patch_name:
     @echo "Creating patch from changes in {{decoder_name}}..."
-    cd ./dist/{{decoder_name}} && git diff > ../../patches/{{decoder_name}}-{{patch_name}}.patch
+    cd ./dist/{{decoder_name}} && git add -A && git diff HEAD > ../../patches/{{decoder_name}}-{{patch_name}}.patch
     @echo "✅ Patch saved to patches/{{decoder_name}}-{{patch_name}}.patch"
     @echo "Patch size: $(wc -l < patches/{{decoder_name}}-{{patch_name}}.patch) lines"
 
@@ -330,10 +362,10 @@ _generate-decoder decoder_name:
 
     if [ "$SOURCE" = "mainnet" ]; then
         echo "Fetching IDL from mainnet for $PROGRAM_ID..."
-        npx @sevenlabs-hq/carbon-cli parse -i "$PROGRAM_ID" -u https://api.mainnet-beta.solana.com -o ./dist/{{decoder_name}} -c -s anchor
+        npx @sevenlabs-hq/carbon-cli parse -i "$PROGRAM_ID" -u https://api.mainnet-beta.solana.com -o ./dist/{{decoder_name}} -c -s anchor --with-postgres false --with-graphql false --with-serde true
     elif [ "$SOURCE" = "local" ]; then
         echo "Generating decoder from local IDL for $PROGRAM_ID..."
-        npx @sevenlabs-hq/carbon-cli parse -i ./idl/${PROGRAM_ID}-idl.json --program-id "$PROGRAM_ID" -o ./dist/{{decoder_name}} -c -s anchor
+        npx @sevenlabs-hq/carbon-cli parse -i ./idl/${PROGRAM_ID}-idl.json --program-id "$PROGRAM_ID" -o ./dist/{{decoder_name}} -c -s anchor --with-postgres false --with-graphql false --with-serde true
     else
         echo "Error: Unknown source type '$SOURCE'" >&2
         exit 1
@@ -533,6 +565,42 @@ apply-patches-profile-faction: (apply-patches "profile-faction")
 create-patch-profile-faction patch_name: (create-patch "profile-faction" patch_name)
 publish-profile-faction: (publish "profile-faction")
 all-profile-faction: (all "profile-faction")
+
+# Score
+generate-score: (generate "score")
+build-score: (build "score")
+clean-score: (clean "score")
+apply-patches-score: (apply-patches "score")
+create-patch-score patch_name: (create-patch "score" patch_name)
+publish-score: (publish "score")
+all-score: (all "score")
+
+# Claim Stake
+generate-claim-stake: (generate "claim-stake")
+build-claim-stake: (build "claim-stake")
+clean-claim-stake: (clean "claim-stake")
+apply-patches-claim-stake: (apply-patches "claim-stake")
+create-patch-claim-stake patch_name: (create-patch "claim-stake" patch_name)
+publish-claim-stake: (publish "claim-stake")
+all-claim-stake: (all "claim-stake")
+
+# Proxy Rewarder
+generate-proxy-rewarder: (generate "proxy-rewarder")
+build-proxy-rewarder: (build "proxy-rewarder")
+clean-proxy-rewarder: (clean "proxy-rewarder")
+apply-patches-proxy-rewarder: (apply-patches "proxy-rewarder")
+create-patch-proxy-rewarder patch_name: (create-patch "proxy-rewarder" patch_name)
+publish-proxy-rewarder: (publish "proxy-rewarder")
+all-proxy-rewarder: (all "proxy-rewarder")
+
+# Snapshots
+generate-snapshots: (generate "snapshots")
+build-snapshots: (build "snapshots")
+clean-snapshots: (clean "snapshots")
+apply-patches-snapshots: (apply-patches "snapshots")
+create-patch-snapshots patch_name: (create-patch "snapshots" patch_name)
+publish-snapshots: (publish "snapshots")
+all-snapshots: (all "snapshots")
 
 # ============================================================================
 # UTILITY COMMANDS

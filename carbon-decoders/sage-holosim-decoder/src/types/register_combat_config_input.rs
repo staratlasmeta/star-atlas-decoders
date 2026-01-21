@@ -3,7 +3,7 @@ use carbon_core::borsh;
 /// Data input for RegisterCombatConfig
 
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
-#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq)]
+#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq, Eq, Hash)]
 pub struct RegisterCombatConfigInput {
     /// amount of time when the last-hitter of a fleet will have exclusive access to loot
     pub loot_exclusivity_time: u16,

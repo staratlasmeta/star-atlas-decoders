@@ -1,0 +1,184 @@
+diff --git a/src/events/claim_rewards_event.rs b/src/events/claim_rewards_event.rs
+index 5585612..7a29a66 100644
+--- a/src/events/claim_rewards_event.rs
++++ b/src/events/claim_rewards_event.rs
+@@ -5,7 +5,7 @@ use carbon_core::deserialize::CarbonDeserialize;
+ use solana_pubkey::Pubkey;
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq, Eq, Hash)]
+ pub struct ClaimRewardsEventEvent {
+     pub escrow_owner: Pubkey,
+     pub locker: Pubkey,
+diff --git a/src/events/new_proxy_escrow_event.rs b/src/events/new_proxy_escrow_event.rs
+index 3dc0558..3d553d8 100644
+--- a/src/events/new_proxy_escrow_event.rs
++++ b/src/events/new_proxy_escrow_event.rs
+@@ -5,7 +5,7 @@ use carbon_core::deserialize::CarbonDeserialize;
+ use solana_pubkey::Pubkey;
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq, Eq, Hash)]
+ pub struct NewProxyEscrowEventEvent {
+     pub proxy_escrow: Pubkey,
+     pub owner: Pubkey,
+diff --git a/src/events/new_proxy_event.rs b/src/events/new_proxy_event.rs
+index 97608de..462aabf 100644
+--- a/src/events/new_proxy_event.rs
++++ b/src/events/new_proxy_event.rs
+@@ -5,7 +5,7 @@ use carbon_core::deserialize::CarbonDeserialize;
+ use solana_pubkey::Pubkey;
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq, Eq, Hash)]
+ pub struct NewProxyEventEvent {
+     pub proxy: Pubkey,
+     pub proxy_owner: Pubkey,
+diff --git a/src/events/proxy_exit_escrow_event.rs b/src/events/proxy_exit_escrow_event.rs
+index af432ba..73051d2 100644
+--- a/src/events/proxy_exit_escrow_event.rs
++++ b/src/events/proxy_exit_escrow_event.rs
+@@ -5,7 +5,7 @@ use carbon_core::deserialize::CarbonDeserialize;
+ use solana_pubkey::Pubkey;
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq, Eq, Hash)]
+ pub struct ProxyExitEscrowEventEvent {
+     pub escrow_owner: Pubkey,
+     pub locker: Pubkey,
+diff --git a/src/events/proxy_lock_event.rs b/src/events/proxy_lock_event.rs
+index abffe34..8bd8fcd 100644
+--- a/src/events/proxy_lock_event.rs
++++ b/src/events/proxy_lock_event.rs
+@@ -5,7 +5,7 @@ use carbon_core::deserialize::CarbonDeserialize;
+ use solana_pubkey::Pubkey;
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq, Eq, Hash)]
+ pub struct ProxyLockEventEvent {
+     pub locker: Pubkey,
+     pub escrow_owner: Pubkey,
+diff --git a/src/instructions/claim_rewards.rs b/src/instructions/claim_rewards.rs
+index 62d2eb9..5641b64 100644
+--- a/src/instructions/claim_rewards.rs
++++ b/src/instructions/claim_rewards.rs
+@@ -10,7 +10,7 @@ use carbon_core::deserialize::CarbonDeserialize;
+ /// Claims POLIS Rewards; i.e., withdraws reward tokens from a treasury if the [snapshots::escrow_history] is confirmed.
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq, Eq, Hash)]
+ pub struct ClaimRewards {
+ }
+ 
+diff --git a/src/instructions/cpi_event.rs b/src/instructions/cpi_event.rs
+index 7d39170..efdae7d 100644
+--- a/src/instructions/cpi_event.rs
++++ b/src/instructions/cpi_event.rs
+@@ -5,7 +5,7 @@ use carbon_core::deserialize::ArrangeAccounts;
+ pub use super::super::events;
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, carbon_core::borsh::BorshSerialize, carbon_core::borsh::BorshDeserialize, PartialEq)]
++#[derive(Debug, Clone, carbon_core::borsh::BorshSerialize, carbon_core::borsh::BorshDeserialize, PartialEq, Eq, Hash)]
+ pub enum CpiEvent {
+     ClaimRewardsEvent(events::claim_rewards_event::ClaimRewardsEventEvent),
+     NewProxyEscrowEvent(events::new_proxy_escrow_event::NewProxyEscrowEventEvent),
+diff --git a/src/instructions/mod.rs b/src/instructions/mod.rs
+index 6dcba35..330d320 100644
+--- a/src/instructions/mod.rs
++++ b/src/instructions/mod.rs
+@@ -21,8 +21,8 @@ pub use self::register_locker::*;
+ pub use self::update_registered_locker::*;
+ pub use self::cpi_event::*;
+ 
+-#[derive(Debug, Clone, PartialEq)]
+-#[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
++#[derive(Debug, Clone, PartialEq, Eq, Hash)]
++#[cfg_attr(feature = "serde", derive(carbon_core::InstructionType, serde::Serialize, serde::Deserialize))]
+ #[cfg_attr(feature = "serde", serde(tag = "type", content = "data"))]
+ pub enum ProxyRewarderInstruction {
+     ClaimRewards(ClaimRewards),
+diff --git a/src/instructions/new_proxy.rs b/src/instructions/new_proxy.rs
+index 3d2e0d2..d0c06c7 100644
+--- a/src/instructions/new_proxy.rs
++++ b/src/instructions/new_proxy.rs
+@@ -12,7 +12,7 @@ use carbon_core::deserialize::CarbonDeserialize;
+ /// proportional to the amount of stakers.
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq, Eq, Hash)]
+ pub struct NewProxy {
+     pub bump: u8,
+ }
+diff --git a/src/instructions/new_proxy_escrow.rs b/src/instructions/new_proxy_escrow.rs
+index dc12be6..eb43036 100644
+--- a/src/instructions/new_proxy_escrow.rs
++++ b/src/instructions/new_proxy_escrow.rs
+@@ -6,7 +6,7 @@ use carbon_core::deserialize::ArrangeAccounts;
+ use carbon_core::deserialize::CarbonDeserialize;
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq, Eq, Hash)]
+ pub struct NewProxyEscrow {
+     pub bump: u8,
+ }
+diff --git a/src/instructions/proxy_exit.rs b/src/instructions/proxy_exit.rs
+index 354593f..a3f1fe7 100644
+--- a/src/instructions/proxy_exit.rs
++++ b/src/instructions/proxy_exit.rs
+@@ -8,7 +8,7 @@ use carbon_core::deserialize::CarbonDeserialize;
+ /// Exits the POLIS DAO; i.e., withdraws all staked tokens in an [Escrow] if the [Escrow] is unlocked.
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq, Eq, Hash)]
+ pub struct ProxyExit {
+ }
+ 
+diff --git a/src/instructions/proxy_lock.rs b/src/instructions/proxy_lock.rs
+index 82be80d..11e47d9 100644
+--- a/src/instructions/proxy_lock.rs
++++ b/src/instructions/proxy_lock.rs
+@@ -8,7 +8,7 @@ use carbon_core::deserialize::CarbonDeserialize;
+ /// Locks `amount` of POLIS into the [LockedVoter::Escrow].
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq, Eq, Hash)]
+ pub struct ProxyLock {
+     pub amount: u64,
+     pub duration: i64,
+diff --git a/src/instructions/register_locker.rs b/src/instructions/register_locker.rs
+index e44569a..cad4b1d 100644
+--- a/src/instructions/register_locker.rs
++++ b/src/instructions/register_locker.rs
+@@ -8,7 +8,7 @@ use carbon_core::deserialize::CarbonDeserialize;
+ /// Registers a Locker from the locked_voter program
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq, Eq, Hash)]
+ pub struct RegisterLocker {
+ }
+ 
+diff --git a/src/instructions/update_registered_locker.rs b/src/instructions/update_registered_locker.rs
+index b690a0d..776c959 100644
+--- a/src/instructions/update_registered_locker.rs
++++ b/src/instructions/update_registered_locker.rs
+@@ -8,7 +8,7 @@ use carbon_core::deserialize::CarbonDeserialize;
+ /// Updates `rewards` arrays in registered_locker [proxy_rewarder::registered_locker].
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq, Eq, Hash)]
+ pub struct UpdateRegisteredLocker {
+     pub era: u16,
+     pub index: u16,

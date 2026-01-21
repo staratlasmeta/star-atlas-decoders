@@ -3,7 +3,7 @@ use carbon_core::borsh;
 /// Struct for data input to remove points category level
 
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
-#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq)]
+#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq, Eq, Hash)]
 pub struct RemovePointCategoryLevelInput {
     /// the index of the level in the array
     pub level_index: u16,

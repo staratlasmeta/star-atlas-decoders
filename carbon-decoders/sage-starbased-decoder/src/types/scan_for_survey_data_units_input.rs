@@ -3,7 +3,7 @@ use carbon_core::borsh;
 /// Struct for data input to Scan For Survey Data Units
 
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
-#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq)]
+#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq, Eq, Hash)]
 pub struct ScanForSurveyDataUnitsInput {
     /// The index of the key in the player profile
     pub key_index: u16,

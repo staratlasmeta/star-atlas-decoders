@@ -7,7 +7,7 @@ use super::ProfilePermissions;
 /// A key on a profile.
 
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
-#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq)]
+#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq, Eq, Hash)]
 pub struct ProfileKey {
     /// The key.
     pub key: Pubkey,

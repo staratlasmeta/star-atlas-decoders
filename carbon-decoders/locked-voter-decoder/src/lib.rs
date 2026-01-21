@@ -6,7 +6,5 @@ pub const PROGRAM_ID: Pubkey =
 
 pub mod accounts;
 pub mod events;
-#[cfg(feature = "graphql")]
-pub mod graphql;
 pub mod instructions;
 pub mod types;

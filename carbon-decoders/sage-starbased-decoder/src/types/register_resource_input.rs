@@ -3,7 +3,7 @@ use carbon_core::borsh;
 /// Struct for data input to Register a Resource
 
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
-#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq)]
+#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq, Eq, Hash)]
 pub struct RegisterResourceInput {
     /// `Resource` location type
     pub location_type: u8,

@@ -3,7 +3,7 @@ use carbon_core::borsh;
 /// Inputs for `StopCraftingProcess`
 
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
-#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq)]
+#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq, Eq, Hash)]
 pub struct StopCraftingProcessInput {
     /// the current time as supplied by the location; required if `use_local_time` is set on the `CraftingProcess`
     pub local_time: Option<i64>,

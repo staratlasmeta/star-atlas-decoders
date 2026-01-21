@@ -70,6 +70,10 @@ Each decoder has a corresponding feature flag:
 | `points` | Points |
 | `points-store` | Points Store |
 | `profile-faction` | Profile Faction |
+| `score` | SCORE Fleet Staking |
+| `claim-stake` | Claim Stake |
+| `proxy-rewarder` | Proxy Rewarder |
+| `snapshots` | Snapshots |
 
 ## Output
 

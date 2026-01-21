@@ -5,7 +5,7 @@ use solana_pubkey::Pubkey;
 /// We are wrapping this around Pubkey so that we can use Anchor's coder to decode it
 
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
-#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq)]
+#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq, Eq, Hash)]
 pub struct WrappedRecipeCategory {
     /// The recipe category public key
     pub id: Pubkey,

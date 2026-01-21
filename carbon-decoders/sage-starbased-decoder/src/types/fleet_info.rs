@@ -5,7 +5,7 @@ use carbon_core::borsh;
 /// Variables for the Fleet program
 
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
-#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq)]
+#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq, Eq, Hash)]
 pub struct FleetInfo {
     /// `Starbase` levels discriminated by faction
     pub starbase_levels: FactionsStarbaseLevelInfo,

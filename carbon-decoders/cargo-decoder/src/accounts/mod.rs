@@ -2,12 +2,6 @@
 use crate::CargoDecoder;
 use crate::PROGRAM_ID;
 
-#[cfg(feature = "postgres")]
-pub mod postgres;
-
-#[cfg(feature = "graphql")]
-pub mod graphql;
-
 pub mod cargo_pod;
 pub mod cargo_stats_definition;
 pub mod cargo_type;

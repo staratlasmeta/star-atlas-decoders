@@ -4,7 +4,7 @@ use solana_pubkey::Pubkey;
 /// A creator on the crew collection
 
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
-#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq)]
+#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq, Eq, Hash)]
 pub struct CrewCreator {
     /// The creator's key
     pub key: Pubkey,

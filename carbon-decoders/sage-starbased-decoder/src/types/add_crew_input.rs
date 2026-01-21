@@ -4,7 +4,7 @@ use carbon_core::borsh;
 /// Struct for data input for `AddCrew`
 
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
-#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq)]
+#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq, Eq, Hash)]
 pub struct AddCrewInput {
     /// inputs required to transfer crew cNFTs
     pub items: Vec<CrewTransferInput>,

@@ -4,7 +4,7 @@ use solana_pubkey::Pubkey;
 /// A copy of the [`RecipeInputsOutputs`] struct --> to be used as inputs into the program, avoiding using Borsch Serialization with Zero Copy serialization
 
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
-#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq)]
+#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq, Eq, Hash)]
 pub struct RecipeIngredients {
     /// Amount of Input/Output required/produced.
     pub amount: u64,

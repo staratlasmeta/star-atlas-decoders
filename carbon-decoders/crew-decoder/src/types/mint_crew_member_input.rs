@@ -3,7 +3,7 @@ use carbon_core::borsh;
 /// The input for the `redeem_crew_packs` instruction.
 
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
-#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq)]
+#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq, Eq, Hash)]
 pub struct MintCrewMemberInput {
     /// The index of the key in the profile's permissions list
     pub key_index: u16,

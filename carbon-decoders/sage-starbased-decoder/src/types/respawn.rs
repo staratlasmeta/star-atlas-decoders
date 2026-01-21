@@ -3,7 +3,7 @@ use carbon_core::borsh;
 /// The data for the [`FleetStateData::Respawn`](crate::state_machine::FleetStateData::Respawn) state
 
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
-#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq)]
+#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq, Eq, Hash)]
 pub struct Respawn {
     /// The star system the fleet was in when it entered the `Respawn` state
     pub sector: [i64; 2],

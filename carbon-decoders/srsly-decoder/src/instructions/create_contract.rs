@@ -8,7 +8,7 @@ use carbon_core::deserialize::CarbonDeserialize;
 /// Creates a new rental contract, defining the rental terms such as rate, duration, and payment frequency.
 
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
-#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq)]
+#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq, Eq, Hash)]
 pub struct CreateContract {
     pub rate: u64,
     pub duration_min: u64,

@@ -4,7 +4,7 @@ use solana_pubkey::Pubkey;
 /// Represents a points category & modifier as defined in the Points program
 
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
-#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq)]
+#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq, Eq, Hash)]
 pub struct SagePointsCategory {
     /// The points category
     pub category: Pubkey,

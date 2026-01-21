@@ -1,9 +1,9 @@
 diff --git a/Cargo.toml b/Cargo.toml
-index 2692aa2..3539a08 100644
+index 5152e1e..f6e2862 100644
 --- a/Cargo.toml
 +++ b/Cargo.toml
-@@ -36,6 +36,7 @@ graphql = [
- ]
+@@ -21,6 +21,7 @@ default = []
+ serde = ["dep:serde", "dep:serde-big-array"]
  
  [dependencies]
 +bitflags = "2.6"
@@ -432,7 +432,7 @@ index a38f680..a1c0f6e 100644
      }
  }
 diff --git a/src/types/add_key_input.rs b/src/types/add_key_input.rs
-index 29f0f07..008dbd1 100644
+index 29f0f07..d99696f 100644
 --- a/src/types/add_key_input.rs
 +++ b/src/types/add_key_input.rs
 @@ -1,6 +1,9 @@
@@ -445,7 +445,7 @@ index 29f0f07..008dbd1 100644
  /// Struct for adding a key
  
  #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
-@@ -14,3 +17,24 @@ pub struct AddKeyInput {
+@@ -14,3 +17,25 @@ pub struct AddKeyInput {
      pub permissions: [u8; 8],
  }
  
@@ -470,11 +470,12 @@ index 29f0f07..008dbd1 100644
 +        self.has_permission(ProfilePermissions::AUTH)
 +    }
 +}
++
 diff --git a/src/types/mod.rs b/src/types/mod.rs
-index fd817ce..c2d183a 100644
+index 70d1f4f..d53f822 100644
 --- a/src/types/mod.rs
 +++ b/src/types/mod.rs
-@@ -5,10 +5,12 @@ pub mod graphql;
+@@ -3,10 +3,12 @@
  pub mod add_key_input;
  pub mod member_status;
  pub mod profile_key;
@@ -488,7 +489,7 @@ index fd817ce..c2d183a 100644
  pub use self::role_membership::*;
  
 diff --git a/src/types/profile_key.rs b/src/types/profile_key.rs
-index edea646..9658895 100644
+index edea646..627cead 100644
 --- a/src/types/profile_key.rs
 +++ b/src/types/profile_key.rs
 @@ -1,6 +1,9 @@
@@ -501,7 +502,7 @@ index edea646..9658895 100644
  /// A key on a profile.
  
  #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
-@@ -17,3 +20,30 @@ pub struct ProfileKey {
+@@ -17,3 +20,31 @@ pub struct ProfileKey {
      pub permissions: [u8; 8],
  }
  
@@ -532,6 +533,7 @@ index edea646..9658895 100644
 +        self.expire_time >= 0 && self.expire_time < current_time
 +    }
 +}
++
 diff --git a/src/types/profile_permissions.rs b/src/types/profile_permissions.rs
 new file mode 100644
 index 0000000..9832450

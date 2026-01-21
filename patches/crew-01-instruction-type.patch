@@ -1,0 +1,223 @@
+diff --git a/src/instructions/mint_crew_member.rs b/src/instructions/mint_crew_member.rs
+index dd141f2..13e94bc 100644
+--- a/src/instructions/mint_crew_member.rs
++++ b/src/instructions/mint_crew_member.rs
+@@ -7,7 +7,7 @@ use carbon_core::deserialize::CarbonDeserialize;
+ use crate::types::MintCrewMemberInput;
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq, Eq, Hash)]
+ pub struct MintCrewMember {
+     pub input: MintCrewMemberInput,
+ }
+diff --git a/src/instructions/mod.rs b/src/instructions/mod.rs
+index f2dd3ef..83e1a9c 100644
+--- a/src/instructions/mod.rs
++++ b/src/instructions/mod.rs
+@@ -19,8 +19,8 @@ pub use self::register_pack_type::*;
+ pub use self::register_sft_redemption::*;
+ pub use self::update_pack_tiers::*;
+ 
+-#[derive(Debug, Clone, PartialEq)]
+-#[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
++#[derive(Debug, Clone, PartialEq, Eq, Hash)]
++#[cfg_attr(feature = "serde", derive(carbon_core::InstructionType, serde::Serialize, serde::Deserialize))]
+ #[cfg_attr(feature = "serde", serde(tag = "type", content = "data"))]
+ pub enum CrewInstruction {
+     MintCrewMember(MintCrewMember),
+diff --git a/src/instructions/redeem_crew_pack.rs b/src/instructions/redeem_crew_pack.rs
+index 2b1813a..6c8562f 100644
+--- a/src/instructions/redeem_crew_pack.rs
++++ b/src/instructions/redeem_crew_pack.rs
+@@ -7,7 +7,7 @@ use carbon_core::deserialize::CarbonDeserialize;
+ use crate::types::RedeemCrewPacksInput;
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq, Eq, Hash)]
+ pub struct RedeemCrewPack {
+     pub input: RedeemCrewPacksInput,
+ }
+diff --git a/src/instructions/register_crew_config.rs b/src/instructions/register_crew_config.rs
+index b3cf667..fe463f9 100644
+--- a/src/instructions/register_crew_config.rs
++++ b/src/instructions/register_crew_config.rs
+@@ -7,7 +7,7 @@ use carbon_core::deserialize::CarbonDeserialize;
+ use crate::types::RegisterCrewConfigArgs;
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq, Eq, Hash)]
+ pub struct RegisterCrewConfig {
+     pub args: RegisterCrewConfigArgs,
+ }
+diff --git a/src/instructions/register_pack_tiers.rs b/src/instructions/register_pack_tiers.rs
+index 25e64ba..c380b3f 100644
+--- a/src/instructions/register_pack_tiers.rs
++++ b/src/instructions/register_pack_tiers.rs
+@@ -7,7 +7,7 @@ use carbon_core::deserialize::CarbonDeserialize;
+ use crate::types::RegisterPackTiersInput;
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq, Eq, Hash)]
+ pub struct RegisterPackTiers {
+     pub input: RegisterPackTiersInput,
+ }
+diff --git a/src/instructions/register_pack_type.rs b/src/instructions/register_pack_type.rs
+index 811b101..2a239a4 100644
+--- a/src/instructions/register_pack_type.rs
++++ b/src/instructions/register_pack_type.rs
+@@ -7,7 +7,7 @@ use carbon_core::deserialize::CarbonDeserialize;
+ use crate::types::RegisterPackTypeInput;
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq, Eq, Hash)]
+ pub struct RegisterPackType {
+     pub input: RegisterPackTypeInput,
+ }
+diff --git a/src/instructions/register_sft_redemption.rs b/src/instructions/register_sft_redemption.rs
+index ec5d74e..dc0ecc6 100644
+--- a/src/instructions/register_sft_redemption.rs
++++ b/src/instructions/register_sft_redemption.rs
+@@ -7,7 +7,7 @@ use carbon_core::deserialize::CarbonDeserialize;
+ use crate::types::RegisterSftRedemptionInput;
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq, Eq, Hash)]
+ pub struct RegisterSftRedemption {
+     pub input: RegisterSftRedemptionInput,
+ }
+diff --git a/src/instructions/update_pack_tiers.rs b/src/instructions/update_pack_tiers.rs
+index 6214f7b..d38312e 100644
+--- a/src/instructions/update_pack_tiers.rs
++++ b/src/instructions/update_pack_tiers.rs
+@@ -7,7 +7,7 @@ use carbon_core::deserialize::CarbonDeserialize;
+ use crate::types::UpdatePackTiersInput;
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq, Eq, Hash)]
+ pub struct UpdatePackTiers {
+     pub input: UpdatePackTiersInput,
+ }
+diff --git a/src/types/crew_creator.rs b/src/types/crew_creator.rs
+index 78b5216..e6f8254 100644
+--- a/src/types/crew_creator.rs
++++ b/src/types/crew_creator.rs
+@@ -4,7 +4,7 @@ use solana_pubkey::Pubkey;
+ /// A creator on the crew collection
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq, Eq, Hash)]
+ pub struct CrewCreator {
+     /// The creator's key
+     pub key: Pubkey,
+diff --git a/src/types/crew_creator_unpacked.rs b/src/types/crew_creator_unpacked.rs
+index a1f6f53..9d14db3 100644
+--- a/src/types/crew_creator_unpacked.rs
++++ b/src/types/crew_creator_unpacked.rs
+@@ -4,7 +4,7 @@ use solana_pubkey::Pubkey;
+ /// Unpacked version of [`CrewCreator`]
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq, Eq, Hash)]
+ pub struct CrewCreatorUnpacked {
+     /// The creator's key
+     pub key: Pubkey,
+diff --git a/src/types/mint_crew_member_input.rs b/src/types/mint_crew_member_input.rs
+index b8b44b1..e414825 100644
+--- a/src/types/mint_crew_member_input.rs
++++ b/src/types/mint_crew_member_input.rs
+@@ -3,7 +3,7 @@ use carbon_core::borsh;
+ /// The input for the `redeem_crew_packs` instruction.
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq, Eq, Hash)]
+ pub struct MintCrewMemberInput {
+     /// The index of the key in the profile's permissions list
+     pub key_index: u16,
+diff --git a/src/types/redeem_crew_packs_input.rs b/src/types/redeem_crew_packs_input.rs
+index 85d75b7..04eb12c 100644
+--- a/src/types/redeem_crew_packs_input.rs
++++ b/src/types/redeem_crew_packs_input.rs
+@@ -4,7 +4,7 @@ use solana_pubkey::Pubkey;
+ /// Input for redeeming crew packs via `RedeemCrewPacks`
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq, Eq, Hash)]
+ pub struct RedeemCrewPacksInput {
+     /// The number of crew pack SFTs to redeem
+     pub quantity: u32,
+diff --git a/src/types/register_crew_config_args.rs b/src/types/register_crew_config_args.rs
+index 673575c..b7dbc7e 100644
+--- a/src/types/register_crew_config_args.rs
++++ b/src/types/register_crew_config_args.rs
+@@ -5,7 +5,7 @@ use solana_pubkey::Pubkey;
+ /// Arguments for the `register_crew_config` instruction.
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq, Eq, Hash)]
+ pub struct RegisterCrewConfigArgs {
+     /// The name prefix to use for all minted crew
+     pub name_prefix: String,
+diff --git a/src/types/register_pack_tiers_input.rs b/src/types/register_pack_tiers_input.rs
+index d801013..c1ba700 100644
+--- a/src/types/register_pack_tiers_input.rs
++++ b/src/types/register_pack_tiers_input.rs
+@@ -5,7 +5,7 @@ use solana_pubkey::Pubkey;
+ /// for the `register_pack_tiers` function in the Crew program.
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq, Eq, Hash)]
+ pub struct RegisterPackTiersInput {
+     /// the index of the authorizing key in the crew permissions profile
+     pub key_index: u16,
+diff --git a/src/types/register_pack_type_input.rs b/src/types/register_pack_type_input.rs
+index 41a1edf..93dd67b 100644
+--- a/src/types/register_pack_type_input.rs
++++ b/src/types/register_pack_type_input.rs
+@@ -4,7 +4,7 @@ use carbon_core::borsh;
+ /// for the `register_pack_type` function in the Crew program.
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq, Eq, Hash)]
+ pub struct RegisterPackTypeInput {
+     /// the index of the authorizing key in the crew permissions profile
+     pub key_index: u16,
+diff --git a/src/types/register_sft_redemption_input.rs b/src/types/register_sft_redemption_input.rs
+index bd659ef..c4378b3 100644
+--- a/src/types/register_sft_redemption_input.rs
++++ b/src/types/register_sft_redemption_input.rs
+@@ -4,7 +4,7 @@ use carbon_core::borsh;
+ /// for the `register_sft_redemption` function in the Crew program.
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq, Eq, Hash)]
+ pub struct RegisterSftRedemptionInput {
+     /// The number of cNFTs being received in exchange for the SFT
+     pub redemption_amount: u32,
+diff --git a/src/types/update_pack_tiers_input.rs b/src/types/update_pack_tiers_input.rs
+index 33b30e7..c8bbd29 100644
+--- a/src/types/update_pack_tiers_input.rs
++++ b/src/types/update_pack_tiers_input.rs
+@@ -4,7 +4,7 @@ use carbon_core::borsh;
+ /// for the `update_pack_tiers` function in the Crew program.
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq, Eq, Hash)]
+ pub struct UpdatePackTiersInput {
+     /// the index of the authorizing key in the crew permissions profile
+     pub key_index: u16,

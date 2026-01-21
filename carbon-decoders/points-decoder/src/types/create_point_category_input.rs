@@ -4,7 +4,7 @@ use carbon_core::borsh;
 /// Struct for data input to create a points category
 
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
-#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq)]
+#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq, Eq, Hash)]
 pub struct CreatePointCategoryInput {
     /// token_required
     pub license: LicenseType,

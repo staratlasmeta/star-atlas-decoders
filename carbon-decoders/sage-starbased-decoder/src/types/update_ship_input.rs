@@ -5,7 +5,7 @@ use carbon_core::borsh;
 /// Struct for data input to Update Ship
 
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
-#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq)]
+#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq, Eq, Hash)]
 pub struct UpdateShipInput {
     /// The `Ship` name/label
     #[cfg_attr(feature = "serde", serde(with = "serde_big_array::BigArray"))]

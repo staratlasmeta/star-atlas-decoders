@@ -1,0 +1,288 @@
+diff --git a/src/instructions/accept_role_invitation.rs b/src/instructions/accept_role_invitation.rs
+index 06a7b19..b7557ee 100644
+--- a/src/instructions/accept_role_invitation.rs
++++ b/src/instructions/accept_role_invitation.rs
+@@ -6,7 +6,7 @@ use carbon_core::deserialize::ArrangeAccounts;
+ use carbon_core::deserialize::CarbonDeserialize;
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq, Eq, Hash)]
+ pub struct AcceptRoleInvitation {
+     pub key_index: u16,
+     pub key_index_in_role_account: u16,
+diff --git a/src/instructions/add_existing_member_to_role.rs b/src/instructions/add_existing_member_to_role.rs
+index 1bd01d4..7287b46 100644
+--- a/src/instructions/add_existing_member_to_role.rs
++++ b/src/instructions/add_existing_member_to_role.rs
+@@ -6,7 +6,7 @@ use carbon_core::deserialize::ArrangeAccounts;
+ use carbon_core::deserialize::CarbonDeserialize;
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq, Eq, Hash)]
+ pub struct AddExistingMemberToRole {
+     pub key_index: u16,
+     pub key_index_in_membership_account: u16,
+diff --git a/src/instructions/add_keys.rs b/src/instructions/add_keys.rs
+index cfcd15d..04a1d19 100644
+--- a/src/instructions/add_keys.rs
++++ b/src/instructions/add_keys.rs
+@@ -7,7 +7,7 @@ use carbon_core::deserialize::CarbonDeserialize;
+ use crate::types::AddKeyInput;
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq, Eq, Hash)]
+ pub struct AddKeys {
+     pub key_add_index: u16,
+     pub key_permissions_index: u16,
+diff --git a/src/instructions/adjust_auth.rs b/src/instructions/adjust_auth.rs
+index 18a82cd..4d1d454 100644
+--- a/src/instructions/adjust_auth.rs
++++ b/src/instructions/adjust_auth.rs
+@@ -7,7 +7,7 @@ use carbon_core::deserialize::CarbonDeserialize;
+ use crate::types::AddKeyInput;
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq, Eq, Hash)]
+ pub struct AdjustAuth {
+     pub auth_indexes: Vec<u16>,
+     pub new_key_permissions: Vec<AddKeyInput>,
+diff --git a/src/instructions/create_profile.rs b/src/instructions/create_profile.rs
+index 27a6fa4..6181fa1 100644
+--- a/src/instructions/create_profile.rs
++++ b/src/instructions/create_profile.rs
+@@ -7,7 +7,7 @@ use carbon_core::deserialize::CarbonDeserialize;
+ use crate::types::AddKeyInput;
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq, Eq, Hash)]
+ pub struct CreateProfile {
+     pub key_permissions: Vec<AddKeyInput>,
+     pub key_threshold: u8,
+diff --git a/src/instructions/create_role.rs b/src/instructions/create_role.rs
+index b90a71a..bd73955 100644
+--- a/src/instructions/create_role.rs
++++ b/src/instructions/create_role.rs
+@@ -6,7 +6,7 @@ use carbon_core::deserialize::ArrangeAccounts;
+ use carbon_core::deserialize::CarbonDeserialize;
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq, Eq, Hash)]
+ pub struct CreateRole {
+     pub key_index: u16,
+ }
+diff --git a/src/instructions/invite_member_to_role.rs b/src/instructions/invite_member_to_role.rs
+index a7e2417..7e28df2 100644
+--- a/src/instructions/invite_member_to_role.rs
++++ b/src/instructions/invite_member_to_role.rs
+@@ -6,7 +6,7 @@ use carbon_core::deserialize::ArrangeAccounts;
+ use carbon_core::deserialize::CarbonDeserialize;
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq, Eq, Hash)]
+ pub struct InviteMemberToRole {
+     pub key_index: u16,
+ }
+diff --git a/src/instructions/join_role.rs b/src/instructions/join_role.rs
+index 2da89c3..5befc64 100644
+--- a/src/instructions/join_role.rs
++++ b/src/instructions/join_role.rs
+@@ -6,7 +6,7 @@ use carbon_core::deserialize::ArrangeAccounts;
+ use carbon_core::deserialize::CarbonDeserialize;
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq, Eq, Hash)]
+ pub struct JoinRole {
+     pub key_index: u16,
+ }
+diff --git a/src/instructions/leave_role.rs b/src/instructions/leave_role.rs
+index 5fd5fe2..e1ac5cf 100644
+--- a/src/instructions/leave_role.rs
++++ b/src/instructions/leave_role.rs
+@@ -6,7 +6,7 @@ use carbon_core::deserialize::ArrangeAccounts;
+ use carbon_core::deserialize::CarbonDeserialize;
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq, Eq, Hash)]
+ pub struct LeaveRole {
+     pub key_index: u16,
+     pub key_index_in_role_account: u16,
+diff --git a/src/instructions/mod.rs b/src/instructions/mod.rs
+index c1637e5..f0c0beb 100644
+--- a/src/instructions/mod.rs
++++ b/src/instructions/mod.rs
+@@ -39,8 +39,8 @@ pub use self::set_role_authorizer::*;
+ pub use self::set_role_name::*;
+ pub use self::set_role_not_accepting_members::*;
+ 
+-#[derive(Debug, Clone, PartialEq)]
+-#[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
++#[derive(Debug, Clone, PartialEq, Eq, Hash)]
++#[cfg_attr(feature = "serde", derive(carbon_core::InstructionType, serde::Serialize, serde::Deserialize))]
+ #[cfg_attr(feature = "serde", serde(tag = "type", content = "data"))]
+ pub enum PlayerProfileInstruction {
+     AcceptRoleInvitation(AcceptRoleInvitation),
+diff --git a/src/instructions/remove_keys.rs b/src/instructions/remove_keys.rs
+index 07388cc..8d592a3 100644
+--- a/src/instructions/remove_keys.rs
++++ b/src/instructions/remove_keys.rs
+@@ -6,7 +6,7 @@ use carbon_core::deserialize::ArrangeAccounts;
+ use carbon_core::deserialize::CarbonDeserialize;
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq, Eq, Hash)]
+ pub struct RemoveKeys {
+     pub key_index: u16,
+     pub keys_to_remove: [u16; 2],
+diff --git a/src/instructions/remove_member_from_role.rs b/src/instructions/remove_member_from_role.rs
+index 20b1ee1..d0f3455 100644
+--- a/src/instructions/remove_member_from_role.rs
++++ b/src/instructions/remove_member_from_role.rs
+@@ -6,7 +6,7 @@ use carbon_core::deserialize::ArrangeAccounts;
+ use carbon_core::deserialize::CarbonDeserialize;
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq, Eq, Hash)]
+ pub struct RemoveMemberFromRole {
+     pub key_index: u16,
+     pub key_index_in_role_account: u16,
+diff --git a/src/instructions/remove_role.rs b/src/instructions/remove_role.rs
+index a25f4c1..e1181ad 100644
+--- a/src/instructions/remove_role.rs
++++ b/src/instructions/remove_role.rs
+@@ -6,7 +6,7 @@ use carbon_core::deserialize::ArrangeAccounts;
+ use carbon_core::deserialize::CarbonDeserialize;
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq, Eq, Hash)]
+ pub struct RemoveRole {
+     pub role_name_bump: u8,
+     pub key_index: u16,
+diff --git a/src/instructions/set_name.rs b/src/instructions/set_name.rs
+index ec33081..2b84327 100644
+--- a/src/instructions/set_name.rs
++++ b/src/instructions/set_name.rs
+@@ -6,7 +6,7 @@ use carbon_core::deserialize::ArrangeAccounts;
+ use carbon_core::deserialize::CarbonDeserialize;
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq, Eq, Hash)]
+ pub struct SetName {
+     pub key_index: u16,
+     pub name: Vec<u8>,
+diff --git a/src/instructions/set_role_accepting_members.rs b/src/instructions/set_role_accepting_members.rs
+index 9534d5f..4c930a6 100644
+--- a/src/instructions/set_role_accepting_members.rs
++++ b/src/instructions/set_role_accepting_members.rs
+@@ -6,7 +6,7 @@ use carbon_core::deserialize::ArrangeAccounts;
+ use carbon_core::deserialize::CarbonDeserialize;
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq, Eq, Hash)]
+ pub struct SetRoleAcceptingMembers {
+     pub key_index: u16,
+ }
+diff --git a/src/instructions/set_role_authorizer.rs b/src/instructions/set_role_authorizer.rs
+index 5e0f380..362daf6 100644
+--- a/src/instructions/set_role_authorizer.rs
++++ b/src/instructions/set_role_authorizer.rs
+@@ -6,7 +6,7 @@ use carbon_core::deserialize::ArrangeAccounts;
+ use carbon_core::deserialize::CarbonDeserialize;
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq, Eq, Hash)]
+ pub struct SetRoleAuthorizer {
+     pub key_index: u16,
+ }
+diff --git a/src/instructions/set_role_name.rs b/src/instructions/set_role_name.rs
+index bc65af8..1ec4c14 100644
+--- a/src/instructions/set_role_name.rs
++++ b/src/instructions/set_role_name.rs
+@@ -6,7 +6,7 @@ use carbon_core::deserialize::ArrangeAccounts;
+ use carbon_core::deserialize::CarbonDeserialize;
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq, Eq, Hash)]
+ pub struct SetRoleName {
+     pub key_index: u16,
+     pub name: Vec<u8>,
+diff --git a/src/instructions/set_role_not_accepting_members.rs b/src/instructions/set_role_not_accepting_members.rs
+index a4792d3..c632948 100644
+--- a/src/instructions/set_role_not_accepting_members.rs
++++ b/src/instructions/set_role_not_accepting_members.rs
+@@ -6,7 +6,7 @@ use carbon_core::deserialize::ArrangeAccounts;
+ use carbon_core::deserialize::CarbonDeserialize;
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq, Eq, Hash)]
+ pub struct SetRoleNotAcceptingMembers {
+     pub key_index: u16,
+ }
+diff --git a/src/types/add_key_input.rs b/src/types/add_key_input.rs
+index d99696f..fea2c72 100644
+--- a/src/types/add_key_input.rs
++++ b/src/types/add_key_input.rs
+@@ -7,7 +7,7 @@ use super::ProfilePermissions;
+ /// Struct for adding a key
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq, Eq, Hash)]
+ pub struct AddKeyInput {
+     /// The block of permissions
+     pub scope: Pubkey,
+diff --git a/src/types/member_status.rs b/src/types/member_status.rs
+index 9d41132..99c0d64 100644
+--- a/src/types/member_status.rs
++++ b/src/types/member_status.rs
+@@ -3,7 +3,7 @@ use carbon_core::borsh;
+ /// Represents potential membership statuses for a player with a role
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq, Eq, Hash)]
+ pub enum MemberStatus {
+     Inactive,
+     Active,
+diff --git a/src/types/profile_key.rs b/src/types/profile_key.rs
+index 627cead..70b66d6 100644
+--- a/src/types/profile_key.rs
++++ b/src/types/profile_key.rs
+@@ -7,7 +7,7 @@ use super::ProfilePermissions;
+ /// A key on a profile.
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq, Eq, Hash)]
+ pub struct ProfileKey {
+     /// The key.
+     pub key: Pubkey,
+diff --git a/src/types/role_membership.rs b/src/types/role_membership.rs
+index f0fb998..f1f90ce 100644
+--- a/src/types/role_membership.rs
++++ b/src/types/role_membership.rs
+@@ -4,7 +4,7 @@ use solana_pubkey::Pubkey;
+ /// Represents a member's status in a role
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq, Eq, Hash)]
+ pub struct RoleMembership {
+     /// The member or role key associated with this membership
+     pub key: Pubkey,

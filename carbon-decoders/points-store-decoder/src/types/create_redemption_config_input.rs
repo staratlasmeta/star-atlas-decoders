@@ -3,7 +3,7 @@ use carbon_core::borsh;
 /// Input for `CreateRedemptionConfig`
 
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
-#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq)]
+#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq, Eq, Hash)]
 pub struct CreateRedemptionConfigInput {
     /// the faction that uses this `RedemptionConfig
     pub faction: u8,

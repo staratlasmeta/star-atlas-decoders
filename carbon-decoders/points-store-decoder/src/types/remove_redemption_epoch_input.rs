@@ -3,7 +3,7 @@ use carbon_core::borsh;
 /// Input for `RemoveRedemptionEpoch`
 
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
-#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq)]
+#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq, Eq, Hash)]
 pub struct RemoveRedemptionEpochInput {
     /// The index of epoch in the `RedemptionConfig` epoch array
     pub epoch_index: u16,

@@ -1,0 +1,288 @@
+diff --git a/src/instructions/add_fee_exemption.rs b/src/instructions/add_fee_exemption.rs
+index 232e55f..6180bcb 100644
+--- a/src/instructions/add_fee_exemption.rs
++++ b/src/instructions/add_fee_exemption.rs
+@@ -6,7 +6,7 @@ use carbon_core::deserialize::ArrangeAccounts;
+ use carbon_core::deserialize::CarbonDeserialize;
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq, Eq, Hash)]
+ pub struct AddFeeExemption {
+     pub discount: u64,
+ }
+diff --git a/src/instructions/add_royalty_tier.rs b/src/instructions/add_royalty_tier.rs
+index 4f2494b..70180b2 100644
+--- a/src/instructions/add_royalty_tier.rs
++++ b/src/instructions/add_royalty_tier.rs
+@@ -6,7 +6,7 @@ use carbon_core::deserialize::ArrangeAccounts;
+ use carbon_core::deserialize::CarbonDeserialize;
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq, Eq, Hash)]
+ pub struct AddRoyaltyTier {
+     pub stake_amount: u64,
+     pub discount: u64,
+diff --git a/src/instructions/delete_royalty_tier.rs b/src/instructions/delete_royalty_tier.rs
+index e788ffc..9060d70 100644
+--- a/src/instructions/delete_royalty_tier.rs
++++ b/src/instructions/delete_royalty_tier.rs
+@@ -6,7 +6,7 @@ use carbon_core::deserialize::ArrangeAccounts;
+ use carbon_core::deserialize::CarbonDeserialize;
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq, Eq, Hash)]
+ pub struct DeleteRoyaltyTier {
+     pub stake_amount: u64,
+ }
+diff --git a/src/instructions/deregister_currency.rs b/src/instructions/deregister_currency.rs
+index 04c8191..afea2d1 100644
+--- a/src/instructions/deregister_currency.rs
++++ b/src/instructions/deregister_currency.rs
+@@ -6,7 +6,7 @@ use carbon_core::deserialize::ArrangeAccounts;
+ use carbon_core::deserialize::CarbonDeserialize;
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq, Eq, Hash)]
+ pub struct DeregisterCurrency {
+ }
+ 
+diff --git a/src/instructions/initialize_marketplace.rs b/src/instructions/initialize_marketplace.rs
+index 144255f..5ce65db 100644
+--- a/src/instructions/initialize_marketplace.rs
++++ b/src/instructions/initialize_marketplace.rs
+@@ -6,7 +6,7 @@ use carbon_core::deserialize::ArrangeAccounts;
+ use carbon_core::deserialize::CarbonDeserialize;
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq, Eq, Hash)]
+ pub struct InitializeMarketplace {
+ }
+ 
+diff --git a/src/instructions/initialize_open_orders_counter.rs b/src/instructions/initialize_open_orders_counter.rs
+index f42f4db..462c252 100644
+--- a/src/instructions/initialize_open_orders_counter.rs
++++ b/src/instructions/initialize_open_orders_counter.rs
+@@ -6,7 +6,7 @@ use carbon_core::deserialize::ArrangeAccounts;
+ use carbon_core::deserialize::CarbonDeserialize;
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq, Eq, Hash)]
+ pub struct InitializeOpenOrdersCounter {
+ }
+ 
+diff --git a/src/instructions/mod.rs b/src/instructions/mod.rs
+index 33503de..c8fdef4 100644
+--- a/src/instructions/mod.rs
++++ b/src/instructions/mod.rs
+@@ -43,8 +43,8 @@ pub use self::update_currency_royalty::*;
+ pub use self::update_currency_vault::*;
+ pub use self::update_royalty_tier::*;
+ 
+-#[derive(Debug, Clone, PartialEq)]
+-#[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
++#[derive(Debug, Clone, PartialEq, Eq, Hash)]
++#[cfg_attr(feature = "serde", derive(carbon_core::InstructionType, serde::Serialize, serde::Deserialize))]
+ #[cfg_attr(feature = "serde", serde(tag = "type", content = "data"))]
+ pub enum MarketplaceInstruction {
+     AddFeeExemption(AddFeeExemption),
+diff --git a/src/instructions/noop.rs b/src/instructions/noop.rs
+index a8522c8..7c60ad1 100644
+--- a/src/instructions/noop.rs
++++ b/src/instructions/noop.rs
+@@ -5,7 +5,7 @@ use carbon_core::deserialize::ArrangeAccounts;
+ use carbon_core::deserialize::CarbonDeserialize;
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq, Eq, Hash)]
+ pub struct Noop {
+ }
+ 
+diff --git a/src/instructions/process_cancel.rs b/src/instructions/process_cancel.rs
+index d5110a6..7c89afc 100644
+--- a/src/instructions/process_cancel.rs
++++ b/src/instructions/process_cancel.rs
+@@ -6,7 +6,7 @@ use carbon_core::deserialize::ArrangeAccounts;
+ use carbon_core::deserialize::CarbonDeserialize;
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq, Eq, Hash)]
+ pub struct ProcessCancel {
+ }
+ 
+diff --git a/src/instructions/process_exchange.rs b/src/instructions/process_exchange.rs
+index e0df7d6..634bb71 100644
+--- a/src/instructions/process_exchange.rs
++++ b/src/instructions/process_exchange.rs
+@@ -7,7 +7,7 @@ use carbon_core::deserialize::CarbonDeserialize;
+ use solana_pubkey::Pubkey;
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq, Eq, Hash)]
+ pub struct ProcessExchange {
+     pub purchase_quantity: u64,
+     pub expected_price: u64,
+diff --git a/src/instructions/process_initialize_buy.rs b/src/instructions/process_initialize_buy.rs
+index 23f6155..cadef38 100644
+--- a/src/instructions/process_initialize_buy.rs
++++ b/src/instructions/process_initialize_buy.rs
+@@ -6,7 +6,7 @@ use carbon_core::deserialize::ArrangeAccounts;
+ use carbon_core::deserialize::CarbonDeserialize;
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq, Eq, Hash)]
+ pub struct ProcessInitializeBuy {
+     pub price: u64,
+     pub origination_qty: u64,
+diff --git a/src/instructions/process_initialize_buy_pda.rs b/src/instructions/process_initialize_buy_pda.rs
+index 980e825..9051727 100644
+--- a/src/instructions/process_initialize_buy_pda.rs
++++ b/src/instructions/process_initialize_buy_pda.rs
+@@ -7,7 +7,7 @@ use carbon_core::deserialize::CarbonDeserialize;
+ use solana_pubkey::Pubkey;
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq, Eq, Hash)]
+ pub struct ProcessInitializeBuyPda {
+     pub price: u64,
+     pub origination_qty: u64,
+diff --git a/src/instructions/process_initialize_sell.rs b/src/instructions/process_initialize_sell.rs
+index 7e14526..bf565f0 100644
+--- a/src/instructions/process_initialize_sell.rs
++++ b/src/instructions/process_initialize_sell.rs
+@@ -6,7 +6,7 @@ use carbon_core::deserialize::ArrangeAccounts;
+ use carbon_core::deserialize::CarbonDeserialize;
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq, Eq, Hash)]
+ pub struct ProcessInitializeSell {
+     pub price: u64,
+     pub origination_qty: u64,
+diff --git a/src/instructions/process_initialize_sell_pda.rs b/src/instructions/process_initialize_sell_pda.rs
+index 33823c7..ca58a5d 100644
+--- a/src/instructions/process_initialize_sell_pda.rs
++++ b/src/instructions/process_initialize_sell_pda.rs
+@@ -7,7 +7,7 @@ use carbon_core::deserialize::CarbonDeserialize;
+ use solana_pubkey::Pubkey;
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq, Eq, Hash)]
+ pub struct ProcessInitializeSellPda {
+     pub price: u64,
+     pub origination_qty: u64,
+diff --git a/src/instructions/register_currency.rs b/src/instructions/register_currency.rs
+index 8851dbb..a8b728f 100644
+--- a/src/instructions/register_currency.rs
++++ b/src/instructions/register_currency.rs
+@@ -6,7 +6,7 @@ use carbon_core::deserialize::ArrangeAccounts;
+ use carbon_core::deserialize::CarbonDeserialize;
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq, Eq, Hash)]
+ pub struct RegisterCurrency {
+     pub royalty: u64,
+ }
+diff --git a/src/instructions/remove_fee_exemption.rs b/src/instructions/remove_fee_exemption.rs
+index 307661e..850bc99 100644
+--- a/src/instructions/remove_fee_exemption.rs
++++ b/src/instructions/remove_fee_exemption.rs
+@@ -6,7 +6,7 @@ use carbon_core::deserialize::ArrangeAccounts;
+ use carbon_core::deserialize::CarbonDeserialize;
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq, Eq, Hash)]
+ pub struct RemoveFeeExemption {
+ }
+ 
+diff --git a/src/instructions/update_atlas_rate.rs b/src/instructions/update_atlas_rate.rs
+index 41b8ee3..6451230 100644
+--- a/src/instructions/update_atlas_rate.rs
++++ b/src/instructions/update_atlas_rate.rs
+@@ -6,7 +6,7 @@ use carbon_core::deserialize::ArrangeAccounts;
+ use carbon_core::deserialize::CarbonDeserialize;
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq, Eq, Hash)]
+ pub struct UpdateAtlasRate {
+     pub rate: u64,
+ }
+diff --git a/src/instructions/update_currency_royalty.rs b/src/instructions/update_currency_royalty.rs
+index 0403fd6..bdd0c56 100644
+--- a/src/instructions/update_currency_royalty.rs
++++ b/src/instructions/update_currency_royalty.rs
+@@ -6,7 +6,7 @@ use carbon_core::deserialize::ArrangeAccounts;
+ use carbon_core::deserialize::CarbonDeserialize;
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq, Eq, Hash)]
+ pub struct UpdateCurrencyRoyalty {
+     pub royalty: u64,
+ }
+diff --git a/src/instructions/update_currency_vault.rs b/src/instructions/update_currency_vault.rs
+index 51c72af..bfed0d9 100644
+--- a/src/instructions/update_currency_vault.rs
++++ b/src/instructions/update_currency_vault.rs
+@@ -6,7 +6,7 @@ use carbon_core::deserialize::ArrangeAccounts;
+ use carbon_core::deserialize::CarbonDeserialize;
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq, Eq, Hash)]
+ pub struct UpdateCurrencyVault {
+ }
+ 
+diff --git a/src/instructions/update_royalty_tier.rs b/src/instructions/update_royalty_tier.rs
+index e06f65a..9e7fc40 100644
+--- a/src/instructions/update_royalty_tier.rs
++++ b/src/instructions/update_royalty_tier.rs
+@@ -6,7 +6,7 @@ use carbon_core::deserialize::ArrangeAccounts;
+ use carbon_core::deserialize::CarbonDeserialize;
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq, Eq, Hash)]
+ pub struct UpdateRoyaltyTier {
+     pub stake_amount: u64,
+     pub discount: u64,
+diff --git a/src/types/order_side.rs b/src/types/order_side.rs
+index a5e51b0..cc5a7a6 100644
+--- a/src/types/order_side.rs
++++ b/src/types/order_side.rs
+@@ -2,7 +2,7 @@
+ use carbon_core::borsh;
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq, Eq, Hash)]
+ pub enum OrderSide {
+     Buy,
+     Sell,
+diff --git a/src/types/royalty_tier.rs b/src/types/royalty_tier.rs
+index 94437b1..31e18c2 100644
+--- a/src/types/royalty_tier.rs
++++ b/src/types/royalty_tier.rs
+@@ -3,7 +3,7 @@ use carbon_core::borsh;
+ /// A royalty tier which defines a discount rate for a given staked amount of tokens
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq, Eq, Hash)]
+ pub struct RoyaltyTier {
+     pub stake_amount: u64,
+     pub discount: u64,

@@ -7,7 +7,7 @@ use super::ProfilePermissions;
 /// Struct for adding a key
 
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
-#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq)]
+#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq, Eq, Hash)]
 pub struct AddKeyInput {
     /// The block of permissions
     pub scope: Pubkey,

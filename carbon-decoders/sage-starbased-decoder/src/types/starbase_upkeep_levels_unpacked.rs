@@ -4,7 +4,7 @@ use carbon_core::borsh;
 /// Unpacked version of [`StarbaseUpkeepLevels`]
 
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
-#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq)]
+#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq, Eq, Hash)]
 pub struct StarbaseUpkeepLevelsUnpacked {
     /// Upkeep info. for a level 0 `Starbase`
     pub level0: StarbaseUpkeepInfo,

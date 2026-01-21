@@ -4,7 +4,7 @@ use carbon_core::borsh;
 /// Progression Item for Data Input
 
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
-#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq)]
+#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq, Eq, Hash)]
 pub struct ProgressionItemInput {
     /// The type of progression item
     pub item_type: u8,

@@ -1,6 +1,6 @@
 [package]
 name = "carbon-points-decoder"
-version = "0.12.0"
+version = "0.12.1"
 edition = "2024"
 description = "Rust decoder for Star Atlas Points program on Solana"
 license = "Apache-2.0"
@@ -19,21 +19,6 @@ crate-type = ["rlib"]
 default = []
 
 serde = ["dep:serde", "dep:serde-big-array"]
-
-postgres = [
-    "carbon-core/postgres",
-    "dep:sqlx",
-    "dep:async-trait",
-    "dep:sqlx_migrator",
-    "serde",
-]
-
-graphql = [
-    "carbon-core/graphql",
-    "dep:juniper",
-    "dep:base64",
-    "serde",
-]
 
 [dependencies]
 carbon-core = { version = "0.12.0", features = ["macros"], default-features = false }

@@ -5,7 +5,7 @@ use carbon_core::deserialize::CarbonDeserialize;
 use solana_pubkey::Pubkey;
 
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
-#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq)]
+#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq, Eq, Hash)]
 pub struct CombatLootDropEventEvent {
     pub combat_id: [u8; 32],
     pub destroyed_fleet: Pubkey,

@@ -1,0 +1,743 @@
+diff --git a/src/instructions/add_consumable_input_to_recipe.rs b/src/instructions/add_consumable_input_to_recipe.rs
+index 5e2e058..7dabd7a 100644
+--- a/src/instructions/add_consumable_input_to_recipe.rs
++++ b/src/instructions/add_consumable_input_to_recipe.rs
+@@ -7,7 +7,7 @@ use carbon_core::deserialize::CarbonDeserialize;
+ use crate::types::RecipeIngredients;
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq, Eq, Hash)]
+ pub struct AddConsumableInputToRecipe {
+     pub input: RecipeIngredients,
+ }
+diff --git a/src/instructions/add_crafting_facility_recipe_category.rs b/src/instructions/add_crafting_facility_recipe_category.rs
+index 93f8a7a..3e1c585 100644
+--- a/src/instructions/add_crafting_facility_recipe_category.rs
++++ b/src/instructions/add_crafting_facility_recipe_category.rs
+@@ -7,7 +7,7 @@ use carbon_core::deserialize::CarbonDeserialize;
+ use crate::types::KeyIndexInput;
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq, Eq, Hash)]
+ pub struct AddCraftingFacilityRecipeCategory {
+     pub input: KeyIndexInput,
+ }
+diff --git a/src/instructions/add_non_consumable_input_to_recipe.rs b/src/instructions/add_non_consumable_input_to_recipe.rs
+index 3551b2b..695d0f2 100644
+--- a/src/instructions/add_non_consumable_input_to_recipe.rs
++++ b/src/instructions/add_non_consumable_input_to_recipe.rs
+@@ -7,7 +7,7 @@ use carbon_core::deserialize::CarbonDeserialize;
+ use crate::types::RecipeIngredients;
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq, Eq, Hash)]
+ pub struct AddNonConsumableInputToRecipe {
+     pub input: RecipeIngredients,
+ }
+diff --git a/src/instructions/add_output_to_recipe.rs b/src/instructions/add_output_to_recipe.rs
+index 7d486c3..04adb7f 100644
+--- a/src/instructions/add_output_to_recipe.rs
++++ b/src/instructions/add_output_to_recipe.rs
+@@ -7,7 +7,7 @@ use carbon_core::deserialize::CarbonDeserialize;
+ use crate::types::RecipeIngredients;
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq, Eq, Hash)]
+ pub struct AddOutputToRecipe {
+     pub input: RecipeIngredients,
+ }
+diff --git a/src/instructions/add_recipe_ingredient.rs b/src/instructions/add_recipe_ingredient.rs
+index 06552da..43433a2 100644
+--- a/src/instructions/add_recipe_ingredient.rs
++++ b/src/instructions/add_recipe_ingredient.rs
+@@ -7,7 +7,7 @@ use carbon_core::deserialize::CarbonDeserialize;
+ use crate::types::AddRecipeIngredientInput;
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq, Eq, Hash)]
+ pub struct AddRecipeIngredient {
+     pub input: AddRecipeIngredientInput,
+ }
+diff --git a/src/instructions/burn_consumable_ingredient.rs b/src/instructions/burn_consumable_ingredient.rs
+index 3e10eab..9b1369e 100644
+--- a/src/instructions/burn_consumable_ingredient.rs
++++ b/src/instructions/burn_consumable_ingredient.rs
+@@ -7,7 +7,7 @@ use carbon_core::deserialize::CarbonDeserialize;
+ use crate::types::BurnConsumableIngredientInput;
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq, Eq, Hash)]
+ pub struct BurnConsumableIngredient {
+     pub input: BurnConsumableIngredientInput,
+ }
+diff --git a/src/instructions/cancel_crafting_process.rs b/src/instructions/cancel_crafting_process.rs
+index 8567df3..eb4d146 100644
+--- a/src/instructions/cancel_crafting_process.rs
++++ b/src/instructions/cancel_crafting_process.rs
+@@ -6,7 +6,7 @@ use carbon_core::deserialize::ArrangeAccounts;
+ use carbon_core::deserialize::CarbonDeserialize;
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq, Eq, Hash)]
+ pub struct CancelCraftingProcess {
+ }
+ 
+diff --git a/src/instructions/claim_non_consumable_ingredient.rs b/src/instructions/claim_non_consumable_ingredient.rs
+index e1e19b2..58f6678 100644
+--- a/src/instructions/claim_non_consumable_ingredient.rs
++++ b/src/instructions/claim_non_consumable_ingredient.rs
+@@ -7,7 +7,7 @@ use carbon_core::deserialize::CarbonDeserialize;
+ use crate::types::ClaimNonConsumableIngredientInput;
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq, Eq, Hash)]
+ pub struct ClaimNonConsumableIngredient {
+     pub input: ClaimNonConsumableIngredientInput,
+ }
+diff --git a/src/instructions/claim_recipe_output.rs b/src/instructions/claim_recipe_output.rs
+index 43074ad..23e6472 100644
+--- a/src/instructions/claim_recipe_output.rs
++++ b/src/instructions/claim_recipe_output.rs
+@@ -7,7 +7,7 @@ use carbon_core::deserialize::CarbonDeserialize;
+ use crate::types::ClaimRecipeOutputInput;
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq, Eq, Hash)]
+ pub struct ClaimRecipeOutput {
+     pub input: ClaimRecipeOutputInput,
+ }
+diff --git a/src/instructions/close_crafting_process.rs b/src/instructions/close_crafting_process.rs
+index 4e391d0..8013a82 100644
+--- a/src/instructions/close_crafting_process.rs
++++ b/src/instructions/close_crafting_process.rs
+@@ -6,7 +6,7 @@ use carbon_core::deserialize::ArrangeAccounts;
+ use carbon_core::deserialize::CarbonDeserialize;
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq, Eq, Hash)]
+ pub struct CloseCraftingProcess {
+ }
+ 
+diff --git a/src/instructions/create_crafting_process.rs b/src/instructions/create_crafting_process.rs
+index 508cc6f..643ec94 100644
+--- a/src/instructions/create_crafting_process.rs
++++ b/src/instructions/create_crafting_process.rs
+@@ -7,7 +7,7 @@ use carbon_core::deserialize::CarbonDeserialize;
+ use crate::types::CreateCraftingProcessInput;
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq, Eq, Hash)]
+ pub struct CreateCraftingProcess {
+     pub input: CreateCraftingProcessInput,
+ }
+diff --git a/src/instructions/deregister_crafting_facility.rs b/src/instructions/deregister_crafting_facility.rs
+index 4eddcb1..05133e9 100644
+--- a/src/instructions/deregister_crafting_facility.rs
++++ b/src/instructions/deregister_crafting_facility.rs
+@@ -7,7 +7,7 @@ use carbon_core::deserialize::CarbonDeserialize;
+ use crate::types::KeyIndexInput;
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq, Eq, Hash)]
+ pub struct DeregisterCraftingFacility {
+     pub input: KeyIndexInput,
+ }
+diff --git a/src/instructions/deregister_recipe_category.rs b/src/instructions/deregister_recipe_category.rs
+index dc1098e..c42bdb5 100644
+--- a/src/instructions/deregister_recipe_category.rs
++++ b/src/instructions/deregister_recipe_category.rs
+@@ -7,7 +7,7 @@ use carbon_core::deserialize::CarbonDeserialize;
+ use crate::types::KeyIndexInput;
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq, Eq, Hash)]
+ pub struct DeregisterRecipeCategory {
+     pub input: KeyIndexInput,
+ }
+diff --git a/src/instructions/drain_craftable_item_bank.rs b/src/instructions/drain_craftable_item_bank.rs
+index f819112..694d78a 100644
+--- a/src/instructions/drain_craftable_item_bank.rs
++++ b/src/instructions/drain_craftable_item_bank.rs
+@@ -7,7 +7,7 @@ use carbon_core::deserialize::CarbonDeserialize;
+ use crate::types::KeyIndexInput;
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq, Eq, Hash)]
+ pub struct DrainCraftableItemBank {
+     pub input: KeyIndexInput,
+ }
+diff --git a/src/instructions/initialize_domain.rs b/src/instructions/initialize_domain.rs
+index 45231e1..4a82b98 100644
+--- a/src/instructions/initialize_domain.rs
++++ b/src/instructions/initialize_domain.rs
+@@ -6,7 +6,7 @@ use carbon_core::deserialize::ArrangeAccounts;
+ use carbon_core::deserialize::CarbonDeserialize;
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq, Eq, Hash)]
+ pub struct InitializeDomain {
+     pub namespace: [u8; 32],
+ }
+diff --git a/src/instructions/legitimize_recipe_ingredient.rs b/src/instructions/legitimize_recipe_ingredient.rs
+index 234649e..bbf1938 100644
+--- a/src/instructions/legitimize_recipe_ingredient.rs
++++ b/src/instructions/legitimize_recipe_ingredient.rs
+@@ -7,7 +7,7 @@ use carbon_core::deserialize::CarbonDeserialize;
+ use crate::types::LegitimizeRecipeIngredientInput;
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq, Eq, Hash)]
+ pub struct LegitimizeRecipeIngredient {
+     pub input: LegitimizeRecipeIngredientInput,
+ }
+diff --git a/src/instructions/mod.rs b/src/instructions/mod.rs
+index f6010ae..367af24 100644
+--- a/src/instructions/mod.rs
++++ b/src/instructions/mod.rs
+@@ -67,8 +67,8 @@ pub use self::update_domain::*;
+ pub use self::update_recipe::*;
+ pub use self::update_recipe_category::*;
+ 
+-#[derive(Debug, Clone, PartialEq)]
+-#[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
++#[derive(Debug, Clone, PartialEq, Eq, Hash)]
++#[cfg_attr(feature = "serde", derive(carbon_core::InstructionType, serde::Serialize, serde::Deserialize))]
+ #[cfg_attr(feature = "serde", serde(tag = "type", content = "data"))]
+ pub enum CraftingInstruction {
+     AddConsumableInputToRecipe(AddConsumableInputToRecipe),
+diff --git a/src/instructions/register_craftable_item.rs b/src/instructions/register_craftable_item.rs
+index ee96390..7558a29 100644
+--- a/src/instructions/register_craftable_item.rs
++++ b/src/instructions/register_craftable_item.rs
+@@ -7,7 +7,7 @@ use carbon_core::deserialize::CarbonDeserialize;
+ use crate::types::RegisterCraftableItemInput;
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq, Eq, Hash)]
+ pub struct RegisterCraftableItem {
+     pub input: RegisterCraftableItemInput,
+ }
+diff --git a/src/instructions/register_crafting_facility.rs b/src/instructions/register_crafting_facility.rs
+index 3ce04f8..7649485 100644
+--- a/src/instructions/register_crafting_facility.rs
++++ b/src/instructions/register_crafting_facility.rs
+@@ -7,7 +7,7 @@ use carbon_core::deserialize::CarbonDeserialize;
+ use crate::types::RegisterCraftingFacilityInput;
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq, Eq, Hash)]
+ pub struct RegisterCraftingFacility {
+     pub input: RegisterCraftingFacilityInput,
+ }
+diff --git a/src/instructions/register_recipe.rs b/src/instructions/register_recipe.rs
+index 452669c..28555a0 100644
+--- a/src/instructions/register_recipe.rs
++++ b/src/instructions/register_recipe.rs
+@@ -7,7 +7,7 @@ use carbon_core::deserialize::CarbonDeserialize;
+ use crate::types::RegisterRecipeInput;
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq, Eq, Hash)]
+ pub struct RegisterRecipe {
+     pub input: RegisterRecipeInput,
+ }
+diff --git a/src/instructions/register_recipe_category.rs b/src/instructions/register_recipe_category.rs
+index 9333c28..5a54e5c 100644
+--- a/src/instructions/register_recipe_category.rs
++++ b/src/instructions/register_recipe_category.rs
+@@ -7,7 +7,7 @@ use carbon_core::deserialize::CarbonDeserialize;
+ use crate::types::RegisterRecipeCategoryInput;
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq, Eq, Hash)]
+ pub struct RegisterRecipeCategory {
+     pub input: RegisterRecipeCategoryInput,
+ }
+diff --git a/src/instructions/remove_consumable_input_from_recipe.rs b/src/instructions/remove_consumable_input_from_recipe.rs
+index 0d6a573..5fb48f0 100644
+--- a/src/instructions/remove_consumable_input_from_recipe.rs
++++ b/src/instructions/remove_consumable_input_from_recipe.rs
+@@ -7,7 +7,7 @@ use carbon_core::deserialize::CarbonDeserialize;
+ use crate::types::RemoveRecipeIngredients;
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq, Eq, Hash)]
+ pub struct RemoveConsumableInputFromRecipe {
+     pub input: RemoveRecipeIngredients,
+ }
+diff --git a/src/instructions/remove_crafting_facility_recipe_category.rs b/src/instructions/remove_crafting_facility_recipe_category.rs
+index 1b70406..15c4926 100644
+--- a/src/instructions/remove_crafting_facility_recipe_category.rs
++++ b/src/instructions/remove_crafting_facility_recipe_category.rs
+@@ -7,7 +7,7 @@ use carbon_core::deserialize::CarbonDeserialize;
+ use crate::types::RemoveCraftingFacilityRecipeCategoryInput;
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq, Eq, Hash)]
+ pub struct RemoveCraftingFacilityRecipeCategory {
+     pub input: RemoveCraftingFacilityRecipeCategoryInput,
+ }
+diff --git a/src/instructions/remove_non_consumable_input_from_recipe.rs b/src/instructions/remove_non_consumable_input_from_recipe.rs
+index 40762cb..e6a1dda 100644
+--- a/src/instructions/remove_non_consumable_input_from_recipe.rs
++++ b/src/instructions/remove_non_consumable_input_from_recipe.rs
+@@ -7,7 +7,7 @@ use carbon_core::deserialize::CarbonDeserialize;
+ use crate::types::RemoveRecipeIngredients;
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq, Eq, Hash)]
+ pub struct RemoveNonConsumableInputFromRecipe {
+     pub input: RemoveRecipeIngredients,
+ }
+diff --git a/src/instructions/remove_output_from_recipe.rs b/src/instructions/remove_output_from_recipe.rs
+index 521ba21..775e065 100644
+--- a/src/instructions/remove_output_from_recipe.rs
++++ b/src/instructions/remove_output_from_recipe.rs
+@@ -7,7 +7,7 @@ use carbon_core::deserialize::CarbonDeserialize;
+ use crate::types::RemoveRecipeIngredients;
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq, Eq, Hash)]
+ pub struct RemoveOutputFromRecipe {
+     pub input: RemoveRecipeIngredients,
+ }
+diff --git a/src/instructions/remove_recipe_ingredient.rs b/src/instructions/remove_recipe_ingredient.rs
+index 0e02b94..7bcf2d8 100644
+--- a/src/instructions/remove_recipe_ingredient.rs
++++ b/src/instructions/remove_recipe_ingredient.rs
+@@ -7,7 +7,7 @@ use carbon_core::deserialize::CarbonDeserialize;
+ use crate::types::RemoveRecipeIngredientInput;
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq, Eq, Hash)]
+ pub struct RemoveRecipeIngredient {
+     pub input: RemoveRecipeIngredientInput,
+ }
+diff --git a/src/instructions/start_crafting_process.rs b/src/instructions/start_crafting_process.rs
+index aa49b7c..d3fb737 100644
+--- a/src/instructions/start_crafting_process.rs
++++ b/src/instructions/start_crafting_process.rs
+@@ -7,7 +7,7 @@ use carbon_core::deserialize::CarbonDeserialize;
+ use crate::types::StartCraftingProcessInput;
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq, Eq, Hash)]
+ pub struct StartCraftingProcess {
+     pub input: StartCraftingProcessInput,
+ }
+diff --git a/src/instructions/stop_crafting_process.rs b/src/instructions/stop_crafting_process.rs
+index 047370d..5b018ff 100644
+--- a/src/instructions/stop_crafting_process.rs
++++ b/src/instructions/stop_crafting_process.rs
+@@ -7,7 +7,7 @@ use carbon_core::deserialize::CarbonDeserialize;
+ use crate::types::StopCraftingProcessInput;
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq, Eq, Hash)]
+ pub struct StopCraftingProcess {
+     pub input: StopCraftingProcessInput,
+ }
+diff --git a/src/instructions/update_crafting_facility.rs b/src/instructions/update_crafting_facility.rs
+index 8f45e88..476771f 100644
+--- a/src/instructions/update_crafting_facility.rs
++++ b/src/instructions/update_crafting_facility.rs
+@@ -7,7 +7,7 @@ use carbon_core::deserialize::CarbonDeserialize;
+ use crate::types::UpdateCraftingFacilityInput;
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq, Eq, Hash)]
+ pub struct UpdateCraftingFacility {
+     pub input: UpdateCraftingFacilityInput,
+ }
+diff --git a/src/instructions/update_domain.rs b/src/instructions/update_domain.rs
+index e269e9d..67cf7f3 100644
+--- a/src/instructions/update_domain.rs
++++ b/src/instructions/update_domain.rs
+@@ -7,7 +7,7 @@ use carbon_core::deserialize::CarbonDeserialize;
+ use crate::types::KeyIndexInput;
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq, Eq, Hash)]
+ pub struct UpdateDomain {
+     pub input: KeyIndexInput,
+ }
+diff --git a/src/instructions/update_recipe.rs b/src/instructions/update_recipe.rs
+index 6c45913..0765e51 100644
+--- a/src/instructions/update_recipe.rs
++++ b/src/instructions/update_recipe.rs
+@@ -7,7 +7,7 @@ use carbon_core::deserialize::CarbonDeserialize;
+ use crate::types::UpdateRecipeInput;
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq, Eq, Hash)]
+ pub struct UpdateRecipe {
+     pub input: UpdateRecipeInput,
+ }
+diff --git a/src/instructions/update_recipe_category.rs b/src/instructions/update_recipe_category.rs
+index ae148e6..a0d0dd5 100644
+--- a/src/instructions/update_recipe_category.rs
++++ b/src/instructions/update_recipe_category.rs
+@@ -7,7 +7,7 @@ use carbon_core::deserialize::CarbonDeserialize;
+ use crate::types::KeyIndexInput;
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq, Eq, Hash)]
+ pub struct UpdateRecipeCategory {
+     pub input: KeyIndexInput,
+ }
+diff --git a/src/types/add_recipe_ingredient_input.rs b/src/types/add_recipe_ingredient_input.rs
+index afaacfd..def6449 100644
+--- a/src/types/add_recipe_ingredient_input.rs
++++ b/src/types/add_recipe_ingredient_input.rs
+@@ -3,7 +3,7 @@ use carbon_core::borsh;
+ /// Struct for data input to add an ingredient
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq, Eq, Hash)]
+ pub struct AddRecipeIngredientInput {
+     /// the amount of ingredient to deposit
+     pub amount: u64,
+diff --git a/src/types/burn_consumable_ingredient_input.rs b/src/types/burn_consumable_ingredient_input.rs
+index d8ff2d9..691fd34 100644
+--- a/src/types/burn_consumable_ingredient_input.rs
++++ b/src/types/burn_consumable_ingredient_input.rs
+@@ -3,7 +3,7 @@ use carbon_core::borsh;
+ /// Struct for data input to burn a consumable ingredient
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq, Eq, Hash)]
+ pub struct BurnConsumableIngredientInput {
+     /// the index of the consumable recipe ingredient
+     pub ingredient_index: u16,
+diff --git a/src/types/claim_non_consumable_ingredient_input.rs b/src/types/claim_non_consumable_ingredient_input.rs
+index 96e1142..bda5561 100644
+--- a/src/types/claim_non_consumable_ingredient_input.rs
++++ b/src/types/claim_non_consumable_ingredient_input.rs
+@@ -3,7 +3,7 @@ use carbon_core::borsh;
+ /// Struct for data input to claim a non-consumable ingredient
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq, Eq, Hash)]
+ pub struct ClaimNonConsumableIngredientInput {
+     /// the index of the recipe ingredient
+     pub ingredient_index: u16,
+diff --git a/src/types/claim_recipe_output_input.rs b/src/types/claim_recipe_output_input.rs
+index 32c9e97..6dddbb9 100644
+--- a/src/types/claim_recipe_output_input.rs
++++ b/src/types/claim_recipe_output_input.rs
+@@ -3,7 +3,7 @@ use carbon_core::borsh;
+ /// Struct for data input to claim an output
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq, Eq, Hash)]
+ pub struct ClaimRecipeOutputInput {
+     /// the index of the recipe output
+     pub ingredient_index: u16,
+diff --git a/src/types/create_crafting_process_input.rs b/src/types/create_crafting_process_input.rs
+index 01c2cc5..93b692f 100644
+--- a/src/types/create_crafting_process_input.rs
++++ b/src/types/create_crafting_process_input.rs
+@@ -3,7 +3,7 @@ use carbon_core::borsh;
+ /// Struct for data input to create a `CraftingProcess`
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq, Eq, Hash)]
+ pub struct CreateCraftingProcessInput {
+     /// crafting id
+     pub crafting_id: u64,
+diff --git a/src/types/key_index_input.rs b/src/types/key_index_input.rs
+index 83d4b44..776ae32 100644
+--- a/src/types/key_index_input.rs
++++ b/src/types/key_index_input.rs
+@@ -3,7 +3,7 @@ use carbon_core::borsh;
+ /// Struct for data input for that has `key_index`
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq, Eq, Hash)]
+ pub struct KeyIndexInput {
+     /// the index of the key in the crafting permissions profile
+     pub key_index: u16,
+diff --git a/src/types/legitimize_recipe_ingredient_input.rs b/src/types/legitimize_recipe_ingredient_input.rs
+index 8c93255..f73c297 100644
+--- a/src/types/legitimize_recipe_ingredient_input.rs
++++ b/src/types/legitimize_recipe_ingredient_input.rs
+@@ -3,7 +3,7 @@ use carbon_core::borsh;
+ /// Struct for data input to legitimize an ingredient
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq, Eq, Hash)]
+ pub struct LegitimizeRecipeIngredientInput {
+     /// the amount of ingredient to deposit
+     pub amount: u64,
+diff --git a/src/types/location_type.rs b/src/types/location_type.rs
+index 0a30de5..81262b1 100644
+--- a/src/types/location_type.rs
++++ b/src/types/location_type.rs
+@@ -3,7 +3,7 @@ use carbon_core::borsh;
+ /// Represents different types of locations that a `CraftingFacility` might be found
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq, Eq, Hash)]
+ pub enum LocationType {
+     Starbase,
+ }
+diff --git a/src/types/optional_non_system_pubkey.rs b/src/types/optional_non_system_pubkey.rs
+index e1b0bca..a616cc2 100644
+--- a/src/types/optional_non_system_pubkey.rs
++++ b/src/types/optional_non_system_pubkey.rs
+@@ -4,7 +4,7 @@ use solana_pubkey::Pubkey;
+ /// A pubkey sized option that is none if set to the system program.
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq, Eq, Hash)]
+ pub struct OptionalNonSystemPubkey {
+     pub key: Pubkey,
+ }
+diff --git a/src/types/process_status.rs b/src/types/process_status.rs
+index 7225d6f..1c52342 100644
+--- a/src/types/process_status.rs
++++ b/src/types/process_status.rs
+@@ -3,7 +3,7 @@ use carbon_core::borsh;
+ /// The `CraftingProcess` `status`
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq, Eq, Hash)]
+ pub enum ProcessStatus {
+     Initialized,
+     Started,
+diff --git a/src/types/recipe_ingredients.rs b/src/types/recipe_ingredients.rs
+index e5fd2f4..eca2003 100644
+--- a/src/types/recipe_ingredients.rs
++++ b/src/types/recipe_ingredients.rs
+@@ -4,7 +4,7 @@ use solana_pubkey::Pubkey;
+ /// A copy of the [`RecipeInputsOutputs`] struct --> to be used as inputs into the program, avoiding using Borsch Serialization with Zero Copy serialization
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq, Eq, Hash)]
+ pub struct RecipeIngredients {
+     /// Amount of Input/Output required/produced.
+     pub amount: u64,
+diff --git a/src/types/recipe_inputs_outputs.rs b/src/types/recipe_inputs_outputs.rs
+index b87999f..99f85d6 100644
+--- a/src/types/recipe_inputs_outputs.rs
++++ b/src/types/recipe_inputs_outputs.rs
+@@ -4,7 +4,7 @@ use solana_pubkey::Pubkey;
+ /// The [`RecipeInputsOutputs`] struct.
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq, Eq, Hash)]
+ pub struct RecipeInputsOutputs {
+     /// Amount of Input/Output required/produced.
+     pub amount: u64,
+diff --git a/src/types/recipe_status.rs b/src/types/recipe_status.rs
+index 4f82303..d922f94 100644
+--- a/src/types/recipe_status.rs
++++ b/src/types/recipe_status.rs
+@@ -3,7 +3,7 @@ use carbon_core::borsh;
+ /// Represents the `Recipe` status
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq, Eq, Hash)]
+ pub enum RecipeStatus {
+     Initializing,
+     Active,
+diff --git a/src/types/register_craftable_item_input.rs b/src/types/register_craftable_item_input.rs
+index b995e06..2503d52 100644
+--- a/src/types/register_craftable_item_input.rs
++++ b/src/types/register_craftable_item_input.rs
+@@ -3,7 +3,7 @@ use carbon_core::borsh;
+ /// used as input struct when registering a `CraftableItem`
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq, Eq, Hash)]
+ pub struct RegisterCraftableItemInput {
+     /// the `CraftableItem` namespace
+     pub namespace: [u8; 32],
+diff --git a/src/types/register_crafting_facility_input.rs b/src/types/register_crafting_facility_input.rs
+index 2df47e6..97e0f67 100644
+--- a/src/types/register_crafting_facility_input.rs
++++ b/src/types/register_crafting_facility_input.rs
+@@ -4,7 +4,7 @@ use crate::types::LocationType;
+ /// Struct for data input to Register a `CraftingFacility`
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq, Eq, Hash)]
+ pub struct RegisterCraftingFacilityInput {
+     /// `CraftingFacility` location type
+     pub location_type: LocationType,
+diff --git a/src/types/register_recipe_category_input.rs b/src/types/register_recipe_category_input.rs
+index c6f224d..4df36ce 100644
+--- a/src/types/register_recipe_category_input.rs
++++ b/src/types/register_recipe_category_input.rs
+@@ -3,7 +3,7 @@ use carbon_core::borsh;
+ /// Struct for data input for `RegisterRecipeCategory`
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq, Eq, Hash)]
+ pub struct RegisterRecipeCategoryInput {
+     /// the `RecipeCategory` namespace
+     pub namespace: [u8; 32],
+diff --git a/src/types/register_recipe_input.rs b/src/types/register_recipe_input.rs
+index ecee1fa..b9939af 100644
+--- a/src/types/register_recipe_input.rs
++++ b/src/types/register_recipe_input.rs
+@@ -3,7 +3,7 @@ use carbon_core::borsh;
+ /// used as input struct when registering a Recipe
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq, Eq, Hash)]
+ pub struct RegisterRecipeInput {
+     /// the recipe duration (seconds)
+     pub duration: i64,
+diff --git a/src/types/remove_crafting_facility_recipe_category_input.rs b/src/types/remove_crafting_facility_recipe_category_input.rs
+index 813d759..0c51b87 100644
+--- a/src/types/remove_crafting_facility_recipe_category_input.rs
++++ b/src/types/remove_crafting_facility_recipe_category_input.rs
+@@ -3,7 +3,7 @@ use carbon_core::borsh;
+ /// Struct for data input for removing a [`CraftingFacility`] `RecipeCategory`
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq, Eq, Hash)]
+ pub struct RemoveCraftingFacilityRecipeCategoryInput {
+     /// the index of the `RecipeCategory` in the [`CraftingFacility`]
+     pub recipe_category_index: u16,
+diff --git a/src/types/remove_recipe_ingredient_input.rs b/src/types/remove_recipe_ingredient_input.rs
+index df25fc3..fc148a6 100644
+--- a/src/types/remove_recipe_ingredient_input.rs
++++ b/src/types/remove_recipe_ingredient_input.rs
+@@ -3,7 +3,7 @@ use carbon_core::borsh;
+ /// Struct for data input to remove an ingredient
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq, Eq, Hash)]
+ pub struct RemoveRecipeIngredientInput {
+     /// the amount of ingredient to withdraw/remove
+     pub amount: u64,
+diff --git a/src/types/remove_recipe_ingredients.rs b/src/types/remove_recipe_ingredients.rs
+index 1edff3e..c6e13b0 100644
+--- a/src/types/remove_recipe_ingredients.rs
++++ b/src/types/remove_recipe_ingredients.rs
+@@ -3,7 +3,7 @@ use carbon_core::borsh;
+ /// used as input struct when removing recipe ingredients
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq, Eq, Hash)]
+ pub struct RemoveRecipeIngredients {
+     /// the index of the key in the crafting permissions profile
+     pub key_index: u16,
+diff --git a/src/types/start_crafting_process_input.rs b/src/types/start_crafting_process_input.rs
+index 1e7b700..90417c5 100644
+--- a/src/types/start_crafting_process_input.rs
++++ b/src/types/start_crafting_process_input.rs
+@@ -3,7 +3,7 @@ use carbon_core::borsh;
+ /// Inputs for `StartCraftingProcess`
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq, Eq, Hash)]
+ pub struct StartCraftingProcessInput {
+     /// recipe duration override
+     pub recipe_duration_override: Option<u64>,
+diff --git a/src/types/stop_crafting_process_input.rs b/src/types/stop_crafting_process_input.rs
+index 0f4aad3..8e2b093 100644
+--- a/src/types/stop_crafting_process_input.rs
++++ b/src/types/stop_crafting_process_input.rs
+@@ -3,7 +3,7 @@ use carbon_core::borsh;
+ /// Inputs for `StopCraftingProcess`
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq, Eq, Hash)]
+ pub struct StopCraftingProcessInput {
+     /// the current time as supplied by the location; required if `use_local_time` is set on the `CraftingProcess`
+     pub local_time: Option<i64>,
+diff --git a/src/types/update_crafting_facility_input.rs b/src/types/update_crafting_facility_input.rs
+index 92064fe..21579f6 100644
+--- a/src/types/update_crafting_facility_input.rs
++++ b/src/types/update_crafting_facility_input.rs
+@@ -3,7 +3,7 @@ use carbon_core::borsh;
+ /// Struct for data input to Update `CraftingFacility`
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq, Eq, Hash)]
+ pub struct UpdateCraftingFacilityInput {
+     /// `CraftingFacility` efficiency
+     pub efficiency: Option<u32>,
+diff --git a/src/types/update_recipe_input.rs b/src/types/update_recipe_input.rs
+index 60f58b7..05678db 100644
+--- a/src/types/update_recipe_input.rs
++++ b/src/types/update_recipe_input.rs
+@@ -3,7 +3,7 @@ use carbon_core::borsh;
+ /// Struct for data input to Update `Recipe`
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq, Eq, Hash)]
+ pub struct UpdateRecipeInput {
+     /// `Recipe` duration
+     pub duration: Option<i64>,
+diff --git a/src/types/wrapped_recipe_category.rs b/src/types/wrapped_recipe_category.rs
+index 907a86a..4371f4c 100644
+--- a/src/types/wrapped_recipe_category.rs
++++ b/src/types/wrapped_recipe_category.rs
+@@ -5,7 +5,7 @@ use solana_pubkey::Pubkey;
+ /// We are wrapping this around Pubkey so that we can use Anchor's coder to decode it
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq, Eq, Hash)]
+ pub struct WrappedRecipeCategory {
+     /// The recipe category public key
+     pub id: Pubkey,

@@ -6,7 +6,7 @@ use solana_pubkey::Pubkey;
 /// A response value target programs can return to update the thread.
 
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
-#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq)]
+#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq, Eq, Hash)]
 pub struct ThreadResponse {
     /// If set, the thread will automatically close and return lamports to the provided address.
     /// If dynamic_instruction is also set, close_to will take precedence and the dynamic instruction will not be executed.

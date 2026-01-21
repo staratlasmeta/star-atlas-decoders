@@ -2,12 +2,6 @@
 use crate::PROGRAM_ID;
 use crate::TcompDecoder;
 
-#[cfg(feature = "postgres")]
-pub mod postgres;
-
-#[cfg(feature = "graphql")]
-pub mod graphql;
-
 pub mod bid_state;
 pub mod list_state;
 

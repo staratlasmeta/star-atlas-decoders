@@ -3,7 +3,7 @@ use carbon_core::borsh;
 /// Struct for data input to increment a user points account level
 
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
-#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq)]
+#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq, Eq, Hash)]
 pub struct IncrementLevelInput {
     /// the index of the user's desired level
     pub next_level_index: u16,

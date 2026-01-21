@@ -4,7 +4,7 @@ use solana_pubkey::Pubkey;
 /// Input for redeeming crew packs via `RedeemCrewPacks`
 
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
-#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq)]
+#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq, Eq, Hash)]
 pub struct RedeemCrewPacksInput {
     /// The number of crew pack SFTs to redeem
     pub quantity: u32,

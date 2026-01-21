@@ -8,7 +8,7 @@ use carbon_core::deserialize::CarbonDeserialize;
 /// Closes an existing rental contract, preventing further rentals.
 
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
-#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq)]
+#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq, Eq, Hash)]
 pub struct CloseContract {}
 
 #[derive(Debug, Clone, PartialEq)]

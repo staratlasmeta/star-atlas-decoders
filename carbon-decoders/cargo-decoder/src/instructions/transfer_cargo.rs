@@ -9,7 +9,7 @@ use carbon_core::deserialize::CarbonDeserialize;
 /// Requires both authorities to sign.
 
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
-#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq)]
+#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq, Eq, Hash)]
 pub struct TransferCargo {
     pub cargo_amount: u64,
 }

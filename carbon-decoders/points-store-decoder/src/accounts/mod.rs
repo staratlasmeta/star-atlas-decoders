@@ -2,12 +2,6 @@
 use crate::PROGRAM_ID;
 use crate::PointsStoreDecoder;
 
-#[cfg(feature = "postgres")]
-pub mod postgres;
-
-#[cfg(feature = "graphql")]
-pub mod graphql;
-
 pub mod points_store;
 pub mod redemption_config;
 pub mod user_redemption;

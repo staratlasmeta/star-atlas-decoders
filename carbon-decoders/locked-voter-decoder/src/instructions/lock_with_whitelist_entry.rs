@@ -9,7 +9,7 @@ use carbon_core::deserialize::CarbonDeserialize;
 /// Stakes `amount` tokens into the [Escrow] via CPI by using the provided [LockerWhitelistEntry].
 
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
-#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq)]
+#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq, Eq, Hash)]
 pub struct LockWithWhitelistEntry {
     pub amount: u64,
     pub duration: i64,

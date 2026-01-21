@@ -3,7 +3,7 @@ use carbon_core::borsh;
 /// Represents the orbital position of a `Planet` in the `Sector`
 
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
-#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq)]
+#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq, Eq, Hash)]
 pub enum SectorRing {
     Inner,
     Mid,

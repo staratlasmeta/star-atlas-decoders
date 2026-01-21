@@ -3,7 +3,7 @@ use carbon_core::borsh;
 /// Inputs for `StartCraftingProcess`
 
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
-#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq)]
+#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq, Eq, Hash)]
 pub struct StartCraftingProcessInput {
     /// recipe duration override
     pub recipe_duration_override: Option<u64>,

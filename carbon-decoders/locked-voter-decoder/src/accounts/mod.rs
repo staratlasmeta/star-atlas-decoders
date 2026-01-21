@@ -2,12 +2,6 @@
 use crate::LockedVoterDecoder;
 use crate::PROGRAM_ID;
 
-#[cfg(feature = "postgres")]
-pub mod postgres;
-
-#[cfg(feature = "graphql")]
-pub mod graphql;
-
 pub mod escrow;
 pub mod locker;
 pub mod locker_whitelist_entry;

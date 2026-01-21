@@ -3,7 +3,7 @@ use carbon_core::borsh;
 /// Struct for data input to register a points modifier for SAGE program
 
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
-#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq)]
+#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq, Eq, Hash)]
 pub struct RegisterSagePointsModifierInput {
     /// The points category type of the modifier
     pub points_category_type: u8,

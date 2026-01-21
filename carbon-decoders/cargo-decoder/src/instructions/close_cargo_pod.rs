@@ -9,7 +9,7 @@ use carbon_core::deserialize::CarbonDeserialize;
 /// Requires the authority to sign.
 
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
-#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq)]
+#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq, Eq, Hash)]
 pub struct CloseCargoPod {}
 
 #[derive(Debug, Clone, PartialEq)]

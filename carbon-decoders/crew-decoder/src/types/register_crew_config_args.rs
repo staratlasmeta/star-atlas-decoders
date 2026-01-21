@@ -5,7 +5,7 @@ use solana_pubkey::Pubkey;
 /// Arguments for the `register_crew_config` instruction.
 
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
-#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq)]
+#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq, Eq, Hash)]
 pub struct RegisterCrewConfigArgs {
     /// The name prefix to use for all minted crew
     pub name_prefix: String,

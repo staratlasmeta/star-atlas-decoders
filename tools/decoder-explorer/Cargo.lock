@@ -426,7 +426,7 @@ dependencies = [
 
 [[package]]
 name = "carbon-atlas-fee-payer-decoder"
-version = "0.12.0"
+version = "0.12.1"
 dependencies = [
  "borsh",
  "carbon-core",
@@ -440,7 +440,7 @@ dependencies = [
 
 [[package]]
 name = "carbon-atlas-staking-decoder"
-version = "0.12.0"
+version = "0.12.1"
 dependencies = [
  "borsh",
  "carbon-core",
@@ -454,9 +454,23 @@ dependencies = [
 
 [[package]]
 name = "carbon-cargo-decoder"
-version = "0.12.0"
+version = "0.12.1"
 dependencies = [
  "bitflags",
+ "borsh",
+ "carbon-core",
+ "serde",
+ "serde-big-array",
+ "serde_json",
+ "solana-account",
+ "solana-instruction",
+ "solana-pubkey 3.0.0",
+]
+
+[[package]]
+name = "carbon-claim-stake-decoder"
+version = "0.12.1"
+dependencies = [
  "borsh",
  "carbon-core",
  "serde",
@@ -500,7 +514,7 @@ dependencies = [
 
 [[package]]
 name = "carbon-crafting-decoder"
-version = "0.12.0"
+version = "0.12.1"
 dependencies = [
  "borsh",
  "carbon-core",
@@ -514,7 +528,7 @@ dependencies = [
 
 [[package]]
 name = "carbon-crew-decoder"
-version = "0.12.0"
+version = "0.12.1"
 dependencies = [
  "borsh",
  "carbon-core",
@@ -528,7 +542,7 @@ dependencies = [
 
 [[package]]
 name = "carbon-locked-voter-decoder"
-version = "0.12.0"
+version = "0.12.1"
 dependencies = [
  "borsh",
  "carbon-core",
@@ -548,7 +562,7 @@ checksum = "50085799d24728d29148fd8b7a618b39f88c5f0784112c883ce46908e7d0b168"
 
 [[package]]
 name = "carbon-marketplace-decoder"
-version = "0.12.0"
+version = "0.12.1"
 dependencies = [
  "borsh",
  "carbon-core",
@@ -562,7 +576,7 @@ dependencies = [
 
 [[package]]
 name = "carbon-player-profile-decoder"
-version = "0.12.0"
+version = "0.12.1"
 dependencies = [
  "bitflags",
  "borsh",
@@ -577,7 +591,7 @@ dependencies = [
 
 [[package]]
 name = "carbon-points-decoder"
-version = "0.12.0"
+version = "0.12.1"
 dependencies = [
  "borsh",
  "carbon-core",
@@ -591,7 +605,7 @@ dependencies = [
 
 [[package]]
 name = "carbon-points-store-decoder"
-version = "0.12.0"
+version = "0.12.1"
 dependencies = [
  "borsh",
  "carbon-core",
@@ -619,7 +633,7 @@ dependencies = [
 
 [[package]]
 name = "carbon-profile-faction-decoder"
-version = "0.12.0"
+version = "0.12.1"
 dependencies = [
  "borsh",
  "carbon-core",
@@ -633,7 +647,21 @@ dependencies = [
 
 [[package]]
 name = "carbon-profile-vault-decoder"
-version = "0.12.0"
+version = "0.12.1"
+dependencies = [
+ "borsh",
+ "carbon-core",
+ "serde",
+ "serde-big-array",
+ "serde_json",
+ "solana-account",
+ "solana-instruction",
+ "solana-pubkey 3.0.0",
+]
+
+[[package]]
+name = "carbon-proxy-rewarder-decoder"
+version = "0.12.1"
 dependencies = [
  "borsh",
  "carbon-core",
@@ -647,7 +675,7 @@ dependencies = [
 
 [[package]]
 name = "carbon-sage-holosim-decoder"
-version = "0.12.0"
+version = "0.12.1"
 dependencies = [
  "borsh",
  "carbon-core",
@@ -661,7 +689,35 @@ dependencies = [
 
 [[package]]
 name = "carbon-sage-starbased-decoder"
-version = "0.12.0"
+version = "0.12.1"
+dependencies = [
+ "borsh",
+ "carbon-core",
+ "serde",
+ "serde-big-array",
+ "serde_json",
+ "solana-account",
+ "solana-instruction",
+ "solana-pubkey 3.0.0",
+]
+
+[[package]]
+name = "carbon-score-decoder"
+version = "0.12.1"
+dependencies = [
+ "borsh",
+ "carbon-core",
+ "serde",
+ "serde-big-array",
+ "serde_json",
+ "solana-account",
+ "solana-instruction",
+ "solana-pubkey 3.0.0",
+]
+
+[[package]]
+name = "carbon-snapshots-decoder"
+version = "0.1.0"
 dependencies = [
  "borsh",
  "carbon-core",
@@ -675,7 +731,7 @@ dependencies = [
 
 [[package]]
 name = "carbon-srsly-decoder"
-version = "0.12.0"
+version = "0.12.1"
 dependencies = [
  "borsh",
  "carbon-core",
@@ -689,7 +745,7 @@ dependencies = [
 
 [[package]]
 name = "carbon-tcomp-decoder"
-version = "0.12.0"
+version = "0.12.1"
 dependencies = [
  "borsh",
  "carbon-core",
@@ -1018,6 +1074,7 @@ dependencies = [
  "carbon-atlas-fee-payer-decoder",
  "carbon-atlas-staking-decoder",
  "carbon-cargo-decoder",
+ "carbon-claim-stake-decoder",
  "carbon-core",
  "carbon-crafting-decoder",
  "carbon-crew-decoder",
@@ -1028,8 +1085,11 @@ dependencies = [
  "carbon-points-store-decoder",
  "carbon-profile-faction-decoder",
  "carbon-profile-vault-decoder",
+ "carbon-proxy-rewarder-decoder",
  "carbon-sage-holosim-decoder",
  "carbon-sage-starbased-decoder",
+ "carbon-score-decoder",
+ "carbon-snapshots-decoder",
  "carbon-srsly-decoder",
  "carbon-tcomp-decoder",
  "dotenvy",

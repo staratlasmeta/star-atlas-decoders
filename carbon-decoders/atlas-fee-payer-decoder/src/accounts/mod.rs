@@ -2,12 +2,6 @@
 use crate::AtlasFeePayerDecoder;
 use crate::PROGRAM_ID;
 
-#[cfg(feature = "postgres")]
-pub mod postgres;
-
-#[cfg(feature = "graphql")]
-pub mod graphql;
-
 pub mod fee_payer;
 pub mod fee_payer_rates;
 

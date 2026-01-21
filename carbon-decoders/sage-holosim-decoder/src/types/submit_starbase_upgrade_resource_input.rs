@@ -3,7 +3,7 @@ use carbon_core::borsh;
 /// Submit starbase upgrade resource inputs
 
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
-#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq)]
+#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq, Eq, Hash)]
 pub struct SubmitStarbaseUpgradeResourceInput {
     /// the index of the point program permissions in the player profile
     pub points_program_permissions_key_index: u16,

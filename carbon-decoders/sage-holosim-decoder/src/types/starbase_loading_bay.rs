@@ -4,7 +4,7 @@ use solana_pubkey::Pubkey;
 /// The data for the [`FleetStateData::StarbaseLoadingBay`] state
 
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
-#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq)]
+#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq, Eq, Hash)]
 pub struct StarbaseLoadingBay {
     /// The `Starbase` is in the loading bay of
     pub starbase: Pubkey,

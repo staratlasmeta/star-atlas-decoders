@@ -2,12 +2,6 @@
 use crate::CraftingDecoder;
 use crate::PROGRAM_ID;
 
-#[cfg(feature = "postgres")]
-pub mod postgres;
-
-#[cfg(feature = "graphql")]
-pub mod graphql;
-
 pub mod craftable_item;
 pub mod crafting_facility;
 pub mod crafting_process;

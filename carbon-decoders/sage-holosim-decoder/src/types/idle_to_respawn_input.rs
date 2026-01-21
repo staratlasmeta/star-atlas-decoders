@@ -3,7 +3,7 @@ use carbon_core::borsh;
 /// Struct for data input to initialize an `IdleToRespawn` Ix
 
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
-#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq)]
+#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq, Eq, Hash)]
 pub struct IdleToRespawnInput {
     /// index of the key in the player profile
     pub key_index: u16,

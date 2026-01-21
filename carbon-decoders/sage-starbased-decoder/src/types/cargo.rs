@@ -4,7 +4,7 @@ use solana_pubkey::Pubkey;
 /// Variables for the Cargo program
 
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
-#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq)]
+#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq, Eq, Hash)]
 pub struct Cargo {
     /// The cargo stats definition account
     pub stats_definition: Pubkey,

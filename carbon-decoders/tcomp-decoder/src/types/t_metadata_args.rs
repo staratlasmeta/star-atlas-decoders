@@ -6,7 +6,7 @@ use crate::types::TUses;
 use carbon_core::borsh;
 
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
-#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq)]
+#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq, Eq, Hash)]
 pub struct TMetadataArgs {
     /// The name of the asset
     pub name: String,

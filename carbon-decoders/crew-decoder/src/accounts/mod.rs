@@ -2,12 +2,6 @@
 use crate::CrewDecoder;
 use crate::PROGRAM_ID;
 
-#[cfg(feature = "postgres")]
-pub mod postgres;
-
-#[cfg(feature = "graphql")]
-pub mod graphql;
-
 pub mod crew_config;
 pub mod pack_tiers;
 pub mod pack_type;

@@ -1,0 +1,236 @@
+diff --git a/src/instructions/mod.rs b/src/instructions/mod.rs
+index 2a840a8..fa3bb6d 100644
+--- a/src/instructions/mod.rs
++++ b/src/instructions/mod.rs
+@@ -39,8 +39,8 @@ pub use self::process_withdraw_food::*;
+ pub use self::process_withdraw_fuel::*;
+ pub use self::process_withdraw_ships::*;
+ 
+-#[derive(Debug, Clone, PartialEq)]
+-#[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
++#[derive(Debug, Clone, PartialEq, Eq, Hash)]
++#[cfg_attr(feature = "serde", derive(carbon_core::InstructionType, serde::Serialize, serde::Deserialize))]
+ #[cfg_attr(feature = "serde", serde(tag = "type", content = "data"))]
+ pub enum ScoreInstruction {
+     ProcessCloseAccounts(ProcessCloseAccounts),
+diff --git a/src/instructions/process_close_accounts.rs b/src/instructions/process_close_accounts.rs
+index 30fa8fc..2a3f274 100644
+--- a/src/instructions/process_close_accounts.rs
++++ b/src/instructions/process_close_accounts.rs
+@@ -6,7 +6,7 @@ use carbon_core::deserialize::ArrangeAccounts;
+ use carbon_core::deserialize::CarbonDeserialize;
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq, Eq, Hash)]
+ pub struct ProcessCloseAccounts {
+     pub staking_bump: u8,
+     pub scorevars_bump: u8,
+diff --git a/src/instructions/process_deregister_ship.rs b/src/instructions/process_deregister_ship.rs
+index c92f693..b08c234 100644
+--- a/src/instructions/process_deregister_ship.rs
++++ b/src/instructions/process_deregister_ship.rs
+@@ -6,7 +6,7 @@ use carbon_core::deserialize::ArrangeAccounts;
+ use carbon_core::deserialize::CarbonDeserialize;
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq, Eq, Hash)]
+ pub struct ProcessDeregisterShip {
+     pub scorevars_bump: u8,
+     pub scorevars_ship_bump: u8,
+diff --git a/src/instructions/process_harvest.rs b/src/instructions/process_harvest.rs
+index 9285f18..e435dff 100644
+--- a/src/instructions/process_harvest.rs
++++ b/src/instructions/process_harvest.rs
+@@ -6,7 +6,7 @@ use carbon_core::deserialize::ArrangeAccounts;
+ use carbon_core::deserialize::CarbonDeserialize;
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq, Eq, Hash)]
+ pub struct ProcessHarvest {
+     pub staking_bump: u8,
+     pub scorevars_ship_bump: u8,
+diff --git a/src/instructions/process_initial_deposit.rs b/src/instructions/process_initial_deposit.rs
+index c3d7e08..eed52a3 100644
+--- a/src/instructions/process_initial_deposit.rs
++++ b/src/instructions/process_initial_deposit.rs
+@@ -6,7 +6,7 @@ use carbon_core::deserialize::ArrangeAccounts;
+ use carbon_core::deserialize::CarbonDeserialize;
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq, Eq, Hash)]
+ pub struct ProcessInitialDeposit {
+     pub staking_bump: u8,
+     pub scorevars_ship_bump: u8,
+diff --git a/src/instructions/process_initialize.rs b/src/instructions/process_initialize.rs
+index 2966fa0..065d755 100644
+--- a/src/instructions/process_initialize.rs
++++ b/src/instructions/process_initialize.rs
+@@ -6,7 +6,7 @@ use carbon_core::deserialize::ArrangeAccounts;
+ use carbon_core::deserialize::CarbonDeserialize;
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq, Eq, Hash)]
+ pub struct ProcessInitialize {
+     pub bump: u8,
+     pub treasury_bump: u8,
+diff --git a/src/instructions/process_partial_deposit.rs b/src/instructions/process_partial_deposit.rs
+index a40ed98..1cc8559 100644
+--- a/src/instructions/process_partial_deposit.rs
++++ b/src/instructions/process_partial_deposit.rs
+@@ -6,7 +6,7 @@ use carbon_core::deserialize::ArrangeAccounts;
+ use carbon_core::deserialize::CarbonDeserialize;
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq, Eq, Hash)]
+ pub struct ProcessPartialDeposit {
+     pub staking_bump: u8,
+     pub scorevars_ship_bump: u8,
+diff --git a/src/instructions/process_rearm.rs b/src/instructions/process_rearm.rs
+index f6cc57e..26c9422 100644
+--- a/src/instructions/process_rearm.rs
++++ b/src/instructions/process_rearm.rs
+@@ -6,7 +6,7 @@ use carbon_core::deserialize::ArrangeAccounts;
+ use carbon_core::deserialize::CarbonDeserialize;
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq, Eq, Hash)]
+ pub struct ProcessRearm {
+     pub staking_bump: u8,
+     pub scorevars_bump: u8,
+diff --git a/src/instructions/process_refeed.rs b/src/instructions/process_refeed.rs
+index ba0fa16..f9fbf71 100644
+--- a/src/instructions/process_refeed.rs
++++ b/src/instructions/process_refeed.rs
+@@ -6,7 +6,7 @@ use carbon_core::deserialize::ArrangeAccounts;
+ use carbon_core::deserialize::CarbonDeserialize;
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq, Eq, Hash)]
+ pub struct ProcessRefeed {
+     pub staking_bump: u8,
+     pub scorevars_bump: u8,
+diff --git a/src/instructions/process_refuel.rs b/src/instructions/process_refuel.rs
+index 94e328f..c010996 100644
+--- a/src/instructions/process_refuel.rs
++++ b/src/instructions/process_refuel.rs
+@@ -6,7 +6,7 @@ use carbon_core::deserialize::ArrangeAccounts;
+ use carbon_core::deserialize::CarbonDeserialize;
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq, Eq, Hash)]
+ pub struct ProcessRefuel {
+     pub staking_bump: u8,
+     pub scorevars_bump: u8,
+diff --git a/src/instructions/process_register_ship.rs b/src/instructions/process_register_ship.rs
+index a3589c0..ed9bbf5 100644
+--- a/src/instructions/process_register_ship.rs
++++ b/src/instructions/process_register_ship.rs
+@@ -6,7 +6,7 @@ use carbon_core::deserialize::ArrangeAccounts;
+ use carbon_core::deserialize::CarbonDeserialize;
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq, Eq, Hash)]
+ pub struct ProcessRegisterShip {
+     pub scorevars_bump: u8,
+     pub scorevars_ship_bump: u8,
+diff --git a/src/instructions/process_repair.rs b/src/instructions/process_repair.rs
+index fdafc3a..77ad868 100644
+--- a/src/instructions/process_repair.rs
++++ b/src/instructions/process_repair.rs
+@@ -6,7 +6,7 @@ use carbon_core::deserialize::ArrangeAccounts;
+ use carbon_core::deserialize::CarbonDeserialize;
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq, Eq, Hash)]
+ pub struct ProcessRepair {
+     pub staking_bump: u8,
+     pub scorevars_bump: u8,
+diff --git a/src/instructions/process_settle.rs b/src/instructions/process_settle.rs
+index 64ec00d..d81ef7f 100644
+--- a/src/instructions/process_settle.rs
++++ b/src/instructions/process_settle.rs
+@@ -6,7 +6,7 @@ use carbon_core::deserialize::ArrangeAccounts;
+ use carbon_core::deserialize::CarbonDeserialize;
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq, Eq, Hash)]
+ pub struct ProcessSettle {
+     pub staking_bump: u8,
+     pub scorevars_bump: u8,
+diff --git a/src/instructions/process_update_reward_rate.rs b/src/instructions/process_update_reward_rate.rs
+index 135d6ba..61e7313 100644
+--- a/src/instructions/process_update_reward_rate.rs
++++ b/src/instructions/process_update_reward_rate.rs
+@@ -6,7 +6,7 @@ use carbon_core::deserialize::ArrangeAccounts;
+ use carbon_core::deserialize::CarbonDeserialize;
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq, Eq, Hash)]
+ pub struct ProcessUpdateRewardRate {
+     pub scorevars_bump: u8,
+     pub scorevars_ship_bump: u8,
+diff --git a/src/instructions/process_withdraw_arms.rs b/src/instructions/process_withdraw_arms.rs
+index 4a1ae27..e612b87 100644
+--- a/src/instructions/process_withdraw_arms.rs
++++ b/src/instructions/process_withdraw_arms.rs
+@@ -6,7 +6,7 @@ use carbon_core::deserialize::ArrangeAccounts;
+ use carbon_core::deserialize::CarbonDeserialize;
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq, Eq, Hash)]
+ pub struct ProcessWithdrawArms {
+     pub staking_bump: u8,
+     pub scorevars_bump: u8,
+diff --git a/src/instructions/process_withdraw_food.rs b/src/instructions/process_withdraw_food.rs
+index c5b9bfb..eaf4fb1 100644
+--- a/src/instructions/process_withdraw_food.rs
++++ b/src/instructions/process_withdraw_food.rs
+@@ -6,7 +6,7 @@ use carbon_core::deserialize::ArrangeAccounts;
+ use carbon_core::deserialize::CarbonDeserialize;
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq, Eq, Hash)]
+ pub struct ProcessWithdrawFood {
+     pub staking_bump: u8,
+     pub scorevars_bump: u8,
+diff --git a/src/instructions/process_withdraw_fuel.rs b/src/instructions/process_withdraw_fuel.rs
+index a2100a4..72d1b7a 100644
+--- a/src/instructions/process_withdraw_fuel.rs
++++ b/src/instructions/process_withdraw_fuel.rs
+@@ -6,7 +6,7 @@ use carbon_core::deserialize::ArrangeAccounts;
+ use carbon_core::deserialize::CarbonDeserialize;
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq, Eq, Hash)]
+ pub struct ProcessWithdrawFuel {
+     pub staking_bump: u8,
+     pub scorevars_bump: u8,
+diff --git a/src/instructions/process_withdraw_ships.rs b/src/instructions/process_withdraw_ships.rs
+index 8420ee1..ace44fe 100644
+--- a/src/instructions/process_withdraw_ships.rs
++++ b/src/instructions/process_withdraw_ships.rs
+@@ -6,7 +6,7 @@ use carbon_core::deserialize::ArrangeAccounts;
+ use carbon_core::deserialize::CarbonDeserialize;
+ 
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+-#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq)]
++#[derive(Debug, Clone, borsh::BorshSerialize, CarbonDeserialize, PartialEq, Eq, Hash)]
+ pub struct ProcessWithdrawShips {
+     pub staking_bump: u8,
+     pub scorevars_bump: u8,

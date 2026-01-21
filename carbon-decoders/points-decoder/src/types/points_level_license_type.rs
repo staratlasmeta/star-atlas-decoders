@@ -7,7 +7,7 @@ use carbon_core::borsh;
 /// 3. Vault: requires a license and transfers tokens to vault
 
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
-#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq)]
+#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq, Eq, Hash)]
 pub enum PointsLevelLicenseType {
     None,
     Burn,

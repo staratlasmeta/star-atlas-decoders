@@ -62,6 +62,18 @@ use carbon_points_store_decoder::{PointsStoreDecoder, accounts::PointsStoreAccou
 #[cfg(feature = "profile-faction")]
 use carbon_profile_faction_decoder::{ProfileFactionDecoder, accounts::ProfileFactionAccount};
 
+#[cfg(feature = "score")]
+use carbon_score_decoder::{ScoreDecoder, accounts::ScoreAccount};
+
+#[cfg(feature = "claim-stake")]
+use carbon_claim_stake_decoder::{ClaimStakeDecoder, accounts::ClaimStakeAccount};
+
+#[cfg(feature = "proxy-rewarder")]
+use carbon_proxy_rewarder_decoder::{ProxyRewarderDecoder, accounts::ProxyRewarderAccount};
+
+#[cfg(feature = "snapshots")]
+use carbon_snapshots_decoder::{SnapshotsDecoder, accounts::SnapshotsAccount};
+
 // ============================================================
 // AccountTypeIdentifier implementations
 // ============================================================
@@ -128,6 +140,18 @@ impl_type_identifier!(PointsStoreAccount => PointsStore, RedemptionConfig, UserR
 
 #[cfg(feature = "profile-faction")]
 impl_type_identifier!(ProfileFactionAccount => ProfileFactionAccount);
+
+#[cfg(feature = "score")]
+impl_type_identifier!(ScoreAccount => ScoreVars, ScoreVarsShip, ShipStaking);
+
+#[cfg(feature = "claim-stake")]
+impl_type_identifier!(ClaimStakeAccount => ClaimStakeVar, ClaimStaking, GlobalVars);
+
+#[cfg(feature = "proxy-rewarder")]
+impl_type_identifier!(ProxyRewarderAccount => Proxy, ProxyEscrow, RegisteredLocker, TreasuryAuthority);
+
+#[cfg(feature = "snapshots")]
+impl_type_identifier!(SnapshotsAccount => EscrowHistory, LockerHistory);
 
 // ============================================================
 // Main entry point
@@ -215,6 +239,10 @@ fn run_analysis(ctx: &AnalysisContext) -> Result<()> {
         ProfileFactionDecoder,
         ProfileFactionAccount
     );
+    run_decoder_analysis!(ctx, "score", ScoreDecoder, ScoreAccount);
+    run_decoder_analysis!(ctx, "claim-stake", ClaimStakeDecoder, ClaimStakeAccount);
+    run_decoder_analysis!(ctx, "proxy-rewarder", ProxyRewarderDecoder, ProxyRewarderAccount);
+    run_decoder_analysis!(ctx, "snapshots", SnapshotsDecoder, SnapshotsAccount);
 
     Ok(())
 }

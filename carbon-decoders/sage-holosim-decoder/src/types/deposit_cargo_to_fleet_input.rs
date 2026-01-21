@@ -3,7 +3,7 @@ use carbon_core::borsh;
 /// Struct for data input to `DepositCargoToFleet`
 
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
-#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq)]
+#[derive(Debug, Clone, borsh::BorshSerialize, borsh::BorshDeserialize, PartialEq, Eq, Hash)]
 pub struct DepositCargoToFleetInput {
     /// cargo amount
     pub amount: u64,
