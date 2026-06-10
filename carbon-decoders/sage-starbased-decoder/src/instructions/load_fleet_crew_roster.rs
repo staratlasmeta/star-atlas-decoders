@@ -7,7 +7,7 @@
 //! `FleetCrewInput { count, key_index }` and therefore gets its own disc.
 //!
 //! Arg field order = load_fleet.rs:45-56 declaration order: `count`, `crew_asset_ids`,
-//! `page_index`, `key_index` (`#[ix_args(validate)] key_index` is last = last declared field).
+//! `page_index`, `key_index`, then the appended `ship_id` (per-ship posting; `0` = fleet pool).
 //! Account order = `FleetCrewRosterAccounts` (load_fleet.rs) with the composites expanded:
 //! `ProfileValidation<true>` → signer/profile/certificate/program, `SystemAndStarbasePlayer` →
 //! system/starbase_player, then the OPTIONAL `roster`, then the trailing `crew_binding`
@@ -32,6 +32,11 @@ pub struct LoadFleetCrewRoster {
     pub page_index: u16,
     /// the index of the key in the player profile.
     pub key_index: u16,
+    /// PER-SHIP POSTING (appended last — the pre-posting payload is a strict prefix): the ship
+    /// MODEL (raw ShipId) within the fleet to post the named crew to; `0` = fleet pool (no
+    /// posting). The posted crew's aptitude contribution to the per-fleet average is weighted
+    /// by the model's `required_crew`, snapshotted on the record at load.
+    pub ship_id: u16,
 }
 
 #[derive(Debug, Clone, PartialEq)]

@@ -10,7 +10,8 @@ use carbon_core::borsh;
 /// identity/scalars = 40, timestamps/counters = 40, assignment = 33, stats = 24,
 /// personality = 5, perks = 16, gear = 40, tail = 4, summing to 202; the per-skill-XP block
 /// (build #17) appends `xp_by_category` (40) + `level_by_category` (10) +
-/// `xp_realized_by_category` (40) = 90 B AT THE TAIL (after `pad1`), so every offset <= 200
+/// `xp_realized_by_category` (40) = 90 B, then the 4-byte ship-posting tail (296 B total)
+/// — every offset <= 200 (and <= 291 vs the pre-posting layout)
 /// is unchanged and the total is 292.
 
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
@@ -66,4 +67,10 @@ pub struct CrewRecord {
     /// Per-activity snapshot of the matching `RosterSummary.xp_accumulator_by_category[cat]`
     /// at last realize — the per-category lazy-XP low-water mark.
     pub xp_realized_by_category: [u64; 5],
+    /// SHIP POSTING (per-ship crew, appended tail): the ship MODEL this crew is posted to
+    /// within its fleet (raw ShipId; `0` = fleet pool), only meaningful while OnFleet.
+    pub assigned_ship_id: u16,
+    /// Load-time snapshot of the posting's weight (`max(1, ship.required_crew)`; `0` = no
+    /// posting ⇒ census weight 1). Record total = 296 B; offsets ≤ 291 unchanged.
+    pub assigned_ship_weight: u16,
 }
