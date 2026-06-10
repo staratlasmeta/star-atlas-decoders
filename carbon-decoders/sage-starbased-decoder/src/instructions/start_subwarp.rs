@@ -21,6 +21,9 @@ pub struct StartSubwarpInstructionAccounts {
     pub fleet: solana_pubkey::Pubkey,
     pub game_id: solana_pubkey::Pubkey,
     pub game_state: solana_pubkey::Pubkey,
+    // crew: APPEND-LAST optional per-fleet binding (FleetCrewBinding PDA; WRITABLE on-chain —
+    // crew: the resolved subwarp auto-pours Piloting XP into it). None on every pre-crew wire.
+    pub crew_binding: Option<solana_pubkey::Pubkey>,
     pub remaining: Vec<solana_instruction::AccountMeta>,
 }
 
@@ -56,6 +59,7 @@ impl ArrangeAccounts for StartSubwarp {
         let fleet = next_account(&mut iter)?;
         let game_id = next_account(&mut iter)?;
         let game_state = next_account(&mut iter)?;
+        let crew_binding = iter.next().map(|a| a.pubkey); // crew: optional tail - no `?` (legacy txs still arrange)
 
         let remaining = iter.as_slice();
 
@@ -66,6 +70,7 @@ impl ArrangeAccounts for StartSubwarp {
             fleet,
             game_id,
             game_state,
+            crew_binding,
             remaining: remaining.to_vec(),
         })
     }

@@ -24,6 +24,9 @@ pub struct IdleToRespawnInstructionAccounts {
     pub atlas_token_from: solana_pubkey::Pubkey,
     pub atlas_token_to: solana_pubkey::Pubkey,
     pub token_program: solana_pubkey::Pubkey,
+    // crew: APPEND-LAST optional per-fleet binding (FleetCrewBinding PDA; READ-ONLY on-chain —
+    // crew: the respawn fold only reads the Medical/Respawn lane). None on every pre-crew wire.
+    pub crew_binding: Option<solana_pubkey::Pubkey>,
     pub remaining: Vec<solana_instruction::AccountMeta>,
 }
 
@@ -62,6 +65,7 @@ impl ArrangeAccounts for IdleToRespawn {
         let atlas_token_from = next_account(&mut iter)?;
         let atlas_token_to = next_account(&mut iter)?;
         let token_program = next_account(&mut iter)?;
+        let crew_binding = iter.next().map(|a| a.pubkey); // crew: optional tail - no `?` (legacy txs still arrange)
 
         let remaining = iter.as_slice();
 
@@ -75,6 +79,7 @@ impl ArrangeAccounts for IdleToRespawn {
             atlas_token_from,
             atlas_token_to,
             token_program,
+            crew_binding,
             remaining: remaining.to_vec(),
         })
     }

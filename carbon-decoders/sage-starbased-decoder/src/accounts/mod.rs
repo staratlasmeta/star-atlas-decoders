@@ -3,8 +3,11 @@ use crate::PROGRAM_ID;
 use crate::SageDecoder;
 
 pub mod crafting_instance;
+pub mod crew_member;
+pub mod crew_roster;
 pub mod disbanded_fleet;
 pub mod fleet;
+pub mod fleet_crew_binding;
 pub mod fleet_ships;
 pub mod game;
 pub mod game_state;
@@ -12,6 +15,7 @@ pub mod mine_item;
 pub mod planet;
 pub mod player_crew_record;
 pub mod progression_config;
+pub mod quest_process;
 pub mod resource;
 pub mod sage_crew_config;
 pub mod sage_player_profile;
@@ -27,8 +31,11 @@ pub mod survey_data_unit_tracker;
 #[cfg_attr(feature = "serde", serde(tag = "type", content = "data"))]
 pub enum SageAccount {
     CraftingInstance(Box<crafting_instance::CraftingInstance>),
+    CrewMember(Box<crew_member::CrewMember>),
+    CrewRoster(Box<crew_roster::CrewRoster>),
     DisbandedFleet(Box<disbanded_fleet::DisbandedFleet>),
     Fleet(Box<fleet::Fleet>),
+    FleetCrewBinding(Box<fleet_crew_binding::FleetCrewBinding>),
     FleetShips(Box<fleet_ships::FleetShips>),
     Game(Box<game::Game>),
     GameState(Box<game_state::GameState>),
@@ -36,6 +43,7 @@ pub enum SageAccount {
     Planet(Box<planet::Planet>),
     PlayerCrewRecord(Box<player_crew_record::PlayerCrewRecord>),
     ProgressionConfig(Box<progression_config::ProgressionConfig>),
+    QuestProcess(Box<quest_process::QuestProcess>),
     Resource(Box<resource::Resource>),
     SageCrewConfig(Box<sage_crew_config::SageCrewConfig>),
     SagePlayerProfile(Box<sage_player_profile::SagePlayerProfile>),
@@ -72,6 +80,28 @@ impl<'a> carbon_core::account::AccountDecoder<'a> for SageDecoder {
             }
         }
         {
+            if let Some(decoded) = crew_member::CrewMember::decode(data) {
+                return Some(carbon_core::account::DecodedAccount {
+                    lamports: account.lamports,
+                    data: SageAccount::CrewMember(Box::new(decoded)),
+                    owner: account.owner,
+                    executable: account.executable,
+                    rent_epoch: account.rent_epoch,
+                });
+            }
+        }
+        {
+            if let Some(decoded) = crew_roster::CrewRoster::decode(data) {
+                return Some(carbon_core::account::DecodedAccount {
+                    lamports: account.lamports,
+                    data: SageAccount::CrewRoster(Box::new(decoded)),
+                    owner: account.owner,
+                    executable: account.executable,
+                    rent_epoch: account.rent_epoch,
+                });
+            }
+        }
+        {
             if let Some(decoded) = disbanded_fleet::DisbandedFleet::decode(data) {
                 return Some(carbon_core::account::DecodedAccount {
                     lamports: account.lamports,
@@ -87,6 +117,17 @@ impl<'a> carbon_core::account::AccountDecoder<'a> for SageDecoder {
                 return Some(carbon_core::account::DecodedAccount {
                     lamports: account.lamports,
                     data: SageAccount::Fleet(Box::new(decoded)),
+                    owner: account.owner,
+                    executable: account.executable,
+                    rent_epoch: account.rent_epoch,
+                });
+            }
+        }
+        {
+            if let Some(decoded) = fleet_crew_binding::FleetCrewBinding::decode(data) {
+                return Some(carbon_core::account::DecodedAccount {
+                    lamports: account.lamports,
+                    data: SageAccount::FleetCrewBinding(Box::new(decoded)),
                     owner: account.owner,
                     executable: account.executable,
                     rent_epoch: account.rent_epoch,
@@ -164,6 +205,17 @@ impl<'a> carbon_core::account::AccountDecoder<'a> for SageDecoder {
                 return Some(carbon_core::account::DecodedAccount {
                     lamports: account.lamports,
                     data: SageAccount::ProgressionConfig(Box::new(decoded)),
+                    owner: account.owner,
+                    executable: account.executable,
+                    rent_epoch: account.rent_epoch,
+                });
+            }
+        }
+        {
+            if let Some(decoded) = quest_process::QuestProcess::decode(data) {
+                return Some(carbon_core::account::DecodedAccount {
+                    lamports: account.lamports,
+                    data: SageAccount::QuestProcess(Box::new(decoded)),
                     owner: account.owner,
                     executable: account.executable,
                     rent_epoch: account.rent_epoch,

@@ -28,6 +28,10 @@ pub struct WarpToCoordinateInstructionAccounts {
     pub token_mint: solana_pubkey::Pubkey,
     pub cargo_program: solana_pubkey::Pubkey,
     pub token_program: solana_pubkey::Pubkey,
+    // crew: APPEND-LAST optional per-fleet binding (FleetCrewBinding PDA; WRITABLE on-chain —
+    // crew: the resolved warp auto-pours Piloting XP into it and stamps last_action_epoch).
+    // crew: None on every pre-crew wire.
+    pub crew_binding: Option<solana_pubkey::Pubkey>,
     pub remaining: Vec<solana_instruction::AccountMeta>,
 }
 
@@ -70,6 +74,7 @@ impl ArrangeAccounts for WarpToCoordinate {
         let token_mint = next_account(&mut iter)?;
         let cargo_program = next_account(&mut iter)?;
         let token_program = next_account(&mut iter)?;
+        let crew_binding = iter.next().map(|a| a.pubkey); // crew: optional tail - no `?` (legacy txs still arrange)
 
         let remaining = iter.as_slice();
 
@@ -87,6 +92,7 @@ impl ArrangeAccounts for WarpToCoordinate {
             token_mint,
             cargo_program,
             token_program,
+            crew_binding,
             remaining: remaining.to_vec(),
         })
     }

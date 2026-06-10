@@ -27,6 +27,12 @@ pub struct StartCraftingProcessInstructionAccounts {
     pub game_id: solana_pubkey::Pubkey,
     pub game_state: solana_pubkey::Pubkey,
     pub crafting_program: solana_pubkey::Pubkey,
+    // crew: APPEND-LAST optional per-fleet binding (FleetCrewBinding PDA; WRITABLE on-chain —
+    // crew: build #18 auto-pours Crafting XP into it once the process resolves). None on every
+    // crew: pre-crew wire. NOTE: the C4 program inserts two baseline optionals
+    // crew: (crafting_hab_instance, currency_cache) BEFORE this tail — regen owns that reshape;
+    // crew: see the crew decoder package README (trailing-optional inventory).
+    pub crew_binding: Option<solana_pubkey::Pubkey>,
     pub remaining: Vec<solana_instruction::AccountMeta>,
 }
 
@@ -68,6 +74,7 @@ impl ArrangeAccounts for StartCraftingProcess {
         let game_id = next_account(&mut iter)?;
         let game_state = next_account(&mut iter)?;
         let crafting_program = next_account(&mut iter)?;
+        let crew_binding = iter.next().map(|a| a.pubkey); // crew: optional tail - no `?` (legacy txs still arrange)
 
         let remaining = iter.as_slice();
 
@@ -84,6 +91,7 @@ impl ArrangeAccounts for StartCraftingProcess {
             game_id,
             game_state,
             crafting_program,
+            crew_binding,
             remaining: remaining.to_vec(),
         })
     }

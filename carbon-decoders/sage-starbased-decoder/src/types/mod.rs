@@ -241,3 +241,34 @@ pub use self::warp_lane_input::*;
 pub use self::warp_to_coordinate_input::*;
 pub use self::withdraw_cargo_from_fleet_input::*;
 pub use self::wrapped_ship_escrow::*;
+
+// ── crew individuation (Phase E): nested crew types ──
+pub mod aptitude;
+pub mod cond_perk_entry;
+pub mod crew_migrate_input;
+pub mod crew_record;
+pub mod crew_stats;
+pub mod crew_status;
+pub mod crew_status_tag;
+pub mod gear_def_view;
+pub mod gear_ref;
+pub mod perk_def_input;
+pub mod perk_slot;
+pub mod rarity;
+pub mod roster_summary;
+pub mod slot_family;
+
+pub use self::aptitude::*;
+pub use self::cond_perk_entry::*;
+pub use self::crew_migrate_input::*;
+pub use self::crew_record::*;
+pub use self::crew_stats::*;
+pub use self::crew_status::*;
+pub use self::crew_status_tag::*;
+pub use self::gear_def_view::*;
+pub use self::gear_ref::*;
+pub use self::perk_def_input::*;
+pub use self::perk_slot::*;
+pub use self::rarity::*;
+pub use self::roster_summary::*;
+pub use self::slot_family::*;

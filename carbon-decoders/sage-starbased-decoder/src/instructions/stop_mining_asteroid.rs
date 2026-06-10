@@ -36,6 +36,14 @@ pub struct StopMiningAsteroidInstructionAccounts {
     pub points_program: solana_pubkey::Pubkey,
     pub cargo_program: solana_pubkey::Pubkey,
     pub token_program: solana_pubkey::Pubkey,
+    // crew: APPEND-LAST optional per-fleet binding (FleetCrewBinding PDA; WRITABLE on-chain —
+    // crew: the resolved mining stop auto-pours Mining XP into it). None on every pre-crew wire.
+    pub crew_binding: Option<solana_pubkey::Pubkey>,
+    // crew: APPEND-LAST optional region tracker (read-only mining risk-band source). PINNED
+    // crew: TRAILING ORDER: crew_binding FIRST, region_tracker SECOND — [], [binding] and
+    // crew: [binding, tracker] are the valid wire forms (a tracker-only client passes the
+    // crew: program-id sentinel in the binding slot).
+    pub region_tracker: Option<solana_pubkey::Pubkey>,
     pub remaining: Vec<solana_instruction::AccountMeta>,
 }
 
@@ -86,6 +94,8 @@ impl ArrangeAccounts for StopMiningAsteroid {
         let points_program = next_account(&mut iter)?;
         let cargo_program = next_account(&mut iter)?;
         let token_program = next_account(&mut iter)?;
+        let crew_binding = iter.next().map(|a| a.pubkey); // crew: optional tail - no `?` (legacy txs still arrange)
+        let region_tracker = iter.next().map(|a| a.pubkey); // crew: optional tail AFTER crew_binding (pinned order)
 
         let remaining = iter.as_slice();
 
@@ -111,6 +121,8 @@ impl ArrangeAccounts for StopMiningAsteroid {
             points_program,
             cargo_program,
             token_program,
+            crew_binding,
+            region_tracker,
             remaining: remaining.to_vec(),
         })
     }

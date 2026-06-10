@@ -109,6 +109,24 @@ pub mod warp_to_coordinate;
 pub mod withdraw_cargo_from_fleet;
 pub mod withdraw_cargo_from_game;
 pub mod withdraw_crafting_ingredient;
+pub mod migrate_crew_member; // crew: Phase-E
+pub mod bind_crew; // crew: Phase-E
+pub mod unbind_crew; // crew: Phase-E
+pub mod level_up_crew; // crew: Phase-E
+pub mod award_crew_activity_xp; // crew: decoder refresh (build #17 per-skill XP)
+pub mod unlock_perk; // crew: Phase-E
+pub mod respec_perks; // crew: Phase-E
+pub mod equip_gear; // crew: Phase-E
+pub mod unequip_gear; // crew: Phase-E
+pub mod start_quest; // crew: Phase-E
+pub mod complete_quest; // crew: Phase-E
+pub mod cancel_quest; // crew: Phase-E
+pub mod mark_crew_garrison; // crew: Phase-E
+pub mod set_crew_config; // crew: Phase-E
+pub mod set_perk_definitions; // crew: Phase-E
+pub mod create_gear_recipe; // crew: Phase-E
+pub mod load_fleet_crew_roster; // crew: Phase-E
+pub mod unload_fleet_crew_roster; // crew: Phase-E
 
 pub use self::activate_game_state::*;
 pub use self::add_connection::*;
@@ -217,6 +235,24 @@ pub use self::warp_to_coordinate::*;
 pub use self::withdraw_cargo_from_fleet::*;
 pub use self::withdraw_cargo_from_game::*;
 pub use self::withdraw_crafting_ingredient::*;
+pub use self::migrate_crew_member::*; // crew: Phase-E
+pub use self::bind_crew::*; // crew: Phase-E
+pub use self::unbind_crew::*; // crew: Phase-E
+pub use self::level_up_crew::*; // crew: Phase-E
+pub use self::award_crew_activity_xp::*; // crew: decoder refresh (build #17 per-skill XP)
+pub use self::unlock_perk::*; // crew: Phase-E
+pub use self::respec_perks::*; // crew: Phase-E
+pub use self::equip_gear::*; // crew: Phase-E
+pub use self::unequip_gear::*; // crew: Phase-E
+pub use self::start_quest::*; // crew: Phase-E
+pub use self::complete_quest::*; // crew: Phase-E
+pub use self::cancel_quest::*; // crew: Phase-E
+pub use self::mark_crew_garrison::*; // crew: Phase-E
+pub use self::set_crew_config::*; // crew: Phase-E
+pub use self::set_perk_definitions::*; // crew: Phase-E
+pub use self::create_gear_recipe::*; // crew: Phase-E
+pub use self::load_fleet_crew_roster::*; // crew: Phase-E
+pub use self::unload_fleet_crew_roster::*; // crew: Phase-E
 
 #[derive(Debug, Clone, PartialEq, Eq, Hash)]
 #[cfg_attr(
@@ -332,6 +368,24 @@ pub enum SageInstruction {
     WithdrawCargoFromFleet(WithdrawCargoFromFleet),
     WithdrawCargoFromGame(WithdrawCargoFromGame),
     WithdrawCraftingIngredient(WithdrawCraftingIngredient),
+    MigrateCrewMember(MigrateCrewMember), // crew
+    BindCrew(BindCrew), // crew
+    UnbindCrew(UnbindCrew), // crew
+    LevelUpCrew(LevelUpCrew), // crew
+    AwardCrewActivityXp(AwardCrewActivityXp), // crew (build #17 per-skill XP)
+    UnlockPerk(UnlockPerk), // crew
+    RespecPerks(RespecPerks), // crew
+    EquipGear(EquipGear), // crew
+    UnequipGear(UnequipGear), // crew
+    StartQuest(StartQuest), // crew
+    CompleteQuest(CompleteQuest), // crew
+    CancelQuest(CancelQuest), // crew
+    MarkCrewGarrison(MarkCrewGarrison), // crew
+    SetCrewConfig(SetCrewConfig), // crew
+    SetPerkDefinitions(SetPerkDefinitions), // crew
+    CreateGearRecipe(CreateGearRecipe), // crew
+    LoadFleetCrewRoster(LoadFleetCrewRoster), // crew
+    UnloadFleetCrewRoster(UnloadFleetCrewRoster), // crew
 }
 
 impl carbon_core::instruction::InstructionDecoder<'_> for SageDecoder {
@@ -1351,6 +1405,164 @@ impl carbon_core::instruction::InstructionDecoder<'_> for SageDecoder {
             }
         }
 
+        {
+            if let Some(decoded) = migrate_crew_member::MigrateCrewMember::decode(data) {
+                return Some(carbon_core::instruction::DecodedInstruction {
+                    program_id: instruction.program_id,
+                    data: SageInstruction::MigrateCrewMember(decoded),
+                    accounts: instruction.accounts.clone(),
+                });
+            }
+        }
+        {
+            if let Some(decoded) = bind_crew::BindCrew::decode(data) {
+                return Some(carbon_core::instruction::DecodedInstruction {
+                    program_id: instruction.program_id,
+                    data: SageInstruction::BindCrew(decoded),
+                    accounts: instruction.accounts.clone(),
+                });
+            }
+        }
+        {
+            if let Some(decoded) = unbind_crew::UnbindCrew::decode(data) {
+                return Some(carbon_core::instruction::DecodedInstruction {
+                    program_id: instruction.program_id,
+                    data: SageInstruction::UnbindCrew(decoded),
+                    accounts: instruction.accounts.clone(),
+                });
+            }
+        }
+        {
+            if let Some(decoded) = level_up_crew::LevelUpCrew::decode(data) {
+                return Some(carbon_core::instruction::DecodedInstruction {
+                    program_id: instruction.program_id,
+                    data: SageInstruction::LevelUpCrew(decoded),
+                    accounts: instruction.accounts.clone(),
+                });
+            }
+        }
+        {
+            if let Some(decoded) = award_crew_activity_xp::AwardCrewActivityXp::decode(data) {
+                return Some(carbon_core::instruction::DecodedInstruction {
+                    program_id: instruction.program_id,
+                    data: SageInstruction::AwardCrewActivityXp(decoded),
+                    accounts: instruction.accounts.clone(),
+                });
+            }
+        }
+        {
+            if let Some(decoded) = unlock_perk::UnlockPerk::decode(data) {
+                return Some(carbon_core::instruction::DecodedInstruction {
+                    program_id: instruction.program_id,
+                    data: SageInstruction::UnlockPerk(decoded),
+                    accounts: instruction.accounts.clone(),
+                });
+            }
+        }
+        {
+            if let Some(decoded) = respec_perks::RespecPerks::decode(data) {
+                return Some(carbon_core::instruction::DecodedInstruction {
+                    program_id: instruction.program_id,
+                    data: SageInstruction::RespecPerks(decoded),
+                    accounts: instruction.accounts.clone(),
+                });
+            }
+        }
+        {
+            if let Some(decoded) = equip_gear::EquipGear::decode(data) {
+                return Some(carbon_core::instruction::DecodedInstruction {
+                    program_id: instruction.program_id,
+                    data: SageInstruction::EquipGear(decoded),
+                    accounts: instruction.accounts.clone(),
+                });
+            }
+        }
+        {
+            if let Some(decoded) = unequip_gear::UnequipGear::decode(data) {
+                return Some(carbon_core::instruction::DecodedInstruction {
+                    program_id: instruction.program_id,
+                    data: SageInstruction::UnequipGear(decoded),
+                    accounts: instruction.accounts.clone(),
+                });
+            }
+        }
+        {
+            if let Some(decoded) = start_quest::StartQuest::decode(data) {
+                return Some(carbon_core::instruction::DecodedInstruction {
+                    program_id: instruction.program_id,
+                    data: SageInstruction::StartQuest(decoded),
+                    accounts: instruction.accounts.clone(),
+                });
+            }
+        }
+        {
+            if let Some(decoded) = complete_quest::CompleteQuest::decode(data) {
+                return Some(carbon_core::instruction::DecodedInstruction {
+                    program_id: instruction.program_id,
+                    data: SageInstruction::CompleteQuest(decoded),
+                    accounts: instruction.accounts.clone(),
+                });
+            }
+        }
+        {
+            if let Some(decoded) = cancel_quest::CancelQuest::decode(data) {
+                return Some(carbon_core::instruction::DecodedInstruction {
+                    program_id: instruction.program_id,
+                    data: SageInstruction::CancelQuest(decoded),
+                    accounts: instruction.accounts.clone(),
+                });
+            }
+        }
+        {
+            if let Some(decoded) = mark_crew_garrison::MarkCrewGarrison::decode(data) {
+                return Some(carbon_core::instruction::DecodedInstruction {
+                    program_id: instruction.program_id,
+                    data: SageInstruction::MarkCrewGarrison(decoded),
+                    accounts: instruction.accounts.clone(),
+                });
+            }
+        }
+        {
+            if let Some(decoded) = set_crew_config::SetCrewConfig::decode(data) {
+                return Some(carbon_core::instruction::DecodedInstruction {
+                    program_id: instruction.program_id,
+                    data: SageInstruction::SetCrewConfig(decoded),
+                    accounts: instruction.accounts.clone(),
+                });
+            }
+        }
+        {
+            if let Some(decoded) = set_perk_definitions::SetPerkDefinitions::decode(data) {
+                return Some(carbon_core::instruction::DecodedInstruction {
+                    program_id: instruction.program_id,
+                    data: SageInstruction::SetPerkDefinitions(decoded),
+                    accounts: instruction.accounts.clone(),
+                });
+            }
+        }
+        {
+            if let Some(decoded) = create_gear_recipe::CreateGearRecipe::decode(data) {
+                return Some(carbon_core::instruction::DecodedInstruction {
+                    program_id: instruction.program_id,
+                    data: SageInstruction::CreateGearRecipe(decoded),
+                    accounts: instruction.accounts.clone(),
+                });
+            }
+            if let Some(decoded) = load_fleet_crew_roster::LoadFleetCrewRoster::decode(data) {
+                return Some(carbon_core::instruction::DecodedInstruction {
+                    program_id: instruction.program_id,
+                    data: SageInstruction::LoadFleetCrewRoster(decoded),
+                    accounts: instruction.accounts.clone(),
+                });
+            }
+            if let Some(decoded) = unload_fleet_crew_roster::UnloadFleetCrewRoster::decode(data) {
+                return Some(carbon_core::instruction::DecodedInstruction {
+                    program_id: instruction.program_id,
+                    data: SageInstruction::UnloadFleetCrewRoster(decoded),
+                    accounts: instruction.accounts.clone(),
+                });
+            }
+        }
         None
     }
 }
