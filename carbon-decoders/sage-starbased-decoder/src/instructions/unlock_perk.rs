@@ -34,6 +34,7 @@ pub struct UnlockPerkInstructionAccounts {
     pub profile_validation_certificate: solana_pubkey::Pubkey,
     pub profile_validation_program: solana_pubkey::Pubkey,
     pub game: solana_pubkey::Pubkey,
+    pub character: solana_pubkey::Pubkey, // crew: ValidatedCharacter (Mut) — the roster OWNER anchor (PR #732 second review)
     // APPEND-LAST roster (perks.rs:279) — FINAL field.
     pub roster: Option<solana_pubkey::Pubkey>, // crew: append-last OPTIONAL (program Option<Account<CrewRoster>>); None when omitted (flag-off/legacy)
     pub remaining: Vec<solana_instruction::AccountMeta>,
@@ -70,6 +71,7 @@ impl ArrangeAccounts for UnlockPerk {
         let profile_validation_certificate = next_account(&mut iter)?;
         let profile_validation_program = next_account(&mut iter)?;
         let game = next_account(&mut iter)?;
+        let character = next_account(&mut iter)?;
         let roster = iter.next().map(|a| a.pubkey); // crew: OPTIONAL trailing account - no `?` so a roster-less tx still arranges
 
         let remaining = iter.as_slice();
@@ -80,6 +82,7 @@ impl ArrangeAccounts for UnlockPerk {
             profile_validation_certificate,
             profile_validation_program,
             game,
+            character,
             roster,
             remaining: remaining.to_vec(),
         })

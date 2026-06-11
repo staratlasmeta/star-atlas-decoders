@@ -31,6 +31,7 @@ pub struct RespecPerksInstructionAccounts {
     pub profile_validation_certificate: solana_pubkey::Pubkey,
     pub profile_validation_program: solana_pubkey::Pubkey,
     pub game: solana_pubkey::Pubkey,
+    pub character: solana_pubkey::Pubkey, // crew: ValidatedCharacter (Mut) — the roster OWNER anchor (PR #732 second review)
     pub atlas_source: solana_pubkey::Pubkey,
     pub atlas_vault: solana_pubkey::Pubkey,
     pub token_program: solana_pubkey::Pubkey,
@@ -70,6 +71,7 @@ impl ArrangeAccounts for RespecPerks {
         let profile_validation_certificate = next_account(&mut iter)?;
         let profile_validation_program = next_account(&mut iter)?;
         let game = next_account(&mut iter)?;
+        let character = next_account(&mut iter)?;
         let atlas_source = next_account(&mut iter)?;
         let atlas_vault = next_account(&mut iter)?;
         let token_program = next_account(&mut iter)?;
@@ -83,6 +85,7 @@ impl ArrangeAccounts for RespecPerks {
             profile_validation_certificate,
             profile_validation_program,
             game,
+            character,
             atlas_source,
             atlas_vault,
             token_program,

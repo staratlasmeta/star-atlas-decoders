@@ -50,6 +50,8 @@ pub struct MigrateCrewMemberInstructionAccounts {
     pub profile_validation_certificate: solana_pubkey::Pubkey,
     pub profile_validation_program: solana_pubkey::Pubkey,
     pub game: solana_pubkey::Pubkey,
+    pub character: solana_pubkey::Pubkey, // crew: ValidatedCharacter (Mut) — the roster OWNER anchor (PR #732 second review)
+    pub crew_authority: solana_pubkey::Pubkey, // crew: attestation authority co-signer == Game.crew_config (PR #732 second review)
     // SystemAndStarbasePlayer<..> composite -> [system (StarSystem), starbase_player]; cf. system_and_starbase_player.rs.
     pub system_and_starbase_player_system: solana_pubkey::Pubkey,
     pub system_and_starbase_player_starbase_player: solana_pubkey::Pubkey,
@@ -92,6 +94,8 @@ impl ArrangeAccounts for MigrateCrewMember {
         let profile_validation_certificate = next_account(&mut iter)?;
         let profile_validation_program = next_account(&mut iter)?;
         let game = next_account(&mut iter)?;
+        let character = next_account(&mut iter)?;
+        let crew_authority = next_account(&mut iter)?;
         let system_and_starbase_player_system = next_account(&mut iter)?;
         let system_and_starbase_player_starbase_player = next_account(&mut iter)?;
         let system_program = next_account(&mut iter)?;
@@ -105,6 +109,8 @@ impl ArrangeAccounts for MigrateCrewMember {
             profile_validation_certificate,
             profile_validation_program,
             game,
+            character,
+            crew_authority,
             system_and_starbase_player_system,
             system_and_starbase_player_starbase_player,
             system_program,

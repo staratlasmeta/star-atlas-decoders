@@ -49,6 +49,7 @@ pub struct LoadFleetCrewRosterInstructionAccounts {
     pub profile_validation_program: solana_pubkey::Pubkey,
     pub fleet: solana_pubkey::Pubkey,
     pub game: solana_pubkey::Pubkey,
+    pub character: solana_pubkey::Pubkey, // crew: ValidatedCharacter (Mut) — the roster OWNER anchor (PR #732 second review)
     // SystemAndStarbasePlayer<..> composite -> [system (StarSystem), starbase_player].
     pub system_and_starbase_player_system: solana_pubkey::Pubkey,
     pub system_and_starbase_player_starbase_player: solana_pubkey::Pubkey,
@@ -94,6 +95,7 @@ impl ArrangeAccounts for LoadFleetCrewRoster {
         let profile_validation_program = next_account(&mut iter)?;
         let fleet = next_account(&mut iter)?;
         let game = next_account(&mut iter)?;
+        let character = next_account(&mut iter)?;
         let system_and_starbase_player_system = next_account(&mut iter)?;
         let system_and_starbase_player_starbase_player = next_account(&mut iter)?;
         let roster = iter.next().map(|a| a.pubkey); // crew: OPTIONAL (sentinel slot) - no `?` so a count-only tx still arranges
@@ -108,6 +110,7 @@ impl ArrangeAccounts for LoadFleetCrewRoster {
             profile_validation_program,
             fleet,
             game,
+            character,
             system_and_starbase_player_system,
             system_and_starbase_player_starbase_player,
             roster,
