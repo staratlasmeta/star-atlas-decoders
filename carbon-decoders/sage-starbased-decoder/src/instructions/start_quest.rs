@@ -23,6 +23,7 @@ pub struct StartQuest {
     pub duration: i64,
     /// The flat perk-point reward paid on completion (saturated at `PERK_POINTS_MAX`).
     pub reward_perk_points: u8,
+    pub reward_page: u16, // crew: owner-pinned reward destination (PR #732 third review)
 }
 
 #[derive(Debug, Clone, PartialEq)]
