@@ -27,8 +27,13 @@ pub struct CrewRecord {
     pub perk_count: u8,
     /// Perk points already spent.
     pub perk_points_spent: u8,
-    /// Alignment pad to the 40-byte identity block (`crew_record.rs` `_pad0`).
-    pub pad0: [u8; 3],
+    /// Round-trip serialization schema version for the cross-chain crew bridge (PR #732,
+    /// cuniculture review). `0` = the canonical encoding the program freezes. Carved from the
+    /// head of the reference proof's 3-byte `_pad0` (byte-identical), so the deterministic
+    /// `CrewRecord` -> galaxy projection can be re-versioned without a record migration.
+    pub schema_version: u8,
+    /// Alignment pad to the 40-byte identity block (the back 2 bytes of `crew_record.rs` `_pad0`).
+    pub pad0: [u8; 2],
     /// Unix ts the crew was bound to this roster.
     pub bound_at: i64,
     /// Unix ts a `Busy` crew becomes free again (`0` when not busy).
