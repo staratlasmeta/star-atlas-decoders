@@ -2,7 +2,7 @@
 //!
 //! Phase-E crew-individuation addition. Source: `program/src/instructions/quest.rs`
 //! (`StartQuest`). Arg field order = quest.rs:62-72: `key_index`, `crew`, `duration`,
-//! `reward_perk_points` (here `key_index` is FIRST because it is the first declared field).
+//! `reward_xp` (here `key_index` is FIRST because it is the first declared field).
 //! Account set = quest.rs:80-108: `profile_validation`, `game`, `system_and_starbase_player`,
 //! the freshly Init'd `quest_process`, `system_program`. NO roster (the quest reserves crew
 //! via the counter; the reward is credited at completion, not here).
@@ -22,7 +22,7 @@ pub struct StartQuest {
     /// The quest duration in seconds (`end_time = now + duration`).
     pub duration: i64,
     /// The flat perk-point reward paid on completion (saturated at `PERK_POINTS_MAX`).
-    pub reward_perk_points: u8,
+    pub reward_xp: u8,
     pub reward_page: u16, // crew: owner-pinned reward destination (PR #732 third review)
 }
 

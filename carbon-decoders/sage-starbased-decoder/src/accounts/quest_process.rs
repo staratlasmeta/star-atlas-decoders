@@ -7,7 +7,7 @@ use solana_pubkey::Pubkey;
 /// On-chain record of a crew quest being processed at a starbase.
 ///
 /// Field-for-field the `StarbaseUpgradeProcess` shape minus the upgrade-only fields and
-/// plus the crew payout `reward_perk_points`. The typed owner keys (`KeyFor<Profile>` /
+/// plus the crew payout `reward_xp`. The typed owner keys (`KeyFor<Profile>` /
 /// `KeyFor<StarbasePlayer>`) flatten to `Pubkey` and the `StarbaseSeqId` newtype flattens
 /// to `u64` in the generated IDL.
 
@@ -25,7 +25,7 @@ pub struct QuestProcess {
     /// Number of crew committed to the quest.
     pub num_crew: u16,
     /// Perk points awarded to the roster on completion (the crew-specific payout).
-    pub reward_perk_points: u8,
+    pub reward_xp: u8,
     pub reward_page: u16, // crew: owner-pinned reward destination (reuses 2 of the former 5 pad bytes; PR #732 third review)
     /// Tail pad so `start_time` / `end_time` stay byte-flush (no semantic meaning).
     pub _pad: [u8; 3],
